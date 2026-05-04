@@ -16,7 +16,7 @@ const generateToken = (user) => {
 // 🟢 Register Student
 exports.registerStudent = async (req, res) => {
   try {
-    const { fullName, age, email, password } = req.body;
+    const { fullName, age, email, password, grade } = req.body;
 
     const existing = await Student.findOne({ email });
     if (existing) {
@@ -30,6 +30,7 @@ exports.registerStudent = async (req, res) => {
       age,
       email,
       password: hashedPassword,
+      grade,
     });
 
     res.status(201).json({
