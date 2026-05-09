@@ -7,9 +7,9 @@ const phonologicalIdentifySchema = new mongoose.Schema(
       ref: "Student",
       required: true,
     },
-    gradeCategory: {
+    grade: {
       type: String,
-      enum: ["1-3", "4-5"],
+      enum: ["2", "3", "4"],
       required: true,
     },
     totalScore: {
@@ -33,6 +33,24 @@ const phonologicalIdentifySchema = new mongoose.Schema(
     totalTimeTaken: {
       type: Number, // In milliseconds
       required: true,
+    },
+    metrics: {
+      totalQuestions: Number,
+      totalCorrect: Number,
+      overallAccuracy: Number,
+      avgResponseTime: Number,
+      totalTimeTaken: Number,
+      categoryScores: mongoose.Schema.Types.Mixed,
+      categoryTimes: mongoose.Schema.Types.Mixed,
+      timeScore: Number,
+      finalScore: Number,
+      riskLevel: String,
+      weakAreas: [String],
+    },
+    mlPrediction: {
+      predicted_risk_level_encoded: Number,
+      predicted_risk_level: String,
+      input_features: mongoose.Schema.Types.Mixed,
     },
   },
   { timestamps: true }
