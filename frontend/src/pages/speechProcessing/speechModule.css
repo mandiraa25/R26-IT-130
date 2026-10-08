@@ -1,0 +1,91 @@
+.lexiland-speech-module {
+  --font-child: "Manrope", "Noto Sans Sinhala", system-ui, sans-serif;
+}
+
+.lexiland-speech-module .child-game-shell {
+  font-family: var(--font-child);
+}
+
+.lexiland-speech-module .animate-scale-in {
+  animation: lexiland-speech-scale-in 620ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.lexiland-speech-module .animate-float {
+  animation: lexiland-speech-float 6s ease-in-out infinite;
+}
+
+.lexiland-speech-module .animate-fade-up {
+  animation: lexiland-speech-fade-up 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.lexiland-speech-module .animate-sound-wave {
+  height: 18px;
+  animation: lexiland-speech-sound-wave 920ms ease-in-out infinite alternate;
+}
+
+.lexiland-speech-module .soft-glow {
+  animation: lexiland-speech-soft-glow 4.8s ease-in-out infinite;
+}
+
+@keyframes lexiland-speech-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes lexiland-speech-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes lexiland-speech-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes lexiland-speech-sound-wave {
+  from {
+    height: 16px;
+  }
+  to {
+    height: 44px;
+  }
+}
+
+@keyframes lexiland-speech-soft-glow {
+  0%,
+  100% {
+    opacity: 0.58;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.86;
+    transform: scale(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lexiland-speech-module .animate-float,
+  .lexiland-speech-module .animate-scale-in,
+  .lexiland-speech-module .animate-fade-up,
+  .lexiland-speech-module .animate-sound-wave,
+  .lexiland-speech-module .soft-glow {
+    animation: none;
+  }
+}
