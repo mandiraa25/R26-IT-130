@@ -260,7 +260,6 @@ function LeoTrainingSafari() {
           stars={Number(mapSummary.stars) || 0}
           completedCount={uniqueCompletedCount}
           checkpointDue={authoritativeCheckpointDue}
-          onBack={() => navigate("/speech-processing")}
         />
         {error ? <p role="alert" className="border-b border-rose-100 bg-rose-50 px-5 py-4 text-sm font-bold text-rose-700">{error}</p> : null}
         {lockNotice ? (

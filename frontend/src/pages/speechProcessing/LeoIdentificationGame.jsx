@@ -336,7 +336,8 @@ function LeoIdentificationGame() {
             startLabel={t("start_sound_check", "Start Sound Check")}
             onStart={openGame}
             startDisabled={!sessionId}
-            onBack={() => navigate("/speech-processing")}
+            onBack={() => navigate("/dashboard")}
+            backLabel={t("back_to_lexiland_map")}
             prompts={activePrompts}
             completedPromptIds={completedPromptIds}
             totalStars={stars}
@@ -356,12 +357,13 @@ function LeoIdentificationGame() {
           </div>
         )}
 
-        <LeoGameSessionModal title={t("first_sound_check")} onClose={() => navigate("/speech-processing")}>
+        <LeoGameSessionModal title={t("first_sound_check")} onClose={() => navigate("/dashboard")}>
           <div className="space-y-4">
             <LeoLevelFeedbackToast feedback={latestResult} theme={theme} />
             <LeoGameHud
               title={t("first_sound_check")}
-              onBack={() => navigate("/speech-processing")}
+              onBack={() => navigate("/dashboard")}
+              backLabel={t("back_to_lexiland_map")}
               currentLevel={currentIndex + 1}
               totalLevels={activePrompts.length}
               totalStars={stars}

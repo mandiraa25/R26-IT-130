@@ -22,7 +22,7 @@ function LeoGameStartOverlay({
   const totalLevels = prompts.length || 1;
   const completedLevels = completedPromptIds.length;
   const resolvedStartLabel = startLabel || t("start_adventure");
-  const resolvedBackLabel = backLabel || t("back_to_sound_safari");
+  const resolvedBackLabel = backLabel || t("back_to_lexiland_map");
   const resolvedTitle = title || t("training_safari_title");
   const resolvedGuideMessage = guideMessage || t("lets_find_sound_path");
   const resolvedCollectibleLabel = collectibleLabel || t("sound_gems");

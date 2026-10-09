@@ -8,7 +8,6 @@ import Dashboard from "./pages/common/Dashboard";
 import Profile from "./pages/common/Profile";
 import PhonologicalAwareness  from "./pages/phonologicalAwareness/sample";
 import ReadingProcessing  from "./pages/readingProcessing/sample";
-import SpeechProcessing from "./pages/speechProcessing/LeoSoundSafari";
 import LeoIdentificationGame from "./pages/speechProcessing/LeoIdentificationGame";
 import LeoTrainingSafari from "./pages/speechProcessing/LeoTrainingSafari";
 import IdentificationActivitiesPA from "./pages/phonologicalAwareness/identificationActivities";
@@ -93,7 +92,7 @@ function App() {
 
         <Route path="/phonological-awareness" element={<ProtectedRoute><PhonologicalAwareness /></ProtectedRoute>} />
         <Route path="/reading-processing" element={<ProtectedRoute><ReadingProcessing /></ProtectedRoute>} />
-        <Route path="/speech-processing" element={<ProtectedRoute><SpeechProcessing /></ProtectedRoute>} />
+        <Route path="/speech-processing" element={<Navigate to="/dashboard" replace />} />
         <Route path="/speech-processing/leo-identification" element={<ProtectedRoute><LeoIdentificationGame /></ProtectedRoute>} />
         <Route path="/speech-processing/leo-training" element={<ProtectedRoute><LeoTrainingSafari /></ProtectedRoute>} />
         <Route path="/speech-processing/leo-training/:activityId" element={<ProtectedRoute><LeoTrainingSafari /></ProtectedRoute>} />

@@ -18,14 +18,16 @@ function LeoSafariHud({ stars = 0, completedCount = 0, checkpointDue = false, on
   return (
     <header className="rounded-lg border border-white/15 bg-emerald-950/95 px-3 py-3 text-white shadow-xl backdrop-blur sm:px-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <button
-          type="button"
-          onClick={onBack}
-          className="inline-flex min-h-11 items-center gap-2 rounded-md bg-white/10 px-3 py-2 text-sm font-black outline-none transition hover:bg-white/20 focus-visible:ring-2 focus-visible:ring-amber-300"
-        >
-          <ArrowLeft aria-hidden="true" className="h-5 w-5" />
-          <span>{t("back_to_sound_safari")}</span>
-        </button>
+        {onBack ? (
+          <button
+            type="button"
+            onClick={onBack}
+            className="inline-flex min-h-11 items-center gap-2 rounded-md bg-white/10 px-3 py-2 text-sm font-black outline-none transition hover:bg-white/20 focus-visible:ring-2 focus-visible:ring-amber-300"
+          >
+            <ArrowLeft aria-hidden="true" className="h-5 w-5" />
+            <span>{t("back_to_lexiland_map")}</span>
+          </button>
+        ) : null}
 
         <div className="min-w-0 flex-1 text-center sm:text-left">
           <p className="text-xs font-black uppercase text-emerald-200">
