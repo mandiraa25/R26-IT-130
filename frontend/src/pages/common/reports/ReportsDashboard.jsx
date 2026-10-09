@@ -1,118 +1,232 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { getStudentProfile } from "../../../services/student/api";
+import { getCachedProfile } from "../../../utils/studentProfileCache";
 
 function ReportsDashboard() {
   const navigate = useNavigate();
-  const { t } = useTranslation('common');
+  const { t } = useTranslation("common");
+  const [profile, setProfile] = useState(() => getCachedProfile());
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await getStudentProfile({ refresh: true });
+        if (!cancelled && res?.data) setProfile(res.data);
+      } catch {
+        // Fallback to cached profile
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const studentName = profile?.name || profile?.username || "Mandiraa";
+  const studentGrade = profile?.grade || "3";
 
   const components = [
     {
-      id: "pa",
-      title: t("phonological_awareness"),
-      image: "/images/1.png",
-      description: t("pa_desc"),
-      color: "from-blue-400 to-indigo-500",
-      icon: "🎵",
-    },
-    {
       id: "wm",
-      title: t("working_memory"),
-      image: "/images/4.png",
-      description: t("wm_desc"),
-      color: "from-purple-400 to-pink-500",
-      icon: "🧠",
+      num: "01",
+      title: "Working Memory",
+      subtitle: "Activity results and earned stars.",
+      image: "/images/reports/mascot_bunny.png",
+      colorHex: "#ea580c",
+      borderClass: "border-[#ea580c]",
+      textClass: "text-[#ea580c]",
+      hoverBgClass: "hover:bg-[#ea580c]",
     },
     {
       id: "rp",
-      title: t("reading_processing"),
-      image: "/images/2.png",
-      description: t("rp_desc"),
-      color: "from-amber-300 to-orange-500",
-      icon: "📚",
+      num: "02",
+      title: "Reading Processing",
+      subtitle: "Activity results and earned stars.",
+      image: "/images/reports/mascot_zebra.png",
+      colorHex: "#0284c7",
+      borderClass: "border-[#0284c7]",
+      textClass: "text-[#0284c7]",
+      hoverBgClass: "hover:bg-[#0284c7]",
+    },
+    {
+      id: "pa",
+      num: "03",
+      title: "Phonological Awareness",
+      subtitle: "Activity results and earned stars.",
+      image: "/images/reports/mascot_parrot.png",
+      colorHex: "#16a34a",
+      borderClass: "border-[#16a34a]",
+      textClass: "text-[#16a34a]",
+      hoverBgClass: "hover:bg-[#16a34a]",
     },
     {
       id: "sp",
-      title: t("speech_processing"),
-      image: "/images/3.png",
-      description: t("sp_desc"),
-      color: "from-emerald-400 to-teal-600",
-      icon: "🗣️",
+      num: "04",
+      title: "Speech Processing",
+      subtitle: "Activity results and earned stars.",
+      image: "/images/reports/mascot_leo.png",
+      colorHex: "#9333ea",
+      borderClass: "border-[#9333ea]",
+      textClass: "text-[#9333ea]",
+      hoverBgClass: "hover:bg-[#9333ea]",
     },
   ];
 
+  const tabs = [
+    { id: "wm", bg: "bg-[#f97316]", hover: "hover:bg-[#ea580c]" },
+    { id: "rp", bg: "bg-[#0ea5e9]", hover: "hover:bg-[#0284c7]" },
+    { id: "pa", bg: "bg-[#22c55e]", hover: "hover:bg-[#16a34a]" },
+    { id: "sp", bg: "bg-[#a855f7]", hover: "hover:bg-[#9333ea]" },
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-300 via-sky-200 to-white p-8 relative overflow-hidden">
-      {/* Dashboard Button */}
-      <div className="absolute top-8 right-8 z-50 flex items-center gap-4">
-        <button 
+    <div
+      className="relative min-h-screen w-full bg-cover bg-center font-['Nunito',sans-serif] select-none flex flex-col justify-between p-3 sm:p-6 md:p-8"
+      style={{
+        backgroundImage: "url('/images/reports/jungle_waterfall_bg.jpg')",
+      }}
+    >
+      {/* 🌟 Top Navigation Bar */}
+      <header className="relative z-30 flex items-center justify-between w-full max-w-6xl mx-auto pt-1 sm:pt-2">
+        {/* Home Button (Top Left) */}
+        <button
           onClick={() => navigate("/dashboard")}
-          className="bg-white hover:bg-sky-50 text-sky-600 font-black px-8 py-3 rounded-full shadow-lg border-2 border-white/80 transition-all hover:-translate-y-1 active:translate-y-0 active:shadow-none uppercase tracking-widest text-sm"
+          className="group flex flex-col items-center focus:outline-none transition-transform hover:scale-105 active:scale-95 cursor-pointer"
+          title="Return to LexiLand Map"
         >
-          {t("dashboard")} 🏠
-        </button>
-      </div>
-
-      {/* Decorative Background Elements */}
-      <div className="absolute top-10 left-10 w-32 h-32 bg-white/40 rounded-full blur-2xl animate-pulse"></div>
-      <div className="absolute top-40 right-20 w-48 h-48 bg-yellow-100/50 rounded-full blur-3xl animate-pulse delay-700"></div>
-      <div className="absolute bottom-20 left-1/4 w-64 h-64 bg-pink-100/40 rounded-full blur-3xl animate-pulse delay-1000"></div>
-      
-      {/* Floating Emojis */}
-      <div className="absolute top-20 right-[15%] text-4xl animate-bounce opacity-40">🎈</div>
-      <div className="absolute bottom-40 left-[10%] text-4xl animate-bounce delay-300 opacity-40">🌟</div>
-      <div className="absolute top-[40%] right-[5%] text-4xl animate-bounce delay-700 opacity-30">☁️</div>
-
-      <div className="max-w-7xl mx-auto relative z-10">
-          <div className="w-full text-center">
-            <h1 className="text-5xl font-black text-slate-800 tracking-tight drop-shadow-sm inline-block">{t("my_game_reports")}</h1>
-            <p className="text-sky-700/60 font-black uppercase tracking-widest text-sm mt-1">{t("see_stars_earned")}</p>
-          </div>
-        <br />
-        <br />
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-          {components.map((comp) => (
-            <div
-              key={comp.id}
-              onClick={() => navigate(`/reports/${comp.id}`)}
-              className="group cursor-pointer bg-white rounded-[3rem] shadow-[0_20px_0_rgba(0,0,0,0.05)] hover:shadow-[0_30px_0_rgba(0,0,0,0.08)] transition-all duration-300 overflow-hidden border-2 border-white/50 transform hover:-translate-y-4 active:translate-y-2 active:shadow-none"
+          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border-3 border-[#6b4122] bg-[#a86532] shadow-[0_5px_12px_rgba(0,0,0,0.45)] flex items-center justify-center p-2.5 transition-shadow group-hover:shadow-[0_8px_18px_rgba(0,0,0,0.55)]">
+            <svg
+              className="w-full h-full text-white fill-current drop-shadow"
+              viewBox="0 0 24 24"
             >
-              <div className={`h-44 bg-gradient-to-br ${comp.color} flex items-center justify-center p-8 relative`}>
-                <div className="absolute top-4 right-4 text-3xl opacity-30 group-hover:scale-125 transition-transform">{comp.icon}</div>
-                <img
-                  src={comp.image}
-                  alt={comp.title}
-                  className="w-full h-full object-contain drop-shadow-xl group-hover:scale-110 transition duration-500"
-                />
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+            </svg>
+          </div>
+          <span className="text-white text-xs sm:text-sm font-black mt-1 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] tracking-wide">
+            Home
+          </span>
+        </button>
+
+        {/* Student Profile Badge (Top Right) */}
+        <div className="flex items-center gap-2.5 bg-white/95 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full shadow-[0_4px_16px_rgba(0,0,0,0.2)] border border-white/80 backdrop-blur-sm">
+          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#78350f] text-white flex items-center justify-center text-sm font-black shadow-inner">
+            <svg
+              className="w-4 h-4 fill-current"
+              viewBox="0 0 24 24"
+            >
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+            </svg>
+          </div>
+          <span className="text-[#3b2314] font-extrabold text-xs sm:text-sm tracking-tight">
+            {studentName} · Grade {studentGrade}
+          </span>
+        </div>
+      </header>
+
+      {/* 📜 Central Wooden Notice Board Container */}
+      <main className="relative z-20 w-full max-w-5xl mx-auto my-auto py-3">
+        <div className="relative">
+          {/* Right edge folder tabs */}
+          <div className="hidden sm:flex flex-col gap-2.5 absolute -right-4 sm:-right-5 top-16 z-10">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => navigate(`/reports/${tab.id}`)}
+                className={`w-4 sm:w-5 h-14 sm:h-16 rounded-r-xl ${tab.bg} ${tab.hover} shadow-md transition-all hover:w-6 cursor-pointer`}
+                title={`Open ${tab.id.toUpperCase()} reports`}
+                aria-label={`Open ${tab.id.toUpperCase()} reports`}
+              />
+            ))}
+          </div>
+
+          {/* Wooden Frame */}
+          <div className="relative bg-[#a06334] p-3 sm:p-4 rounded-[2rem] sm:rounded-[2.8rem] shadow-[0_20px_50px_rgba(0,0,0,0.5),0_8px_20px_rgba(0,0,0,0.3)] border-4 border-[#6e3c1b]">
+            {/* Corner Decorative Studs */}
+            <div className="absolute top-2 left-2 w-2.5 h-2.5 rounded-full bg-[#4a260f] shadow-inner" />
+            <div className="absolute top-2 right-2 w-2.5 h-2.5 rounded-full bg-[#4a260f] shadow-inner" />
+            <div className="absolute bottom-2 left-2 w-2.5 h-2.5 rounded-full bg-[#4a260f] shadow-inner" />
+            <div className="absolute bottom-2 right-2 w-2.5 h-2.5 rounded-full bg-[#4a260f] shadow-inner" />
+
+            {/* Inner Parchment Board */}
+            <div className="bg-[#fbf7ed] rounded-[1.6rem] sm:rounded-[2.3rem] px-5 py-6 sm:px-10 sm:py-8 shadow-inner border border-[#ecdac2]">
+              {/* Header Title with sparkles */}
+              <div className="mb-4 sm:mb-6">
+                <div className="flex items-center gap-2">
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#2e1910] tracking-tight">
+                    Learning Reports
+                  </h1>
+                  {/* Playful green sparkles */}
+                  <div className="text-emerald-500 font-black text-2xl sm:text-3xl leading-none select-none">
+                    ´
+                  </div>
+                </div>
+                <p className="text-[#786154] font-bold text-sm sm:text-base mt-1">
+                  Review your child’s activity results.
+                </p>
               </div>
 
-              <div className="p-8 text-center bg-white">
-                <h2 className="text-2xl font-black text-slate-800 group-hover:text-sky-600 transition-colors leading-tight mb-3">
-                  {comp.title}
-                </h2>
-                <div className="w-12 h-1.5 bg-slate-100 mx-auto rounded-full mb-4 group-hover:w-20 group-hover:bg-sky-400 transition-all"></div>
-                <p className="text-slate-400 text-sm font-bold leading-relaxed">{comp.description}</p>
+              {/* Component Rows List */}
+              <div className="divide-y divide-[#ebdccb]">
+                {components.map((comp) => (
+                  <div
+                    key={comp.id}
+                    className="py-3.5 sm:py-4 flex items-center justify-between gap-3 sm:gap-4 transition-colors hover:bg-black/[0.015] rounded-xl px-1 sm:px-2"
+                  >
+                    {/* Left: Number + Mascot + Title */}
+                    <div className="flex items-center gap-3 sm:gap-5 min-w-0">
+                      {/* Number */}
+                      <span className="text-[#a89587] font-black text-sm sm:text-base w-5 sm:w-6 shrink-0">
+                        {comp.num}
+                      </span>
+
+                      {/* Mascot Circle Badge */}
+                      <div
+                        className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 ${comp.borderClass} bg-white overflow-hidden shrink-0 shadow-sm flex items-center justify-center p-0.5`}
+                      >
+                        <img
+                          src={comp.image}
+                          alt={comp.title}
+                          className="w-full h-full object-cover rounded-full"
+                        />
+                      </div>
+
+                      {/* Titles */}
+                      <div className="min-w-0">
+                        <h2 className="text-[#2e1910] font-black text-base sm:text-lg md:text-xl truncate leading-tight">
+                          {comp.title}
+                        </h2>
+                        <p className="text-[#786154] font-bold text-xs sm:text-sm truncate mt-0.5">
+                          {comp.subtitle}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Right: View Results Button */}
+                    <button
+                      onClick={() => navigate(`/reports/${comp.id}`)}
+                      className={`shrink-0 inline-flex items-center gap-1.5 px-4 sm:px-6 py-1.5 sm:py-2 rounded-full border-2 ${comp.borderClass} ${comp.textClass} ${comp.hoverBgClass} hover:text-white font-black text-xs sm:text-sm tracking-wide transition-all shadow-sm active:scale-95 cursor-pointer bg-white/70 hover:shadow-md`}
+                    >
+                      <span>View results</span>
+                      <span aria-hidden="true">&gt;</span>
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              {/* Bottom Subtle Guidance Footer */}
+              <div className="mt-5 sm:mt-7 pt-3 border-t border-[#ebdccb]/60 flex items-center justify-center gap-2 text-[#8a7667] text-xs font-bold">
+                <span className="text-emerald-600 text-sm">🍃</span>
+                <span>Select a component to open its reports.</span>
               </div>
             </div>
-          ))}
+          </div>
         </div>
+      </main>
 
-        <div className="mt-20 text-center">
-           <div className="inline-block bg-white/50 backdrop-blur-md px-10 py-4 rounded-full border-2 border-white/80 shadow-lg">
-             <p className="text-sky-800 font-black uppercase tracking-[0.3em] text-sm">{t("doing_amazing")}</p>
-           </div>
-        </div>
-      </div>
-
-      <style>{`
-        @keyframes whistle {
-          0%, 100% { transform: translateY(0) rotate(0); }
-          50% { transform: translateY(-10px) rotate(5deg); }
-        }
-        .animate-whistle {
-          animation: whistle 3s ease-in-out infinite;
-        }
-      `}</style>
+      {/* Footer spacer */}
+      <footer className="h-2 sm:h-4" />
     </div>
   );
 }
