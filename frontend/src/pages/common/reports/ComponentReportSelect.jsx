@@ -76,7 +76,17 @@ function ComponentReportSelect() {
     },
   };
 
-  const currentConfig = componentConfigs[componentId] || componentConfigs.wm;
+  // Normalize component IDs to handle both short codes and full slugs
+  const normalizedId = (() => {
+    const raw = (componentId || "").toLowerCase();
+    if (raw === "sp" || raw === "speech-processing" || raw === "speech") return "sp";
+    if (raw === "wm" || raw === "working-memory" || raw === "memory") return "wm";
+    if (raw === "pa" || raw === "phonological-awareness" || raw === "phonological") return "pa";
+    if (raw === "rp" || raw === "reading-processing" || raw === "reading") return "rp";
+    return "sp";
+  })();
+
+  const currentConfig = componentConfigs[normalizedId] || componentConfigs.sp;
 
   const tabs = [
     { id: "wm", bg: "bg-[#f97316]", hover: "hover:bg-[#ea580c]" },
@@ -86,20 +96,18 @@ function ComponentReportSelect() {
   ];
 
   const handleSelect = (type) => {
-    if (type === "identification" && componentId === "pa") {
-      navigate(`/reports/pa/identification`);
-    } else if (type === "improvement" && componentId === "pa") {
-      navigate(`/reports/pa/improvement`);
-    } else if (type === "identification" && componentId === "wm") {
-      navigate(`/reports/wm/identification`);
-    } else if (type === "improvement" && componentId === "wm") {
-      navigate(`/reports/wm/improvement`);
-    } else if (type === "identification" && componentId === "sp") {
-      navigate(`/reports/sp/identification`);
-    } else if (type === "improvement" && componentId === "sp") {
-      navigate(`/reports/sp/improvement`);
-    } else {
-      alert(`${type} reports for ${currentConfig.title} are coming soon!`);
+    if (type === "identification") {
+      if (normalizedId === "pa") navigate("/reports/pa/identification");
+      else if (normalizedId === "wm") navigate("/reports/wm/identification");
+      else if (normalizedId === "sp") navigate("/reports/sp/identification");
+      else if (normalizedId === "rp") navigate("/reading-processing");
+      else alert(`${type} reports for ${currentConfig.title} are coming soon!`);
+    } else if (type === "improvement") {
+      if (normalizedId === "pa") navigate("/reports/pa/improvement");
+      else if (normalizedId === "wm") navigate("/reports/wm/improvement");
+      else if (normalizedId === "sp") navigate("/reports/sp/improvement");
+      else if (normalizedId === "rp") navigate("/reading-processing");
+      else alert(`${type} reports for ${currentConfig.title} are coming soon!`);
     }
   };
 
@@ -157,8 +165,8 @@ function ComponentReportSelect() {
                 key={tab.id}
                 onClick={() => navigate(`/reports/${tab.id}`)}
                 className={`w-4 sm:w-5 h-14 sm:h-16 rounded-r-xl ${tab.bg} ${tab.hover} ${
-                  componentId === tab.id ? "w-6 shadow-lg ring-2 ring-white/50" : "shadow-md"
-                } transition-all hover:w-6 cursor-pointer`}
+                  normalizedId === tab.id ? "w-6 shadow-lg ring-2 ring-white/60" : "shadow-md opacity-90"
+                } transition-all hover:w-6 hover:opacity-100 cursor-pointer`}
                 title={`Switch to ${tab.id.toUpperCase()} reports`}
                 aria-label={`Switch to ${tab.id.toUpperCase()} reports`}
               />
@@ -167,6 +175,15 @@ function ComponentReportSelect() {
 
           {/* Wooden Frame */}
           <div className="relative bg-[#a06334] p-3 sm:p-4 rounded-[2rem] sm:rounded-[2.8rem] shadow-[0_20px_50px_rgba(0,0,0,0.5),0_8px_20px_rgba(0,0,0,0.3)] border-4 border-[#6e3c1b]">
+            {/* 🌿 Lush Corner Monstera Leaves Draped Over Top-Left Corner */}
+            <div className="absolute -top-6 -left-6 sm:-top-8 sm:-left-8 md:-top-10 md:-left-10 w-28 sm:w-36 md:w-44 pointer-events-none z-30 select-none drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)]">
+              <img
+                src="/images/reports/board_corner_leaves.png"
+                alt=""
+                className="w-full h-auto object-contain"
+              />
+            </div>
+
             {/* Corner Decorative Studs */}
             <div className="absolute top-2 left-2 w-2.5 h-2.5 rounded-full bg-[#4a260f] shadow-inner" />
             <div className="absolute top-2 right-2 w-2.5 h-2.5 rounded-full bg-[#4a260f] shadow-inner" />
@@ -178,17 +195,17 @@ function ComponentReportSelect() {
               {/* Back to All Reports Link */}
               <button
                 onClick={() => navigate("/reports")}
-                className={`inline-flex items-center gap-1.5 ${currentConfig.themeText} font-black text-xs sm:text-sm tracking-wide mb-3 hover:opacity-80 transition cursor-pointer`}
+                className={`inline-flex items-center gap-1.5 ${currentConfig.themeText} font-black text-sm sm:text-base tracking-wide mb-3 sm:mb-4 hover:opacity-80 transition cursor-pointer`}
               >
-                <span aria-hidden="true">&lt;</span>
+                <span aria-hidden="true" className="text-lg leading-none">&larr;</span>
                 <span>All reports</span>
               </button>
 
               {/* Component Header with Mascot Badge */}
-              <div className="flex items-center gap-4 sm:gap-6 mb-6 sm:mb-8 pb-4 sm:pb-5 border-b border-[#ebdccb]">
+              <div className="flex items-center gap-4 sm:gap-6 mb-5 sm:mb-7 pb-4 sm:pb-6 border-b border-[#ebdccb]">
                 {/* Mascot Badge */}
                 <div
-                  className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full border-3 ${currentConfig.themeBorder} bg-white overflow-hidden shrink-0 shadow-md flex items-center justify-center p-0.5`}
+                  className={`w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full border-3 sm:border-4 ${currentConfig.themeBorder} bg-white overflow-hidden shrink-0 shadow-md flex items-center justify-center p-0.5`}
                 >
                   <img
                     src={currentConfig.mascot}
@@ -209,11 +226,11 @@ function ComponentReportSelect() {
               </div>
 
               {/* Two Option Rows */}
-              <div className="space-y-4 sm:space-y-6">
+              <div className="space-y-4 sm:space-y-5">
                 {/* 1. Assessment Reports (Identification) */}
-                <div className="flex items-center justify-between gap-3 sm:gap-4 p-2 sm:p-3 rounded-2xl transition-colors hover:bg-black/[0.015]">
+                <div className="flex items-center justify-between gap-3 sm:gap-5 p-2 sm:p-4 rounded-2xl transition-colors hover:bg-black/[0.015]">
                   <div className="flex items-center gap-3 sm:gap-5 min-w-0">
-                    <div className="w-12 h-12 sm:w-16 sm:h-16 shrink-0 flex items-center justify-center">
+                    <div className="w-14 h-14 sm:w-18 sm:h-18 md:w-20 md:h-20 shrink-0 flex items-center justify-center">
                       <img
                         src={currentConfig.tokenAssessment}
                         alt="Assessment reports"
@@ -221,10 +238,10 @@ function ComponentReportSelect() {
                       />
                     </div>
                     <div>
-                      <h2 className="text-[#2e1910] font-black text-base sm:text-xl md:text-2xl leading-tight">
+                      <h2 className="text-[#2e1910] font-black text-lg sm:text-2xl md:text-3xl leading-tight">
                         Assessment reports
                       </h2>
-                      <p className="text-[#786154] font-bold text-xs sm:text-sm mt-0.5">
+                      <p className="text-[#786154] font-bold text-xs sm:text-sm md:text-base mt-0.5">
                         Identification
                       </p>
                     </div>
@@ -232,7 +249,7 @@ function ComponentReportSelect() {
 
                   <button
                     onClick={() => handleSelect("identification")}
-                    className={`shrink-0 inline-flex items-center gap-1.5 px-5 sm:px-7 py-2 sm:py-2.5 rounded-full border-2 ${currentConfig.themeBorder} ${currentConfig.themeText} ${currentConfig.themeHoverBg} hover:text-white font-black text-xs sm:text-sm tracking-wide transition-all shadow-sm active:scale-95 cursor-pointer bg-white/70 hover:shadow-md`}
+                    className={`shrink-0 inline-flex items-center gap-1.5 px-6 sm:px-8 py-2 sm:py-2.5 rounded-full border-2 ${currentConfig.themeBorder} ${currentConfig.themeText} ${currentConfig.themeHoverBg} hover:text-white font-black text-xs sm:text-sm tracking-wide transition-all shadow-sm active:scale-95 cursor-pointer bg-white/70 hover:shadow-md`}
                   >
                     <span>View reports</span>
                     <span aria-hidden="true">&gt;</span>
@@ -243,9 +260,9 @@ function ComponentReportSelect() {
                 <div className="h-px bg-[#ebdccb] w-full" />
 
                 {/* 2. Practice Reports (Improvement) */}
-                <div className="flex items-center justify-between gap-3 sm:gap-4 p-2 sm:p-3 rounded-2xl transition-colors hover:bg-black/[0.015]">
+                <div className="flex items-center justify-between gap-3 sm:gap-5 p-2 sm:p-4 rounded-2xl transition-colors hover:bg-black/[0.015]">
                   <div className="flex items-center gap-3 sm:gap-5 min-w-0">
-                    <div className="w-12 h-12 sm:w-16 sm:h-16 shrink-0 flex items-center justify-center">
+                    <div className="w-14 h-14 sm:w-18 sm:h-18 md:w-20 md:h-20 shrink-0 flex items-center justify-center">
                       <img
                         src={currentConfig.tokenPractice}
                         alt="Practice reports"
@@ -253,10 +270,10 @@ function ComponentReportSelect() {
                       />
                     </div>
                     <div>
-                      <h2 className="text-[#2e1910] font-black text-base sm:text-xl md:text-2xl leading-tight">
+                      <h2 className="text-[#2e1910] font-black text-lg sm:text-2xl md:text-3xl leading-tight">
                         Practice reports
                       </h2>
-                      <p className="text-[#786154] font-bold text-xs sm:text-sm mt-0.5">
+                      <p className="text-[#786154] font-bold text-xs sm:text-sm md:text-base mt-0.5">
                         Improvement
                       </p>
                     </div>
@@ -264,7 +281,7 @@ function ComponentReportSelect() {
 
                   <button
                     onClick={() => handleSelect("improvement")}
-                    className={`shrink-0 inline-flex items-center gap-1.5 px-5 sm:px-7 py-2 sm:py-2.5 rounded-full border-2 ${currentConfig.themeBorder} ${currentConfig.themeText} ${currentConfig.themeHoverBg} hover:text-white font-black text-xs sm:text-sm tracking-wide transition-all shadow-sm active:scale-95 cursor-pointer bg-white/70 hover:shadow-md`}
+                    className={`shrink-0 inline-flex items-center gap-1.5 px-6 sm:px-8 py-2 sm:py-2.5 rounded-full border-2 ${currentConfig.themeBorder} ${currentConfig.themeText} ${currentConfig.themeHoverBg} hover:text-white font-black text-xs sm:text-sm tracking-wide transition-all shadow-sm active:scale-95 cursor-pointer bg-white/70 hover:shadow-md`}
                   >
                     <span>View reports</span>
                     <span aria-hidden="true">&gt;</span>

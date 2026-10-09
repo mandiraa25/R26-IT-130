@@ -143,6 +143,15 @@ function ReportsDashboard() {
 
           {/* Wooden Frame */}
           <div className="relative bg-[#a06334] p-3 sm:p-4 rounded-[2rem] sm:rounded-[2.8rem] shadow-[0_20px_50px_rgba(0,0,0,0.5),0_8px_20px_rgba(0,0,0,0.3)] border-4 border-[#6e3c1b]">
+            {/* 🌿 Lush Corner Monstera Leaves Draped Over Top-Left Corner */}
+            <div className="absolute -top-6 -left-6 sm:-top-8 sm:-left-8 md:-top-10 md:-left-10 w-28 sm:w-36 md:w-44 pointer-events-none z-30 select-none drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)]">
+              <img
+                src="/images/reports/board_corner_leaves.png"
+                alt=""
+                className="w-full h-auto object-contain"
+              />
+            </div>
+
             {/* Corner Decorative Studs */}
             <div className="absolute top-2 left-2 w-2.5 h-2.5 rounded-full bg-[#4a260f] shadow-inner" />
             <div className="absolute top-2 right-2 w-2.5 h-2.5 rounded-full bg-[#4a260f] shadow-inner" />
@@ -151,16 +160,17 @@ function ReportsDashboard() {
 
             {/* Inner Parchment Board */}
             <div className="bg-[#fbf7ed] rounded-[1.6rem] sm:rounded-[2.3rem] px-5 py-6 sm:px-10 sm:py-8 shadow-inner border border-[#ecdac2]">
-              {/* Header Title with sparkles */}
-              <div className="mb-4 sm:mb-6">
+              {/* Header Title with accents */}
+              <div className="mb-4 sm:mb-6 pl-2 sm:pl-4">
                 <div className="flex items-center gap-2">
                   <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#2e1910] tracking-tight">
                     Learning Reports
                   </h1>
-                  {/* Playful green sparkles */}
-                  <div className="text-emerald-500 font-black text-2xl sm:text-3xl leading-none select-none">
-                    ´
-                  </div>
+                  {/* Playful green leaf accents matching reference */}
+                  <span className="inline-flex flex-col gap-1 ml-1 text-[#48a033] select-none -translate-y-1">
+                    <span className="w-2.5 h-1 bg-[#48a033] rounded-full rotate-[35deg] block" />
+                    <span className="w-2 h-1 bg-[#48a033] rounded-full rotate-[35deg] block ml-1" />
+                  </span>
                 </div>
                 <p className="text-[#786154] font-bold text-sm sm:text-base mt-1">
                   Review your child’s activity results.
