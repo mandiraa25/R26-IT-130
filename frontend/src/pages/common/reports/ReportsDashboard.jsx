@@ -192,13 +192,11 @@ function ReportsDashboard() {
                       </span>
 
                       {/* Mascot Circle Badge */}
-                      <div
-                        className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 ${comp.borderClass} bg-white overflow-hidden shrink-0 shadow-sm flex items-center justify-center p-0.5`}
-                      >
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 flex items-center justify-center drop-shadow-sm select-none">
                         <img
                           src={comp.image}
                           alt={comp.title}
-                          className="w-full h-full object-cover rounded-full"
+                          className="w-full h-full object-contain"
                         />
                       </div>
 

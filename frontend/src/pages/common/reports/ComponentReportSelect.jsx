@@ -204,13 +204,11 @@ function ComponentReportSelect() {
               {/* Component Header with Mascot Badge */}
               <div className="flex items-center gap-4 sm:gap-6 mb-5 sm:mb-7 pb-4 sm:pb-6 border-b border-[#ebdccb]">
                 {/* Mascot Badge */}
-                <div
-                  className={`w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full border-3 sm:border-4 ${currentConfig.themeBorder} bg-white overflow-hidden shrink-0 shadow-md flex items-center justify-center p-0.5`}
-                >
+                <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 shrink-0 flex items-center justify-center drop-shadow-md select-none">
                   <img
                     src={currentConfig.mascot}
                     alt={currentConfig.title}
-                    className="w-full h-full object-cover rounded-full"
+                    className="w-full h-full object-contain"
                   />
                 </div>
 
