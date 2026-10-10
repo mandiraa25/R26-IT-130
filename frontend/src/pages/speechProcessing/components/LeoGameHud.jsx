@@ -8,39 +8,33 @@ function LeoGameHud({
   theme,
 }) {
   return (
-    <header className="relative z-20 flex flex-wrap items-center justify-between gap-3 rounded-[2rem] border-4 border-amber-100/70 bg-emerald-950/72 px-4 py-3 text-white shadow-xl shadow-emerald-950/25 backdrop-blur md:px-5">
+    <header className="relative z-20 flex flex-wrap items-center justify-between gap-3 rounded-[1.8rem] sm:rounded-[2.2rem] border-3 sm:border-4 border-[#6e3c1b] bg-[#fffdf7]/95 px-4 py-2.5 sm:py-3 text-[#2e1910] shadow-[0_8px_24px_rgba(0,0,0,0.25)] backdrop-blur-sm md:px-6">
       <button
         type="button"
         onClick={onBack}
-        className="rounded-full border-4 border-amber-100 bg-gradient-to-br from-amber-200 to-orange-400 px-4 py-3 text-sm font-black text-amber-950 shadow-lg shadow-amber-950/20 transition hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-amber-100"
+        className="inline-flex items-center gap-1.5 rounded-full border-3 border-[#6b4122] bg-[#a86532] hover:bg-[#8f5224] px-4 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-black text-white shadow-[0_4px_10px_rgba(0,0,0,0.3)] transition hover:scale-105 active:scale-95 cursor-pointer"
       >
-        &lt; {backLabel}
+        <span aria-hidden="true">&larr;</span>
+        <span>{backLabel}</span>
       </button>
 
       <div className="min-w-0 flex-1 text-center">
-        <p className="text-xs font-black uppercase tracking-[0.18em] text-amber-100">
-          Leo's Sound Safari
+        <p className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-[#8c6b4f]">
+          🦁 Leo's Sound Safari
         </p>
-        <h1 className="truncate text-xl font-black text-white drop-shadow sm:text-2xl">
+        <h1 className="truncate text-base sm:text-xl md:text-2xl font-black text-[#2e1910] leading-tight">
           {title}
         </h1>
       </div>
 
       <div className="flex flex-wrap items-center justify-end gap-2">
-        <span className="rounded-full border-2 border-white/70 bg-emerald-700 px-4 py-2 text-sm font-black text-white shadow-lg shadow-emerald-950/15">
-          {theme?.collectibleIcon || "Gem"} {totalStars}
+        <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-amber-300 bg-gradient-to-r from-amber-100 to-amber-50 px-3.5 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-black text-amber-900 shadow-sm">
+          <span>{theme?.collectibleIcon || "⭐"}</span>
+          <span>{totalStars}</span>
         </span>
-        <span className="rounded-full border-2 border-amber-100 bg-amber-50 px-4 py-2 text-sm font-black text-emerald-900">
+        <span className="inline-flex items-center rounded-full border-2 border-[#e6d6c2] bg-white px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-extrabold text-[#5c4033] shadow-sm">
           Level {Math.min(currentLevel, totalLevels)} of {totalLevels}
         </span>
-        <button
-          type="button"
-          aria-label="Sound effects pause while recording"
-          title="Sound effects pause while recording"
-          className="hidden h-11 w-11 items-center justify-center rounded-full border-2 border-white/70 bg-purple-500 text-xs font-black text-white shadow-sm sm:flex"
-        >
-          SFX
-        </button>
       </div>
     </header>
   );

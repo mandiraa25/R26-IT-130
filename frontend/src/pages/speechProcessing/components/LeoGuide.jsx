@@ -6,21 +6,20 @@ function LeoGuide({ title, message, compact = false }) {
 
   return (
     <aside
-      className={`relative overflow-hidden rounded-[2rem] bg-white/85 p-5 shadow-xl shadow-emerald-100/60 ring-1 ring-white ${
+      className={`relative overflow-hidden rounded-[2rem] border-3 border-[#6e3c1b] bg-[#fffdf7] p-5 shadow-xl ${
         compact ? "" : "lg:min-h-[260px]"
       }`}
     >
-      <div className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-amber-200/50 blur-2xl" />
       <div className="relative flex items-center gap-4">
-        <LeoLionImage className={`${compact ? "h-20 w-20" : "h-28 w-28"}`} />
+        <LeoLionImage className={`${compact ? "h-20 w-20" : "h-28 w-28"} filter drop-shadow-md`} />
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.22em] text-emerald-700">
+          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#786154]">
             {t("leo_the_lion")}
           </p>
-          <h2 className="mt-1 text-2xl font-black text-slate-950">{title || t("hi_explorer")}</h2>
+          <h2 className="mt-1 text-2xl font-black text-[#2e1910]">{title || t("hi_explorer")}</h2>
         </div>
       </div>
-      <div className="relative mt-5 rounded-3xl bg-emerald-50 px-5 py-4 text-base font-bold leading-7 text-emerald-950 ring-1 ring-emerald-100">
+      <div className="relative mt-5 rounded-3xl border border-[#ecdac2] bg-[#fbf7ed] px-5 py-4 text-base font-bold leading-7 text-[#2e1910]">
         {message || t("lets_find_sound_path")}
       </div>
     </aside>

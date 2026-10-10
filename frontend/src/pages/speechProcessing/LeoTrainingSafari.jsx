@@ -239,7 +239,16 @@ function LeoTrainingSafari() {
   }
   if (activeActivity) {
     return (
-      <main className="lexiland-speech-module child-game-shell min-h-screen bg-emerald-950 p-2 sm:p-4">
+      <main
+        className="lexiland-speech-module child-game-shell min-h-screen p-2 sm:p-4"
+        style={{
+          backgroundImage: "url(/images/reports/jungle_waterfall_bg.jpg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed",
+          fontFamily: "'Nunito', sans-serif",
+        }}
+      >
         <LeoActivityPlay
           activity={activeActivity}
           onCancel={() => { navigate("/speech-processing/leo-training", { replace: true }); setActiveActivity(null); }}
@@ -252,10 +261,16 @@ function LeoTrainingSafari() {
 
   return (
     <main
-      className="lexiland-speech-module child-game-shell min-h-screen bg-emerald-50 bg-cover bg-center p-3 text-slate-950 sm:p-5"
-      style={{ backgroundImage: `linear-gradient(rgba(236,253,245,0.9), rgba(255,247,237,0.9)), ${LEO_TRAINING_MAP_GRADIENT}` }}
+      className="lexiland-speech-module child-game-shell min-h-screen p-3 text-slate-950 sm:p-5"
+      style={{
+        backgroundImage: "url(/images/reports/jungle_waterfall_bg.jpg)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+        fontFamily: "'Nunito', sans-serif",
+      }}
     >
-      <div className="mx-auto max-w-7xl overflow-hidden rounded-lg border border-emerald-900/10 bg-white shadow-2xl shadow-emerald-950/15">
+      <div className="mx-auto max-w-7xl overflow-hidden rounded-[2.5rem] border-4 border-[#6e3c1b] bg-[#fffdf7] shadow-2xl">
         <LeoSafariHud
           stars={Number(mapSummary.stars) || 0}
           completedCount={uniqueCompletedCount}
@@ -263,10 +278,10 @@ function LeoTrainingSafari() {
         />
         {error ? <p role="alert" className="border-b border-rose-100 bg-rose-50 px-5 py-4 text-sm font-bold text-rose-700">{error}</p> : null}
         {lockNotice ? (
-          <section className="border-b border-amber-200 bg-amber-50 px-5 py-4" aria-labelledby="safari-lock-title">
+          <section className="border-b-2 border-[#ecdac2] bg-[#fbf7ed] px-5 py-4" aria-labelledby="safari-lock-title">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <div className="flex items-start gap-3"><LockKeyhole aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-amber-700" /><div><h2 id="safari-lock-title" className="font-black text-amber-950">{t("safari_locked_title")}</h2><p className="mt-1 text-sm font-bold text-amber-800">{lockNotice}</p></div></div>
-              <button type="button" onClick={() => setLockNotice("")} className="min-h-11 rounded-md bg-amber-900 px-4 py-2 text-sm font-black text-white outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2">{t("return_to_safari_map")}</button>
+              <div className="flex items-start gap-3"><LockKeyhole aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-[#7c2d12]" /><div><h2 id="safari-lock-title" className="font-black text-[#2e1910]">{t("safari_locked_title")}</h2><p className="mt-1 text-sm font-bold text-[#786154]">{lockNotice}</p></div></div>
+              <button type="button" onClick={() => setLockNotice("")} className="min-h-11 rounded-full border-2 border-[#6b4122] bg-[#a86532] px-4 py-2 text-sm font-black text-white outline-none transition hover:bg-[#8f5224]">{t("return_to_safari_map")}</button>
             </div>
           </section>
         ) : null}
@@ -297,15 +312,15 @@ function LeoTrainingSafari() {
           </div>
           <div className="absolute inset-x-3 bottom-3 z-20 sm:inset-x-6 sm:bottom-6">
             {primaryAction ? (
-              <section className="grid items-center gap-4 rounded-lg border border-white/30 bg-white/95 p-4 shadow-2xl backdrop-blur sm:grid-cols-[1fr_auto] sm:p-5">
+              <section className="grid items-center gap-4 rounded-2xl border-3 border-[#6e3c1b] bg-[#fffdf7] p-4 shadow-2xl sm:grid-cols-[1fr_auto] sm:p-5">
                 <div className="min-w-0">
-                  <p className="inline-flex items-center gap-2 text-xs font-black uppercase text-emerald-700"><MapPin aria-hidden="true" className="h-4 w-4" />{t("safari_leos_pick_label")}</p>
-                  <h2 className="mt-1 truncate text-2xl font-black text-slate-950 sm:text-3xl">{primaryAction.shortTitle || primaryAction.title}</h2>
-                  <p className="mt-1 text-sm font-bold text-slate-600">{primaryAction.childDescription || primaryAction.description || t("safari_primary_default_desc")}</p>
+                  <p className="inline-flex items-center gap-2 text-xs font-black uppercase text-[#786154]"><MapPin aria-hidden="true" className="h-4 w-4" />{t("safari_leos_pick_label")}</p>
+                  <h2 className="mt-1 truncate text-2xl font-black text-[#2e1910] sm:text-3xl">{primaryAction.shortTitle || primaryAction.title}</h2>
+                  <p className="mt-1 text-sm font-bold text-[#786154]">{primaryAction.childDescription || primaryAction.description || t("safari_primary_default_desc")}</p>
                 </div>
-                <button type="button" onClick={() => requestActivity(primaryAction)} disabled={Boolean(openingActivityId)} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-emerald-700 px-6 py-3 text-base font-black text-white shadow-lg outline-none transition hover:bg-emerald-800 focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-60"><Play aria-hidden="true" className="h-5 w-5 fill-current" />{openingActivityId ? t("safari_opening_game") : t(primaryAction.labelKey)}</button>
+                <button type="button" onClick={() => requestActivity(primaryAction)} disabled={Boolean(openingActivityId)} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border-3 border-[#6b4122] bg-[#a86532] px-6 py-3 text-base font-black text-white shadow-lg outline-none transition hover:bg-[#8f5224] disabled:cursor-wait disabled:opacity-60"><Play aria-hidden="true" className="h-5 w-5 fill-current" />{openingActivityId ? t("safari_opening_game") : t(primaryAction.labelKey)}</button>
               </section>
-            ) : <p className="rounded-lg bg-white/95 px-5 py-4 text-center text-sm font-black text-emerald-950 shadow-xl">{t(presentation.trailMessage)}</p>}
+            ) : <p className="rounded-2xl border-2 border-[#ecdac2] bg-[#fffdf7] px-5 py-4 text-center text-sm font-black text-[#2e1910] shadow-xl">{t(presentation.trailMessage)}</p>}
           </div>
         </section>
 

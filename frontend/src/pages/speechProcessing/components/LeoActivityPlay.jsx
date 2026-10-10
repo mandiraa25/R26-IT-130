@@ -384,14 +384,14 @@ function LeoActivityPlay({ activity, onComplete, onCancel, onLocked }) {
 
   if (error && !prompt) {
     return (
-      <section className="rounded-[2.5rem] bg-white/85 p-8 shadow-xl">
-        <p className="rounded-3xl bg-amber-50 px-5 py-4 text-sm font-bold text-amber-800 ring-1 ring-amber-100">
+      <section className="rounded-[2.5rem] border-4 border-[#6e3c1b] bg-[#fffdf7] p-8 shadow-2xl">
+        <p className="rounded-3xl border border-[#ecdac2] bg-[#fbf7ed] px-5 py-4 text-sm font-bold text-[#7c2d12]">
           {error}
         </p>
         <button
           type="button"
           onClick={onCancel}
-          className="mt-5 rounded-3xl bg-slate-950 px-5 py-3 text-sm font-black text-white"
+          className="mt-5 rounded-full border-3 border-[#6b4122] bg-[#a86532] px-6 py-3 text-sm font-black text-white hover:bg-[#8f5224]"
         >
           {t("back_to_map")}
         </button>
@@ -456,19 +456,19 @@ function LeoActivityPlay({ activity, onComplete, onCancel, onLocked }) {
               onNext={nextStep}
             />
             {attemptPhase === "checkpoint" && (
-              <p className="mt-3 rounded-2xl bg-amber-50 px-4 py-3 text-center text-sm font-black text-amber-900 ring-1 ring-amber-200">
+              <p className="mt-3 rounded-2xl border border-[#ecdac2] bg-[#fbf7ed] px-4 py-3 text-center text-sm font-black text-[#2e1910]">
                 {t("trail_check_instruction", { number: checkpointSequence })}
               </p>
             )}
           </div>
 
           <aside className="order-2 space-y-4 xl:order-none">
-            <div className="rounded-[2rem] border border-white/50 bg-white/86 p-4 shadow-xl shadow-emerald-950/10 backdrop-blur">
-              <div className="grid grid-cols-[88px_1fr] items-center gap-3">
-                <LeoLionImage className="h-24 w-24" />
+            <div className="rounded-[2rem] border-3 border-[#6e3c1b] bg-[#fffdf7] p-5 shadow-xl">
+              <div className="grid grid-cols-[88px_1fr] items-center gap-4">
+                <LeoLionImage className="h-24 w-24 filter drop-shadow-md" />
                 <div>
-                  <p className="text-lg font-black text-emerald-950">{t("leo_says")}</p>
-                  <p className="mt-1 text-sm font-bold leading-6 text-emerald-800">
+                  <p className="text-lg font-black text-[#2e1910]">{t("leo_says")}</p>
+                  <p className="mt-1 text-sm font-bold leading-6 text-[#786154]">
                     {feedback?.submissionFailed
                       ? feedback.leoMessage
                       : longReadingPrompt && feedback
@@ -477,18 +477,21 @@ function LeoActivityPlay({ activity, onComplete, onCancel, onLocked }) {
                   </p>
                 </div>
               </div>
-              <div className="mt-3 grid grid-cols-2 gap-2 text-center">
-                <div className="rounded-[1.25rem] bg-amber-50 px-3 py-3 ring-1 ring-amber-100">
-                  <p className="text-2xl font-black text-amber-600">{totalStars}</p>
-                  <p className="text-[11px] font-black uppercase tracking-[0.12em] text-slate-500">
+              <div className="mt-4 grid grid-cols-2 gap-3 text-center">
+                <div className="rounded-[1.25rem] border border-[#ecdac2] bg-[#fbf7ed] px-3 py-3">
+                  <p className="flex items-center justify-center gap-1.5 text-2xl font-black text-amber-500">
+                    <span>★</span>
+                    <span>{totalStars}</span>
+                  </p>
+                  <p className="text-[11px] font-black uppercase tracking-[0.12em] text-[#786154]">
                     {t("stars_label")}
                   </p>
                 </div>
-                <div className="rounded-[1.25rem] bg-emerald-50 px-3 py-3 ring-1 ring-emerald-100">
-                  <p className="text-2xl font-black text-emerald-700">
+                <div className="rounded-[1.25rem] border border-[#ecdac2] bg-[#fbf7ed] px-3 py-3">
+                  <p className="text-2xl font-black text-[#2e1910]">
                     {completedPromptIds.length}
                   </p>
-                  <p className="text-[11px] font-black uppercase tracking-[0.12em] text-slate-500">
+                  <p className="text-[11px] font-black uppercase tracking-[0.12em] text-[#786154]">
                     {t("levels_label")}
                   </p>
                 </div>

@@ -188,9 +188,17 @@ const SpeechDemoGame = ({ onExit, assignment }) => {
 
   if (loading) {
     return (
-      <main className="child-game-shell flex min-h-screen items-center justify-center bg-sky-50 p-8">
-        <div className="rounded-[2rem] bg-white p-8 text-center shadow-xl">
-          <p className="text-xl font-black text-slate-900">
+      <main
+        className="child-game-shell flex min-h-screen items-center justify-center p-8"
+        style={{
+          backgroundImage: "url(/images/reports/jungle_waterfall_bg.jpg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          fontFamily: "'Nunito', sans-serif",
+        }}
+      >
+        <div className="rounded-[2.5rem] border-4 border-[#6e3c1b] bg-[#fffdf7] p-8 text-center shadow-2xl">
+          <p className="text-xl font-black text-[#2e1910]">
             Preparing Sound Adventure...
           </p>
         </div>
@@ -199,40 +207,49 @@ const SpeechDemoGame = ({ onExit, assignment }) => {
   }
 
   return (
-    <main className="child-game-shell min-h-screen bg-gradient-to-br from-sky-50 via-white to-teal-50 p-5 text-slate-900 sm:p-8">
+    <main
+      className="child-game-shell min-h-screen p-5 text-slate-900 sm:p-8"
+      style={{
+        backgroundImage: "url(/images/reports/jungle_waterfall_bg.jpg)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+        fontFamily: "'Nunito', sans-serif",
+      }}
+    >
       <div className="mx-auto max-w-5xl">
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
           <button
             type="button"
             onClick={onExit}
-            className="rounded-full bg-white px-5 py-3 text-sm font-black text-slate-700 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50"
+            className="rounded-full border-3 border-[#6b4122] bg-[#a86532] px-5 py-3 text-sm font-black text-white shadow-md transition hover:bg-[#8f5224]"
           >
             Back to Sound Adventure
           </button>
-          <div className="rounded-full bg-teal-100 px-5 py-3 text-sm font-black text-teal-800">
+          <div className="rounded-full border-2 border-[#ecdac2] bg-[#fbf7ed] px-5 py-3 text-sm font-black text-[#2e1910]">
             {assignment ? "Teacher Activity" : "Demo"} | Prompt {currentIndex + 1} of {prompts.length}
           </div>
         </div>
 
         {error && (
-          <div className="mb-5 rounded-2xl bg-rose-50 px-5 py-4 text-sm font-bold text-rose-700">
+          <div className="mb-5 rounded-2xl border border-rose-200 bg-rose-50 px-5 py-4 text-sm font-bold text-rose-700">
             {error}
           </div>
         )}
 
-        <section className="rounded-[2.5rem] bg-white p-6 shadow-2xl shadow-sky-100 ring-1 ring-slate-100 sm:p-8">
-          <p className="text-sm font-black uppercase tracking-[0.2em] text-teal-600">
+        <section className="rounded-[2.5rem] border-4 border-[#6e3c1b] bg-[#fffdf7] p-6 text-center shadow-2xl sm:p-8">
+          <p className="text-sm font-black uppercase tracking-[0.2em] text-[#786154]">
             {currentPrompt.taskType.replaceAll("_", " ")}
           </p>
-          <h1 className="mt-4 text-6xl font-black tracking-tight text-slate-950 sm:text-8xl">
+          <h1 className="mt-4 break-words text-6xl font-black tracking-tight text-[#2e1910] sm:text-8xl">
             {currentPrompt.targetText}
           </h1>
-          <p className="mt-5 text-2xl font-black text-sky-700">
+          <p className="mt-5 text-2xl font-black text-[#7c2d12]">
             {currentPrompt.instructionSi ||
               instructionByTask[currentPrompt.taskType] ||
               "වචනය බලලා කියන්න"}
           </p>
-          <p className="mt-3 text-base font-bold text-slate-500">
+          <p className="mt-3 text-base font-bold text-[#786154]">
             Great try! Say the word clearly, then stop recording and submit.
           </p>
         </section>
@@ -246,7 +263,7 @@ const SpeechDemoGame = ({ onExit, assignment }) => {
                 type="button"
                 onClick={handleSubmit}
                 disabled={!recording || submitting || Boolean(result)}
-                className="rounded-2xl bg-slate-900 px-6 py-4 text-sm font-black text-white shadow-xl shadow-slate-200 transition hover:-translate-y-1 disabled:cursor-not-allowed disabled:opacity-60"
+                className="rounded-2xl border-3 border-[#6b4122] bg-[#a86532] px-6 py-4 text-sm font-black text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#8f5224] disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {submitting ? "Uploading..." : "Submit Attempt"}
               </button>
@@ -254,7 +271,7 @@ const SpeechDemoGame = ({ onExit, assignment }) => {
                 type="button"
                 onClick={handleNext}
                 disabled={!result || currentIndex === prompts.length - 1}
-                className="rounded-2xl bg-sky-100 px-6 py-4 text-sm font-black text-sky-800 transition hover:bg-sky-200 disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-2xl border-2 border-[#ecdac2] bg-[#fbf7ed] px-6 py-4 text-sm font-black text-[#2e1910] transition hover:bg-amber-100/50 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Next Prompt
               </button>
@@ -262,7 +279,7 @@ const SpeechDemoGame = ({ onExit, assignment }) => {
                 type="button"
                 onClick={handleComplete}
                 disabled={submitting || !sessionId || !Object.keys(attemptsByPrompt).length}
-                className="rounded-2xl bg-emerald-100 px-6 py-4 text-sm font-black text-emerald-800 transition hover:bg-emerald-200 disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-2xl border-3 border-emerald-800 bg-emerald-700 px-6 py-4 text-sm font-black text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Complete Session
               </button>

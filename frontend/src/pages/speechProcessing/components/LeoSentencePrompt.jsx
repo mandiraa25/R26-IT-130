@@ -16,7 +16,7 @@ function LeoSentencePrompt({ prompt }) {
   return (
     <div className="mx-auto w-full min-w-0 max-w-4xl" data-testid="leo-sentence-prompt">
       {hasSegmentProgress && (
-        <p className="mb-3 text-sm font-black text-emerald-800" aria-live="polite">
+        <p className="mb-3 text-sm font-black text-[#7c2d12]" aria-live="polite">
           {t("sentence_progress", {
             current: prompt.segmentNo,
             total: prompt.segmentCount,
@@ -24,7 +24,7 @@ function LeoSentencePrompt({ prompt }) {
         </p>
       )}
       <div
-        className="min-w-0 text-center text-2xl font-black leading-relaxed text-slate-950 sm:text-3xl"
+        className="min-w-0 text-center text-2xl font-black leading-relaxed text-[#2e1910] sm:text-3xl"
         aria-label={prompt?.targetText}
       >
         {chunks.map((chunk, index) => (

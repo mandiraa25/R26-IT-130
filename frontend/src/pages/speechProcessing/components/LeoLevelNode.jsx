@@ -107,12 +107,12 @@ function LeoLevelNode({ index, prompt, state, stars = 0, onClick, theme, compact
       >
         {index + 1}
       </span>
-      <span className={`mt-2 max-w-[104px] truncate rounded-full bg-white/86 px-3 py-1 font-black text-slate-800 shadow-sm ${
+      <span className={`mt-2 max-w-[104px] truncate rounded-full border border-[#ecdac2] bg-[#fbf7ed] px-3 py-1 font-black text-[#2e1910] shadow-sm ${
         compact ? "text-[10px]" : "text-xs"
       }`}>
         {label}
       </span>
-      <span className={`${compact ? "mt-0.5 text-[10px]" : "mt-1 text-xs"} font-black text-white drop-shadow`}>
+      <span className={`${compact ? "mt-0.5 text-[10px]" : "mt-1 text-xs"} font-black text-[#786154]`}>
         {starText}
       </span>
     </button>

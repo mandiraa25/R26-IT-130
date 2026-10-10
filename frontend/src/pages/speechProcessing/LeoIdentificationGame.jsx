@@ -299,7 +299,10 @@ function LeoIdentificationGame() {
 
   if (!gameStarted) {
     return (
-      <main className="lexiland-speech-module child-game-shell min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,#fef08a,transparent_24%),linear-gradient(135deg,#052e16,#0f766e_42%,#fef3c7)] p-4 text-slate-950 sm:p-6">
+      <main
+        className="lexiland-speech-module child-game-shell min-h-screen overflow-hidden bg-cover bg-center p-3 sm:p-6 font-['Nunito',sans-serif]"
+        style={{ backgroundImage: "url('/images/reports/jungle_waterfall_bg.jpg')" }}
+      >
         <div className="mx-auto max-w-6xl">
           {error && (
             <div className="mb-4 flex flex-wrap items-center gap-3 rounded-2xl bg-rose-50 px-5 py-4 text-sm font-bold text-rose-700">
@@ -349,10 +352,19 @@ function LeoIdentificationGame() {
   }
 
   return (
-    <main className="lexiland-speech-module child-game-shell min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,#fef08a,transparent_24%),linear-gradient(135deg,#052e16,#0f766e_42%,#fef3c7)] p-4 text-slate-950 sm:p-6">
+    <main
+      className="lexiland-speech-module child-game-shell min-h-screen overflow-hidden p-4 text-slate-950 sm:p-6"
+      style={{
+        backgroundImage: "url(/images/reports/jungle_waterfall_bg.jpg)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+        fontFamily: "'Nunito', sans-serif",
+      }}
+    >
       <div className="mx-auto max-w-7xl space-y-5">
         {error && (
-          <div className="rounded-2xl bg-rose-50 px-5 py-4 text-sm font-bold text-rose-700">
+          <div className="rounded-2xl border-2 border-rose-300 bg-rose-50 px-5 py-4 text-sm font-bold text-rose-700">
             {error}
           </div>
         )}
@@ -397,19 +409,22 @@ function LeoIdentificationGame() {
               </div>
 
               <aside className="order-2 space-y-4 xl:order-none">
-                <div className="rounded-[2rem] border border-white/50 bg-white/86 p-4 shadow-xl shadow-emerald-950/10 backdrop-blur">
-                  <div className="grid grid-cols-[88px_1fr] items-center gap-3">
-                    <LeoLionImage className="h-24 w-24" />
+                <div className="rounded-[2rem] border-3 border-[#6e3c1b] bg-[#fffdf7] p-5 shadow-xl">
+                  <div className="grid grid-cols-[88px_1fr] items-center gap-4">
+                    <LeoLionImage className="h-24 w-24 filter drop-shadow-md" />
                     <div>
-                      <p className="text-lg font-black text-emerald-950">{t("leo_says", "Leo says")}</p>
-                      <p className="mt-1 text-sm font-bold leading-6 text-emerald-800">
+                      <p className="text-lg font-black text-[#2e1910]">{t("leo_says", "Leo says")}</p>
+                      <p className="mt-1 text-sm font-bold leading-6 text-[#786154]">
                         {latestResult?.leoMessage || t("say_prompt_collect_gems", "Say the prompt and collect sound gems.")}
                       </p>
                     </div>
                   </div>
-                  <div className="mt-3 rounded-[1.25rem] bg-amber-50 px-3 py-3 text-center ring-1 ring-amber-100">
-                    <p className="text-2xl font-black text-amber-600">{stars}</p>
-                    <p className="text-[11px] font-black uppercase tracking-[0.12em] text-slate-500">
+                  <div className="mt-4 rounded-[1.25rem] border border-[#ecdac2] bg-[#fbf7ed] px-4 py-3 text-center">
+                    <p className="flex items-center justify-center gap-1.5 text-2xl font-black text-amber-500">
+                      <span>★</span>
+                      <span>{stars}</span>
+                    </p>
+                    <p className="text-[11px] font-black uppercase tracking-[0.12em] text-[#786154]">
                       {t("sound_gems", "Sound gems")}
                     </p>
                   </div>

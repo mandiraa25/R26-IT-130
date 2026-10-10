@@ -322,9 +322,9 @@ function SpeechRecorder({
   };
 
   return (
-    <div className="min-w-0 rounded-[2rem] bg-white p-5 shadow-xl shadow-emerald-100/60 ring-1 ring-white">
+    <div className="min-w-0 rounded-[2rem] border-2 border-[#ecdac2] bg-[#fffdf7] p-5 shadow-md">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="text-sm font-black text-slate-700">
+        <p className="text-sm font-black text-[#2e1910]">
           {durationLimitSeconds
             ? t("recorder_timer_with_limit", {
                 elapsed: (durationMs / 1000).toFixed(1),
@@ -333,14 +333,14 @@ function SpeechRecorder({
             : t("recorder_timer", { elapsed: (durationMs / 1000).toFixed(1) })}
         </p>
         {isRecording && (
-          <span className="rounded-full bg-rose-50 px-3 py-1 text-xs font-black text-rose-600">
+          <span className="animate-pulse rounded-full border border-rose-300 bg-rose-100 px-3 py-1 text-xs font-black text-rose-700">
             {t("recorder_recording")}
           </span>
         )}
       </div>
 
       {showDurationLimit && durationLimitSeconds && (
-        <p className="mt-2 text-xs font-bold leading-5 text-slate-500">
+        <p className="mt-2 text-xs font-bold leading-5 text-[#786154]">
           {t("recorder_time_guidance", { seconds: durationLimitSeconds })}
         </p>
       )}
@@ -355,10 +355,10 @@ function SpeechRecorder({
             type="button"
             onClick={isRecording ? stopRecording : startRecording}
             disabled={!supported || submitting}
-            className={`rounded-3xl px-5 py-4 text-sm font-black text-white shadow-lg transition hover:-translate-y-1 disabled:cursor-not-allowed disabled:opacity-60 ${
+            className={`rounded-3xl px-5 py-4 text-sm font-black text-white shadow-lg transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60 ${
               isRecording
-                ? "bg-rose-500 shadow-rose-100"
-                : "bg-gradient-to-r from-emerald-700 to-teal-500 shadow-emerald-100"
+                ? "border-3 border-rose-700 bg-rose-600 shadow-rose-200"
+                : "border-3 border-[#6b4122] bg-[#a86532] shadow-amber-950/20 hover:bg-[#8f5224]"
             }`}
           >
             {isRecording ? t("recorder_stop") : t("recorder_start")}
@@ -368,7 +368,7 @@ function SpeechRecorder({
               type="button"
               onClick={resetRecording}
               disabled={!audioUrl || isRecording || submitting}
-              className="rounded-3xl bg-emerald-50 px-5 py-4 text-sm font-black text-emerald-800 ring-1 ring-emerald-100 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-3xl border-2 border-[#ecdac2] bg-[#fbf7ed] px-5 py-4 text-sm font-black text-[#2e1910] transition hover:bg-amber-100/50 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {t("recorder_again")}
             </button>
@@ -376,7 +376,7 @@ function SpeechRecorder({
         </div>
       ) : (
         <p
-          className="mt-4 min-h-12 rounded-2xl bg-amber-50 px-4 py-3 text-center text-sm font-black text-amber-900 ring-1 ring-amber-100"
+          className="mt-4 min-h-12 rounded-2xl border border-[#ecdac2] bg-[#fbf7ed] px-4 py-3 text-center text-sm font-black text-[#2e1910]"
           aria-live="polite"
         >
           {submitting ? t("sending_to_leo") : t("recorder_auto_send")}
@@ -384,12 +384,12 @@ function SpeechRecorder({
       )}
 
       {!supported && (
-        <p className="mt-4 rounded-2xl bg-amber-50 px-4 py-3 text-sm font-bold text-amber-800">
+        <p className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-bold text-amber-800">
           {t("recorder_not_supported")}
         </p>
       )}
       {error && (
-        <p className="mt-4 rounded-2xl bg-rose-50 px-4 py-3 text-sm font-bold text-rose-700">
+        <p className="mt-4 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-bold text-rose-700">
           {error}
         </p>
       )}

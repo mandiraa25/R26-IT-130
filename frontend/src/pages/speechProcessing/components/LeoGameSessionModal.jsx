@@ -1,14 +1,22 @@
 function LeoGameSessionModal({ title, onClose, children }) {
   return (
     <div
-      className="fixed inset-0 z-50 overflow-y-auto bg-emerald-950/72 p-3 backdrop-blur-md sm:p-5"
+      className="fixed inset-0 z-50 overflow-y-auto bg-black/60 p-2 sm:p-4 md:p-6 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-label={title || "Leo game activity"}
     >
-      <div className="mx-auto min-h-[calc(100vh-1.5rem)] max-w-7xl sm:min-h-[calc(100vh-2.5rem)]">
-        <div className="relative min-h-[calc(100vh-1.5rem)] overflow-hidden rounded-[2rem] border border-white/30 bg-[radial-gradient(circle_at_top_left,#fef08a,transparent_26%),linear-gradient(135deg,#052e16,#15803d_42%,#84cc16)] p-3 shadow-2xl shadow-emerald-950/40 sm:min-h-[calc(100vh-2.5rem)] sm:rounded-[2.8rem] sm:p-5">
-          <div className="pointer-events-none absolute inset-0 opacity-30 [background-image:radial-gradient(circle_at_22px_22px,rgba(255,255,255,0.28)_0_2px,transparent_3px)] [background-size:58px_58px]" />
+      <div className="mx-auto min-h-[calc(100vh-1rem)] max-w-7xl sm:min-h-[calc(100vh-2rem)]">
+        <div
+          className="relative min-h-[calc(100vh-1rem)] overflow-hidden rounded-[2rem] sm:rounded-[2.8rem] border-4 sm:border-[5px] border-[#6e3c1b] bg-[#a06334] p-3 sm:p-5 shadow-[0_20px_50px_rgba(0,0,0,0.5)] sm:min-h-[calc(100vh-2rem)]"
+          style={{
+            backgroundImage: "url('/images/reports/jungle_waterfall_bg.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          {/* Subtle overlay for optimal content contrast */}
+          <div className="pointer-events-none absolute inset-0 bg-black/15" />
           <div className="relative z-10">
             {children}
           </div>
@@ -16,9 +24,10 @@ function LeoGameSessionModal({ title, onClose, children }) {
             <button
               type="button"
               onClick={onClose}
-              className="absolute right-5 top-5 z-20 hidden rounded-full bg-white/90 px-4 py-2 text-xs font-black text-emerald-900 shadow-sm ring-1 ring-emerald-100 transition hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-white/60 md:block"
+              className="absolute right-4 top-4 z-30 hidden h-10 w-10 items-center justify-center rounded-full border-2 border-[#6e3c1b] bg-white/95 text-sm font-black text-[#6e3c1b] shadow-md transition hover:scale-105 hover:bg-rose-50 hover:text-rose-600 focus:outline-none md:flex cursor-pointer"
+              title="Close"
             >
-              Close
+              ✕
             </button>
           )}
         </div>
