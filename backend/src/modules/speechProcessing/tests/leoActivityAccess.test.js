@@ -194,3 +194,44 @@ test("session creation denies a locked activity before creating a session", asyn
     SpeechSession.create = originalSessionCreate;
   }
 });
+
+test("the activity map unlocks Level 2 when Level 1 is completed while Level 3 remains locked", () => {
+  const speech = {
+    identificationStatus: "completed",
+    improvementUnlocked: true,
+    supportLevel: "low_support",
+    completedActivityIds: ["leo_first_sound_hunt"],
+  };
+  const plan = getActivityPlan({ speech });
+  const map = buildActivityMap({ speech, plan });
+  const level1 = map.find((item) => item.activityId === "leo_first_sound_hunt");
+  const level2 = map.find((item) => item.activityId === "leo_echo_roar");
+  const level3 = map.find((item) => item.activityId === "leo_robot_words");
+
+  assert.equal(level1.state, "completed");
+  assert.equal(level2.state, "available");
+  assert.equal(getLeoActivityAccess({ activities: map, activityId: "leo_echo_roar" }).allowed, true);
+  assert.equal(level3.state, "locked");
+  assert.equal(getLeoActivityAccess({ activities: map, activityId: "leo_robot_words" }).allowed, false);
+});
+
+test("the activity map unlocks Level 3 when Level 2 is completed while Level 4 remains locked", () => {
+  const speech = {
+    identificationStatus: "completed",
+    improvementUnlocked: true,
+    supportLevel: "low_support",
+    completedActivityIds: ["leo_first_sound_hunt", "leo_echo_roar"],
+  };
+  const plan = getActivityPlan({ speech });
+  const map = buildActivityMap({ speech, plan });
+  const level2 = map.find((item) => item.activityId === "leo_echo_roar");
+  const level3 = map.find((item) => item.activityId === "leo_robot_words");
+  const level4 = map.find((item) => item.activityId === "leo_sound_twins");
+
+  assert.equal(level2.state, "completed");
+  assert.equal(level3.state, "available");
+  assert.equal(getLeoActivityAccess({ activities: map, activityId: "leo_robot_words" }).allowed, true);
+  assert.equal(level4.state, "locked");
+  assert.equal(getLeoActivityAccess({ activities: map, activityId: "leo_sound_twins" }).allowed, false);
+});
+

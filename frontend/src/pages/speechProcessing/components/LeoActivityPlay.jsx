@@ -431,8 +431,8 @@ function LeoActivityPlay({ activity, onComplete, onCancel, onLocked }) {
           theme={localizedTheme}
         />
 
-        <div className="grid gap-4 xl:grid-cols-[1fr_330px]">
-          <div className="order-1 xl:order-none">
+        <div className="grid gap-6 lg:grid-cols-[1fr_290px] xl:grid-cols-[1fr_310px] items-start pt-1">
+          <div className="min-w-0">
             <LeoCurrentLevelPanel
               activity={activity}
               prompt={prompt}
@@ -462,13 +462,16 @@ function LeoActivityPlay({ activity, onComplete, onCancel, onLocked }) {
             )}
           </div>
 
-          <aside className="order-2 space-y-4 xl:order-none">
-            <div className="rounded-[2rem] border-3 border-[#6e3c1b] bg-[#fffdf7] p-5 shadow-xl">
-              <div className="grid grid-cols-[88px_1fr] items-center gap-4">
-                <LeoLionImage className="h-24 w-24 filter drop-shadow-md" />
-                <div>
-                  <p className="text-lg font-black text-[#2e1910]">{t("leo_says")}</p>
-                  <p className="mt-1 text-sm font-bold leading-6 text-[#786154]">
+          <aside className="space-y-3">
+            {/* Leo Advice Speech Bubble */}
+            <div className="rounded-[1.8rem] border-2 border-[#6e3c1b] bg-[#fffdf7]/95 p-3.5 shadow-lg backdrop-blur-xs">
+              <div className="flex items-center gap-3">
+                <span className="text-3xl select-none" aria-hidden="true">🦁</span>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[10px] font-black uppercase tracking-wider text-amber-900">
+                    {t("leo_says")}
+                  </p>
+                  <p className="mt-0.5 text-xs font-bold leading-tight text-[#4d2407]">
                     {feedback?.submissionFailed
                       ? feedback.leoMessage
                       : longReadingPrompt && feedback
@@ -477,26 +480,9 @@ function LeoActivityPlay({ activity, onComplete, onCancel, onLocked }) {
                   </p>
                 </div>
               </div>
-              <div className="mt-4 grid grid-cols-2 gap-3 text-center">
-                <div className="rounded-[1.25rem] border border-[#ecdac2] bg-[#fbf7ed] px-3 py-3">
-                  <p className="flex items-center justify-center gap-1.5 text-2xl font-black text-amber-500">
-                    <span>★</span>
-                    <span>{totalStars}</span>
-                  </p>
-                  <p className="text-[11px] font-black uppercase tracking-[0.12em] text-[#786154]">
-                    {t("stars_label")}
-                  </p>
-                </div>
-                <div className="rounded-[1.25rem] border border-[#ecdac2] bg-[#fbf7ed] px-3 py-3">
-                  <p className="text-2xl font-black text-[#2e1910]">
-                    {completedPromptIds.length}
-                  </p>
-                  <p className="text-[11px] font-black uppercase tracking-[0.12em] text-[#786154]">
-                    {t("levels_label")}
-                  </p>
-                </div>
-              </div>
             </div>
+
+            {/* Vertical Jungle Level Path */}
             <div
               className={`min-h-[16rem] ${isRecording ? "recording-animations-paused pointer-events-none" : ""}`}
               data-map-active={String(!isRecording)}
@@ -513,8 +499,7 @@ function LeoActivityPlay({ activity, onComplete, onCancel, onLocked }) {
                 guideMessage={localizedTheme.animalMessage}
                 collectibleLabel={localizedTheme.collectible}
                 rewardLabel={localizedTheme.rewardName}
-                compact
-                className="min-h-[16rem]"
+                variant="vertical"
               />
             </div>
           </aside>

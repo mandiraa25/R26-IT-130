@@ -322,74 +322,98 @@ function SpeechRecorder({
   };
 
   return (
-    <div className="min-w-0 rounded-[2rem] border-2 border-[#ecdac2] bg-[#fffdf7] p-5 shadow-md">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="text-sm font-black text-[#2e1910]">
-          {durationLimitSeconds
-            ? t("recorder_timer_with_limit", {
-                elapsed: (durationMs / 1000).toFixed(1),
-                limit: durationLimitSeconds,
-              })
-            : t("recorder_timer", { elapsed: (durationMs / 1000).toFixed(1) })}
-        </p>
-        {isRecording && (
-          <span className="animate-pulse rounded-full border border-rose-300 bg-rose-100 px-3 py-1 text-xs font-black text-rose-700">
-            {t("recorder_recording")}
-          </span>
-        )}
+    <div className="flex flex-col items-center justify-center py-2">
+      {/* Audio Waveform Bars */}
+      <div className="mb-2 flex items-center justify-center gap-1.5">
+        {[18, 28, 44, 58, 44, 28, 18].map((h, i) => (
+          <span
+            key={i}
+            className={`w-1.5 rounded-full transition-all duration-300 ${
+              isRecording
+                ? "bg-gradient-to-t from-emerald-500 via-amber-300 to-rose-400 animate-pulse"
+                : "bg-amber-400/50"
+            }`}
+            style={{ height: `${h}px` }}
+          />
+        ))}
       </div>
 
-      {showDurationLimit && durationLimitSeconds && (
-        <p className="mt-2 text-xs font-bold leading-5 text-[#786154]">
+      {/* Glowing Round Mic Button */}
+      <div className="relative flex flex-col items-center justify-center">
+        {/* Ambient Ring Halo */}
+        <div
+          className={`pointer-events-none absolute h-28 w-28 sm:h-32 sm:w-32 rounded-full transition-all duration-500 ${
+            isRecording
+              ? "bg-rose-500/25 ring-8 ring-rose-400/50 animate-ping"
+              : "bg-emerald-500/15 ring-8 ring-emerald-300/35"
+          }`}
+        />
+
+        <button
+          type="button"
+          onClick={isRecording ? stopRecording : startRecording}
+          disabled={!supported || submitting}
+          aria-label={isRecording ? t("recorder_stop") : t("recorder_start")}
+          className={`relative z-10 flex h-22 w-22 sm:h-26 sm:w-26 items-center justify-center rounded-full border-4 border-white text-white shadow-[0_10px_28px_rgba(0,0,0,0.35)] transition-all duration-200 hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer ${
+            isRecording
+              ? "bg-gradient-to-b from-rose-500 to-red-600 shadow-rose-500/50"
+              : "bg-gradient-to-b from-[#2ecc71] via-[#27ae60] to-[#1e824c] shadow-emerald-500/50 hover:from-[#34d178] hover:to-[#2ecc71]"
+          }`}
+        >
+          {/* Crisp Microphone SVG */}
+          <svg className="h-10 w-10 sm:h-12 sm:w-12 drop-shadow-md" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
+            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
+          </svg>
+        </button>
+
+        {/* Status Pill Badge */}
+        <div className="mt-3 text-center">
+          <span
+            className={`inline-flex items-center gap-1.5 rounded-full px-5 py-1.5 text-xs sm:text-sm font-black shadow-md ${
+              isRecording
+                ? "border-2 border-rose-300 bg-rose-100 text-rose-800 animate-pulse"
+                : submitting
+                  ? "border-2 border-amber-300 bg-amber-100 text-amber-900"
+                  : "border-2 border-emerald-400 bg-emerald-100 text-emerald-950"
+            }`}
+          >
+            {isRecording
+              ? `${t("recorder_recording")} • ${(durationMs / 1000).toFixed(1)}s`
+              : submitting
+                ? t("sending_to_leo")
+                : t("recorder_start")}
+          </span>
+        </div>
+      </div>
+
+      {showDurationLimit && durationLimitSeconds && !isRecording && (
+        <p className="mt-2.5 inline-block rounded-full border border-amber-200/80 bg-white/90 px-3.5 py-1 text-[11px] font-black text-[#5c3514] shadow-sm backdrop-blur-xs">
           {t("recorder_time_guidance", { seconds: durationLimitSeconds })}
         </p>
       )}
 
       {audioUrl && !isRecording && !onAutoSubmit && (
-        <audio className="mt-4 w-full" controls src={audioUrl} />
-      )}
-
-      {!audioUrl || isRecording || !onAutoSubmit ? (
-        <div className={`mt-4 grid gap-3 ${onAutoSubmit ? "" : "sm:grid-cols-2"}`}>
+        <div className="mt-3 flex flex-col items-center gap-2">
+          <audio className="max-w-xs" controls src={audioUrl} />
           <button
             type="button"
-            onClick={isRecording ? stopRecording : startRecording}
-            disabled={!supported || submitting}
-            className={`rounded-3xl px-5 py-4 text-sm font-black text-white shadow-lg transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60 ${
-              isRecording
-                ? "border-3 border-rose-700 bg-rose-600 shadow-rose-200"
-                : "border-3 border-[#6b4122] bg-[#a86532] shadow-amber-950/20 hover:bg-[#8f5224]"
-            }`}
+            onClick={resetRecording}
+            disabled={submitting}
+            className="rounded-full border-2 border-[#8b552e] bg-[#fffcf5] px-4 py-1.5 text-xs font-black text-[#5c3514] shadow-sm hover:bg-amber-100 disabled:opacity-50 cursor-pointer"
           >
-            {isRecording ? t("recorder_stop") : t("recorder_start")}
+            {t("recorder_again")}
           </button>
-          {!onAutoSubmit && (
-            <button
-              type="button"
-              onClick={resetRecording}
-              disabled={!audioUrl || isRecording || submitting}
-              className="rounded-3xl border-2 border-[#ecdac2] bg-[#fbf7ed] px-5 py-4 text-sm font-black text-[#2e1910] transition hover:bg-amber-100/50 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {t("recorder_again")}
-            </button>
-          )}
         </div>
-      ) : (
-        <p
-          className="mt-4 min-h-12 rounded-2xl border border-[#ecdac2] bg-[#fbf7ed] px-4 py-3 text-center text-sm font-black text-[#2e1910]"
-          aria-live="polite"
-        >
-          {submitting ? t("sending_to_leo") : t("recorder_auto_send")}
-        </p>
       )}
 
       {!supported && (
-        <p className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-bold text-amber-800">
+        <p className="mt-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-2 text-xs font-bold text-amber-800">
           {t("recorder_not_supported")}
         </p>
       )}
       {error && (
-        <p className="mt-4 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-bold text-rose-700">
+        <p className="mt-3 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-2 text-xs font-bold text-rose-700">
           {error}
         </p>
       )}

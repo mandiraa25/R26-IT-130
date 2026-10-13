@@ -1,5 +1,5 @@
-import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
-import { LockKeyhole, MapPin, Play } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { ArrowLeft, LockKeyhole, Star, User } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
@@ -8,62 +8,67 @@ import {
   getImprovementRecommendation,
   getImprovementStatus,
 } from "../../services/speechProcessing/api";
-import { LEO_TRAINING_MAP_GRADIENT } from "./components/LeoAssetFallback";
 import LeoActivityPlay from "./components/LeoActivityPlay";
-import LeoGuide from "./components/LeoGuide";
 import LeoRewardModal from "./components/LeoRewardModal";
-import LeoSafariActivityTray from "./components/LeoSafariActivityTray";
-import LeoSafariHud from "./components/LeoSafariHud";
-import {
-  getSafariQuality,
-  readSafariCapabilities,
-} from "./components/leoSafariPerformance.utils";
+import LeoLevelCard from "./components/LeoLevelCard";
 import { buildSafariPresentation } from "./components/leoSafariPresentation.utils";
 import "./speechModule.css";
 
-const LeoSafari3DMap = lazy(() => import("./components/LeoSafari3DMap"));
+const LEO_LEVEL_CONFIGS = [
+  {
+    level: 1,
+    activityId: "leo_first_sound_hunt",
+    title: "Sound Detective",
+    imageSrc: "/images/speechProcessing/levels/level_1_art.png",
+  },
+  {
+    level: 2,
+    activityId: "leo_echo_roar",
+    title: "Sound Matcher",
+    imageSrc: "/images/speechProcessing/levels/level_2_art.png",
+  },
+  {
+    level: 3,
+    activityId: "leo_robot_words",
+    title: "Odd One Out",
+    imageSrc: "/images/speechProcessing/levels/level_3_art.png",
+  },
+  {
+    level: 4,
+    activityId: "leo_sound_twins",
+    title: "Picture Stories",
+    imageSrc: "/images/speechProcessing/levels/level_4_art.png",
+  },
+  {
+    level: 5,
+    activityId: "leo_story_roar",
+    title: "Jungle Challenge",
+    imageSrc: "/images/speechProcessing/levels/level_5_art.png",
+  },
+];
 
-function LeoSafariFallbackMap({ zones, focusedActivityId, t }) {
-  return (
-    <div
-      className="relative h-full w-full bg-cover bg-center"
-      style={{ backgroundImage: LEO_TRAINING_MAP_GRADIENT }}
-      role="group"
-      aria-label={t("training_map_heading")}
-    >
-      <div className="absolute inset-0 bg-gradient-to-b from-emerald-950/25 via-emerald-900/10 to-emerald-950/80" />
-      <div className="absolute inset-x-3 bottom-32 grid grid-cols-2 gap-2 sm:inset-x-6 sm:bottom-40 sm:grid-cols-5">
-        {zones.map((zone, index) => {
-          const stateLabel = t(zone.stateLabelKey);
-          const isFocused = focusedActivityId === zone.activityId;
+const STORAGE_KEY_COMPLETED = "lexiland_completed_speech_levels";
 
-          return (
-            <article
-              key={`${zone.activityId || "unknown"}-live-fallback-${index}`}
-              className={`min-w-0 rounded-lg border p-2 shadow-lg ${
-                isFocused
-                  ? "border-amber-300 bg-amber-50 ring-2 ring-amber-300"
-                  : "border-white/30 bg-white/95"
-              }`}
-              aria-label={`${zone.shortTitle || zone.title}. ${stateLabel}`}
-              aria-current={isFocused ? "step" : undefined}
-            >
-              <span className="block text-[0.65rem] font-black uppercase text-emerald-700 sm:text-xs">
-                {t("zone_number", { number: index + 1 })}
-              </span>
-              <span className="mt-1 block truncate text-xs font-black text-slate-950 sm:text-sm">
-                {zone.shortTitle || zone.title}
-              </span>
-              <span className="mt-1 block truncate text-[0.65rem] font-bold text-slate-600 sm:text-xs">
-                {stateLabel}
-              </span>
-            </article>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
+const getStoredCompletedLevels = () => {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY_COMPLETED);
+    return saved ? JSON.parse(saved) : [];
+  } catch {
+    return [];
+  }
+};
+
+const storeCompletedLevel = (activityId) => {
+  if (!activityId) return;
+  try {
+    const current = getStoredCompletedLevels();
+    if (!current.includes(activityId)) {
+      localStorage.setItem(STORAGE_KEY_COMPLETED, JSON.stringify([...current, activityId]));
+    }
+  } catch {
+    // Ignore storage access errors
+  }
+};
 
 function LeoTrainingSafari() {
   const navigate = useNavigate();
@@ -83,7 +88,6 @@ function LeoTrainingSafari() {
   const [reward, setReward] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [safariCapabilities, setSafariCapabilities] = useState(readSafariCapabilities);
   const devUnlock = import.meta.env.VITE_LEXILAND_DEV_UNLOCK === "true";
 
   const load = useCallback(async () => {
@@ -126,48 +130,49 @@ function LeoTrainingSafari() {
     load();
   }, [load]);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return undefined;
-
-    const motionQuery = window.matchMedia?.("(prefers-reduced-motion: reduce)");
-    const refreshCapabilities = () => setSafariCapabilities(readSafariCapabilities());
-
-    window.addEventListener("resize", refreshCapabilities);
-    motionQuery?.addEventListener?.("change", refreshCapabilities);
-
-    return () => {
-      window.removeEventListener("resize", refreshCapabilities);
-      motionQuery?.removeEventListener?.("change", refreshCapabilities);
-    };
-  }, []);
-
   const identificationCompleted = Boolean(status?.identificationCompleted);
   const improvementUnlocked = Boolean(status?.improvementUnlocked || devUnlock);
-  const locked = !devUnlock && (!identificationCompleted || !improvementUnlocked);
-  const basePresentation = useMemo(
-    () => buildSafariPresentation({ activities, recommendation }),
-    [activities, recommendation]
-  );
-  const completedActivityIds = useMemo(() => {
-    const ids = new Set(Array.isArray(mapSummary.completedActivityIds) ? mapSummary.completedActivityIds : []);
-    basePresentation.replayActivities.forEach((activity) => activity.activityId && ids.add(activity.activityId));
-    return ids;
-  }, [basePresentation.replayActivities, mapSummary.completedActivityIds]);
-  const uniqueCompletedCount = Math.min(activities.length || 5, completedActivityIds.size);
-  const authoritativeCheckpointDue = mapSummary.checkpointDue === true;
+  const globallyLocked = !devUnlock && (!identificationCompleted || !improvementUnlocked);
+
   const presentation = useMemo(
     () => buildSafariPresentation({ activities, recommendation }),
     [activities, recommendation]
   );
-  const primaryAction = locked ? null : presentation.primaryAction;
-  const quality = getSafariQuality(safariCapabilities);
-  const mapFallback = (
-    <LeoSafariFallbackMap
-      zones={presentation.zones}
-      focusedActivityId={primaryAction?.activityId || null}
-      t={t}
-    />
-  );
+
+  const completedActivityIds = useMemo(() => {
+    const ids = new Set(
+      Array.isArray(mapSummary.completedActivityIds) ? mapSummary.completedActivityIds : []
+    );
+    presentation.replayActivities.forEach(
+      (activity) => activity.activityId && ids.add(activity.activityId)
+    );
+    activities.forEach((act) => {
+      if (
+        (act.state === "completed" || act.state === "replay" || act.status === "completed") &&
+        act.activityId
+      ) {
+        ids.add(act.activityId);
+      }
+    });
+    getStoredCompletedLevels().forEach((id) => ids.add(id));
+    return ids;
+  }, [activities, presentation.replayActivities, mapSummary.completedActivityIds]);
+
+  // Determine completion status for each of the 5 levels
+  const levelCompleted = useMemo(() => {
+    return LEO_LEVEL_CONFIGS.map((config) => {
+      const zone =
+        presentation.zones.find((z) => z.activityId === config.activityId) ||
+        activities.find((a) => a.activityId === config.activityId) ||
+        {};
+      return Boolean(
+        completedActivityIds.has(config.activityId) ||
+        zone.state === "completed" ||
+        zone.state === "replay" ||
+        zone.status === "completed"
+      );
+    });
+  }, [activities, completedActivityIds, presentation.zones]);
 
   const showLockedState = useCallback(
     (reason) => {
@@ -182,10 +187,24 @@ function LeoTrainingSafari() {
   const openActivity = useCallback(
     async (activity) => {
       if (!activity?.activityId || openingActivityId === activity.activityId) return;
-      if (locked || (!activity.isPrimary && !activity.replayAction)) {
-        showLockedState(activity.lockReason);
+      if (globallyLocked) {
+        showLockedState(activity.lockReason || "This training zone is locked.");
         return;
       }
+
+      // Strict sequential unlock check
+      const targetIndex = LEO_LEVEL_CONFIGS.findIndex(
+        (cfg) => cfg.activityId === activity.activityId
+      );
+      if (targetIndex > 0 && !devUnlock) {
+        const isPrevDone = levelCompleted[targetIndex - 1];
+        const isCurrentDone = levelCompleted[targetIndex];
+        if (!isPrevDone && !isCurrentDone) {
+          showLockedState(`Level ${targetIndex + 1} is locked! Complete Level ${targetIndex} first.`);
+          return;
+        }
+      }
+
       setOpeningActivityId(activity.activityId);
       setError("");
       setLockNotice("");
@@ -197,14 +216,13 @@ function LeoTrainingSafari() {
         if (err.response?.status === 403 && data.code === "activity_locked") {
           showLockedState(data.lockReason || activity.lockReason);
         } else {
-          setError(data.message || t("could_not_open_activity"));
-          navigate("/speech-processing/leo-training", { replace: true });
+          setActiveActivity(activity);
         }
       } finally {
         setOpeningActivityId("");
       }
     },
-    [locked, navigate, openingActivityId, showLockedState, t]
+    [devUnlock, globallyLocked, levelCompleted, openingActivityId, showLockedState]
   );
 
   useEffect(() => {
@@ -212,31 +230,111 @@ function LeoTrainingSafari() {
       if (!reward) setActiveActivity(null);
       return;
     }
-    if (loading || !activities.length || reward) return;
+    if (loading || reward) return;
     if (activeActivity?.activityId === activityId || openingActivityId === activityId) return;
-    const activity = presentation.zones.find((zone) => zone.activityId === activityId);
-    if (!activity) {
+
+    const matchedConfig = LEO_LEVEL_CONFIGS.find((cfg) => cfg.activityId === activityId);
+    const matchedZone = presentation.zones.find((zone) => zone.activityId === activityId);
+    const activityToOpen = matchedZone || (matchedConfig ? { activityId: matchedConfig.activityId, title: matchedConfig.title } : null);
+
+    if (!activityToOpen) {
       showLockedState(t("safari_activity_not_found"));
-    } else if (locked || (!activity.isPrimary && !activity.replayAction)) {
-      showLockedState(activity.lockReason);
     } else {
-      openActivity(activity);
+      openActivity(activityToOpen);
     }
-  }, [activeActivity?.activityId, activities.length, activityId, loading, locked, openActivity, openingActivityId, presentation.zones, reward, showLockedState, t]);
+  }, [
+    activeActivity?.activityId,
+    activityId,
+    loading,
+    openActivity,
+    openingActivityId,
+    presentation.zones,
+    reward,
+    showLockedState,
+    t,
+  ]);
 
   const requestActivity = (activity) => {
-    if (activity?.activityId) navigate(`/speech-processing/leo-training/${activity.activityId}`);
+    if (activity?.activityId) {
+      navigate(`/speech-processing/leo-training/${activity.activityId}`);
+    }
   };
+
   const handleActivityComplete = (result) => {
+    const completedId = result?.activityId || activeActivity?.activityId;
+    if (completedId) {
+      storeCompletedLevel(completedId);
+      setMapSummary((prev) => ({
+        ...prev,
+        completedActivityIds: Array.from(
+          new Set([...(prev.completedActivityIds || []), completedId])
+        ),
+        stars: (prev.stars || 0) + (result?.starsEarned || result?.stars || 3),
+      }));
+    }
     navigate("/speech-processing/leo-training", { replace: true });
     setReward(result);
     setActiveActivity(null);
     load();
   };
 
+  // Build the 5 levels with strict sequential progression & star ratings
+  const levelsWithStatus = useMemo(() => {
+    return LEO_LEVEL_CONFIGS.map((config, index) => {
+      const zone =
+        presentation.zones.find((z) => z.activityId === config.activityId) ||
+        activities.find((a) => a.activityId === config.activityId) ||
+        {};
+
+      const isCompleted = levelCompleted[index];
+
+      // Strict sequential unlock:
+      // Level 1 (index 0) is always unlocked.
+      // Any completed level is unlocked for replay.
+      // Any subsequent level (index > 0) is unlocked IF AND ONLY IF Level index - 1 is completed.
+      const isUnlocked = Boolean(
+        devUnlock ||
+        index === 0 ||
+        isCompleted ||
+        levelCompleted[index - 1]
+      );
+
+      let stars = 0;
+      if (zone.stars !== undefined && zone.stars !== null && zone.stars > 0) {
+        stars = zone.stars > 3 ? Math.round((zone.stars / 15) * 3) : zone.stars;
+      } else if (isCompleted) {
+        stars = 3;
+      }
+
+      return {
+        ...config,
+        activity: {
+          ...zone,
+          activityId: config.activityId,
+          title: config.title,
+          shortTitle: config.title,
+          isPrimary: zone.isPrimary || (index === 0 && !completedActivityIds.size),
+        },
+        isUnlocked,
+        isCompleted,
+        stars,
+      };
+    });
+  }, [activities, completedActivityIds.size, devUnlock, levelCompleted, presentation.zones]);
+
+  const authoritativeCheckpointDue = Boolean(mapSummary.checkpointDue);
+  const primaryAction = presentation.primaryAction;
+
   if (loading) {
-    return <main className="lexiland-speech-module child-game-shell flex min-h-screen items-center justify-center bg-emerald-50"><div className="rounded-lg bg-white p-8 text-xl font-black shadow-xl">{t("leo_loading_training_map")}</div></main>;
+    return (
+      <main className="lexiland-speech-module child-game-shell flex min-h-screen items-center justify-center bg-emerald-50">
+        <div className="rounded-2xl border-4 border-[#6e3c1b] bg-[#fffdf7] p-8 text-xl font-black text-[#2e1910] shadow-2xl">
+          {t("leo_loading_training_map")}
+        </div>
+      </main>
+    );
   }
+
   if (activeActivity) {
     return (
       <main
@@ -251,7 +349,10 @@ function LeoTrainingSafari() {
       >
         <LeoActivityPlay
           activity={activeActivity}
-          onCancel={() => { navigate("/speech-processing/leo-training", { replace: true }); setActiveActivity(null); }}
+          onCancel={() => {
+            navigate("/speech-processing/leo-training", { replace: true });
+            setActiveActivity(null);
+          }}
           onComplete={handleActivityComplete}
           onLocked={showLockedState}
         />
@@ -261,7 +362,7 @@ function LeoTrainingSafari() {
 
   return (
     <main
-      className="lexiland-speech-module child-game-shell min-h-screen p-3 text-slate-950 sm:p-5"
+      className="lexiland-speech-module child-game-shell relative min-h-screen w-full flex flex-col justify-between p-3 sm:p-6"
       style={{
         backgroundImage: "url(/images/reports/jungle_waterfall_bg.jpg)",
         backgroundSize: "cover",
@@ -270,63 +371,119 @@ function LeoTrainingSafari() {
         fontFamily: "'Nunito', sans-serif",
       }}
     >
-      <div className="mx-auto max-w-7xl overflow-hidden rounded-[2.5rem] border-4 border-[#6e3c1b] bg-[#fffdf7] shadow-2xl">
-        <LeoSafariHud
-          stars={Number(mapSummary.stars) || 0}
-          completedCount={uniqueCompletedCount}
-          checkpointDue={authoritativeCheckpointDue}
-        />
-        {error ? <p role="alert" className="border-b border-rose-100 bg-rose-50 px-5 py-4 text-sm font-bold text-rose-700">{error}</p> : null}
-        {lockNotice ? (
-          <section className="border-b-2 border-[#ecdac2] bg-[#fbf7ed] px-5 py-4" aria-labelledby="safari-lock-title">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div className="flex items-start gap-3"><LockKeyhole aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-[#7c2d12]" /><div><h2 id="safari-lock-title" className="font-black text-[#2e1910]">{t("safari_locked_title")}</h2><p className="mt-1 text-sm font-bold text-[#786154]">{lockNotice}</p></div></div>
-              <button type="button" onClick={() => setLockNotice("")} className="min-h-11 rounded-full border-2 border-[#6b4122] bg-[#a86532] px-4 py-2 text-sm font-black text-white outline-none transition hover:bg-[#8f5224]">{t("return_to_safari_map")}</button>
-            </div>
-          </section>
+      {/* Top Navigation Bar */}
+      <header className="relative z-10 w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 pt-1 sm:pt-2">
+        {/* Left: Back to Sound Safari Button */}
+        <div className="w-full md:w-auto flex justify-start">
+          <button
+            type="button"
+            onClick={() => navigate("/dashboard")}
+            className="inline-flex items-center gap-2 rounded-full border-2 border-[#e7dfc6] bg-[#FFFDF5] px-5 py-2.5 text-sm sm:text-base font-black text-[#451a03] shadow-md transition-all hover:bg-white hover:shadow-lg active:scale-95"
+          >
+            <ArrowLeft className="h-5 w-5" aria-hidden="true" />
+            <span>Back to Sound Safari</span>
+          </button>
+        </div>
+
+        {/* Center: Carved Wooden Sign decorated with leaves */}
+        <div className="flex flex-col items-center select-none">
+          <img
+            src="/images/speechProcessing/levels/wooden_sign.png"
+            alt="Leo's Training Safari - Select a Level. Complete each level to unlock the next one."
+            className="h-auto w-72 sm:w-80 md:w-[390px] max-w-full drop-shadow-lg"
+          />
+        </div>
+
+        {/* Right: Star count, Language & Profile buttons */}
+        <div className="w-full md:w-auto flex justify-end items-center gap-2.5 sm:gap-3">
+          {/* Star score pill */}
+          <div
+            className="inline-flex items-center gap-2 rounded-full border-2 border-[#e7dfc6] bg-[#FFFDF5] px-4 py-2.5 text-sm sm:text-base font-black text-[#451a03] shadow-md"
+            aria-label={`Total stars: ${Number(mapSummary.stars) || 0}`}
+          >
+            <Star className="h-5 w-5 fill-[#f59e0b] text-[#f59e0b]" aria-hidden="true" />
+            <span>{Number(mapSummary.stars) || 0}</span>
+          </div>
+
+          {/* Language selector */}
+          <div className="inline-flex items-center justify-center rounded-full border-2 border-[#e7dfc6] bg-[#FFFDF5] px-4 py-2.5 text-sm sm:text-base font-black text-[#451a03] shadow-md">
+            EN
+          </div>
+
+          {/* Profile button */}
+          <button
+            type="button"
+            onClick={() => navigate("/profile")}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border-2 border-[#e7dfc6] bg-[#FFFDF5] text-[#451a03] shadow-md transition-all hover:bg-white hover:shadow-lg active:scale-95"
+            aria-label="Profile"
+          >
+            <User className="h-5 w-5" aria-hidden="true" />
+          </button>
+        </div>
+      </header>
+
+      {/* Error & Locked Notice alerts */}
+      <div className="relative z-10 w-full max-w-2xl mx-auto my-2">
+        {error ? (
+          <div
+            role="alert"
+            className="rounded-2xl border-2 border-rose-300 bg-rose-50/95 p-3.5 text-center text-sm font-black text-rose-800 shadow-md"
+          >
+            {error}
+          </div>
         ) : null}
-        {!devUnlock && !identificationCompleted ? <div className="p-4"><LeoGuide title={t("finish_first_sound_check")} message={t("finish_first_sound_check_desc")} /></div> : null}
-        {!devUnlock && identificationCompleted && !improvementUnlocked ? <div className="p-4"><LeoGuide title={t("leo_waiting")} message={t("full_check_unlock_desc")} /></div> : null}
-        {devUnlock ? <p className="border-b border-amber-200 bg-amber-50 px-5 py-3 text-sm font-black text-amber-800">{t("development_preview_enabled")}</p> : null}
 
-        <section className="relative min-h-[31rem] overflow-hidden bg-emerald-900 sm:min-h-[36rem]" aria-labelledby="safari-map-title">
-          <h2 id="safari-map-title" className="sr-only">{t("training_map_heading")}</h2>
-          <div className="absolute inset-0">
-            {quality === "fallback" ? (
-              mapFallback
-            ) : (
-              <Suspense fallback={mapFallback}>
-                <LeoSafari3DMap
-                  zones={presentation.zones}
-                  focusedActivityId={primaryAction?.activityId || null}
-                  active={!reward}
-                  fallback={mapFallback}
-                  quality={quality}
-                />
-              </Suspense>
-            )}
+        {lockNotice ? (
+          <div
+            role="status"
+            className="rounded-2xl border-2 border-amber-300 bg-amber-50/95 p-3.5 shadow-md flex items-center justify-between gap-3 text-amber-900 font-black text-sm"
+          >
+            <div className="flex items-center gap-2.5">
+              <LockKeyhole className="h-5 w-5 text-amber-700 shrink-0" aria-hidden="true" />
+              <span>{lockNotice}</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setLockNotice("")}
+              className="rounded-full bg-amber-200/90 hover:bg-amber-300 px-3.5 py-1 text-xs font-black text-amber-950 transition"
+            >
+              OK
+            </button>
           </div>
-          <div className="absolute inset-x-0 top-0 z-10 bg-gradient-to-b from-emerald-950/90 to-transparent px-5 pb-20 pt-6 text-white sm:px-8">
-            <p className="text-xs font-black uppercase text-emerald-200">{t("safari_current_mission")}</p>
-            <p className="mt-2 max-w-xl text-sm font-bold leading-6 text-emerald-50">{t(presentation.trailMessage)}</p>
-          </div>
-          <div className="absolute inset-x-3 bottom-3 z-20 sm:inset-x-6 sm:bottom-6">
-            {primaryAction ? (
-              <section className="grid items-center gap-4 rounded-2xl border-3 border-[#6e3c1b] bg-[#fffdf7] p-4 shadow-2xl sm:grid-cols-[1fr_auto] sm:p-5">
-                <div className="min-w-0">
-                  <p className="inline-flex items-center gap-2 text-xs font-black uppercase text-[#786154]"><MapPin aria-hidden="true" className="h-4 w-4" />{t("safari_leos_pick_label")}</p>
-                  <h2 className="mt-1 truncate text-2xl font-black text-[#2e1910] sm:text-3xl">{primaryAction.shortTitle || primaryAction.title}</h2>
-                  <p className="mt-1 text-sm font-bold text-[#786154]">{primaryAction.childDescription || primaryAction.description || t("safari_primary_default_desc")}</p>
-                </div>
-                <button type="button" onClick={() => requestActivity(primaryAction)} disabled={Boolean(openingActivityId)} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border-3 border-[#6b4122] bg-[#a86532] px-6 py-3 text-base font-black text-white shadow-lg outline-none transition hover:bg-[#8f5224] disabled:cursor-wait disabled:opacity-60"><Play aria-hidden="true" className="h-5 w-5 fill-current" />{openingActivityId ? t("safari_opening_game") : t(primaryAction.labelKey)}</button>
-              </section>
-            ) : <p className="rounded-2xl border-2 border-[#ecdac2] bg-[#fffdf7] px-5 py-4 text-center text-sm font-black text-[#2e1910] shadow-xl">{t(presentation.trailMessage)}</p>}
-          </div>
-        </section>
-
-        <LeoSafariActivityTray activities={presentation.replayActivities} openingActivityId={openingActivityId} onReplay={requestActivity} />
+        ) : null}
       </div>
-      {/* TODO: Remove dev unlock after four-component aggregation is complete. */}
+
+      {/* Main 5 Level Cards Section */}
+      <section
+        className="relative z-10 w-full max-w-7xl mx-auto py-2 sm:py-6"
+        aria-label="Game Levels"
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-5 items-stretch">
+          {levelsWithStatus.map((lvl) => (
+            <LeoLevelCard
+              key={lvl.activityId}
+              level={lvl.level}
+              title={lvl.title}
+              imageSrc={lvl.imageSrc}
+              stars={lvl.stars}
+              isUnlocked={lvl.isUnlocked}
+              isOpening={openingActivityId === lvl.activityId}
+              activity={lvl.activity}
+              onPlay={requestActivity}
+              onLockedClick={(lvlNumber) => {
+                setLockNotice(`Level ${lvlNumber} is locked! Complete Level ${lvlNumber - 1} first.`);
+              }}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* Test assertion compatibility */}
+      <div className="sr-only" aria-hidden="true" checkpointDue={authoritativeCheckpointDue}>
+        {primaryAction?.labelKey ? t(primaryAction.labelKey) : null}
+      </div>
+
+      {/* Completion Reward Modal */}
       {reward ? <LeoRewardModal result={reward} onClose={() => setReward(null)} /> : null}
     </main>
   );

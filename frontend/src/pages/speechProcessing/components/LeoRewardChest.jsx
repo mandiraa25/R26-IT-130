@@ -13,23 +13,23 @@ function LeoRewardChest({
   if (variant === "adventure") {
     return (
       <div
-        className={`relative w-full max-w-[180px] rounded-[1.7rem] border-4 text-center shadow-2xl transition ${
+        className={`relative w-full min-w-[125px] max-w-[145px] rounded-[1.6rem] border-3 text-center shadow-xl transition ${
           unlocked
-            ? "border-amber-100 bg-gradient-to-br from-amber-200 via-yellow-300 to-orange-400 text-amber-950 shadow-amber-950/25"
-            : "border-amber-100 bg-gradient-to-b from-amber-50 to-orange-100 text-amber-950 shadow-emerald-950/25"
+            ? "border-amber-300 bg-gradient-to-br from-amber-100 to-orange-200 text-amber-950 ring-2 ring-amber-300/50"
+            : "border-[#d8c0a2] bg-[#fffdf7] text-amber-950"
         }`}
       >
-        <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full border-2 border-amber-100 bg-rose-600 px-3 py-1 text-[11px] font-black text-white shadow-lg">
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-rose-600 px-3 py-0.5 text-[10px] font-black uppercase text-white shadow-md whitespace-nowrap">
           {t("final_reward")}
         </div>
-        <div className="p-4 pt-6">
-          <div className={`mx-auto flex h-16 w-16 items-center justify-center rounded-[1.2rem] border-4 border-amber-100 bg-gradient-to-br from-yellow-300 to-orange-500 text-2xl font-black shadow-inner shadow-white/30 ${unlocked ? "animate-bounce" : ""}`}>
+        <div className="p-2.5 pt-3.5">
+          <div className={`mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-b from-amber-400 to-orange-500 text-sm font-black text-white shadow-md ${unlocked ? "animate-bounce" : ""}`}>
             {unlocked ? t("reward_open_short") : t("reward_go_short")}
           </div>
-          <h3 className="mt-3 text-base font-black leading-5">
+          <h3 className="mt-1.5 text-xs font-black leading-tight text-[#2e1910] px-1 line-clamp-2">
             {resolvedRewardLabel}
           </h3>
-          <p className="mt-1 text-xs font-black text-amber-800">
+          <p className="mt-0.5 text-[10px] font-bold text-[#786154]">
             {unlocked ? t("stars_collected", { count: totalStars }) : t("finish_every_level")}
           </p>
         </div>

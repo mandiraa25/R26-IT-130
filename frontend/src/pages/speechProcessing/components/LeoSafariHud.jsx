@@ -60,7 +60,7 @@ function LeoSafariHud({ stars = 0, completedCount = 0, checkpointDue = false, on
                   key={language}
                   type="button"
                   onClick={() => i18n.changeLanguage(language)}
-                  className={`min-h-9 min-w-9 rounded-full px-2 text-xs font-black outline-none transition focus-visible:ring-2 focus-visible:ring-amber-300 ${
+                  className={`min-h-11 min-w-11 rounded-full px-2 text-xs font-black outline-none transition focus-visible:ring-2 focus-visible:ring-amber-300 ${
                     active ? "bg-[#a86532] text-white shadow-sm" : "text-[#786154] hover:bg-amber-100/50"
                   }`}
                   aria-pressed={active}

@@ -148,6 +148,12 @@ const getActivityPlan = ({ speech = {}, recentAttempts = [] } = {}) => {
 
 const buildActivityMap = ({ speech = {}, plan } = {}) => {
   const completedSet = new Set(speech.completedActivityIds || []);
+  (speech.activityProgress || []).forEach((item) => {
+    if (item.status === "completed" || item.starsEarned > 0 || item.stars > 0) {
+      if (item.activityId) completedSet.add(item.activityId);
+    }
+  });
+
   const progressMap = normalizeProgress(speech).reduce((map, item) => {
     map[item.activityId] = item;
     return map;
@@ -159,13 +165,25 @@ const buildActivityMap = ({ speech = {}, plan } = {}) => {
     ? `Complete ${currentActivity.shortTitle || currentActivity.title} first.`
     : "Complete the activity shown as Leo's Pick first.";
 
-  return getImprovementActivities().map((activity) => {
+  const activities = getImprovementActivities();
+
+  return activities.map((activity, index) => {
     const saved = progressMap[activity.activityId] || {};
+    const prevActivity = index > 0 ? activities[index - 1] : null;
+    const prevCompleted = prevActivity
+      ? completedSet.has(prevActivity.activityId)
+      : true;
+
+    // Strict sequential rule:
+    // Level 1 (index 0) is unlocked by default.
+    // Level N (index > 0) is unlocked if Level N - 1 has been completed.
+    const isSequentialUnlocked = index === 0 || prevCompleted;
+
     const state = completedSet.has(activity.activityId)
       ? "completed"
-      : activity.activityId === currentActivityId
+      : activity.activityId === currentActivityId && isSequentialUnlocked
         ? "current"
-        : recommendedSet.has(activity.activityId) || activity.unlockedByDefault
+        : isSequentialUnlocked
           ? "available"
           : "locked";
 

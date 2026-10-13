@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 import { buildSafariPresentation } from "./leoSafariPresentation.utils.js";
+import { computeLevelProgression } from "./leoLevelProgression.utils.js";
 
 const readSiblingSource = (relativePath) =>
   readFileSync(new URL(relativePath, import.meta.url), "utf8");
@@ -165,3 +166,105 @@ test("language choices use an accessible group and 44 pixel targets", () => {
   assert.match(source, /className=\{`min-h-11 min-w-11/);
   assert.match(source, /aria-label=\{t\("safari_language_label"\)\}/);
 });
+
+const PROGRESSION_TEST_CONFIGS = [
+  { level: 1, activityId: "leo_first_sound_hunt", title: "Sound Detective" },
+  { level: 2, activityId: "leo_echo_roar", title: "Sound Matcher" },
+  { level: 3, activityId: "leo_robot_words", title: "Odd One Out" },
+  { level: 4, activityId: "leo_sound_twins", title: "Picture Stories" },
+  { level: 5, activityId: "leo_story_roar", title: "Jungle Challenge" },
+];
+
+test("sequential progression: initially Level 1 is unlocked and other 4 levels are locked", () => {
+  const result = computeLevelProgression({
+    configs: PROGRESSION_TEST_CONFIGS,
+    completedActivityIds: new Set(),
+  });
+
+  assert.equal(result[0].isUnlocked, true, "Level 1 must be unlocked");
+  assert.equal(result[1].isUnlocked, false, "Level 2 must be locked");
+  assert.equal(result[2].isUnlocked, false, "Level 3 must be locked");
+  assert.equal(result[3].isUnlocked, false, "Level 4 must be locked");
+  assert.equal(result[4].isUnlocked, false, "Level 5 must be locked");
+});
+
+test("sequential progression: backend available state cannot bypass predecessor locks", () => {
+  const zones = [
+    { activityId: "leo_first_sound_hunt", state: "current" },
+    { activityId: "leo_echo_roar", state: "locked" },
+    { activityId: "leo_robot_words", state: "available" },
+    { activityId: "leo_sound_twins", state: "available" },
+    { activityId: "leo_story_roar", state: "available" },
+  ];
+
+  const result = computeLevelProgression({
+    configs: PROGRESSION_TEST_CONFIGS,
+    completedActivityIds: new Set(),
+    zones,
+  });
+
+  assert.equal(result[0].isUnlocked, true);
+  assert.equal(result[1].isUnlocked, false);
+  assert.equal(result[2].isUnlocked, false, "Level 3 must stay locked");
+  assert.equal(result[3].isUnlocked, false, "Level 4 must stay locked");
+  assert.equal(result[4].isUnlocked, false, "Level 5 must stay locked");
+});
+
+test("sequential progression: completing Level 1 unlocks Level 2 while Levels 3, 4, 5 stay locked", () => {
+  const result = computeLevelProgression({
+    configs: PROGRESSION_TEST_CONFIGS,
+    completedActivityIds: new Set(["leo_first_sound_hunt"]),
+  });
+
+  assert.equal(result[0].isUnlocked, true);
+  assert.equal(result[0].isCompleted, true);
+  assert.equal(result[1].isUnlocked, true, "Level 2 unlocks after Level 1");
+  assert.equal(result[1].isCompleted, false);
+  assert.equal(result[2].isUnlocked, false, "Level 3 stays locked");
+  assert.equal(result[3].isUnlocked, false, "Level 4 stays locked");
+  assert.equal(result[4].isUnlocked, false, "Level 5 stays locked");
+});
+
+test("sequential progression: completing Level 1 and 2 unlocks Level 3 while 4 and 5 stay locked", () => {
+  const result = computeLevelProgression({
+    configs: PROGRESSION_TEST_CONFIGS,
+    completedActivityIds: new Set(["leo_first_sound_hunt", "leo_echo_roar"]),
+  });
+
+  assert.equal(result[0].isUnlocked, true);
+  assert.equal(result[1].isUnlocked, true);
+  assert.equal(result[2].isUnlocked, true, "Level 3 unlocks after Level 2");
+  assert.equal(result[3].isUnlocked, false, "Level 4 stays locked");
+  assert.equal(result[4].isUnlocked, false, "Level 5 stays locked");
+});
+
+test("sequential progression: completing Levels 1 through 4 unlocks Level 5", () => {
+  const result = computeLevelProgression({
+    configs: PROGRESSION_TEST_CONFIGS,
+    completedActivityIds: new Set([
+      "leo_first_sound_hunt",
+      "leo_echo_roar",
+      "leo_robot_words",
+      "leo_sound_twins",
+    ]),
+  });
+
+  assert.equal(result[0].isUnlocked, true);
+  assert.equal(result[1].isUnlocked, true);
+  assert.equal(result[2].isUnlocked, true);
+  assert.equal(result[3].isUnlocked, true);
+  assert.equal(result[4].isUnlocked, true, "Level 5 unlocks after Level 4");
+});
+
+test("sequential progression: devUnlock flag unlocks all 5 levels", () => {
+  const result = computeLevelProgression({
+    configs: PROGRESSION_TEST_CONFIGS,
+    completedActivityIds: new Set(),
+    devUnlock: true,
+  });
+
+  for (let i = 0; i < 5; i++) {
+    assert.equal(result[i].isUnlocked, true);
+  }
+});
+

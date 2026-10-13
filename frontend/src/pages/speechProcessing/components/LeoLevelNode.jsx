@@ -1,24 +1,17 @@
+import { Lock } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const stateStyles = {
   completed: "scale-100 bg-gradient-to-br from-amber-300 to-orange-500 text-white shadow-amber-950/25",
-  current: "scale-105 bg-gradient-to-br from-emerald-300 to-teal-600 text-white shadow-emerald-950/30 animate-pulse",
+  current: "scale-105 bg-gradient-to-br from-emerald-400 to-teal-600 text-white shadow-emerald-950/30 animate-pulse",
   invalid_retry: "scale-105 bg-gradient-to-br from-orange-300 to-rose-500 text-white shadow-orange-950/30",
-  locked: "bg-slate-200 text-slate-500 shadow-slate-950/10 opacity-70",
+  locked: "bg-slate-300/90 text-slate-600 shadow-slate-950/10",
 };
-
-const adventureColors = [
-  "from-orange-300 to-orange-500",
-  "from-lime-300 to-green-500",
-  "from-sky-300 to-blue-500",
-  "from-violet-300 to-purple-500",
-  "from-rose-300 to-pink-500",
-];
 
 function LeoLevelNode({ index, prompt, state, stars = 0, onClick, theme, compact = false, variant = "default" }) {
   const { t } = useTranslation("sp");
   const locked = state === "locked";
-  const label = prompt?.targetText || t("level_number", { number: index + 1 });
+  const label = prompt?.targetText || prompt?.targetSound || t("level_number", { number: index + 1 });
   const starText = state === "completed"
     ? "*".repeat(Math.max(1, Math.min(3, stars || 1)))
     : locked
@@ -26,56 +19,67 @@ function LeoLevelNode({ index, prompt, state, stars = 0, onClick, theme, compact
       : t("star_label");
 
   if (variant === "adventure") {
-    const color = adventureColors[index % adventureColors.length];
-    const nodeColor = state === "locked"
-      ? "from-slate-300 to-slate-500 text-slate-100"
-      : state === "current"
-        ? "from-emerald-300 to-teal-600 text-white"
-        : state === "invalid_retry"
-          ? "from-orange-300 to-rose-500 text-white"
-          : state === "completed"
-            ? "from-amber-300 to-orange-500 text-white"
-            : `${color} text-white`;
+    const showLockIcon = locked && index >= 2;
 
     return (
       <button
         type="button"
         disabled={locked}
         onClick={() => onClick?.(index)}
-        className={`group relative flex min-h-[104px] w-full max-w-[108px] flex-col items-center justify-start rounded-[1.7rem] p-1 transition focus:outline-none focus:ring-4 focus:ring-amber-100 ${
-          locked ? "cursor-not-allowed opacity-75" : "hover:-translate-y-1"
+        className={`group relative flex min-h-[110px] w-full max-w-[110px] flex-col items-center justify-start rounded-[1.7rem] p-1 transition focus:outline-none focus:ring-4 focus:ring-amber-100 ${
+          locked ? "cursor-not-allowed opacity-90" : "hover:-translate-y-1 cursor-pointer"
         }`}
         aria-label={t("level_aria_label", { number: index + 1, label })}
       >
-        <span className="absolute top-[50px] h-8 w-24 rounded-[999px] bg-stone-800/40 blur-sm" />
+        <span className="absolute top-[48px] h-6 w-20 rounded-[999px] bg-stone-900/25 blur-xs" />
+        
         {state === "invalid_retry" && (
-          <span className="absolute -top-2 z-30 rounded-full border-2 border-amber-50 bg-orange-500 px-2 py-1 text-[10px] font-black text-white shadow-lg">
+          <span className="absolute -top-2 z-30 rounded-full border-2 border-amber-50 bg-orange-500 px-2 py-0.5 text-[10px] font-black text-white shadow-lg">
             {t("try_again_label")}
           </span>
         )}
+
         {state === "current" && (
           <span
-            className="absolute top-1 h-[76px] w-[76px] animate-ping rounded-full opacity-45"
+            className="absolute top-1 h-[68px] w-[68px] animate-ping rounded-full opacity-35"
             style={{ backgroundColor: theme?.primaryColor || "#15803d" }}
           />
         )}
-        <span className="relative z-10 rounded-full bg-stone-600 p-1 shadow-2xl shadow-emerald-950/35">
+
+        {/* Node Circle */}
+        <span className="relative z-10 rounded-full bg-stone-500/80 p-0.5 shadow-xl">
           <span
-            className={`flex h-16 w-16 items-center justify-center rounded-full border-[5px] border-white bg-gradient-to-br text-2xl font-black shadow-inner shadow-white/20 ${nodeColor}`}
+            className={`flex h-15 w-15 items-center justify-center rounded-full border-4 border-white text-2xl font-black shadow-inner ${
+              state === "current"
+                ? "bg-gradient-to-br from-emerald-400 to-teal-600 text-white"
+                : state === "completed"
+                  ? "bg-gradient-to-br from-amber-300 to-orange-500 text-white"
+                  : index === 1
+                    ? "bg-gradient-to-br from-slate-200 to-blue-400 text-white"
+                    : "bg-gradient-to-br from-slate-200 to-slate-400 text-slate-600"
+            }`}
           >
-            {index + 1}
+            {showLockIcon ? (
+              <Lock className="h-6 w-6 text-slate-600 stroke-[2.5]" aria-hidden="true" />
+            ) : (
+              index + 1
+            )}
           </span>
         </span>
-        <span className="relative z-10 -mt-2 rounded-full border-2 border-emerald-50 bg-white px-3 py-1 text-[11px] font-black text-emerald-950 shadow-md">
+
+        {/* Word Badge (e.g. cat, bat, dog...) */}
+        <span className="relative z-10 -mt-1.5 rounded-full border-2 border-amber-100 bg-white px-3 py-0.5 text-[11px] font-black text-[#2e1910] shadow-sm max-w-[96px] truncate">
           {label}
         </span>
+
+        {/* Status Badge (Ready / Locked / Completed) */}
         <span
-          className={`relative z-10 mt-1 rounded-full px-2 py-0.5 text-[11px] font-black ${
+          className={`relative z-10 mt-1 rounded-full px-2.5 py-0.5 text-[10px] font-black shadow-2xs ${
             state === "completed"
               ? "bg-amber-100 text-amber-700"
-              : locked
-                ? "bg-slate-100 text-slate-500"
-                : "bg-emerald-950/80 text-amber-100"
+              : state === "current"
+                ? "bg-emerald-600 text-white"
+                : "bg-white/90 text-slate-500"
           }`}
         >
           {state === "completed" ? starText : locked ? t("locked_label") : t("ready_label")}
