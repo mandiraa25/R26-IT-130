@@ -1,5 +1,5 @@
 {
-  "screen_question_count": "ප්‍රශ්න {{total}}න් {{current}}",
+  "screen_question_count": "ප්‍රශ්නය {{current}} / {{total}}",
   "screen_question_progress": "ප්‍රශ්න ප්‍රගතිය",
   "screen_star_progress": "තරු: {{total}}න් {{current}}",
   "screen_picture_memory": "පින්තූර මතකය",
@@ -7,7 +7,10 @@
   "screen_instructions": "උපදෙස් අනුගමනය",
   "screen_remember_steps": "මේ පියවර මතක තබාගන්න",
   "screen_remember_order": "පිළිවෙළ මතක තබාගන්න.",
+  "screen_look_carefully": "හොඳින් බලන්න.",
+  "screen_look_remember": "හොඳින් බලන්න. පිළිවෙළ මතක තබාගන්න.",
   "screen_tap_answer": "ඔබේ පිළිතුර තෝරන්න.",
+  "screen_tap_order": "ඔබ මතක තබාගත් පිළිවෙළ තෝරන්න.",
   "screen_complete_badge": "මතක පරීක්ෂාව",
   "screen_complete_title": "මතක පරීක්ෂාව අවසන්!",
   "screen_complete_message": "උත්සාහ කළ ඔබට සුබ පැතුම්.",
@@ -56,8 +59,8 @@
   "needs_practice": "පුහුණුව අවශ්‍යයි:",
   "risk_level": "අවදානම් මට්ටම:",
   "super_brain": "ඔබට සුපිරි මොළයක් ඇත! 🧠✨",
-  "prep_memory_recall": "දී ඇති ඉලක්කම් අනුපිළිවෙලින් මතක තබා ගන්න",
-  "prep_picture_memory": "මෙම පින්තූර පිළිවෙලින් හොඳින් මතක තබාගන්න",
+  "prep_memory_recall": "මෙම අංක මතක තබා ගන්න",
+  "prep_picture_memory": "මෙම පින්තූර මතක තබා ගන්න",
   "prep_instruction": "උපදෙස් අසා පිළිවෙලින් මතක තබා ගන්න",
   "prep_pattern": "පහත රටාව සම්පූර්ණ කරන්න",
   "submit_answers": "පිළිතුරු ඉදිරිපත් කරන්න!",
@@ -161,6 +164,6 @@
   "screen_practice_label_instructions": "උපදෙස් අනුගමනය",
   "screen_practice_label_numbers": "සංඛ්යා මතකය",
   "screen_practice_label_words": "පින්තූර මතකය",
-  "screen_picture_recall": "ඔබ දුටු පින්තූර අනුපිළිවෙළ කුමක්ද?",
-  "screen_number_recall": "ඔබ දුටු සංඛ්යා අනුපිළිවෙළ කුමක්ද?"
+  "screen_picture_recall": "ඔබ දුටු අනුපිළිවෙළ කුමක්ද?",
+  "screen_number_recall": "ඔබ දුටු අනුපිළිවෙළ කුමක්ද?"
 }

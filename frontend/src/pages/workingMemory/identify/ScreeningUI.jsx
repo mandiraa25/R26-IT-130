@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { Home, ArrowRight, Star } from "lucide-react";
+import { Home, ArrowRight } from "lucide-react";
 import "./screening.css";
 import RecommendedPractice from "../components/RecommendedPractice";
 import { useNavigate } from "react-router-dom";
-import { MemoryStage, MemoryNav, MemoryTracker, MemoryBunny, MemoryBoard } from "../components/MemoryUI";
+import { MemoryStage, MemoryNav, MemoryBunny, MemoryBoard } from "../components/MemoryUI";
 
 const pictureBounds = new Map();
 
@@ -50,9 +50,8 @@ function ScreeningShell({ children, t, current = 0, total = 15, completed = fals
   const navigate = useNavigate();
   return (
     <MemoryStage level={1} className={`wm-screen lx-screening${completed ? " wm-screen--completed" : ""}`}>
-      <MemoryNav title={t("screen_complete_badge")} onBack={() => navigate("/dashboard")} />
-      {!completed && <MemoryTracker current={current + 1} total={total} responses={responses} />}
-      <MemoryBunny message={t(completed ? "screen_complete_message" : "screen_remember_order")} />
+      <MemoryNav title={t("screen_complete_badge")} onBack={() => navigate("/dashboard")} controls={false} />
+      <MemoryBunny />
       <div className="wm-screen__wrap">
         {!completed && <header className="wm-screen__tracking">
           <div className="wm-screen__trackers">
@@ -60,7 +59,7 @@ function ScreeningShell({ children, t, current = 0, total = 15, completed = fals
               {Array.from({ length: total }, (_, index) => {
                 const done = Boolean(responses[index]);
                 const active = !completed && index === current;
-                return <li key={index} aria-current={active ? "step" : undefined} aria-label={t("screen_progress_state", { current: index + 1, state: t(done ? "screen_done" : active ? "screen_current" : "screen_upcoming") })} className={done ? "is-done" : active ? "is-current" : ""}><Star aria-hidden="true" /></li>;
+                return <li key={index} aria-current={active ? "step" : undefined} aria-label={t("screen_progress_state", { current: index + 1, state: t(done ? "screen_done" : active ? "screen_current" : "screen_upcoming") })} className={done ? "is-done" : active ? "is-current" : ""}><span className="wm-screen__pip" /></li>;
               })}
             </ol>
           </div>
@@ -76,6 +75,21 @@ function ScreeningShell({ children, t, current = 0, total = 15, completed = fals
   );
 }
 
+const DOT_COLORS = { "🔴": "red", "🔵": "blue", "🟡": "yellow", "🟢": "green", "🟣": "purple", "🟠": "orange" };
+const isMissingToken = (token) => token === "?" || token === "__" || token === "__?";
+const patternTokens = (text) => String(text || "").split(/[\s,]+/).map((token) => token.trim()).filter(Boolean).reduce((tokens, token) => {
+  if (isMissingToken(token)) {
+    if (tokens[tokens.length - 1] !== "?") tokens.push("?");
+  } else tokens.push(token);
+  return tokens;
+}, []);
+
+function PatternToken({ token }) {
+  if (isMissingToken(token)) return <span className="wm-screen__missing" aria-hidden="true">?</span>;
+  if (DOT_COLORS[token]) return <span className={`wm-screen__dot wm-screen__dot--${DOT_COLORS[token]}`} aria-hidden="true" />;
+  return <span className="wm-screen__pattern-token">{token}</span>;
+}
+
 export function ScreeningQuestionScreen({ question, current, total, phase, t, heading, renderPictures, responses, audioState, onAnswer, onListen, onAudioFallback }) {
   const headingRef = useRef(null);
   const isPattern = question.category === "Pattern";
@@ -87,44 +101,55 @@ export function ScreeningQuestionScreen({ question, current, total, phase, t, he
   const answer = option => { if (submitted.current) return; submitted.current = true; setSelected(option); onAnswer(option); };
   useEffect(() => { headingRef.current?.focus({ preventScroll: true }); }, [question.id]);
   const steps = isInstruction ? question.text.split(/[,،]|\bthen\b|\bපසුව\b/iu).map(step => step.trim()).filter(Boolean) : [];
+  const isNumber = question.category === "Number Memory";
+  const hint = audioState === "unavailable" && isInstruction && phase === "audio"
+    ? t("screen_audio_unavailable")
+    : canAnswer
+      ? (isPicture || isNumber ? t("screen_tap_order") : t("screen_tap_answer"))
+      : isInstruction ? t("screen_look_carefully") : isPicture ? t("screen_look_remember") : t("screen_remember_order");
 
   return (
     <ScreeningShell t={t} current={current} total={total} responses={responses}>
       <header className="wm-screen__question-header">
         <span className="wm-screen__category">{t(categoryKeys[question.category])}</span>
-        <button type="button" onClick={onListen} className="wm-screen__listen" aria-label={t("identify_listen_briefing")} aria-pressed={audioState === "playing"}><img src="/images/phonologicalAwareness/Improvement/speaker.png" alt="" /><span>{t(audioState === "playing" ? "screen_audio_playing" : "identify_listen_briefing")}</span></button>
+        <div className="wm-screen__title-row">
+          <h1 ref={headingRef} tabIndex={-1} className="wm-screen__question-title" id="wm-screen-title">{heading}</h1>
+          <button type="button" onClick={onListen} className="wm-screen__listen" aria-label={t("identify_listen_briefing")} aria-pressed={audioState === "playing"}><img src="/images/phonologicalAwareness/Improvement/speaker.png" alt="" /><span>{t("identify_listen_briefing")}</span></button>
+        </div>
       </header>
-      <div className={`wm-screen__question-content${isPattern ? " wm-screen__question-content--pattern" : ""}`}>
-        <h1 ref={headingRef} tabIndex={-1} className="wm-screen__question-title" id="wm-screen-title">{heading}</h1>
+      <div className={`wm-screen__question-content${isPattern ? " wm-screen__question-content--pattern" : ""}${isInstruction ? " wm-screen__question-content--steps" : ""}${isPicture ? " wm-screen__question-content--pictures" : ""}${isNumber ? " wm-screen__question-content--numbers" : ""}`}>
         {isInstruction && phase === "audio" ? (
           <div className="wm-screen__instruction-area">
             <ol className="wm-screen__instruction-steps">
-              {steps.map((step, index) => <li key={`${index}-${step}`}><span>{index + 1}</span><p>{step}</p></li>)}
+              {steps.map((step, index) => <li key={`${index}-${step}`}><span>{index + 1}.</span><p>{step}</p></li>)}
             </ol>
-            <p className="wm-screen__hint" role="status">{t(audioState === "unavailable" ? "screen_audio_unavailable" : "screen_listen_remember")}</p>
             {audioState === "unavailable" && <button type="button" className="wm-screen__primary" onClick={onAudioFallback}>{t("screen_continue")}</button>}
           </div>
         ) : isPattern ? (
           <>
-            <div className="wm-screen__memory-panel wm-screen__pattern" aria-label={question.text}>{question.text}</div>
-            {<div className="wm-screen__options wm-screen__options--compact">
-              {question.options.map((option, index) => <button type="button" key={option} data-testid="wm-pattern-option" className={`wm-screen__option wm-screen__option--${index % 3}`} disabled={selected !== null} aria-pressed={selected === option} onClick={() => answer(option)}>{option}</button>)}
-            </div>}
+            <div className="wm-screen__pattern" aria-label={question.text}>
+              {patternTokens(question.text).map((token, index) => <PatternToken key={`${token}-${index}`} token={token} />)}
+            </div>
+            <div className="wm-screen__options wm-screen__options--pattern">
+              {question.options.map((option, index) => <button type="button" key={option} data-testid="wm-pattern-option" className={`wm-screen__option wm-screen__option--${index % 3}`} disabled={selected !== null} aria-pressed={selected === option} onClick={() => answer(option)}>
+                <PatternToken token={option} />
+                <span className="wm-screen__option-value">{option}</span>
+              </button>)}
+            </div>
           </>
         ) : !canAnswer ? (
-          <div className="wm-screen__memory-panel">
-            {isPicture ? renderPictures(question.words.join(", ")) : <NumberSequence sequence={question.sequence} />}
-            <p className="wm-screen__hint">{t("screen_remember_order")}</p>
+          <div className={`wm-screen__memory-panel${isPicture ? " wm-screen__memory-panel--pictures" : " wm-screen__memory-panel--plain"}`}>
+            {isPicture ? renderPictures(question.words.join(", ")) : <NumberSequence sequence={question.sequence} study />}
           </div>
         ) : (
-          <div className={`wm-screen__options${isInstruction ? " wm-screen__options--compact" : ""}`}>
-            {question.options.map((option, index) => <button type="button" key={option} data-testid="wm-choice-option" className={`wm-screen__option wm-screen__option--${index % 3}${isPicture ? " wm-screen__option--pictures" : ""}${question.category === "Number Memory" ? " wm-screen__option--numbers" : ""}`} disabled={selected !== null} aria-pressed={selected === option} onClick={() => answer(option)}>
-              {isPicture ? renderPictures(option) : question.category === "Number Memory" ? <NumberSequence sequence={option.split(",").map(item => item.trim())} /> : option}
+          <div className={`wm-screen__options${isInstruction ? " wm-screen__options--actions" : " wm-screen__options--orders"}`}>
+            {question.options.map((option, index) => <button type="button" key={option} data-testid="wm-choice-option" className={`wm-screen__option wm-screen__option--${index % 3}${isPicture ? " wm-screen__option--pictures" : ""}${isNumber ? " wm-screen__option--numbers" : ""}`} disabled={selected !== null} aria-pressed={selected === option} onClick={() => answer(option)}>
+              {isPicture ? renderPictures(option) : option}
             </button>)}
           </div>
         )}
       </div>
-      <footer className="wm-screen__question-footer"><p>{canAnswer ? t("screen_tap_answer") : isInstruction ? "" : t("look_closely")}</p></footer>
+      <footer className="wm-screen__question-footer"><p>{hint}</p></footer>
     </ScreeningShell>
   );
 }
@@ -163,6 +188,6 @@ export function ScreeningDemoCompleteScreen({ t, onStartReal, onTryAgain, onBack
   </ScreeningShell>;
 }
 
-function NumberSequence({ sequence }) {
-  return <span className="wm-screen__number-sequence" aria-label={sequence.join(", ")}>{sequence.map((number, index) => <span key={index}>{number}</span>)}</span>;
+function NumberSequence({ sequence, study = false }) {
+  return <span className={`wm-screen__number-sequence${study ? " wm-screen__number-sequence--study" : ""} wm-screen__number-sequence--${sequence.length}`} aria-label={sequence.join(", ")}>{sequence.map((number, index) => <span key={index}>{number}</span>)}</span>;
 }
