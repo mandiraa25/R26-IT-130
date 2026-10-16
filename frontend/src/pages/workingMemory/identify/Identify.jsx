@@ -63,13 +63,11 @@ const PictureSequence = ({ sequence }) => (
   <div className="wm-screen__picture-strip">
     {getPictureSequence(sequence).map((word, index) => {
       const image = wordToImageMap[word] || wordToImageMap[word.toLowerCase()];
-      return <React.Fragment key={word+'-'+index}>
-        {index > 0 && <span className="wm-screen__picture-arrow" aria-hidden="true">&rarr;</span>}
-        <div className="wm-screen__picture-item">
-          {image && <ScreeningPicture src={'/images/workingMemory/identify/'+image} alt={word} />}
-
+      return (
+        <div className="wm-screen__picture-item" key={`${word}-${index}`}>
+          {image && <ScreeningPicture src={`/images/workingMemory/identify/${image}`} alt="" />}
         </div>
-      </React.Fragment>;
+      );
     })}
   </div>
 );

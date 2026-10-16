@@ -31,7 +31,7 @@ export function MemoryStage({ level = 1, children, className = "", background })
 export function MemoryButton({ children, variant = "primary", className = "", ...props }) {
   return <button type="button" {...props} className={`lx-button lx-button--${variant} ${className}`}>{children}</button>;
 }
-export function MemoryNav({ title, onBack, stars = 0, language = false, map = false }) {
+export function MemoryNav({ title, onBack, stars = 0, language = false, map = false, controls = true }) {
   const { i18n } = useTranslation();
   const { muted, toggle } = useMemoryMusic();
   return <header className="lx-nav">
@@ -40,8 +40,10 @@ export function MemoryNav({ title, onBack, stars = 0, language = false, map = fa
       <div className="lx-nav-title">{title}</div>
     </div>
     <div className="lx-nav-right">
-      <div className="lx-nav-stars" aria-label={`${stars} stars`}><img src={`${UI}/nav/nav-star-pill.png`} alt="" /><strong>{stars}</strong></div>
-      <button className={`lx-nav-icon ${muted ? "is-muted" : ""}`} type="button" onClick={toggle} aria-label={muted ? "Unmute music" : "Mute music"} aria-pressed={muted}><img src={`${UI}/nav/nav-music.png`} alt="" />{muted && <span className="lx-mute-slash" />}</button>
+      {controls && <>
+        <div className="lx-nav-stars" aria-label={`${stars} stars`}><img src={`${UI}/nav/nav-star-pill.png`} alt="" /><strong>{stars}</strong></div>
+        <button className={`lx-nav-icon ${muted ? "is-muted" : ""}`} type="button" onClick={toggle} aria-label={muted ? "Unmute music" : "Mute music"} aria-pressed={muted}><img src={`${UI}/nav/nav-music.png`} alt="" />{muted && <span className="lx-mute-slash" />}</button>
+      </>}
       {language && <div className="lx-nav-language" style={{ backgroundImage: `url('${UI}/nav/nav-lang-${i18n.language?.startsWith("si") ? "si" : "en"}.png')` }}>
         <button onClick={() => i18n.changeLanguage("en")} aria-pressed={!i18n.language?.startsWith("si")}>EN</button><button lang="si" onClick={() => i18n.changeLanguage("si")} aria-pressed={i18n.language?.startsWith("si")}>සිං</button>
       </div>}
