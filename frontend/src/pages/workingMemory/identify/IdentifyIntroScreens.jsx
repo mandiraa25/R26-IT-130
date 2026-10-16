@@ -1,153 +1,102 @@
-import React from "react";
+import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import { ArrowLeft, ChevronRight } from "lucide-react";
+import "./identifyIntro.css";
+import { ScreeningDemoCompleteScreen } from "./ScreeningUI";
+import { MemoryStage, MemoryNav } from "../components/MemoryUI";
 
-const IDENTIFY_BG = "/images/workingMemory/identify/working-memory-identify-quiz-bg.jpeg";
+const SHARED_ART = "/images/dashboard/activity-popup/";
+const INTRO_ART = "/images/workingMemory/identify/intro/";
 
-const IntroShell = ({ gradeLabel, t, children, onBack }) => (
-  <div
-    className="min-h-screen w-full flex flex-col items-center justify-center p-4 sm:p-6 font-sans bg-cover bg-center bg-no-repeat relative overflow-y-auto"
-    style={{ backgroundImage: `url('${IDENTIFY_BG}')` }}
-  >
-    <div className="absolute inset-0 bg-sky-900/20 backdrop-blur-[2px]" />
-    <div className="relative z-10 w-full max-w-2xl">
-      <div className="mb-4 flex items-center justify-between gap-3">
-        <button
-          type="button"
-          onClick={onBack}
-          className="rounded-full bg-white/90 px-4 py-2 text-sm font-black text-amber-800 shadow-md hover:bg-white"
-        >
-          ← {t("back_home")}
-        </button>
-        <span className="rounded-full bg-amber-400 px-4 py-1.5 text-xs font-black uppercase tracking-wider text-amber-950 shadow-md">
-          {gradeLabel}
-        </span>
-      </div>
-      {children}
+function IntroShell({ gradeLabel, t, children, onClose, kind, title, subtitle, helper, testId }) {
+  const { i18n } = useTranslation();
+  const closeRef = useRef(null);
+  const panelRef = useRef(null);
+  useEffect(() => {
+    const previousFocus = document.activeElement;
+    closeRef.current?.focus();
+    const onKey = (event) => {
+      if (event.key === "Escape") onClose();
+      if (event.key !== "Tab") return;
+      const buttons = [...panelRef.current.querySelectorAll("button:not(:disabled)")];
+      const first = buttons[0], last = buttons[buttons.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("keydown", onKey); previousFocus?.focus(); };
+  }, [onClose]);
+  const localized = (i18n.resolvedLanguage || i18n.language).startsWith("si");
+  return (
+    <MemoryStage level={1} className="lx-screening-intro">
+    <MemoryNav title={t("intro_choice_title")} onBack={onClose} />
+    <div className="wm-intro-scene">
+      <div className="wm-intro-dimmer" aria-hidden="true" />
+      <section ref={panelRef} role="dialog" aria-modal="true" aria-labelledby="wm-intro-title" data-testid={testId} className={'wm-intro-panel wm-intro-panel--'+kind+(localized ? ' wm-intro-panel--si' : '')}>
+        <img className="wm-intro-board" src={INTRO_ART+kind+'-board.png'} alt="" draggable="false" />
+        <button ref={closeRef} type="button" className="wm-intro-close" onClick={onClose} aria-label={t("common:close_activity_popup")}><img src={SHARED_ART+'close-wooden.png'} alt="" /></button>
+        <header className="wm-intro-header">
+          <img className="wm-intro-bunny" src={SHARED_ART+'bunny-separated.png'} alt="" draggable="false" />
+          <div className="wm-intro-heading">
+            <span className="wm-intro-grade">{gradeLabel}</span>
+            <h1 id="wm-intro-title">{title}</h1>
+            <p className="wm-intro-subtitle">{subtitle}</p>
+            {helper && <p className="wm-intro-helper">{helper}</p>}
+          </div>
+        </header>
+        {children}
+      </section>
     </div>
-  </div>
-);
+    </MemoryStage>
+  );
+}
+
+const PlayArrow = () => <svg className="wm-intro-play" viewBox="0 0 32 36" aria-hidden="true"><path d="M5 2 Q1 0 1 5 V31 Q1 36 5 34 L29 20 Q33 18 29 16 Z" fill="currentColor" /></svg>;
 
 export const WelcomeScreen = ({ gradeLabel, t, onTryDemo, onStartTest, onBack }) => (
-  <IntroShell gradeLabel={gradeLabel} t={t} onBack={onBack}>
-    <div
-      data-testid="wm-identify-welcome"
-      className="rounded-[2.5rem] border-4 border-white/50 bg-white/95 p-8 sm:p-10 text-center shadow-2xl animate-fadeIn"
-    >
-      <div className="mx-auto mb-4 text-6xl">🐰</div>
-      <h1 className="text-3xl sm:text-4xl font-black text-amber-900 mb-3">{t("identify_welcome_title")}</h1>
-      <p className="text-base sm:text-lg font-bold text-slate-600 leading-relaxed mb-6">{t("identify_welcome_subtitle")}</p>
+  <IntroShell gradeLabel={gradeLabel} t={t} onClose={onBack} kind="choice" title={t("intro_choice_title")} subtitle={t("intro_choice_subtitle")} helper={t("intro_choice_helper")} testId="wm-identify-welcome">
+    <div className="wm-choice-cards">
+      <article className="wm-choice-card wm-choice-card--demo">
+        <img className="wm-choice-art" src={INTRO_ART+'controller.png'} alt="" />
+        <h2>{t("intro_demo_title")}</h2>
+        <p>{t("intro_demo_questions")}</p>
+        <small>{t("intro_demo_unsaved")}</small>
+        <button type="button" data-testid="wm-identify-try-demo" onClick={onTryDemo} className="wm-intro-action wm-intro-action--green"><span>{t("intro_demo_title")}</span><PlayArrow /></button>
+      </article>
+      <article className="wm-choice-card wm-choice-card--check">
+        <img className="wm-choice-art" src={SHARED_ART+'magnifier-separated.png'} alt="" />
+        <h2>{t("intro_choice_title")}</h2>
+        <p>{t("intro_check_description")}</p>
+        <button type="button" data-testid="wm-identify-start-test" onClick={onStartTest} className="wm-intro-action"><span>{t("identify_start_test")}</span><PlayArrow /></button>
+      </article>
+    </div>
+    <button type="button" onClick={onBack} className="wm-intro-back-link"><ArrowLeft aria-hidden="true" />{t("intro_back")}</button>
+  </IntroShell>
+);
 
-      <div className="mb-8 rounded-2xl border-2 border-sky-200 bg-sky-50 px-5 py-4 text-left">
-        <p className="flex items-start gap-2 text-sm sm:text-base font-bold text-sky-900">
-          <span className="text-xl shrink-0">💡</span>
-          {t("identify_try_demo_hint")}
-        </p>
-      </div>
+const steps = [{ image: "look", key: "intro_look" }, { image: "remember", key: "intro_remember" }, { image: "answer", key: "intro_answer" }];
+const activities = [{ image: "pattern", key: "intro_rule_pattern" }, { image: "pictures", key: "intro_rule_pictures" }, { image: "instructions", key: "intro_rule_instructions" }, { image: "numbers", key: "intro_rule_numbers" }];
 
-      <div className="flex flex-col sm:flex-row gap-4">
-        <button
-          type="button"
-          data-testid="wm-identify-try-demo"
-          onClick={onTryDemo}
-          className="flex-1 rounded-2xl border-b-6 border-sky-700 bg-gradient-to-b from-sky-400 to-sky-600 px-6 py-4 text-lg font-black uppercase tracking-wide text-white shadow-lg transition-transform hover:-translate-y-0.5 active:translate-y-0.5"
-        >
-          🎮 {t("identify_try_demo")}
-        </button>
-        <button
-          type="button"
-          data-testid="wm-identify-start-test"
-          onClick={onStartTest}
-          className="flex-1 rounded-2xl border-b-6 border-emerald-700 bg-gradient-to-b from-emerald-400 to-emerald-600 px-6 py-4 text-lg font-black uppercase tracking-wide text-white shadow-lg transition-transform hover:-translate-y-0.5 active:translate-y-0.5"
-        >
-          ▶ {t("identify_start_test")}
-        </button>
-      </div>
+export const BriefingScreen = ({ gradeLabel, t, onReady, onBack, onClose = onBack, onListen }) => (
+  <IntroShell gradeLabel={gradeLabel} t={t} onClose={onClose} kind="rules" title={t("intro_rules_title")} subtitle={t("intro_rules_subtitle")} testId="wm-identify-briefing">
+    <button type="button" className="wm-intro-listen" onClick={onListen} aria-label={t("identify_listen_briefing")} title={t("identify_listen_briefing")}><img src="/images/phonologicalAwareness/Improvement/speaker.png" alt="" /></button>
+    <ol className="wm-rules-steps">
+      {steps.map((step, index) => <li key={step.image}>
+        <span className="wm-rules-step-number">{index + 1}</span>
+        <img src={INTRO_ART+step.image+'.png'} alt="" />
+        <span className="wm-rules-step-label">{t(step.key)}</span>
+        {index < steps.length - 1 && <ChevronRight className="wm-rules-chevron" aria-hidden="true" />}
+      </li>)}
+    </ol>
+    <p className="wm-rules-hide-note">{t("intro_items_hide")}</p>
+    <div className="wm-rules-activities">
+      {activities.map(activity => <div key={activity.image} className={'wm-rules-activity wm-rules-activity--'+activity.image}><img src={INTRO_ART+activity.image+'.png'} alt="" /><p>{t(activity.key)}</p></div>)}
+    </div>
+    <div className="wm-rules-actions">
+      <button type="button" onClick={onBack} className="wm-intro-action wm-intro-action--back"><ArrowLeft aria-hidden="true" /><span>{t("intro_back")}</span></button>
+      <button type="button" data-testid="wm-identify-ready" onClick={onReady} className="wm-intro-action"><span>{t("intro_ready")}</span><PlayArrow /></button>
     </div>
   </IntroShell>
 );
 
-const briefingItems = [
-  { icon: "🔴🔵", key: "identify_briefing_pattern" },
-  { icon: "🖼️", key: "identify_briefing_words" },
-  { icon: "👂", key: "identify_briefing_instructions" },
-  { icon: "🔢", key: "identify_briefing_numbers" },
-];
-
-export const BriefingScreen = ({ gradeLabel, t, onReady, onBack, onListen }) => (
-  <IntroShell gradeLabel={gradeLabel} t={t} onBack={onBack}>
-    <div
-      data-testid="wm-identify-briefing"
-      className="rounded-[2.5rem] border-4 border-white/50 bg-white/95 p-6 sm:p-9 shadow-2xl animate-fadeIn"
-    >
-      <div className="text-center mb-6">
-        <div className="mx-auto mb-3 text-5xl">🧠</div>
-        <h1 className="text-3xl font-black text-amber-900">{t("identify_briefing_title")}</h1>
-        <p className="mt-3 text-base font-bold text-slate-600 leading-relaxed">{t("identify_briefing_intro")}</p>
-        <button
-          type="button"
-          onClick={onListen}
-          className="mt-3 inline-flex items-center gap-2 rounded-full bg-amber-100 px-4 py-2 text-sm font-black text-amber-800"
-        >
-          🔊 {t("identify_listen_briefing")}
-        </button>
-      </div>
-
-      <p className="mb-4 text-center text-sm font-black uppercase tracking-wider text-amber-700">{t("identify_briefing_flow")}</p>
-
-      <div className="mb-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {briefingItems.map((item) => (
-          <div key={item.key} className="flex items-center gap-3 rounded-2xl border-2 border-amber-100 bg-amber-50/80 px-4 py-3">
-            <span className="text-2xl shrink-0">{item.icon}</span>
-            <span className="text-sm font-bold text-amber-950 text-left">{t(item.key)}</span>
-          </div>
-        ))}
-      </div>
-
-      <button
-        type="button"
-        data-testid="wm-identify-ready"
-        onClick={onReady}
-        className="w-full rounded-2xl border-b-6 border-emerald-700 bg-gradient-to-b from-emerald-400 to-emerald-600 px-6 py-4 text-xl font-black uppercase tracking-wide text-white shadow-lg transition-transform hover:-translate-y-0.5 active:translate-y-0.5"
-      >
-        {t("identify_ready_button")}
-      </button>
-    </div>
-  </IntroShell>
-);
-
-export const DemoCompleteScreen = ({ t, onStartReal, onTryAgain, onBackHome }) => (
-  <div
-    data-testid="wm-demo-finished"
-    className="min-h-screen bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center p-6 font-sans"
-  >
-    <div className="max-w-xl w-full bg-white rounded-[3rem] shadow-[0_20px_0_rgba(0,0,0,0.1)] p-10 text-center">
-      <div className="text-6xl mb-4">🎮✨</div>
-      <h2 className="text-4xl font-black text-slate-800 mb-3">{t("identify_demo_complete_title")}</h2>
-      <p className="text-lg font-bold text-slate-500 mb-8">{t("identify_demo_complete_msg")}</p>
-
-      <div className="flex flex-col gap-3">
-        <button
-          type="button"
-          data-testid="wm-identify-start-real-after-demo"
-          onClick={onStartReal}
-          className="w-full rounded-2xl border-b-6 border-emerald-700 bg-emerald-500 py-4 text-lg font-black uppercase text-white shadow-lg"
-        >
-          {t("identify_start_real_test")} ➔
-        </button>
-        <button
-          type="button"
-          onClick={onTryAgain}
-          className="w-full rounded-2xl border-b-6 border-sky-600 bg-sky-100 py-4 text-lg font-black uppercase text-sky-800"
-        >
-          {t("identify_try_demo_again")}
-        </button>
-        <button
-          type="button"
-          onClick={onBackHome}
-          className="w-full rounded-2xl border-b-6 border-slate-300 bg-slate-100 py-4 text-lg font-black uppercase text-slate-600"
-        >
-          {t("identify_back_dashboard")}
-        </button>
-      </div>
-    </div>
-  </div>
-);
+export const DemoCompleteScreen = props => <ScreeningDemoCompleteScreen {...props} />;

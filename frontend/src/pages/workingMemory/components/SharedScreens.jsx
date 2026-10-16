@@ -1,3 +1,4 @@
+import ActionButton from "./ActionButton";
 import React from "react";
 import LanguageSwitcher from "../../../components/common/LanguageSwitcher";
 import { formatYouTubeEmbedUrl } from "../utils/helpers";
@@ -28,7 +29,7 @@ export const Header = ({
         <button
           onClick={handleBackToLevels}
           className="w-11 h-11 md:w-12 md:h-12 shrink-0 rounded-full bg-white hover:bg-slate-50 border-4 border-yellow-400 text-yellow-600 flex items-center justify-center text-2xl font-black transition-all transform hover:-translate-y-1 hover:scale-105 active:translate-y-0.5 shadow-[var(--shadow-soft)] cursor-pointer"
-          title="Go Back"
+          title="Go Back" aria-label="Go back to levels"
         >
           ←
         </button>
@@ -53,6 +54,7 @@ export const Header = ({
           </div>
         )}
         <button
+          aria-label={soundEnabled ? "Mute sound" : "Enable sound"} aria-pressed={soundEnabled}
           onClick={() => setSoundEnabled(!soundEnabled)}
           className={`w-11 h-11 md:w-12 md:h-12 shrink-0 rounded-full flex items-center justify-center text-lg shadow-[var(--shadow-soft)] border-4 active:translate-y-0.5 transition-all cursor-pointer ${
             soundEnabled ? "bg-white border-purple-400 hover:bg-slate-50 text-purple-600" : "bg-gray-100 border-gray-400 hover:bg-gray-200 text-gray-400"
@@ -88,7 +90,7 @@ export const WoodenQuestionProgress = ({ currentQuestion, totalQuestions, comple
       aria-valuemax={totalQuestions || 5}
       aria-valuenow={activeQuestion}
     >
-      <img className="wooden-question-progress__stick" src={`${WOODEN_PROGRESS_BASE}/lexiland_wooden_stick.png`} alt="" aria-hidden="true" />
+      <img className="wooden-question-progress__stick" src="/images/workingMemory/improve/reference-art/question-tracker.png" alt="" aria-hidden="true" />
       <div className="wooden-question-progress__numbers">
         {[1, 2, 3, 4, 5].map((number) => {
           const isCompleted = explicitlyCompleted
@@ -180,12 +182,12 @@ export const VideoScreen = ({
                     >
                       🔄 {i18n.language?.startsWith("si") ? "නැවත නරඹන්න" : "Replay Video"}
                     </button>
-                    <button
+                    <ActionButton action="try-again"
                       onClick={startQuiz}
                       className="px-8 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-2xl font-black shadow-lg shadow-emerald-500/30 transition-all transform hover:scale-105 flex items-center gap-2 cursor-pointer uppercase tracking-wider"
                     >
                       🚀 {i18n.language?.startsWith("si") ? "ඉක්මනින් ක්‍රීඩා කරන්න" : "Skip and Play"}
-                    </button>
+                    </ActionButton>
                   </div>
                 </div>
               )}
@@ -198,12 +200,12 @@ export const VideoScreen = ({
           )}
         </div>
 
-        <button
+        <ActionButton action="try-again"
           onClick={startQuiz}
           className="bg-emerald-500 hover:bg-emerald-600 border-b-6 md:border-b-8 border-emerald-700 text-white font-black text-xl md:text-2xl px-8 md:px-12 py-3 md:py-4 rounded-[1.5rem] md:rounded-[2rem] shadow-xl hover:scale-105 active:scale-95 transition-all transform uppercase tracking-wider flex items-center gap-3 cursor-pointer shrink-0"
         >
           <span>🚀</span> {i18n.language?.startsWith("si") ? "ඉක්මනින් ක්‍රීඩා කරන්න" : "Skip and Play"}
-        </button>
+        </ActionButton>
       </div>
     </main>
   );
@@ -233,9 +235,9 @@ export const LegacyIntroScreen = ({ i18n, subCategoryKey, levelNumber, onReady }
             <p className="text-emerald-950 font-black text-xl md:text-2xl leading-snug">{instructions[subCategoryKey]}</p>
           </div>
           <p className="mt-4 text-white/90 font-black uppercase tracking-widest text-sm">{isSinhala ? `මට්ටම ${levelNumber}` : `Level ${levelNumber}`}</p>
-          <button onClick={onReady} className={`${accent} text-white font-black text-xl px-9 py-3 rounded-2xl border-b-6 shadow-xl mt-4 uppercase tracking-wider transition-transform hover:scale-105 active:translate-y-1`}>
+          <ActionButton action="play" onClick={onReady} className={`${accent} text-white font-black text-xl px-9 py-3 rounded-2xl border-b-6 shadow-xl mt-4 uppercase tracking-wider transition-transform hover:scale-105 active:translate-y-1`}>
             ▶ {subCategoryKey === "pattern" ? (isSinhala ? "ආරම්භ කරන්න" : "Start") : (isSinhala ? "ක්‍රීඩා කිරීමට සූදානම්" : "Ready to Play")}
-          </button>
+          </ActionButton>
         </div>
       </div>
     </main>
@@ -254,23 +256,24 @@ export const IntroScreen = ({ i18n, subCategoryKey, levelNumber, onReady }) => {
 
   return (
     <main className="relative z-10 flex-1 w-full min-h-0 px-2 sm:px-4 py-2 flex items-center justify-center overflow-hidden animate-fadeIn">
-      <div className="flex items-center justify-center">
-        <button
+      <section className="wm-ready-board" style={{ backgroundImage: `url('${getWorkingMemoryThemeAssets(levelNumber).questionBoard}')` }}>
+        <img className="wm-ready-bunny" src="/images/workingMemory/improve/reference-art/bunny.png" alt="" />
+        <ActionButton action="play"
           type="button"
           onClick={onReady}
           aria-label={isSinhala ? "ක්‍රීඩාව ආරම්භ කරන්න" : "Start the game"}
           className={`${accent} min-h-12 px-7 py-2.5 rounded-2xl border-b-4 text-white font-black text-[clamp(.8rem,1.7vw,1.1rem)] shadow-lg uppercase tracking-wide transition-transform hover:scale-105 active:translate-y-1 cursor-pointer`}
         >
           {isPictureMemory ? (isSinhala ? "ආරම්භ කරන්න" : "Start") : (isSinhala ? "ක්‍රීඩා කිරීමට සූදානම්" : "Ready to Play")}
-        </button>
-      </div>
+        </ActionButton>
+      </section>
     </main>
   );
 };
 
 export const BunnyMascot = ({ screen }) => (
   <img
-    src={`/images/workingMemory/improve/boards/wm_bunny_${screen === "answer" ? "answer" : "question"}.png`}
+    src={`/images/workingMemory/improve/reference-art/bunny-${screen === "answer" ? "answer" : "question"}.png`}
     alt=""
     aria-hidden="true"
     className="pointer-events-none absolute -left-10 md:-left-24 bottom-0 z-20 hidden w-48 md:block md:w-64 lg:-left-32 lg:w-72"
@@ -362,27 +365,27 @@ export const ResultScreen = ({ score, questions, earnedStars, totalStars, t, isS
         <div className="flex gap-3 w-full max-w-md mt-3 shrink-0">
           {showGameNavigation ? (
             <>
-              <button onClick={startQuiz} className="flex-1 bg-sky-500 hover:bg-sky-600 border-b-5 border-sky-700 text-white font-black text-sm sm:text-base py-3 px-2 rounded-2xl transition-all active:translate-y-1 uppercase shadow-lg cursor-pointer">
+              <ActionButton action="try-again" onClick={startQuiz} className="flex-1 bg-sky-500 hover:bg-sky-600 border-b-5 border-sky-700 text-white font-black text-sm sm:text-base py-3 px-2 rounded-2xl transition-all active:translate-y-1 uppercase shadow-lg cursor-pointer">
                 Back to Game
-              </button>
-              <button onClick={handleBackToLevels} className="flex-1 bg-amber-500 hover:bg-amber-600 border-b-5 border-amber-700 text-white font-black text-sm sm:text-base py-3 px-2 rounded-2xl transition-all active:translate-y-1 uppercase shadow-lg cursor-pointer">
+              </ActionButton>
+              <ActionButton action="back" onClick={handleBackToLevels} className="flex-1 bg-amber-500 hover:bg-amber-600 border-b-5 border-amber-700 text-white font-black text-sm sm:text-base py-3 px-2 rounded-2xl transition-all active:translate-y-1 uppercase shadow-lg cursor-pointer">
                 Games Dashboard
-              </button>
+              </ActionButton>
             </>
           ) : isPassed ? (
-            <button
+            <ActionButton action="continue"
               onClick={handleNextSubCategory}
               className="w-full bg-emerald-500 hover:bg-emerald-600 border-b-5 border-emerald-700 text-white font-black text-lg py-3 rounded-2xl transition-all active:translate-y-1 active:border-b-0 uppercase shadow-lg cursor-pointer"
             >
               {t("next_activity")} ➔
-            </button>
+            </ActionButton>
           ) : (
-            <button
+            <ActionButton action="try-again"
               onClick={startQuiz}
               className="w-full bg-sky-500 hover:bg-sky-600 border-b-5 border-sky-700 text-white font-black text-lg py-3 rounded-2xl transition-all active:translate-y-1 active:border-b-0 uppercase shadow-lg cursor-pointer"
             >
               {t("play_again", { defaultValue: "Try Again" })}
-            </button>
+            </ActionButton>
           )}
         </div>
         </div>

@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useMemoryMusic } from "./utils/memoryMusic";
+import { selectAttemptQuestions } from "./utils/attemptQuestions";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { getStudentProfile } from "../../services/student/api";
-import { getStudentProgress, submitSubCategoryAttempt } from "../../services/workingMemory/improveApi";
+import { getWorkingMemoryAccess, submitSubCategoryAttempt } from "../../services/workingMemory/improveApi";
 import { getSubCategoryData } from "./data/improvement";
 import { getLevelDisplaySeconds, SUBCATEGORY_ORDER } from "./data/improvement/config";
 
@@ -14,13 +15,13 @@ import WordsGame from "./games/WordsGame";
 import InstructionsGame from "./games/Instructionsgame";
 import NumbersGame from "./games/Numbersgame";
 
-const COMMON_BACKGROUND = "/images/workingMemory/improve/common/common_bg.png";
+const COMMON_BACKGROUND = "/images/workingMemory/ui/backgrounds/bg-level1.webp";
 const HOW_TO_WATCH_BUNNY = "/images/workingMemory/improve/boards/wm_bunny_question.png";
 const LEVEL_CARD_BACKS = {
-  1: "/images/workingMemory/improve/cards/level1/level1carrot_card_back.png",
-  2: "/images/workingMemory/improve/cards/level2/level2carrot_card_back.png",
-  3: "/images/workingMemory/improve/cards/level3/level3carrot_card_back.png",
-  4: "/images/workingMemory/improve/cards/level4/level4carrot_card_back.png",
+  1: "/images/workingMemory/improve/reference-art/card-back-level-1.png",
+  2: "/images/workingMemory/improve/reference-art/card-back-level-2.png",
+  3: "/images/workingMemory/improve/reference-art/card-back-level-3.png",
+  4: "/images/workingMemory/improve/reference-art/card-back-level-4.png",
 };
 const FRONT_CARD = "/images/workingMemory/improve/cards/front_card.png";
 const WM_PROFILE_CACHE = "wm-profile-cache";
@@ -40,15 +41,6 @@ const shuffleIntoDifferentOrder = (items) => {
   return shuffled;
 };
 
-const cachedAccessState = (levelNumber, subCategoryKey) => {
-  const progress = readSessionCache(WM_PROGRESS_CACHE);
-  if (!progress) return "checking";
-  if (!progress.isIdentificationCompleted) return "denied_identification";
-  const level = progress.levelsProgress?.find((item) => item.levelNumber === Number(levelNumber));
-  const activity = level?.subCategories?.find((item) => item.subCategoryKey === subCategoryKey);
-  return activity?.isUnlocked ? "allowed" : "denied_locked";
-};
-
 const PATTERN_HOW_TO_PLAY_VIDEO = "https://youtu.be/uAqYnG7B0w8";
 const STARS_PER_CORRECT = 5;
 
@@ -61,7 +53,8 @@ export default function ImprovementActivityWM() {
   const { t, i18n } = useTranslation("wm");
 
   const [profile, setProfile] = useState(() => readSessionCache(WM_PROFILE_CACHE));
-  const [accessState, setAccessState] = useState(() => cachedAccessState(levelNumber, subCategoryKey));
+  const [accessState, setAccessState] = useState("checking");
+  const [accessRetry, setAccessRetry] = useState(0);
   const [phase, setPhase] = useState("video"); // 'video' | 'intro' | 'show' | 'countdown' | 'answer' | 'feedback' | 'result'
   const [subCatData, setSubCatData] = useState(null);
   const [questions, setQuestions] = useState([]);
@@ -69,6 +62,10 @@ export default function ImprovementActivityWM() {
   const [score, setScore] = useState(0);
   const [results, setResults] = useState([]);
   const latestResultRef = useRef(null);
+  const answeredQuestionRef = useRef(false);
+  const nextTransitionRef = useRef(false);
+  const previousQuestionIdsRef = useRef([]);
+  const undoHistoryRef = useRef([]);
   const submissionStartedRef = useRef(false);
   const wordsSpeechTimeoutRef = useRef(null);
   const [earnedStars, setEarnedStars] = useState(0);
@@ -82,7 +79,9 @@ export default function ImprovementActivityWM() {
   const [timerMax, setTimerMax] = useState(15);
   const [questionStartTime, setQuestionStartTime] = useState(null);
   const [totalStartTime, setTotalStartTime] = useState(null);
-  const [soundEnabled, setSoundEnabled] = useState(true);
+  const { muted, toggle: toggleMusic } = useMemoryMusic();
+  const soundEnabled = !muted;
+  const setSoundEnabled = toggleMusic;
 
   // Drag and drop slots state
   const [slots, setSlots] = useState([]);
@@ -124,7 +123,14 @@ export default function ImprovementActivityWM() {
     }
     if (!item) return;
 
-    const { source, index: sourceIndex, value } = item;
+    const { source, index: sourceIndex } = item;
+    if (phase !== "answer" || answeredQuestionRef.current) return;
+    const poolIndex = dragPool.findIndex(candidate => pictureItemKey(candidate) === pictureItemKey(item.value));
+    if (!["pool", "slot"].includes(source) || targetIndex < 0 || targetIndex >= slots.length) return;
+    if (source === "pool" && poolIndex < 0) return;
+    if (source === "slot" && (!slots[sourceIndex] || pictureItemKey(slots[sourceIndex]) !== pictureItemKey(item.value))) return;
+    const value = source === "slot" ? slots[sourceIndex] : dragPool[poolIndex];
+    rememberArrangement();
     const targetValue = slots[targetIndex];
 
     if (source === "slot") {
@@ -138,8 +144,7 @@ export default function ImprovementActivityWM() {
       updatedSlots[targetIndex] = value;
 
       const updatedPool = [...dragPool];
-      const foundIdx = sourceIndex !== undefined ? sourceIndex : updatedPool.lastIndexOf(value);
-      if (foundIdx !== -1) updatedPool.splice(foundIdx, 1);
+      updatedPool.splice(poolIndex, 1);
 
       if (targetValue) {
         updatedPool.push(targetValue);
@@ -196,6 +201,7 @@ export default function ImprovementActivityWM() {
   // Backend submission status
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitResult, setSubmitResult] = useState(null);
+  const [submissionError, setSubmissionError] = useState(false);
 
   // YouTube player state & refs
   const [videoEnded, setVideoEnded] = useState(false);
@@ -204,15 +210,13 @@ export default function ImprovementActivityWM() {
 
   const isPatternGame = subCategoryKey === "pattern";
 
-  useEffect(() => {
-    fetchProfile();
-  }, []);
 
   useEffect(() => {
     const themeAssets = getWorkingMemoryThemeAssets(levelNumber);
     const imageSources = [
       COMMON_BACKGROUND,
       themeAssets.background,
+      themeAssets.howToBackground,
       themeAssets.howToBoard,
       themeAssets.questionBoard,
       LEVEL_CARD_BACKS[Number(levelNumber)],
@@ -221,34 +225,36 @@ export default function ImprovementActivityWM() {
       "/images/workingMemory/improve/boards/wm_bunny_ready.png",
       "/images/workingMemory/improve/boards/wm_bunny_answer.png",
       "/images/workingMemory/improve/boards/wm_vine_board.png",
-      "/images/workingMemory/improve/boards/how_to%20play_vine%20board.png",
     ].filter(Boolean);
     imageSources.forEach((src) => { const image = new Image(); image.src = src; });
   }, [levelNumber]);
 
   useEffect(() => {
-    const studentId = localStorage.getItem("studentId");
-    if (!studentId) {
-      setAccessState("denied_identification");
-      return;
-    }
-
-    getStudentProgress(studentId)
-      .then((response) => {
-        sessionStorage.setItem(WM_PROGRESS_CACHE, JSON.stringify(response?.data || null));
-        setTotalStars(readTotalStars(response?.data));
-        const level = response?.data?.levelsProgress?.find((item) => item.levelNumber === Number(levelNumber));
+    let cancelled = false;
+    const checkAccess = async () => {
+      setAccessState("checking");
+      try {
+        // Use the authenticated profile ID, just as the level map does. A
+        // legacy localStorage ID can be absent or refer to a different session.
+        const { profile: student, progress } = await getWorkingMemoryAccess({ refresh: accessRetry > 0 });
+        if (cancelled) return;
+        setProfile(student);
+        sessionStorage.setItem(WM_PROFILE_CACHE, JSON.stringify(student));
+        sessionStorage.setItem(WM_PROGRESS_CACHE, JSON.stringify(progress));
+        setTotalStars(readTotalStars(progress));
+        const level = progress.levelsProgress?.find((item) => item.levelNumber === Number(levelNumber));
         const activity = level?.subCategories?.find((item) => item.subCategoryKey === subCategoryKey);
-        if (!response?.data?.isIdentificationCompleted) {
-          setAccessState("denied_identification");
-        } else if (activity?.isUnlocked) {
-          setAccessState("allowed");
-        } else {
-          setAccessState("denied_locked");
-        }
-      })
-      .catch(() => setAccessState("denied_identification"));
-  }, [levelNumber, subCategoryKey]);
+        setAccessState(!progress.isIdentificationCompleted
+          ? "denied_identification"
+          : activity?.isUnlocked ? "allowed" : "denied_locked");
+      } catch {
+        // A connection/server error says nothing about screening completion.
+        if (!cancelled) setAccessState("error");
+      }
+    };
+    void checkAccess();
+    return () => { cancelled = true; };
+  }, [levelNumber, subCategoryKey, accessRetry]);
 
   useEffect(() => {
     const currentLang = i18n.language?.startsWith("si") ? "si" : "en";
@@ -259,7 +265,9 @@ export default function ImprovementActivityWM() {
           ? { ...data, youtubeVideoUrl: PATTERN_HOW_TO_PLAY_VIDEO }
           : data,
       );
-      setQuestions(subCategoryKey === "words" ? data.questions || [] : shuffleArray(data.questions || []));
+      setQuestions(selectAttemptQuestions(data.questions || []));
+      previousQuestionIdsRef.current = [];
+      setPhase("video");
     } else {
       console.error(`Working Memory Subcategory data not found for G:${grade} L:${levelNumber} K:${subCategoryKey}`);
     }
@@ -354,20 +362,7 @@ export default function ImprovementActivityWM() {
     if (playerRef.current && typeof playerRef.current.stopVideo === "function") {
       playerRef.current.stopVideo();
     }
-    setPhase("intro");
-  };
-
-  const fetchProfile = async () => {
-    try {
-      const res = await getStudentProfile();
-      setProfile(res.data);
-      sessionStorage.setItem(WM_PROFILE_CACHE, JSON.stringify(res.data));
-      if (Number.isFinite(res.data?.totalStars ?? res.data?.totalCarrots)) {
-        setTotalStars(readTotalStars(res.data));
-      }
-    } catch (err) {
-      console.error("Error fetching student profile:", err);
-    }
+    startQuiz();
   };
 
   // Match the child-friendly answer feedback used by Phonological Awareness:
@@ -479,7 +474,9 @@ export default function ImprovementActivityWM() {
   };
 
   const startQuiz = () => {
-    setQuestions((currentQuestions) => subCategoryKey === "words" ? currentQuestions : shuffleArray(currentQuestions));
+    const attempt = selectAttemptQuestions(subCatData?.questions || questions, previousQuestionIdsRef.current);
+    previousQuestionIdsRef.current = attempt.map(q => q.id);
+    setQuestions(attempt);
     setCurrentIdx(0);
     setScore(0);
     setResults([]);
@@ -489,7 +486,8 @@ export default function ImprovementActivityWM() {
     setEarnedStars(0);
     setSubmitResult(null);
     setTotalStartTime(performance.now());
-    setPhase("intro");
+    setSubmissionError(false);
+    setupQuestion(0, attempt);
   };
 
   const handleReadyToPlay = () => {
@@ -505,13 +503,17 @@ export default function ImprovementActivityWM() {
     return getLevelDisplaySeconds(levelNumber);
   };
 
-  const setupQuestion = (idx) => {
-    const q = questions[idx];
+  const setupQuestion = (idx, questionSet = questions) => {
+    const q = questionSet[idx];
     if (!q) return;
 
     window.clearTimeout(wordsSpeechTimeoutRef.current);
     window.speechSynthesis.cancel();
 
+    answeredQuestionRef.current = false;
+    nextTransitionRef.current = false;
+    latestResultRef.current = null;
+    undoHistoryRef.current = [];
     setQuestionStartTime(performance.now());
     setIsCurrentCorrect(null);
     setLastUserAnswer(null);
@@ -609,18 +611,21 @@ export default function ImprovementActivityWM() {
   }, [phase, timerCount, currentIdx, levelNumber, subCategoryKey, isPatternGame, activeStepIdx, wordsAwaitingPlay, questions]);
 
   const handleTileClick = (val) => {
+    if (phase !== "answer" || answeredQuestionRef.current) return;
     if (isPatternGame) {
       setSlots([val]);
       return;
     }
 
+    if (subCategoryKey === "words" && !dragPool.some(item => pictureItemKey(item) === pictureItemKey(val))) return;
+    rememberArrangement();
     const emptyIndex = slots.findIndex((s) => s === "" || s === null);
     if (emptyIndex !== -1) {
       const updated = [...slots];
       updated[emptyIndex] = val;
       setSlots(updated);
 
-      if (!isPatternGame) {
+      if (!isPatternGame && subCategoryKey !== "numbers") {
         const poolIndex = dragPool.findIndex((item) => {
           if (item && val && typeof item === "object" && typeof val === "object") {
             return pictureItemKey(item) === pictureItemKey(val);
@@ -638,6 +643,8 @@ export default function ImprovementActivityWM() {
 
   const handleSlotClear = (index) => {
     const val = slots[index];
+    if (phase !== "answer" || answeredQuestionRef.current) return;
+    if (val) rememberArrangement();
     if (val) {
       const updated = [...slots];
       updated[index] = subCategoryKey === "instructions" ? null : "";
@@ -657,6 +664,7 @@ export default function ImprovementActivityWM() {
         setSelectedSlotIndex(null);
         return;
       }
+      rememberArrangement();
       const updatedSlots = [...slots];
       const temp = updatedSlots[targetIndex];
       updatedSlots[targetIndex] = updatedSlots[selectedSlotIndex];
@@ -674,6 +682,26 @@ export default function ImprovementActivityWM() {
     if (slots[targetIndex]) {
       setSelectedSlotIndex(targetIndex);
     }
+  };
+
+  // Snapshots include both rows, so Undo conserves the complete picture set.
+  const rememberArrangement = () => { undoHistoryRef.current.push({ slots: [...slots], pool: [...dragPool] }); };
+  const handleUndo = () => {
+    if (phase !== "answer" || answeredQuestionRef.current) return;
+    if (subCategoryKey === "numbers") {
+      const last = slots.findLastIndex(value => value !== "");
+      if (last >= 0) setSlots(current => current.map((value, i) => i === last ? "" : value));
+    } else {
+      const previous = undoHistoryRef.current.pop();
+      if (previous) { setSlots(previous.slots); setDragPool(previous.pool); setSelectedSlotIndex(null); }
+    }
+  };
+  const handleStartOver = () => {
+    if (phase !== "answer" || answeredQuestionRef.current) return;
+    rememberArrangement();
+    setSlots(Array(questions[currentIdx].correct.length).fill(""));
+    setDragPool(shuffleIntoDifferentOrder(questions[currentIdx].correct));
+    setSelectedSlotIndex(null);
   };
 
   const handleDragSubmit = () => {
@@ -706,7 +734,8 @@ export default function ImprovementActivityWM() {
 
   const evaluateAnswer = (userAnswer, isCorrect) => {
     const q = questions[currentIdx];
-    if (!q) return;
+    if (!q || phase !== "answer" || answeredQuestionRef.current) return;
+    answeredQuestionRef.current = true;
     const endTime = performance.now();
     const timeTaken = Math.round(endTime - questionStartTime);
 
@@ -737,6 +766,8 @@ export default function ImprovementActivityWM() {
   };
 
   const handleNextQuestion = async () => {
+    if (!answeredQuestionRef.current || nextTransitionRef.current) return;
+    nextTransitionRef.current = true;
     const finalResults = results;
     const finalScore = finalResults.filter((result) => result.isCorrect).length;
     if (currentIdx < questions.length - 1) {
@@ -760,6 +791,7 @@ export default function ImprovementActivityWM() {
     }
 
     setIsSubmitting(true);
+    setSubmissionError(false);
     try {
       const res = await submitSubCategoryAttempt({
         studentId,
@@ -774,10 +806,12 @@ export default function ImprovementActivityWM() {
       });
 
       setSubmitResult(res.data);
+      if (res.data?.progress) sessionStorage.setItem(WM_PROGRESS_CACHE, JSON.stringify(res.data.progress));
       if (Number.isFinite(res.data?.totalStars ?? res.data?.totalCarrots)) {
         setTotalStars(readTotalStars(res.data));
       }
     } catch (err) {
+      setSubmissionError(true);
       console.error("Error saving improvement attempt:", err);
     } finally {
       setIsSubmitting(false);
@@ -785,10 +819,17 @@ export default function ImprovementActivityWM() {
   };
 
   const handleBackToLevels = () => {
-    navigate(`/improvement-wm/${grade}`);
+    navigate(`/improvement-wm/${grade}?level=${levelNumber}`);
   };
 
   const handleNextSubCategory = () => {
+    if (score < 3 || isSubmitting || !submitResult) return;
+    if (subCategoryKey === "numbers") {
+      const savedLevel = submitResult.progress?.levelsProgress?.find(level => level.levelNumber === Number(levelNumber));
+      if (savedLevel?.isCompleted) setPhase("levelComplete");
+      else handleBackToLevels();
+      return;
+    }
     const subCatOrder = SUBCATEGORY_ORDER;
     const currentSubIdx = subCatOrder.indexOf(subCategoryKey);
 
@@ -803,6 +844,24 @@ export default function ImprovementActivityWM() {
       navigate(`/improvement-wm/${grade}`);
     }
   };
+
+  if (accessState === "error") {
+    const isSinhala = i18n.language?.startsWith("si");
+    return (
+      <main className="min-h-screen flex items-center justify-center bg-sky-100 p-6 text-center">
+        <section className="max-w-lg rounded-[2rem] border-4 border-amber-200 bg-white p-8 shadow-xl" role="alert">
+          <h1 className="text-2xl font-black text-slate-800">{isSinhala ? "ප්‍රගතිය පූරණය කළ නොහැක" : "Unable to load your progress"}</h1>
+          <p className="mt-3 font-bold text-slate-600">{isSinhala ? "සම්බන්ධතාවය පරීක්ෂා කර නැවත උත්සාහ කරන්න." : "Please check your connection and try again."}</p>
+          <button type="button" onClick={() => setAccessRetry((value) => value + 1)} className="mt-6 rounded-2xl bg-amber-500 px-6 py-3 font-black text-white shadow-md">
+            {isSinhala ? "නැවත උත්සාහ කරන්න" : "Try Again"}
+          </button>
+          <button type="button" onClick={handleBackToLevels} className="mt-3 block w-full rounded-2xl border-2 border-slate-200 px-6 py-3 font-black text-slate-600">
+            {t("back_to_levels")}
+          </button>
+        </section>
+      </main>
+    );
+  }
 
   if (accessState === "denied_identification") {
     return (
@@ -859,7 +918,8 @@ export default function ImprovementActivityWM() {
   }
 
   const currentQuestion = questions[currentIdx];
-  const backgroundSrc = getWorkingMemoryThemeAssets(levelNumber).background || COMMON_BACKGROUND;
+  const themeAssets = getWorkingMemoryThemeAssets(levelNumber);
+  const backgroundSrc = (phase === "video" ? themeAssets.howToBackground : themeAssets.background) || COMMON_BACKGROUND;
   const cardBackSrc = LEVEL_CARD_BACKS[Number(levelNumber)];
 
   // Props shared by every game (video/header/result phases, submission state, etc.)
@@ -895,6 +955,10 @@ export default function ImprovementActivityWM() {
     handleDragSubmit,
     handleInstructionAnswer,
     handlePatternConfirm,
+    handlePatternAnswer: (answer) => { const q = questions[currentIdx]; if (q) evaluateAnswer(answer, evaluatePatternAnswer(q, answer)); },
+    handleUndo,
+    handleStartOver,
+    pictureMemorySeconds: 10,
     speakText,
     isCurrentCorrect,
     lastUserAnswer,
@@ -902,6 +966,9 @@ export default function ImprovementActivityWM() {
     score,
     results,
     isSubmitting,
+    submissionError,
+    handleRetrySave: () => handleCompleteQuiz(score, results),
+    handleContinueLevel: () => { if (Number(levelNumber) < 4) navigate(`/improvement-activity-wm/${grade}/${Number(levelNumber) + 1}/pattern`); else handleBackToLevels(); },
     submitResult,
     handleNextSubCategory,
     backgroundSrc,

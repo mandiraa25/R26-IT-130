@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { getStudentProfile } from "../../services/student/api";
 import { getCachedProfile } from "../../utils/studentProfileCache";
 import LanguageSwitcher from "../../components/common/LanguageSwitcher";
+import ActivitySelectionModal from "../../components/common/ActivitySelectionModal";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -155,68 +156,13 @@ function Dashboard() {
       <div className="fixed inset-0 -z-30 bg-[url('/images/bg.png')] bg-cover bg-center bg-no-repeat" />
       <div className="fixed inset-0 -z-10 bg-gradient-to-b from-white/6 via-transparent to-black/10" />
 
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-md animate-fadeIn">
-          <div className="relative w-full max-w-2xl rounded-[3rem] border-8 border-indigo-50 bg-white p-10 shadow-2xl">
-            <button
-              onClick={() => setShowModal(false)}
-              className="absolute right-6 top-6 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 font-bold text-gray-400 transition-all hover:bg-gray-200 hover:text-gray-600"
-            >
-              ✕
-            </button>
-            <div className="mb-10 text-center">
-              <span className="mb-4 inline-block rounded-full bg-indigo-100 px-6 py-1.5 text-sm font-black uppercase tracking-widest text-indigo-700">
-                {t("grade")} {profile?.grade}
-              </span>
-              <h3 className="text-4xl font-black leading-tight text-gray-800">
-                {selectedCategory?.title}
-              </h3>
-              <p className="mt-2 font-medium text-gray-500">{t("choose_activity")}</p>
-            </div>
-
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-              <button
-                data-testid="activity-identification"
-                onClick={() => handleActivitySelect("identification")}
-                className="group relative flex flex-col items-center rounded-[2.5rem] border-b-8 border-sky-100 bg-sky-50 p-8 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:border-sky-600 hover:bg-sky-500"
-              >
-                <div className="mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-white text-5xl shadow-inner transition-transform group-hover:scale-110">
-                  🔍
-                </div>
-                <h4 className="mb-2 text-2xl font-black uppercase tracking-wide text-sky-800 group-hover:text-white">
-                  {t("identification")}
-                </h4>
-                <p className="text-center text-sm font-bold text-sky-600/70 group-hover:text-sky-100">
-                  {t("identification_desc")}
-                </p>
-              </button>
-
-              <button
-                onClick={() => handleActivitySelect("improvement")}
-                className="group relative flex flex-col items-center rounded-[2.5rem] border-b-8 border-pink-100 bg-pink-50 p-8 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:border-pink-600 hover:bg-pink-500"
-              >
-                <div className="mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-white text-5xl shadow-inner transition-transform group-hover:scale-110">
-                  📈
-                </div>
-                <h4 className="mb-2 text-2xl font-black uppercase tracking-wide text-pink-800 group-hover:text-white">
-                  {t("improvement")}
-                </h4>
-                <p className="text-center text-sm font-bold text-pink-600/70 group-hover:text-pink-100">
-                  {t("improvement_desc")}
-                </p>
-                {selectedCategory?.id !== "pa" && selectedCategory?.id !== "wm" && selectedCategory?.id !== "sp" && (
-                  <div className="absolute -right-4 -top-4 rounded-full bg-orange-500 px-3 py-1 text-[10px] font-black uppercase tracking-tighter text-white shadow-md">
-                    {t("coming_soon")}
-                  </div>
-                )}
-              </button>
-            </div>
-
-            <div className="mt-12 text-center text-[10px] font-bold uppercase tracking-[0.4em] text-gray-300">
-              {t("step_to_success")}
-            </div>
-          </div>
-        </div>
+      {showModal && selectedCategory && (
+        <ActivitySelectionModal
+          category={selectedCategory}
+          grade={profile?.grade || getCachedProfile()?.grade || "2"}
+          onClose={() => setShowModal(false)}
+          onSelect={handleActivitySelect}
+        />
       )}
 
       <header className="student-home__topbar relative z-20 mx-auto flex w-full max-w-[1500px] shrink-0 items-start justify-between gap-3 sm:gap-4">

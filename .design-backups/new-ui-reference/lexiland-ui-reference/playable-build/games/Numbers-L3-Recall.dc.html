@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Number Recall Level 3 Keypad</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#6E3F18}a:hover{color:#4A2A10}
+.root{position:relative;width:1280px;height:800px;overflow:hidden;font-family:'Lexend',system-ui,sans-serif;color:#2E2A26}
+.board{position:absolute;left:318px;top:112px;width:932px;height:600px;box-sizing:border-box;border-style:solid;border-width:134px;border-image:url(../assets/e8666b5eb680848f69e4f1a789c20a87.webp) 240 fill / 134px stretch;filter:drop-shadow(0 10px 18px rgba(30,20,10,.3))}
+.inner{position:absolute;inset:-98px;box-sizing:border-box;padding:26px 40px 24px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.strip{background:#F8EBD6;border-radius:28px;padding:12px 32px;box-shadow:inset 0 -3px 0 #EAD3B0;display:flex;align-items:center;gap:14px}
+.strip h1{margin:0;font-size:32px;line-height:1.3;font-weight:700;text-align:center}
+.iconbtn{width:60px;height:60px;border-radius:50%;border:4px solid #C98A4B;background:#fff;box-shadow:0 4px 0 rgba(46,42,38,.18);display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;box-sizing:border-box}
+.pill{background:#fff;border-radius:999px;padding:12px 24px;font-size:20px;font-weight:700;box-shadow:0 4px 0 rgba(46,42,38,.18);letter-spacing:.02em}
+.bubble{position:absolute;left:28px;top:196px;width:272px;box-sizing:border-box;background:#fff;border:4px solid #E7B67C;border-radius:30px;padding:18px 22px;font-size:21px;font-weight:700;line-height:1.4;text-align:center;box-shadow:0 6px 0 rgba(46,42,38,.14)}
+.dot{position:absolute;border-radius:50%;background:#fff;border:3px solid #E7B67C}
+.btn{border:none;border-radius:999px;padding:16px 36px;font-family:inherit;font-size:23px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:10px;text-decoration:none;transition:transform .12s}
+.btn:active{transform:translateY(3px)}
+.key{width:88px;height:90px;background:none;border-radius:50%;border:none;font-family:inherit;font-size:40px;font-weight:700;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .1s}
+.key:active{transform:translateY(5px)}
+.msg{display:flex;align-items:center;gap:12px;border-radius:999px;padding:12px 22px;font-size:21px;font-weight:600}
+@keyframes pop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+@media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}}
+
+/* ===== LexiLand top navigation (shared) ===== */
+.topnav{position:absolute;top:16px;left:22px;right:22px;height:74px;display:flex;align-items:center;justify-content:space-between;z-index:6;pointer-events:none}
+.topnav>div{display:flex;align-items:center;gap:10px;pointer-events:auto}
+.navback{display:block;width:70px;height:73px;transition:transform .12s}
+.navback:active,.navmusic:active{transform:translateY(2px) scale(.97)}
+.navback img,.navmusic img,.navstar img,.navlang img{display:block;width:100%;height:100%;pointer-events:none;user-select:none}
+.navtitle{height:64px;box-sizing:border-box;border-style:solid;border-width:0 40px;border-image:url(../assets/45d19c473a24c3db41cb93a31b33760f.png) 0 122 fill / 0 40px stretch;display:flex;align-items:center;padding:0 4px 5px;font-family:'Lexend',system-ui,sans-serif;font-size:22px;font-weight:700;letter-spacing:.03em;color:#4A2410;white-space:nowrap;text-shadow:0 1px 0 rgba(255,255,255,.55)}
+.navstar{position:relative;width:93px;height:60px}
+.navstar>span{position:absolute;left:50px;width:32px;top:0;bottom:5px;display:flex;align-items:center;justify-content:center;font-size:25px;font-weight:700;color:#4A2410}
+.navmusic{position:relative;width:70px;height:73px;padding:0;border:none;background:none;cursor:pointer;transition:transform .12s}
+.navlang{position:relative;width:131px;height:60px}
+.navlang button{position:absolute;top:13px;height:30px;width:50px;padding:0;border:none;background:none;border-radius:15px;cursor:pointer;font-size:17px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.navlang .si{font-family:'Noto Sans Sinhala',system-ui,sans-serif;font-size:16px}
+
+.tracker{position:absolute;width:500px;height:55px;z-index:5}
+.tracker img{display:block;width:500px;height:55px;pointer-events:none;user-select:none}
+.tracker span{position:absolute;top:2.6px;width:45px;height:45px;border-radius:50%;box-sizing:border-box;pointer-events:none}
+@keyframes trkpulse{0%,100%{box-shadow:0 0 0 3px #FFF6DC,0 0 10px 3px rgba(255,214,110,.85)}50%{box-shadow:0 0 0 3px #FFF6DC,0 0 18px 7px rgba(255,214,110,1)}}
+
+/* ===== Layout balance (shared): tracker sits clear of the board, content evenly spaced ===== */
+.tracker{top:92px !important}
+.board{top:140px !important}
+.inner{padding:30px 44px 34px !important;justify-content:space-evenly;row-gap:10px !important}
+.inner>*{margin-top:0 !important;margin-bottom:0 !important}
+.board>img:first-child{bottom:-170px !important}
+
+/* ===== Responsive stage: designed at 1600×900 (16:9) and scaled to fit any laptop screen ===== */
+.viewport{position:fixed;inset:0;overflow:hidden;background:#20301f}
+.vbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.root{position:absolute !important;left:50%;top:50%;width:1600px !important;height:900px !important;transform-origin:50% 50%;overflow:visible !important}
+.root>img:first-child{display:none}
+.board{left:500px !important;top:158px !important;width:980px !important;height:640px !important}
+.tracker{top:110px !important}
+.bubble{left:40px !important;top:196px !important;width:340px !important;font-size:23px !important;padding:20px 24px !important}
+.board>img:first-child{bottom:-206px !important}
+.topnav{top:20px !important;left:28px !important;right:28px !important}
+
+/* ===== Stage v2: seamless vine board, balanced proportions (1600×900) ===== */
+.board{border-image:none !important;border-color:transparent !important;background:url(../assets/e8666b5eb680848f69e4f1a789c20a87.webp) 0 0 / 100% 100% no-repeat !important;background-origin:border-box !important;top:175px !important;width:1000px !important;height:580px !important}
+.tracker{top:124px !important}
+.board>img:first-child{bottom:-236px !important}
+.board{left:500px !important}
+.tracker{left:750px !important}
+
+/* ===== Centered layout: vine board + tracker centred on the 1600px stage ===== */
+.board{left:300px !important;width:1000px !important}
+.tracker{left:550px !important}
+.root.q .board{left:300px !important}
+.root.q .tracker{left:550px !important}
+.bubble,.qbubble{left:20px !important;top:184px !important;width:262px !important;font-size:21px !important;padding:16px 18px !important}
+</style>
+</helmet>
+<div class="viewport">
+<img class="vbg" src="{{bgSrc}}" alt="">
+<div class="root" style="{{stageStyle}}">
+  <img src="{{bgSrc}}" alt="" style="position:absolute;inset:0;width:1280px;height:800px;object-fit:cover">
+
+  <nav class="topnav" aria-label="Game navigation">
+    <div>
+      <a class="navback" href="{{backHref}}" aria-label="Back"><img src="../assets/8df4fc9d624722d5a1b6da5cd3f91e00.png" alt=""></a>
+      <div class="navtitle">LEVEL 3 • NUMBER RECALL</div>
+    </div>
+    <div>
+      <div class="navstar" role="img" aria-label="{{navStarsLabel}}"><img src="../assets/fe727e3baa691011b578eb2e56de54ae.png" alt=""><span>{{navStars}}</span></div>
+      <button class="navmusic" onClick="{{toggleMusic}}" aria-label="{{musicLabel}}" aria-pressed="{{musicMuted}}"><img src="../assets/be6c13121ad06ebc7e1ec721e4fea807.png" alt="">
+        <sc-if value="{{musicMuted}}" hint-placeholder-val="{{ false }}"><svg style="position:absolute;inset:14px" viewBox="0 0 40 40" aria-hidden="true"><path d="M6 34 L34 6" stroke="#fff" stroke-width="7" stroke-linecap="round"/><path d="M6 34 L34 6" stroke="#D9472B" stroke-width="4" stroke-linecap="round"/></svg></sc-if>
+      </button>
+      <div class="navlang" role="group" aria-label="Language"><img src="{{navLangSrc}}" alt="">
+        <button style="{{enStyle}}" onClick="{{setEn}}" aria-pressed="{{isEn}}">EN</button>
+        <button class="si" style="{{siStyle}}" onClick="{{setSi}}" aria-pressed="{{isSi}}" lang="si">සිං</button>
+      </div>
+    </div>
+  </nav>
+  <div class="tracker" style="top:110px;left:740px" role="img" aria-label="{{trkLabel}}">
+    <img src="../assets/d21f61cf7dfb32ed20cab63dae9199ad.png" alt="">
+    <sc-for list="{{trk}}" as="k" hint-placeholder-count="5"><span style="{{k.style}}"></span></sc-for>
+  </div>
+
+  <div class="bubble">{{bubbleText}}</div>
+  <div class="dot" style="left:196px;top:316px;width:22px;height:22px"></div>
+  <div class="dot" style="left:182px;top:348px;width:13px;height:13px"></div>
+  <img src="../assets/044c7ae59144599a3e2a41c9e1b3011a.webp" alt="" style="position:absolute;left:28px;bottom:36px;height:400px;transform:rotate(5deg);transform-origin:50% 100%;filter:drop-shadow(0 8px 10px rgba(30,20,10,.3))">
+
+  <div class="board">
+    <img src="{{bucketSrc}}" alt="" style="{{bucketStyle}}">
+    <div class="inner">
+
+      <sc-if value="{{isMem}}" hint-placeholder-val="{{ false }}">
+        <div class="strip"><h1>Remember these numbers.</h1></div>
+
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:18px">
+          <svg width="48" height="60" viewBox="0 0 48 60" aria-hidden="true"><path d="M40 8 L28 22 M44 34 L24 34 M40 54 L28 44" stroke="{{accent}}" stroke-width="6" stroke-linecap="round" style="{{sparkStyle}}"/></svg>
+          <div style="{{rowStyle}}" role="img" aria-label="{{ballsLabel}}">
+            <sc-for list="{{balls}}" as="b" hint-placeholder-count="5"><div style="{{b.style}}">{{b.txt}}</div></sc-for>
+          </div>
+          <svg width="48" height="60" viewBox="0 0 48 60" aria-hidden="true"><path d="M8 8 L20 22 M4 34 L24 34 M8 54 L20 44" stroke="{{accent}}" stroke-width="6" stroke-linecap="round" style="{{sparkStyle}}"/></svg>
+        </div>
+
+        <div style="width:680px;height:84px;box-sizing:border-box;background:#FFF8EE;border:3px solid #EFE0C6;border-radius:999px;display:flex;align-items:center;gap:16px;padding:0 22px 0 14px">
+          <svg width="56" height="56" viewBox="0 0 56 56" aria-hidden="true"><circle cx="15" cy="10" r="7" fill="#E0503C"/><circle cx="41" cy="10" r="7" fill="#E0503C"/><circle cx="28" cy="31" r="20" fill="#fff" stroke="#E0503C" stroke-width="5"/><path d="M28 19 V31 L36 35" fill="none" stroke="#2E2A26" stroke-width="3.5" stroke-linecap="round"/><path d="M14 50 L18 46 M42 50 L38 46" stroke="#E0503C" stroke-width="4" stroke-linecap="round"/></svg>
+          <sc-if value="{{isReady}}" hint-placeholder-val="{{ false }}">
+            <span style="flex:1;font-size:20px;font-weight:600;line-height:1.3;color:#5E5348">Tap Play. You will have {{secs}} seconds to memorise the numbers.</span>
+            <button class="btn" style="flex:none;background:#14A877;color:#fff;box-shadow:0 5px 0 #0B7A55;padding:13px 34px;font-size:22px;font-weight:700;letter-spacing:.04em" onClick="{{begin}}"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4 L20 12 L7 20 Z" fill="#fff"/></svg>PLAY</button>
+          </sc-if>
+          <sc-if value="{{isShow}}" hint-placeholder-val="{{ false }}">
+            <div style="flex:1;display:flex;flex-direction:column;gap:8px" role="timer" aria-live="off" aria-label="{{timeLabel}}">
+              <span style="font-size:21px;font-weight:700;letter-spacing:.03em">TIME LEFT: {{secs}}s</span>
+              <div style="height:18px;border-radius:9px;background:#EFE3CF;overflow:hidden"><div style="{{barStyle}}"></div></div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{isRecall}}" hint-placeholder-val="{{ true }}">
+        <div class="strip">
+          <h1>Enter the numbers in the same order.</h1>
+          <button class="iconbtn" style="{{speakStyle}}" onClick="{{sayIt}}" aria-label="Hear the instruction"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10 v4 h4 l5 4 V6 L8 10 Z" fill="{{text}}"/><path d="M16 9 q3 3 0 6 M18.5 7 q5 5 0 10" stroke="{{text}}" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></button>
+        </div>
+
+        <div style="display:flex;gap:14px" aria-live="polite" aria-label="{{slotsLabel}}">
+          <sc-for list="{{slots}}" as="t" hint-placeholder-count="5"><div style="{{t.style}}">{{t.txt}}</div></sc-for>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px 22px">
+          <sc-for list="{{keys}}" as="k" hint-placeholder-count="10">
+            <button class="key" style="{{k.style}}" onClick="{{k.press}}" aria-label="{{k.label}}">{{k.txt}}</button>
+          </sc-for>
+        </div>
+
+        <div style="margin-top:auto;height:62px;display:flex;align-items:center;gap:16px">
+          <sc-if value="{{showControls}}" hint-placeholder-val="{{ true }}">
+            <button class="btn" style="{{undoStyle}}" onClick="{{undo}}" aria-label="Delete the last number"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 H20 a2 2 0 0 1 2 2 V17 a2 2 0 0 1 -2 2 H9 L3 12 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 9 L17 14 M17 9 L12 14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>Undo</button>
+            <button class="btn" style="{{checkStyle}}" onClick="{{check}}" disabled="{{checkDisabled}}">Check</button>
+          </sc-if>
+          <sc-if value="{{isRight}}" hint-placeholder-val="{{ false }}">
+            <div class="msg" style="background:#E3F3DC;color:#2C5A28"><svg width="30" height="30" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="20" fill="#2C5A28"/><path d="M13 22 l6 6 12 -12" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>{{rightMsg}}</div>
+            <sc-if value="{{notLast}}" hint-placeholder-val="{{ true }}">
+              <button class="btn" style="{{nextStyle}}" onClick="{{next}}">Next<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 L16 12 L9 19" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </sc-if>
+            <sc-if value="{{isLast}}" hint-placeholder-val="{{ false }}">
+              <a class="btn" href="{{doneHref}}" style="background:#3F7D3A;color:#fff;box-shadow:0 5px 0 rgba(0,0,0,.18)">See results</a>
+            </sc-if>
+          </sc-if>
+          <sc-if value="{{isWrong}}" hint-placeholder-val="{{ false }}">
+            <div class="msg" style="background:#FFF0DD;color:#8A4006">Good try! Let's look again.</div>
+            <button class="btn" style="{{retryStyle}}" onClick="{{retry}}"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12 a8 8 0 1 0 3 -6.2 M4 4 v5 h5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Try again</button>
+          </sc-if>
+        </div>
+      </sc-if>
+
+    </div>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":800}}'>
+// ===== Level settings: the only part that differs between levels =====
+const START = 'recall';
+const LV = { name:'LEVEL 3 · NUMBER RECALL', badge:'Level 3', secs:6, back:'../index.html#level-3', done:'Results-L3.dc.html', bg:'../assets/8de8da2e765340cc05d0b70105fa9460.webp', bucket:'../assets/f9ee966320b5981cde6837f2a13b1e6f.png', bucketW:198, btn:'../assets/1e88bb8612ac3ae26935a1e5cc461faa.png' };
+const C = { accent:'#E77FA6', dark:'#B23C6C', deep:'#8E2A55', light:'#FBE1EB', text:'#8E2A55', ring:'#F8D3E2', soft:'#FFF5F9', hi:'#F7B3CC', pillBg:'#FBE1EB', pillBorder:'#EBA7C1', pillText:'#8E2A55' };
+// Level 3: five digits, shown for 6 seconds.
+const N = 5, ROUNDS = 5;
+// A fresh set of random digits each time the game opens (no digit repeats next to itself).
+const makeQS = () => Array.from({ length: ROUNDS }, () => { const a = []; while (a.length < N) { const d = Math.floor(Math.random() * 10); if (d !== a[a.length - 1]) a.push(d); } return a; });
+// ===== Shared game code (identical for every level) =====
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.resetRec();
+    this.qs = makeQS();
+    this.state = { q:0, screen:START, left:LV.secs * 1000, entered:[], result:null, stars:0 };
+  }
+  componentWillUnmount() { clearInterval(this.iv); try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) {} }
+  begin() {
+    clearInterval(this.iv);
+    const T = LV.secs * 1000, t0 = Date.now();
+    this.setState({ screen:'show', left:T, entered:[], result:null });
+    this.running = true;
+    this.iv = setInterval(() => {
+      const left = Math.max(0, T - (Date.now() - t0));
+      if (left <= 0) { clearInterval(this.iv); this.setState({ screen:'recall', left:0 }); }
+      else this.setState({ left });
+    }, 100);
+  }
+  trackVals(cur) {
+    if (typeof cur !== 'number' || isNaN(cur)) cur = (this.state && typeof this.state.q === 'number') ? this.state.q : 0;
+    const CX = [46.5, 148.4, 250.3, 352.2, 454.0];
+    const tick = "url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22><circle cx=%2210%22 cy=%2210%22 r=%229%22 fill=%22%233FA34D%22 stroke=%22white%22 stroke-width=%222%22/><path d=%22M6 10.5l2.6 2.6L14 7.6%22 fill=%22none%22 stroke=%22white%22 stroke-width=%222.4%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/></svg>') no-repeat right -1px top -1px / 19px 19px";
+    return {
+      trk: CX.map((x, i) => ({ style: 'left:' + (x - 22.5) + 'px;' + (i < cur ? 'background:' + tick + ';' : i === cur ? 'animation:trkpulse 1.6s ease-in-out infinite;transform:scale(1.1)' : 'background:rgba(55,30,10,.45)') })),
+      trkLabel: 'Step ' + (cur + 1) + ' of 5'
+    };
+  }
+  rec(i, ok) {
+    // Saves the first answer for each question so the results screen can show the score.
+    try {
+      const ss = window.sessionStorage, k = 'lexi:res:Numbers:L3', m = JSON.parse(ss.getItem(k) || '{}');
+      if (!(i in m)) {
+        m[i] = ok; ss.setItem(k, JSON.stringify(m));
+        if (ok) { const ls = window.localStorage; ls.setItem('lexi:totalStars', String((parseInt(ls.getItem('lexi:totalStars') || '0', 10) || 0) + 5)); }
+      }
+      ss.setItem('lexi:last', 'Numbers:L3');
+    } catch (e) {}
+  }
+  resetRec() { try { window.sessionStorage.removeItem('lexi:res:Numbers:L3'); } catch (e) {} }
+  navVals() {
+    const VW = (typeof window !== 'undefined' && window.innerWidth) || 1600, VH = (typeof window !== 'undefined' && window.innerHeight) || 900;
+    if (!this._fitOn && typeof window !== 'undefined') { this._fitOn = true; window.addEventListener('resize', () => this.setState({})); }
+    const N = this.nav || (this.nav = { lang: 'en', muted: false });
+    const st = (this.state && typeof this.state.stars === 'number') ? this.state.stars : 0;
+    const on = 'color:#fff', off = 'color:#6B3A1E';
+    return {
+      navStars: String(st), navStarsLabel: st + (st === 1 ? ' star' : ' stars'),
+      stageStyle: 'transform:translate(-50%,-50%) scale(' + Math.min(VW / 1600, VH / 900) + ')',
+      musicMuted: N.muted, musicLabel: N.muted ? 'Turn music on' : 'Turn music off',
+      toggleMusic: () => { N.muted = !N.muted; this.setState({}); },
+      navLangSrc: N.lang === 'en' ? '../assets/6f7c2bb7a5525738674145255fc58787.png' : '../assets/825f199a805633d8f930859013f1c3b0.png', isEn: N.lang === 'en', isSi: N.lang === 'si',
+      enStyle: 'left:16px;' + (N.lang === 'en' ? on : off), siStyle: 'left:66px;' + (N.lang === 'si' ? on : off),
+      setEn: () => { N.lang = 'en'; this.setState({}); }, setSi: () => { N.lang = 'si'; this.setState({}); }
+    };
+  }
+  renderVals() {
+    const QS = this.qs, s = this.state;
+    if (s.screen === 'show' && !this.running && START !== 'show') { this.running = true; setTimeout(() => this.begin(), 0); }
+    const D = QS[s.q], n = D.length, last = s.q === QS.length - 1;
+    const right = s.result === 'right', wrong = s.result === 'wrong';
+    const show = s.screen === 'show', mem = s.screen !== 'recall';
+
+    const dots = QS.map((_, i) => {
+      const base = 'width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;box-sizing:border-box;';
+      if (i < s.q) return { n: i + 1, style: base + 'background:' + C.accent + ';color:#fff;border:3px solid #fff' };
+      if (i === s.q) return { n: i + 1, style: base + 'background:' + C.accent + ';color:#fff;border:3px solid #fff;box-shadow:0 0 0 4px #F8D3E2;transform:scale(1.1)' };
+      return { n: i + 1, style: base + 'background:#F3E6D2;color:#B5A88F;border:3px solid #E3D3B8' };
+    });
+
+    const bs = n <= 4 ? 140 : n === 5 ? 118 : 100;
+    const balls = D.map((d) => ({
+      txt: show ? d : '',
+      style: 'width:' + bs + 'px;height:' + bs + 'px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:' + Math.round(bs * 0.56) + 'px;box-sizing:border-box;' +
+        (mem
+          ? 'color:#fff;background:url(' + LV.btn + ') center / 100% 100% no-repeat;filter:drop-shadow(0 10px 10px rgba(60,30,10,.18));text-shadow:0 3px 0 ' + C.deep + ',0 0 10px rgba(0,0,0,.18);padding-bottom:6px;' + (show ? 'animation:pop .35s ease-out' : '')
+          : 'color:' + C.accent + ';background:' + C.soft + ';border:4px dashed ' + C.accent)
+    }));
+    const secsLeft = show ? Math.ceil(s.left / 1000) : LV.secs;
+    const pct = Math.max(0, Math.min(100, (s.left / (LV.secs * 1000)) * 100));
+
+    const sw = n <= 4 ? 96 : n === 5 ? 88 : 78;
+    const slots = D.map((_, i) => {
+      const has = i < s.entered.length, active = i === s.entered.length && !right && !wrong;
+      let st = 'width:' + sw + 'px;height:96px;box-sizing:border-box;border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:700;color:#2E2A26;';
+      if (right) st += 'background:#E3F3DC;border:4px solid #3F7D3A';
+      else if (wrong) st += 'background:#FFF6EA;border:4px dashed #D9822B';
+      else if (has) st += 'background:#fff;border:4px solid ' + C.accent;
+      else if (active) st += 'background:' + C.light + ';border:4px solid ' + C.accent + ';box-shadow:0 0 0 6px ' + C.ring;
+      else st += 'background:' + C.soft + ';border:4px dashed ' + C.accent;
+      return { txt: has ? s.entered[i] : '', style: st };
+    });
+    const full = s.entered.length >= n, locked = right || wrong;
+    const keys = [0,1,2,3,4,5,6,7,8,9].map((d) => ({
+      txt: d, label: 'Number ' + d,
+      style: 'background:url(' + LV.btn + ') center / 100% 100% no-repeat;border-radius:0;text-shadow:0 2px 0 ' + C.deep + ',0 0 8px rgba(0,0,0,.15);padding-bottom:4px;' + (full || locked ? 'opacity:.45;cursor:default' : ''),
+      press: () => { const st = this.state; if (st.result || st.entered.length >= n) return; this.setState({ entered: st.entered.concat([d]) }); }
+    }));
+
+    return { ...this.navVals(), ...this.trackVals(),
+      bgSrc: LV.bg, backHref: LV.back, doneHref: LV.done, pillText: LV.name, badgeText: LV.badge,
+      bucketSrc: LV.bucket, bucketStyle: 'position:absolute;right:-186px;bottom:-198px;width:' + LV.bucketW + 'px;height:auto;pointer-events:none;filter:drop-shadow(0 8px 10px rgba(0,0,0,.38))',
+      pillStyle: 'background:' + C.pillBg + ';border:3px solid ' + C.pillBorder + ';color:' + C.pillText,
+      badgeStyle: 'background:' + C.dark + ';color:#fff;border:3px solid ' + C.deep + ';padding:12px 26px',
+      dark: C.dark, text: C.text, accent: C.accent,
+      dots, progressText: (s.q + 1) + ' / ' + QS.length, progressLabel: 'Round ' + (s.q + 1) + ' of ' + QS.length,
+      bubbleText: show ? 'Remember these numbers carefully!' : mem ? 'Tap the Play button when you\'re ready!' : 'Now, enter the numbers in the same order!',
+      isMem: mem, isReady: s.screen === 'ready', isShow: show, isRecall: !mem,
+      rowStyle: 'display:flex;align-items:center;gap:' + (n <= 4 ? 26 : n === 5 ? 20 : 14) + 'px',
+      sparkStyle: show ? '' : 'opacity:.25',
+      balls, ballsLabel: show ? 'Numbers: ' + D.join(', ') : n + ' numbers, hidden until you tap Play',
+      secs: secsLeft, timeLabel: secsLeft + ' seconds left',
+      barStyle: 'height:18px;border-radius:9px;background:' + C.accent + ';width:' + pct + '%;transition:width .1s linear',
+      startStyle: 'background:' + C.dark + ';color:#fff;box-shadow:0 5px 0 rgba(0,0,0,.18);padding:14px 30px',
+      begin: () => this.begin(),
+
+      speakStyle: 'width:52px;height:52px;border:none;background:#fff;box-shadow:0 3px 0 rgba(46,42,38,.15)',
+      sayIt: () => { try { const ss = window.speechSynthesis; ss.cancel(); const u = new window.SpeechSynthesisUtterance('Enter the numbers in the same order.'); u.lang = 'en-GB'; u.rate = 0.85; ss.speak(u); } catch (e) {} },
+      slots, slotsLabel: 'You entered ' + (s.entered.length ? s.entered.join(', ') : 'nothing yet') + '. ' + n + ' numbers needed.',
+      keys,
+      showControls: !locked, isRight: right, isWrong: wrong,
+      undoStyle: 'background:' + C.light + ';color:' + C.text + ';border:3px solid ' + C.accent + ';padding:13px 26px',
+      undo: () => { const st = this.state; if (st.result || !st.entered.length) return; this.setState({ entered: st.entered.slice(0, -1) }); },
+      checkDisabled: !full,
+      checkStyle: full ? 'background:' + C.dark + ';color:#fff;box-shadow:0 5px 0 rgba(0,0,0,.18)' : 'background:#E5DED1;color:#8A7F70;cursor:not-allowed',
+      check: () => {
+        const st = this.state; if (st.entered.length < n) return;
+        const ok = st.entered.every((d, i) => d === D[i]); this.rec(st.q, ok);
+        this.setState({ result: ok ? 'right' : 'wrong', stars: st.stars + (ok ? 1 : 0) });
+      },
+      rightMsg: last ? 'All 5 done! Amazing memory!' : 'Great memory!',
+      notLast: !last, isLast: last,
+      nextStyle: 'background:' + C.dark + ';color:#fff;box-shadow:0 5px 0 rgba(0,0,0,.18)',
+      retryStyle: 'background:' + C.light + ';color:' + C.text + ';border:3px solid ' + C.accent,
+      next: () => { clearInterval(this.iv); this.running = false; this.setState({ q: this.state.q + 1, screen: 'ready', left: LV.secs * 1000, entered: [], result: null }); },
+      retry: () => this.begin()
+    };
+  }
+}
+</script>
+</body>
+</html>

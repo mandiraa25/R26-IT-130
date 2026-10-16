@@ -65,5 +65,11 @@
   "mute_background_music": "Mute background music",
   "play_background_music": "Play background music",
   "mute_music": "Mute music",
-  "play_music": "Play music"
+  "play_music": "Play music",
+  "choose_an_activity": "Choose an activity",
+  "check_my_skills": "Check my skills",
+  "play_and_practise": "Play & practise",
+  "begin_activity": "Begin",
+  "play_activity": "Play",
+  "close_activity_popup": "Close activity selection"
 }

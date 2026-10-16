@@ -20,7 +20,7 @@ export const evaluateIdentifyAnswer = (q, userAnswer) => {
     }
   }
 
-  if (q.type === "WORD_MEMORY") {
+  if (q.type === "PICTURE_MEMORY") {
     if (q.options) {
       isCorrect = String(userAnswer).trim() === String(q.correct).trim();
       errorType = isCorrect ? "correct" : "wrong_order";
@@ -32,7 +32,8 @@ export const evaluateIdentifyAnswer = (q, userAnswer) => {
   }
 
   if (q.category === "Instruction") {
-    isCorrect = String(userAnswer[0]).trim() === String(q.correct).trim();
+    const answer = Array.isArray(userAnswer) ? userAnswer[0] : userAnswer;
+    isCorrect = String(answer).trim() === String(q.correct).trim();
     errorType = isCorrect ? "correct" : "wrong_order";
   }
 

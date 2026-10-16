@@ -102,8 +102,9 @@ const DetailModal = ({ result, onClose }) => {
 
   const categoryColors = {
     Pattern: "bg-purple-50 border-purple-100 text-purple-700",
-    "Word Memory": "bg-blue-50 border-blue-100 text-blue-700",
+    "Picture Memory": "bg-blue-50 border-blue-100 text-blue-700",
     Instruction: "bg-indigo-50 border-indigo-100 text-indigo-700",
+    "Number Memory": "bg-teal-50 border-teal-100 text-teal-700",
     "Memory Recall": "bg-teal-50 border-teal-100 text-teal-700",
   };
 

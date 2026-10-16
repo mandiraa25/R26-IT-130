@@ -1,0 +1,17 @@
+import {chromium} from '@playwright/test';import assert from 'node:assert/strict';
+const browser=await chromium.launch();const page=await browser.newPage({viewport:{width:1366,height:768}});
+await page.addInitScript(()=>{localStorage.setItem('token','navigation-review');localStorage.setItem('i18nextLng','en')});
+const progress={studentId:'review',isIdentificationCompleted:true,maxUnlockedLevel:1,totalStars:10,levelsProgress:[{levelNumber:1,subCategories:[{subCategoryKey:'pattern',isUnlocked:true},{subCategoryKey:'words',isUnlocked:false}]}]};
+let profiles=0,requests=0;
+await page.route('**/api/students/profile',async r=>{profiles++;await new Promise(resolve=>setTimeout(resolve,250));await r.fulfill({json:{_id:'review',grade:'3'}})});
+await page.route('**/api/working-memory/improvement/progress/**',async r=>{requests++;await new Promise(resolve=>setTimeout(resolve,250));await r.fulfill({json:{success:true,data:progress}})});
+await page.route('**/*youtube*',r=>r.fulfill({body:''}));
+await page.route('**/api/working-memory/improvement/submit-attempt',r=>r.fulfill({json:{success:true,data:{progress:{...progress,totalStars:25,levelsProgress:[{...progress.levelsProgress[0],subCategories:[{subCategoryKey:'pattern',isUnlocked:true,isCompleted:true},{subCategoryKey:'words',isUnlocked:true}]}]}}}}));
+await page.goto('http://127.0.0.1:5173/improvement-wm/3');await page.locator('.lx-level-card:not(:disabled)').first().click();await page.getByRole('button',{name:'Pattern',exact:true}).click();await page.locator('.lx-howto-board').waitFor();
+assert.equal(profiles,1);assert.equal(requests,1);
+await page.getByRole('button',{name:'Back to game menu',exact:true}).click();await page.locator('.lx-menu-board').waitFor();assert.equal(profiles,1);assert.equal(requests,1);
+await page.evaluate(async()=>{const url=performance.getEntriesByType('resource').find(e=>e.name.includes('/src/services/workingMemory/improveApi.js')).name;window.__wmApi=await import(url);const api=window.__wmApi;await api.submitSubCategoryAttempt({studentId:'review'});const value=await api.getWorkingMemoryAccess();if(!value.progress.levelsProgress[0].subCategories[1].isUnlocked)throw Error('Saved unlock missing');if(value.progress.totalStars!==25)throw Error('Saved stars missing')});assert.equal(profiles,1);assert.equal(requests,1);
+await page.evaluate(async()=>{const api=window.__wmApi;await api.getWorkingMemoryAccess({refresh:true})});assert.equal(profiles,2);assert.equal(requests,2);
+await page.evaluate(async()=>{localStorage.setItem('token','different-account');await window.__wmApi.getWorkingMemoryAccess()});assert.equal(profiles,3);assert.equal(requests,3);
+await page.evaluate(async()=>{const api=window.__wmApi;api.clearWorkingMemoryAccess();await Promise.all([api.getWorkingMemoryAccess(),api.getWorkingMemoryAccess()])});assert.equal(profiles,4);assert.equal(requests,4);
+console.log('PASS navigation: one profile/progress fetch across map → game → menu; saved stars/unlocks update immediately; explicit refresh and changed account fetch fresh; simultaneous checks share one request.');await browser.close();

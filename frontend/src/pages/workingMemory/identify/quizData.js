@@ -6,45 +6,45 @@ export const QUIZ_DATA_G13 = [
   // 🔢 Digit Span (Forward)
   {
     id: "wm-g13-1",
-    category: "Memory Recall",
+    category: "Number Memory",
     type: "SEQUENCE_MEMORY",
     instruction: "Remember the numbers",
     sequence: [3, 7, 2],
   },
   {
     id: "wm-g13-2",
-    category: "Memory Recall",
+    category: "Number Memory",
     type: "SEQUENCE_MEMORY",
     instruction: "Remember the numbers",
     sequence: [5, 1, 9],
   },
   {
     id: "wm-g13-3",
-    category: "Memory Recall",
+    category: "Number Memory",
     type: "SEQUENCE_MEMORY",
     instruction: "Remember the numbers",
     sequence: [4, 8, 2, 6],
   },
 
-  // 🔤 Word Memory
+  // 🔤 Picture Memory
   {
     id: "wm-g13-4",
-    category: "Word Memory",
-    type: "WORD_MEMORY",
+    category: "Picture Memory",
+    type: "PICTURE_MEMORY",
     instruction: "Remember these words",
     words: ["cat", "ball", "tree"],
   },
   {
     id: "wm-g13-5",
-    category: "Word Memory",
-    type: "WORD_MEMORY",
+    category: "Picture Memory",
+    type: "PICTURE_MEMORY",
     instruction: "Remember these words",
     words: ["sun", "book", "fish"],
   },
   {
     id: "wm-g13-6",
-    category: "Word Memory",
-    type: "WORD_MEMORY",
+    category: "Picture Memory",
+    type: "PICTURE_MEMORY",
     instruction: "Remember these words",
     words: ["dog", "cup", "car"],
   },
@@ -128,7 +128,7 @@ export const QUIZ_DATA_G13 = [
   },
   {
     id: "wm-g13-15",
-    category: "Memory Recall",
+    category: "Number Memory",
     type: "SEQUENCE_MEMORY",
     instruction: "Remember the numbers",
     sequence: [2, 5, 7],
@@ -144,45 +144,45 @@ export const QUIZ_DATA_G45 = [
   // 🔢 Digit Span (Longer)
   {
     id: "wm-g45-1",
-    category: "Memory Recall",
+    category: "Number Memory",
     type: "SEQUENCE_MEMORY",
     instruction: "Write the numbers in correct order",
     sequence: [3, 8, 1, 7],
   },
   {
     id: "wm-g45-2",
-    category: "Memory Recall",
+    category: "Number Memory",
     type: "SEQUENCE_MEMORY",
     instruction: "Write the numbers in correct order",
     sequence: [9, 2, 6, 4, 1],
   },
   {
     id: "wm-g45-3",
-    category: "Memory Recall",
+    category: "Number Memory",
     type: "SEQUENCE_MEMORY",
     instruction: "Write the numbers in correct order",
     sequence: [5, 7, 3, 8, 2],
   },
 
-  // 🔤 Word Memory (More words)
+  // 🔤 Picture Memory (More words)
   {
     id: "wm-g45-4",
-    category: "Word Memory",
-    type: "WORD_MEMORY",
+    category: "Picture Memory",
+    type: "PICTURE_MEMORY",
     instruction: "Write the words in correct order",
     words: ["apple", "chair", "river", "dog"],
   },
   {
     id: "wm-g45-5",
-    category: "Word Memory",
-    type: "WORD_MEMORY",
+    category: "Picture Memory",
+    type: "PICTURE_MEMORY",
     instruction: "Write the words in correct order",
     words: ["sun", "pen", "cup", "book"],
   },
   {
     id: "wm-g45-6",
-    category: "Word Memory",
-    type: "WORD_MEMORY",
+    category: "Picture Memory",
+    type: "PICTURE_MEMORY",
     instruction: "Write the words in correct order",
     words: ["tree", "fish", "car", "hat"],
   },
@@ -266,7 +266,7 @@ export const QUIZ_DATA_G45 = [
   },
   {
     id: "wm-g45-15",
-    category: "Memory Recall",
+    category: "Number Memory",
     type: "SEQUENCE_MEMORY",
     instruction: "Remember the numbers",
     sequence: [8, 3, 6, 1],

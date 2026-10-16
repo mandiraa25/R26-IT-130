@@ -38,8 +38,8 @@ export const grade4Data = {
     },
     {
       id: "wm-g4-5",
-      category: "Word Memory",
-      type: "WORD_MEMORY",
+      category: "Picture Memory",
+      type: "PICTURE_MEMORY",
       instruction: "Now select the words in the correct order",
       words: ["Cat", "Tree", "Book"],
       options: [
@@ -51,8 +51,8 @@ export const grade4Data = {
     },
     {
       id: "wm-g4-6",
-      category: "Word Memory",
-      type: "WORD_MEMORY",
+      category: "Picture Memory",
+      type: "PICTURE_MEMORY",
       instruction: "Now select the words in the correct order",
       words: ["Sun", "Bird", "River", "Home"],
       options: [
@@ -64,8 +64,8 @@ export const grade4Data = {
     },
     {
       id: "wm-g4-7",
-      category: "Word Memory",
-      type: "WORD_MEMORY",
+      category: "Picture Memory",
+      type: "PICTURE_MEMORY",
       instruction: "Now select the words in the correct order",
       words: ["Dog", "Bottle", "Cup", "Bird"],
       options: [
@@ -113,7 +113,7 @@ export const grade4Data = {
     },
     {
       id: "wm-g4-12",
-      category: "Memory Recall",
+      category: "Number Memory",
       type: "SEQUENCE_MEMORY",
       instruction: "Now select the correct number sequence below.",
       sequence: [4, 9, 2],
@@ -122,7 +122,7 @@ export const grade4Data = {
     },
     {
       id: "wm-g4-13",
-      category: "Memory Recall",
+      category: "Number Memory",
       type: "SEQUENCE_MEMORY",
       instruction: "Now select the correct number sequence below.",
       sequence: [6, 3, 8, 1],
@@ -131,7 +131,7 @@ export const grade4Data = {
     },
     {
       id: "wm-g4-14",
-      category: "Memory Recall",
+      category: "Number Memory",
       type: "SEQUENCE_MEMORY",
       instruction: "Now select the correct number sequence below.",
       sequence: [10, 20, 30, 40],
@@ -140,7 +140,7 @@ export const grade4Data = {
     },
     {
       id: "wm-g4-15",
-      category: "Memory Recall",
+      category: "Number Memory",
       type: "SEQUENCE_MEMORY",
       instruction: "Now select the correct number sequence below.",
       sequence: [3, 6, 12, 24],
@@ -187,8 +187,8 @@ export const grade4Data = {
     },
     {
       id: "wm-g4-si-5",
-      category: "Word Memory",
-      type: "WORD_MEMORY",
+      category: "Picture Memory",
+      type: "PICTURE_MEMORY",
       instruction: "දැන් එම වචන අනුපිළිවෙලින් තෝරන්න.",
       words: ["පූසා", "ගස", "පොත"],
       options: [
@@ -200,8 +200,8 @@ export const grade4Data = {
     },
     {
       id: "wm-g4-si-6",
-      category: "Word Memory",
-      type: "WORD_MEMORY",
+      category: "Picture Memory",
+      type: "PICTURE_MEMORY",
       instruction: "දැන් එම වචන අනුපිළිවෙලින් තෝරන්න.",
       words: ["ඉර", "කුරුල්ලා", "ගඟ", "ගෙදර"],
       options: [
@@ -213,8 +213,8 @@ export const grade4Data = {
     },
     {
       id: "wm-g4-si-7",
-      category: "Word Memory",
-      type: "WORD_MEMORY",
+      category: "Picture Memory",
+      type: "PICTURE_MEMORY",
       instruction: "දැන් එම වචන අනුපිළිවෙලින් තෝරන්න.",
       words: ["බල්ලා", "බෝතලය", "කෝප්පය", "කුරුල්ලා"],
       options: [
@@ -262,7 +262,7 @@ export const grade4Data = {
     },
     {
       id: "wm-g4-si-12",
-      category: "Memory Recall",
+      category: "Number Memory",
       type: "SEQUENCE_MEMORY",
       instruction: "දැන් එම නිවැරදි ඉලක්කම් අනුපිළිවෙල පහළින් තෝරන්න.",
       sequence: [4, 9, 2],
@@ -271,7 +271,7 @@ export const grade4Data = {
     },
     {
       id: "wm-g4-si-13",
-      category: "Memory Recall",
+      category: "Number Memory",
       type: "SEQUENCE_MEMORY",
       instruction: "දැන් එම නිවැරදි ඉලක්කම් අනුපිළිවෙල පහළින් තෝරන්න.",
       sequence: [6, 3, 8, 1],
@@ -280,7 +280,7 @@ export const grade4Data = {
     },
     {
       id: "wm-g4-si-14",
-      category: "Memory Recall",
+      category: "Number Memory",
       type: "SEQUENCE_MEMORY",
       instruction: "දැන් එම නිවැරදි ඉලක්කම් අනුපිළිවෙල පහළින් තෝරන්න.",
       sequence: [10, 20, 30, 40],
@@ -289,7 +289,7 @@ export const grade4Data = {
     },
     {
       id: "wm-g4-si-15",
-      category: "Memory Recall",
+      category: "Number Memory",
       type: "SEQUENCE_MEMORY",
       instruction: "දැන් එම නිවැරදි ඉලක්කම් අනුපිළිවෙල පහළින් තෝරන්න.",
       sequence: [3, 6, 12, 24],

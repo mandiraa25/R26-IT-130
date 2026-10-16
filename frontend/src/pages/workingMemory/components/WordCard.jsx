@@ -25,6 +25,12 @@ export const WordCard = ({ item, size = "md", isFlipped = true, isTappable = fal
   return (
     <div
       data-item-id={typeof item === "object" ? item?.id : String(item ?? "")}
+      role={onClick ? "button" : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      aria-label={onClick ? `Select ${typeof item === "object" ? item.alt || item.id : item}` : undefined}
+      onKeyDown={onClick ? (event) => {
+        if (event.key === "Enter" || event.key === " ") { event.preventDefault(); onClick(event); }
+      } : undefined}
       onClick={onClick}
       draggable={isTappable || !!onDragStart}
       onDragStart={onDragStart}
@@ -127,12 +133,9 @@ export const WordGhostSlot = ({ size = "md", index = null, onClick, onDragOver, 
       onClick={onClick}
       onDragOver={onDragOver}
       onDrop={onDrop}
-      className={`relative ${dims} bg-white/20 hover:bg-white/30 border-3 border-dashed border-white/90 rounded-2xl md:rounded-3xl shadow-sm flex flex-col items-center justify-center cursor-pointer transition-all hover:scale-105 select-none ${className}`}
+      className={`wm-picture-slot relative ${dims} rounded-2xl shadow-sm flex flex-col items-center justify-center cursor-pointer transition-all hover:scale-105 select-none ${className}`}
     >
-      {/* Carrot Top Clip */}
-      <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-base md:text-lg drop-shadow opacity-90 z-20 pointer-events-none">🥕</span>
-
-      {index !== null && <span className="text-white/60 font-black text-2xl md:text-3xl select-none pointer-events-none">?</span>}
+      {index !== null && <span className="font-black text-2xl md:text-3xl select-none pointer-events-none">?</span>}
     </div>
   );
 };
