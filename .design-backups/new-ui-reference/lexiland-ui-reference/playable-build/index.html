@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LexiLand Working Memory</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Lexend:wght@500;600;700&family=Noto+Sans+Sinhala:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#2E1C0E; --wood:#B8692B; --wood-dark:#7A4219; --cream:#FFF6E6;
+    --l1:#F08A1C; --l1d:#C9620A; --l2:#4CAF3A; --l2d:#2F7F22; --l3:#E8478E; --l3d:#B8276A; --l4:#8A55D8; --l4d:#6233AE;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:#1f3a24}
+  body{font-family:'Lexend',system-ui,sans-serif;color:var(--ink);overflow:hidden}
+  .viewport{position:fixed;inset:0;overflow:hidden}
+  .vbg{position:absolute;inset:-12px;width:calc(100% + 24px);height:calc(100% + 24px);object-fit:cover;transition:filter .3s}
+  .vbg.soft{filter:blur(5px) brightness(.92)}
+  .stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;transform-origin:50% 50%}
+  .view{position:absolute;inset:0;display:none}
+  .view.on{display:block;animation:fade .35s ease-out}
+  @keyframes fade{from{opacity:0;transform:scale(.98)}to{opacity:1;transform:none}}
+  button,a{font-family:inherit}
+  a{color:inherit}
+
+  /* ---------- Top bar ---------- */
+  .logo{position:absolute;left:44px;top:40px;transition:opacity .2s;width:330px;height:150px}
+  .logo .plank{position:absolute;left:18px;right:18px;top:62px;height:70px;border-radius:22px;background:linear-gradient(#F3D8A8,#E2B677);border:5px solid var(--wood);box-shadow:0 7px 0 var(--wood-dark),0 14px 18px rgba(0,0,0,.25);display:flex;align-items:flex-end;justify-content:center;padding-bottom:9px;font:700 21px/1 'Fredoka',sans-serif;letter-spacing:.08em;color:#4A2810}
+  .logo .word{position:absolute;left:0;right:0;top:4px;text-align:center;font:700 70px/1 'Fredoka',sans-serif;letter-spacing:.01em;
+    color:#FFB12B;-webkit-text-stroke:3px #7A3A0C;paint-order:stroke fill;text-shadow:0 5px 0 #7A3A0C,0 9px 12px rgba(0,0,0,.25)}
+  .logo .word b{color:#7ED13F}
+  .logo .leafL,.logo .leafR{position:absolute;top:58px;width:58px;height:40px;background:radial-gradient(circle at 30% 30%,#9BE05A,#3E9A2A);border-radius:0 100% 0 100%}
+  .logo .leafL{left:-6px;transform:rotate(-20deg)} .logo .leafR{right:-6px;transform:scaleX(-1) rotate(-20deg)}
+  .tools{position:absolute;right:44px;top:44px;display:flex;gap:16px;align-items:center}
+  .woodbtn{height:74px;min-width:84px;padding:0 18px;border-radius:24px;border:4px solid var(--wood);background:linear-gradient(#FBE6C2,#EFC88E);box-shadow:0 6px 0 var(--wood-dark),0 10px 14px rgba(0,0,0,.22);display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;text-decoration:none;color:#6B3410;font:700 26px/1 'Fredoka',sans-serif}
+  .woodbtn:active{transform:translateY(3px);box-shadow:0 3px 0 var(--wood-dark)}
+  .woodbtn svg{width:40px;height:40px}
+  .woodbtn.muted svg{opacity:.45}
+  .lang{display:flex;gap:4px;background:#fff7ea;border-radius:16px;padding:4px}
+  .lang span{padding:8px 12px;border-radius:12px;font-size:22px}
+  .lang span.on{background:#7B3FE4;color:#fff}
+  .lang .si{font-family:'Noto Sans Sinhala',sans-serif;font-size:19px}
+
+  /* ---------- Level map ---------- */
+  .map h1{position:absolute;left:0;right:0;top:150px;margin:0;text-align:center;font:700 84px/1 'Fredoka',sans-serif;color:#1E1408;
+    text-shadow:0 0 18px rgba(255,255,255,.85),0 0 4px rgba(255,255,255,.9),0 4px 0 rgba(255,255,255,.6)}
+  .cards{position:absolute;left:66px;right:66px;top:282px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:34px}
+  .card{position:relative;height:516px;border-radius:40px;background:#FFF8EC;border:6px solid;padding:12px 12px 22px;display:flex;flex-direction:column;align-items:center;box-shadow:0 12px 0 rgba(0,0,0,.12),0 22px 30px rgba(0,0,0,.22);cursor:pointer;transition:transform .18s;text-decoration:none;color:inherit}
+  .card:not(.locked):hover{transform:translateY(-8px) rotate(-.6deg)}
+  .card .art{position:relative;width:100%;height:356px;border-radius:30px;overflow:hidden;background-size:cover;background-position:center 60%}
+  .card .art img.bun{position:absolute;left:50%;bottom:-6px;height:300px;transform:translateX(-58%) rotate(4deg);filter:drop-shadow(0 8px 10px rgba(0,0,0,.35))}
+  .card .art img.buk{position:absolute;right:6px;bottom:4px;width:132px;filter:drop-shadow(0 6px 8px rgba(0,0,0,.35))}
+  .card h2{margin:14px 0 10px;font:700 42px/1 'Fredoka',sans-serif;color:#2A1A0C}
+  .card .cta{width:88%;height:74px;border-radius:999px;display:flex;align-items:center;justify-content:center;gap:16px;font:700 38px/1 'Fredoka',sans-serif}
+  .card .cta.play{color:#fff;box-shadow:0 7px 0 var(--d);background:linear-gradient(#FFB24A,var(--c))}
+  .card .cta.lock{border:3px solid;font-size:32px}
+  .card.locked{cursor:not-allowed}
+  .card.locked .art{filter:saturate(.75)}
+  .card .done{position:absolute;top:-16px;right:-12px;background:#fff;border:5px solid;border-radius:999px;padding:6px 16px;font:700 22px/1 'Fredoka',sans-serif}
+  .hint{position:absolute;left:0;right:0;bottom:26px;text-align:center}
+  .hint span{display:inline-block;background:rgba(255,248,236,.92);border-radius:999px;padding:10px 26px;font:700 24px/1.2 'Fredoka',sans-serif;color:#5A2E10;box-shadow:0 4px 0 rgba(0,0,0,.12)}
+  .shake{animation:shake .4s}
+  @keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+
+  /* ---------- Level menu ---------- */
+  .board{position:absolute;left:230px;top:118px;width:1140px;height:760px;background:url(assets/e8666b5eb680848f69e4f1a789c20a87.webp) 0 0/100% 100% no-repeat;filter:drop-shadow(0 16px 24px rgba(20,10,0,.35))}
+  .lvplank{position:absolute;left:50%;top:-34px;transform:translateX(-50%);width:420px;height:104px;border-radius:40px;background:linear-gradient(#F8E4BE,#EBC68A);border:6px solid var(--wood);box-shadow:0 8px 0 var(--wood-dark),0 14px 18px rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;font:700 66px/1 'Fredoka',sans-serif;color:#4A2810}
+  .lvplank::before,.lvplank::after{content:"";position:absolute;top:50%;width:12px;height:12px;border-radius:50%;background:#8A5524;transform:translateY(-50%)}
+  .lvplank::before{left:22px}.lvplank::after{right:22px}
+  .ask{position:absolute;left:50%;top:96px;transform:translateX(-50%);white-space:nowrap;padding:16px 52px;border-radius:22px;background:linear-gradient(#F4D7A2,#E5B670);border:4px solid #C0803E;box-shadow:0 6px 0 #8E5524;font:700 40px/1 'Fredoka',sans-serif;color:#3E2410}
+  .games{position:absolute;left:84px;right:84px;top:196px;bottom:66px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:44px 40px}
+  .game{position:relative;border-radius:34px;border:7px solid var(--c);background:#FFF4DF;box-shadow:inset 0 0 0 4px #fff,0 7px 0 var(--d);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:30px 22px 18px;text-decoration:none;color:inherit;transition:transform .15s}
+  .game:hover{transform:translateY(-5px)}
+  .game:active{transform:translateY(2px)}
+  .game .badge{position:absolute;top:-30px;left:50%;transform:translateX(-50%);min-width:110px;height:54px;padding:0 18px;border-radius:999px;background:var(--c);box-shadow:0 4px 0 var(--d);display:flex;align-items:center;justify-content:center;color:#fff;font:700 28px/1 'Fredoka',sans-serif}
+  .game .badge svg{width:36px;height:36px}
+  .tiles{display:flex;align-items:center;gap:10px}
+  .tile{width:76px;height:76px;border-radius:16px;background:#fff;box-shadow:0 4px 0 #E6D6BC;display:flex;align-items:center;justify-content:center}
+  .tile img{width:56px;height:56px}
+  .tile.c{border:3px dashed rgba(255,255,255,.75)}
+  .arrow{color:#F08A1C;font:700 34px/1 sans-serif}
+  .num{width:92px;height:92px;display:flex;align-items:center;justify-content:center;padding-bottom:5px;background-size:100% 100%;font:700 52px/1 'Fredoka',sans-serif;color:#fff;text-shadow:0 3px 0 rgba(0,0,0,.25)}
+  .row{width:100%;display:flex;align-items:center;gap:14px}
+  .row .name{flex:1;height:62px;border-radius:999px;background:linear-gradient(var(--h),var(--c));box-shadow:0 5px 0 var(--d);display:flex;align-items:center;justify-content:center;color:#fff;font:700 34px/1 'Fredoka',sans-serif;text-shadow:0 2px 0 rgba(0,0,0,.18)}
+  .row .go{flex:none;width:84px;height:84px;border-radius:50%;background:var(--c);border:6px solid #fff;box-shadow:0 5px 0 var(--d),0 0 0 3px var(--c);display:flex;align-items:center;justify-content:center}
+  .row .go svg{width:36px;height:36px;margin-left:6px}
+  body.inmenu .logo{opacity:0;pointer-events:none}
+  .menu .bunny{position:absolute;left:-10px;bottom:20px;height:360px;transform:rotate(5deg);filter:drop-shadow(0 8px 10px rgba(0,0,0,.3));pointer-events:none}
+  @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}}
+</style>
+</head>
+<body>
+<div class="viewport">
+  <img class="vbg" id="bg" src="assets/5d089e148319b17b2ec4bea0b967a6d4.webp" alt="">
+  <div class="stage" id="stage">
+
+    <!-- Top bar (shared) -->
+    <div class="logo" aria-label="LexiLand Working Memory">
+      <i class="leafL"></i><i class="leafR"></i>
+      <div class="plank">WORKING MEMORY</div>
+      <div class="word">Lexi<b>Land</b></div>
+    </div>
+    <div class="tools">
+      <a class="woodbtn" id="home" href="#" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M3 11.2 12 4l9 7.2" fill="none" stroke="#7A3A0C" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5h3v5h5V10" fill="#E07B1F" stroke="#7A3A0C" stroke-width="2" stroke-linejoin="round"/></svg></a>
+      <button class="woodbtn" id="music" aria-label="Turn music off" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M9 18V5l11-2v13" fill="none" stroke="#7A3A0C" stroke-width="2.4" stroke-linejoin="round"/><circle cx="6.5" cy="18" r="3" fill="#7A3A0C"/><circle cx="17.5" cy="16" r="3" fill="#7A3A0C"/></svg></button>
+      <button class="woodbtn" id="lang" aria-label="Language"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#7A3A0C" stroke-width="2"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18" fill="none" stroke="#7A3A0C" stroke-width="1.6"/></svg><span class="lang"><span class="on" data-l="en">EN</span><span class="si" data-l="si" lang="si">සිං</span></span></button>
+    </div>
+
+    <!-- Level map -->
+    <section class="view map" id="map" aria-label="Choose your level">
+      <h1>Choose your level</h1>
+      <div class="cards" id="cards"></div>
+      <div class="hint"><span id="hint">Finish a level to unlock the next.</span></div>
+    </section>
+
+    <!-- Level menu -->
+    <section class="view menu" id="menu" aria-label="Level menu">
+      <div class="board">
+        <div class="lvplank" id="lvTitle">Level 1</div>
+        <div class="ask">Which game would you like to play?</div>
+        <div class="games" id="games"></div>
+      </div>
+      <img class="bunny" src="assets/044c7ae59144599a3e2a41c9e1b3011a.webp" alt="">
+    </section>
+
+  </div>
+</div>
+
+<script>
+(() => {
+  const A = (f) => 'assets/' + f;
+  const LV = [
+    { n:1, c:'#F08A1C', d:'#C9620A', bg:'19e1e0ef4b5abf74b866c6b8715a6406.webp', buk:'a96b7dec539708fa54439e522e70b9fc.png' },
+    { n:2, c:'#4CAF3A', d:'#2F7F22', bg:'5d089e148319b17b2ec4bea0b967a6d4.webp', buk:'e0f2033456663ba8bc79ef176439d350.png' },
+    { n:3, c:'#E8478E', d:'#B8276A', bg:'8de8da2e765340cc05d0b70105fa9460.webp', buk:'f9ee966320b5981cde6837f2a13b1e6f.png' },
+    { n:4, c:'#8A55D8', d:'#6233AE', bg:'5da6ba6547c2c80b9c8d9047b9483577.webp', buk:'e0fefd916f5e1675e16f8022aeda3761.png' }
+  ];
+  const ICON = { carrot:'277ebc5eed6161299f9afb7c3af067a5.svg', flower:'2adfd57cc4f9879fa40a5588e2e0f537.svg', leaf:'55b9611b9adb114aa3fcd2cd022c689b.svg', star:'08972e9a7b847e601287bdb7cfcdfd8a.svg' };
+  const BTN = ['1604808094a7c5170785e96a712a3d9e.png','6829b4b1138e27ccfd69e203f73fb19d.png','a7f54dd08c41df83f3508e2863eb3592.png'];
+  const PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5 20 12 6 20.5z" fill="#fff" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>';
+  // Menu order and colours follow the reference: Pattern, Picture Game, Instructions, Numbers
+  const GAMES = [
+    { id:'Pattern',  name:'Pattern',      c:'#F08A1C', h:'#FFB04A', d:'#C9620A', start:(n) => 'Pattern-L' + n + '-Q1.dc.html',
+      badge:'<svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5-4.8-4.6 6.6-.9z" fill="#FFD43B" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>',
+      art:() => ['carrot','flower','carrot','flower','carrot'].map((k) => '<span class="tile"><img src="' + A(ICON[k]) + '" alt=""></span>').join('') },
+    { id:'Picture',  name:'Picture Game', c:'#43A832', h:'#7ACB4C', d:'#2F7F22', start:(n) => 'Picture-L' + n + '-Memorise.dc.html',
+      badge:'<svg viewBox="0 0 24 24"><path d="M20 4C10 4 4 9 4 16c0 1.4.3 2.6.8 3.6C6 13 11 9 16 8c-5 2-8.6 6-10 11.2 1.2.5 2.6.8 4 .8 7 0 10-7 10-16z" fill="#fff"/></svg>',
+      art:() => [['carrot','#F7A23B'],['leaf','#59B947'],['flower','#EE5FA0'],['star','#9A5FE0']].map((k) => '<span class="tile c" style="background:' + k[1] + ';box-shadow:0 4px 0 rgba(0,0,0,.18)"><img src="' + A(ICON[k[0]]) + '" alt=""></span>').join('') },
+    { id:'Instruct', name:'Instructions', c:'#E8478E', h:'#FF7DB4', d:'#B8276A', start:(n) => 'Instruct-L' + n + '-Listen.dc.html',
+      badge:'<svg viewBox="0 0 24 24"><path d="M8 15c0-6 1.5-10 5.5-10A4.5 4.5 0 0 1 18 9.5c0 3-2.5 3.6-2.5 6.5a3 3 0 0 1-5.6 1.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><path d="M11 10.5a2.5 2.5 0 0 1 5 0c0 1.6-1.4 1.9-1.4 3.4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>',
+      art:() => '<span class="tile"><svg viewBox="0 0 24 24" width="58" height="58"><path d="M3 10v4h4l5 4V6L7 10z" fill="#F7931E"/><path d="M15.5 8.5q3 3.5 0 7M18 6q5.5 6 0 12" stroke="#F7931E" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></span><span class="arrow">➜</span>' +
+                '<span class="tile"><svg viewBox="0 0 24 24" width="58" height="58"><path d="M9.5 12V4.5a1.6 1.6 0 0 1 3.2 0V11l4.3.9a2 2 0 0 1 1.6 2.3l-.9 5.3H10l-4-5a1.5 1.5 0 0 1 2.3-1.9z" fill="#F6C9A4" stroke="#B77A4F" stroke-width="1.3" stroke-linejoin="round"/></svg></span><span class="arrow">➜</span>' +
+                '<span class="tile"><img src="' + A(ICON.flower) + '" alt=""></span>' },
+    { id:'Numbers',  name:'Numbers',      c:'#8A55D8', h:'#B184F2', d:'#6233AE', start:(n) => 'Numbers-L' + n + '-Memorise.dc.html',
+      badge:'123',
+      art:() => [1,2,3].map((x, i) => '<span class="num" style="background-image:url(' + A(BTN[i]) + ')">' + x + '</span>').join('') }
+  ];
+
+  // ---- progress: a level opens when every game in the level before it was passed (3+ right) ----
+  const all = /[?&]unlock=all/.test(location.search);
+  const passed = (gid) => { try { return localStorage.getItem('lexi:pass:' + gid) === '1'; } catch (e) { return false; } };
+  const levelDone = (n) => GAMES.every((g) => passed(g.id + ':L' + n));
+  const open = (n) => all || n === 1 || levelDone(n - 1);
+
+  const $ = (id) => document.getElementById(id);
+  function renderMap() {
+    $('cards').innerHTML = LV.map((L) => {
+      const ok = open(L.n), done = levelDone(L.n);
+      return '<a class="card' + (ok ? '' : ' locked') + '" data-n="' + L.n + '" href="' + (ok ? '#level-' + L.n : '#') + '" style="border-color:' + L.c + '" aria-label="Level ' + L.n + (ok ? '' : ', locked') + '">' +
+        (done ? '<span class="done" style="border-color:' + L.c + ';color:' + L.d + '">★ Done</span>' : '') +
+        '<span class="art" style="background-image:url(' + A(L.bg) + ')"><img class="bun" src="' + A('044c7ae59144599a3e2a41c9e1b3011a.webp') + '" alt=""><img class="buk" src="' + A(L.buk) + '" alt=""></span>' +
+        '<h2>Level ' + L.n + '</h2>' +
+        (ok ? '<span class="cta play" style="--c:' + L.c + ';--d:' + L.d + ';background:linear-gradient(' + L.c + 'cc,' + L.c + ')">' + PLAY.replace('<svg', '<svg width="36" height="36"') + 'Play</span>'
+            : '<span class="cta lock" style="border-color:' + L.c + '66;background:' + L.c + '14;color:#3A2A1A"><svg width="38" height="38" viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="10" width="15" height="11" rx="3" fill="' + L.c + '"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10" fill="none" stroke="' + L.c + '" stroke-width="2.6"/><circle cx="12" cy="15" r="1.7" fill="#fff"/></svg>Locked</span>') +
+        '</a>';
+    }).join('');
+    document.querySelectorAll('.card.locked').forEach((c) => c.addEventListener('click', (e) => {
+      e.preventDefault(); c.classList.remove('shake'); void c.offsetWidth; c.classList.add('shake');
+      $('hint').textContent = 'Finish Level ' + (c.dataset.n - 1) + ' to unlock Level ' + c.dataset.n + '!';
+    }));
+  }
+  function renderMenu(n) {
+    const L = LV[n - 1];
+    $('lvTitle').textContent = 'Level ' + n;
+    $('games').innerHTML = GAMES.map((g) =>
+      '<a class="game" href="games/' + g.start(n) + '" style="--c:' + g.c + ';--d:' + g.d + ';--h:' + g.h + '" aria-label="Play ' + g.name + '">' +
+        '<span class="badge">' + g.badge + '</span>' +
+        '<span class="tiles">' + g.art() + '</span>' +
+        '<span class="row"><span class="name">' + g.name + '</span><span class="go">' + PLAY + '</span></span>' +
+      '</a>').join('');
+    $('bg').src = A(L.bg);
+  }
+  function route() {
+    const m = location.hash.match(/^#level-([1-4])$/), n = m ? +m[1] : 0;
+    if (n && open(n)) { renderMenu(n); $('map').classList.remove('on'); $('menu').classList.add('on'); document.body.classList.add('inmenu'); $('bg').classList.remove('soft'); $('home').href = '#'; }
+    else { renderMap(); $('menu').classList.remove('on'); $('map').classList.add('on'); document.body.classList.remove('inmenu'); $('bg').src = A(LV[1].bg); $('bg').classList.add('soft'); if (location.hash) history.replaceState(null, '', location.pathname + location.search); }
+  }
+  // scale the 1600×900 stage to the window
+  function fit() { const s = Math.min(innerWidth / 1600, innerHeight / 900); $('stage').style.transform = 'translate(-50%,-50%) scale(' + s + ')'; }
+  // simple toggles (no audio or translations yet)
+  $('music').addEventListener('click', () => { const b = $('music'), on = b.classList.toggle('muted'); b.setAttribute('aria-pressed', on); b.setAttribute('aria-label', on ? 'Turn music on' : 'Turn music off'); });
+  $('lang').addEventListener('click', (e) => { const t = e.target.closest('[data-l]'); if (!t) return; document.querySelectorAll('.lang span[data-l]').forEach((s) => s.classList.toggle('on', s === t)); });
+  addEventListener('hashchange', route); addEventListener('resize', fit);
+  fit(); route();
+})();
+</script>
+</body>
+</html>

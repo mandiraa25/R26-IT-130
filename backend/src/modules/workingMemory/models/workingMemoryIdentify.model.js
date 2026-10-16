@@ -24,6 +24,7 @@ const workingMemoryIdentifySchema = new mongoose.Schema(
 
         isCorrect: Boolean,
         timeTaken: Number,
+        memorizationTimeAllocated: Number,
 
         userAnswer: mongoose.Schema.Types.Mixed,
         correctAnswer: mongoose.Schema.Types.Mixed,

@@ -38,8 +38,8 @@ export const grade3Data = {
     },
     {
       id: "wm-g3-5",
-      category: "Word Memory",
-      type: "WORD_MEMORY",
+      category: "Picture Memory",
+      type: "PICTURE_MEMORY",
       instruction: "Now select the words in the correct order",
       words: ["Cat", "Ball", "Tree"],
       options: [
@@ -51,8 +51,8 @@ export const grade3Data = {
     },
     {
       id: "wm-g3-6",
-      category: "Word Memory",
-      type: "WORD_MEMORY",
+      category: "Picture Memory",
+      type: "PICTURE_MEMORY",
       instruction: "Now select the words in the correct order",
       words: ["Sun", "Book", "Fish"],
       options: [
@@ -64,8 +64,8 @@ export const grade3Data = {
     },
     {
       id: "wm-g3-7",
-      category: "Word Memory",
-      type: "WORD_MEMORY",
+      category: "Picture Memory",
+      type: "PICTURE_MEMORY",
       instruction: "Now select the words in the correct order",
       words: ["Dog", "Cup", "Bottle"],
       options: [
@@ -113,7 +113,7 @@ export const grade3Data = {
     },
     {
       id: "wm-g3-12",
-      category: "Memory Recall",
+      category: "Number Memory",
       type: "SEQUENCE_MEMORY",
       instruction: "Remember the given numbers in order",
       sequence: [3, 7, 2],
@@ -122,7 +122,7 @@ export const grade3Data = {
     },
     {
       id: "wm-g3-13",
-      category: "Memory Recall",
+      category: "Number Memory",
       type: "SEQUENCE_MEMORY",
       instruction: "Remember the given numbers in order",
       sequence: [5, 1, 9],
@@ -131,7 +131,7 @@ export const grade3Data = {
     },
     {
       id: "wm-g3-14",
-      category: "Memory Recall",
+      category: "Number Memory",
       type: "SEQUENCE_MEMORY",
       instruction: "Remember the given numbers in order",
       sequence: [2, 4, 6, 8],
@@ -140,7 +140,7 @@ export const grade3Data = {
     },
     {
       id: "wm-g3-15",
-      category: "Memory Recall",
+      category: "Number Memory",
       type: "SEQUENCE_MEMORY",
       instruction: "Remember the given numbers in order",
       sequence: [2, 4, 10, 20],
@@ -187,8 +187,8 @@ export const grade3Data = {
     },
     {
       id: "wm-g3-si-5",
-      category: "Word Memory",
-      type: "WORD_MEMORY",
+      category: "Picture Memory",
+      type: "PICTURE_MEMORY",
       instruction: "දැන් එම වචන අනුපිළිවෙලින් තෝරන්න.",
       words: ["පූසා", "බෝලය", "ගස"],
       options: [
@@ -200,8 +200,8 @@ export const grade3Data = {
     },
     {
       id: "wm-g3-si-6",
-      category: "Word Memory",
-      type: "WORD_MEMORY",
+      category: "Picture Memory",
+      type: "PICTURE_MEMORY",
       instruction: "දැන් එම වචන අනුපිළිවෙලින් තෝරන්න.",
       words: ["ඉර", "පොත", "මාළුවා"],
       options: [
@@ -213,8 +213,8 @@ export const grade3Data = {
     },
     {
       id: "wm-g3-si-7",
-      category: "Word Memory",
-      type: "WORD_MEMORY",
+      category: "Picture Memory",
+      type: "PICTURE_MEMORY",
       instruction: "දැන් එම වචන අනුපිළිවෙලින් තෝරන්න.",
       words: ["බල්ලා", "කෝප්පය", "බෝතලය"],
       options: [
@@ -262,7 +262,7 @@ export const grade3Data = {
     },
     {
       id: "wm-g3-si-12",
-      category: "Memory Recall",
+      category: "Number Memory",
       type: "SEQUENCE_MEMORY",
       instruction: "දැන් එම නිවැරදි ඉලක්කම් අනුපිළිවෙල පහළින් තෝරන්න.",
       sequence: [3, 7, 2],
@@ -271,7 +271,7 @@ export const grade3Data = {
     },
     {
       id: "wm-g3-si-13",
-      category: "Memory Recall",
+      category: "Number Memory",
       type: "SEQUENCE_MEMORY",
       instruction: "දැන් එම නිවැරදි ඉලක්කම් අනුපිළිවෙල පහළින් තෝරන්න.",
       sequence: [5, 1, 9],
@@ -280,7 +280,7 @@ export const grade3Data = {
     },
     {
       id: "wm-g3-si-14",
-      category: "Memory Recall",
+      category: "Number Memory",
       type: "SEQUENCE_MEMORY",
       instruction: "දැන් එම නිවැරදි ඉලක්කම් අනුපිළිවෙල පහළින් තෝරන්න.",
       sequence: [2, 4, 6, 8],
@@ -289,7 +289,7 @@ export const grade3Data = {
     },
     {
       id: "wm-g3-si-15",
-      category: "Memory Recall",
+      category: "Number Memory",
       type: "SEQUENCE_MEMORY",
       instruction: "දැන් එම නිවැරදි ඉලක්කම් අනුපිළිවෙල පහළින් තෝරන්න.",
       sequence: [2, 4, 10, 20],

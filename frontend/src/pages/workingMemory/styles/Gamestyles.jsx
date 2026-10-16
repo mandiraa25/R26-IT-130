@@ -1,4 +1,5 @@
 import React from "react";
+import "./redesign.css";
 
 // Shared embedded styles used by every WM improvement game screen (Pattern, Words, Instructions, Numbers)
 const GameStyles = () => (

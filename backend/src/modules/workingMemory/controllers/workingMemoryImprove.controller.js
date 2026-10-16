@@ -150,12 +150,11 @@ exports.submitSubCategoryAttempt = async (req, res) => {
       return res.status(400).json({ success: false, message: "An attempt must include one result for every question." });
     }
 
-    const identification = await WorkingMemoryIdentify.findOne({ studentId });
+    // Students may have screening history in several grades. Checking an
+    // arbitrary first record can reject a valid attempt for their current grade.
+    const identification = await WorkingMemoryIdentify.findOne({ studentId, grade: String(grade) });
     if (!identification) {
-      return res.status(403).json({ success: false, message: "Please complete the Identification Screening Test first." });
-    }
-    if (String(identification.grade) !== String(grade)) {
-      return res.status(403).json({ success: false, message: "The selected grade does not match the completed Identification Screening Test." });
+      return res.status(403).json({ success: false, message: `Please complete the Grade ${grade} Identification Screening Test first.` });
     }
 
     // 1. Fetch or initialize progress
@@ -205,8 +204,8 @@ exports.submitSubCategoryAttempt = async (req, res) => {
     const attemptNumber = (targetSubCat.totalAttempts || 0) + 1;
     const tQ = normalizedTotalQuestions;
 
-    // Pass criteria: score must be >= 2 out of 5
-    const isPassed = normalizedScore >= 2;
+    // New attempts require 3/5; previously earned completions stay intact.
+    const isPassed = normalizedScore >= 3;
     const achievePercentage = (normalizedScore / tQ) * 100;
     const starsEarned = normalizedScore * STARS_PER_CORRECT;
 

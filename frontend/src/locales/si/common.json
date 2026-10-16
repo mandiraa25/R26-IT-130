@@ -65,5 +65,11 @@
   "mute_background_music": "පසුබිම් සංගීතය නිශ්ශබ්ද කරන්න",
   "play_background_music": "පසුබිම් සංගීතය වාදනය කරන්න",
   "mute_music": "සංගීතය නිශ්ශබ්ද කරන්න",
-  "play_music": "සංගීතය වාදනය කරන්න"
+  "play_music": "සංගීතය වාදනය කරන්න",
+  "choose_an_activity": "ක්‍රියාකාරකමක් තෝරන්න",
+  "check_my_skills": "මගේ හැකියාවන් බලමු",
+  "play_and_practise": "සෙල්ලම් කර පුහුණු වෙමු",
+  "begin_activity": "අරඹන්න",
+  "play_activity": "සෙල්ලම් කරන්න",
+  "close_activity_popup": "ක්‍රියාකාරකම් තේරීම වසන්න"
 }

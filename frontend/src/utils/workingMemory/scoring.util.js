@@ -24,7 +24,7 @@ export const calculateWorkingMemoryMetrics = (results) => {
     if (r.isCorrect) correctCount++;
 
     // 🔢 DIGIT SPAN
-    if (r.category === "Memory Recall" && r.isCorrect) {
+    if ((r.category === "Number Memory" || r.category === "Memory Recall") && r.isCorrect) {
       const length = Array.isArray(r.correctAnswer)
         ? r.correctAnswer.length
         : 0;
@@ -33,7 +33,7 @@ export const calculateWorkingMemoryMetrics = (results) => {
     }
 
     // 🔁 SEQUENCE ERROR SCORE
-    if (r.category === "Memory Recall") {
+    if (r.category === "Number Memory" || r.category === "Memory Recall") {
       sequenceCount++;
 
       const weightMap = {
@@ -84,7 +84,7 @@ export const calculateWorkingMemoryMetrics = (results) => {
   // Find the highest possible span in the set
   let maxPossibleSpan = 0;
   results.forEach((r) => {
-    if (r.category === "Memory Recall") {
+    if (r.category === "Number Memory" || r.category === "Memory Recall") {
       const length = Array.isArray(r.correctAnswer) ? r.correctAnswer.length : 0;
       if (length > maxPossibleSpan) maxPossibleSpan = length;
     }

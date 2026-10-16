@@ -1,0 +1,17 @@
+﻿<!doctype html><html><head><meta charset="utf-8"></head><body style="margin:0"><div id="root"></div><script type="module">
+import React from 'react';
+import {createRoot} from 'react-dom/client';
+import './src/index.css';
+import i18n from './src/i18n.js';
+import Pattern from './src/pages/workingMemory/games/Patterngame.jsx';
+import Numbers from './src/pages/workingMemory/games/Numbersgame.jsx';
+import Words from './src/pages/workingMemory/games/WordsGame.jsx';
+import Instructions from './src/pages/workingMemory/games/Instructionsgame.jsx';
+import {getWorkingMemoryThemeAssets} from './src/pages/workingMemory/utils/themeAssets.js';
+const p=new URLSearchParams(location.search),level=Number(p.get('level')||1),game=p.get('game')||'numbers';
+await i18n.changeLanguage(p.get('lang')||'en');
+window.calls={watch:0,skip:0};
+createRoot(document.getElementById('root')).render(React.createElement(({pattern:Pattern,numbers:Numbers,words:Words,instructions:Instructions})[game],{
+phase:'video',levelNumber:level,subCategoryKey:game,t:(key)=>key,i18n,soundEnabled:true,setSoundEnabled:()=>{},handleBackToLevels:()=>{},subCatData:{title:'Tutorial',youtubeVideoUrl:'https://www.youtube.com/watch?v=abcdefghijk'},handleReplayVideo:()=>window.calls.watch++,handleSkipAndPlay:()=>window.calls.skip++,howToWatchBunny:'/images/workingMemory/improve/boards/wm_bunny_question.png',questions:[],slots:[],dragPool:[],results:[],currentIdx:0,backgroundSrc:getWorkingMemoryThemeAssets(level).howToBackground
+}));
+</script></body></html>

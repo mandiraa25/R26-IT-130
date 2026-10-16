@@ -16,7 +16,12 @@ export const evaluateDragAnswer = (subCategoryKey, slots, question) => {
   if (subCategoryKey === "numbers") {
     return JSON.stringify(normalizeNumberSequence(slots)) === JSON.stringify(normalizeNumberSequence(question.correct));
   }
-  return JSON.stringify(slots) === JSON.stringify(question.correct);
+  const key = item => item && typeof item === "object" ? item.id : item;
+  const actual = slots.map(key);
+  const expected = (question.correct || []).map(key);
+  return actual.length === expected.length && actual.every(Boolean)
+    && new Set(actual).size === actual.length
+    && actual.every((id, index) => id === expected[index]);
 };
 
 // subCategoryKey: "pattern" (single-tap game)

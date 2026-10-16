@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { getWorkingMemoryThemeAssets } from "../utils/themeAssets";
 
 const ASSET_ROOT = "/images/workingMemory/improve/gameselection";
 
@@ -19,12 +20,32 @@ export default function GameSelectionModal({
   onToggleSound,
   t,
 }) {
+  const panelRef = useRef(null);
+  useEffect(() => {
+    const previous = document.activeElement;
+    const panel = panelRef.current;
+    panel.querySelector("button")?.focus();
+    const onKey = (event) => {
+      if (event.key === "Escape") onClose();
+      if (event.key !== "Tab") return;
+      const buttons = [...panel.querySelectorAll("button:not(:disabled)")];
+      const first = buttons[0], last = buttons[buttons.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("keydown", onKey); previous?.focus(); };
+  }, [onClose]);
   return (
     <div
       className="fixed inset-0 z-50 grid place-items-center overflow-hidden bg-black/60 p-2 backdrop-blur-sm animate-fadeIn sm:p-3"
       onClick={onClose}
+      style={{ backgroundImage: `linear-gradient(#17341933,#17341955),url('${getWorkingMemoryThemeAssets(levelNumber).background}')`, backgroundSize: "cover", backgroundPosition: "center" }}
     >
       <section
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
         aria-label={`${t("common:level", { defaultValue: "Level" })} ${levelNumber}`}
         className="relative aspect-[1464/1091] max-h-[90dvh] w-[min(92vw,120.8dvh)] animate-scaleIn"
         onClick={(event) => event.stopPropagation()}

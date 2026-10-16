@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { stopAllAudio } from "./utils/phonologicalAwareness/audio";
+import { MemoryMusicRouteListener } from "./pages/workingMemory/utils/memoryMusic";
 
 import Login from "./pages/common/Login";
 import Register from "./pages/common/Register";
@@ -81,6 +82,7 @@ function App() {
   return (
     <BrowserRouter>
       <GlobalAudioListener />
+      <MemoryMusicRouteListener />
       <Routes>
         {/* Public Routes - Only accessible if NOT logged in */}
         <Route path="/" element={<PublicRoute><Login /></PublicRoute>} />
