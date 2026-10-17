@@ -46,6 +46,7 @@ function Profile() {
           school: "",
           profilePhoto: "",
           totalStars: 0,
+          moduleStars: { workingMemory: 0, phonologicalAwareness: 0, speech: 0 },
         }
   );
   const [initialProfile, setInitialProfile] = useState(() =>
@@ -246,6 +247,28 @@ function Profile() {
                     </p>
                   </div>
                 </div>
+
+                {/* Stars earned in each module */}
+                <ul className="mt-1.5 mb-1.5 w-full max-w-[212px] divide-y divide-amber-100 rounded-xl border border-amber-200/80 bg-[#fffaf0] px-2 py-0.5 text-left shadow-inner">
+                  {[
+                    { key: "working_memory", icon: "🧠", color: "text-[#ea580c]", stars: profile.moduleStars?.workingMemory },
+                    { key: "phonological_awareness", icon: "🔤", color: "text-[#16a34a]", stars: profile.moduleStars?.phonologicalAwareness },
+                    { key: "reading_processing", icon: "📖", color: "text-[#0284c7]", stars: null },
+                    { key: "speech_processing", icon: "🎤", color: "text-[#9333ea]", stars: profile.moduleStars?.speech },
+                  ].map((module) => (
+                    <li key={module.key} className="flex items-center gap-1.5 py-px">
+                      <span className="w-4 shrink-0 text-center text-xs" aria-hidden="true">{module.icon}</span>
+                      <span className="min-w-0 flex-1 text-[10px] font-bold leading-snug text-[#5b493a]">{t(module.key)}</span>
+                      {module.stars === null ? (
+                        <span className="shrink-0 text-[9px] font-semibold text-[#5b493a]/60">{t("coming_soon")}</span>
+                      ) : (
+                        <span className={`shrink-0 text-[11px] font-black tabular-nums ${module.color}`}>
+                          <span aria-hidden="true">⭐</span> {Number(module.stars) || 0}
+                        </span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
 
                 <button
                   type="button"
