@@ -9,6 +9,8 @@ const BASE_STARS = 98_765; // Deliberately large enough to catch badge clipping.
 const VIEWPORTS = [{ width: 1366, height: 768 }, { width: 2878, height: 1540 }];
 const NAMES = { pattern: "Pattern Recognition", words: "Picture Memory", instructions: "Following Instructions", numbers: "Number Memory" };
 const FIXED_TIME = new Date("2026-10-17T06:00:00.000Z");
+const CORRECT_FEEDBACK_NOTES = [523.25, 659.25, 783.99, 1046.5];
+const INCORRECT_FEEDBACK_NOTES = [220, 164.81];
 const board = page => page.locator(".lx-level-two .lx-board");
 const feedback = page => page.getByTestId("level-one-feedback");
 
@@ -65,8 +67,24 @@ async function setup(page, options = {}) {
     };
     window.speechSynthesis.cancel = () => {};
     window.speechSynthesis.getVoices = () => [];
-    HTMLMediaElement.prototype.play = () => Promise.resolve();
-    HTMLMediaElement.prototype.pause = () => {};
+    window.__uiMediaStates = [];
+    const mediaStates = new WeakMap();
+    const recordMedia = element => {
+      let record = mediaStates.get(element);
+      if (!record) {
+        record = { src: element.src || element.currentSrc, paused: true, playCalls: 0, pauseCalls: 0 };
+        mediaStates.set(element, record);
+        window.__uiMediaStates.push(record);
+      }
+      return record;
+    };
+    HTMLMediaElement.prototype.play = function () {
+      const record = recordMedia(this); record.paused = false; record.playCalls++;
+      return Promise.resolve();
+    };
+    HTMLMediaElement.prototype.pause = function () {
+      const record = recordMedia(this); record.paused = true; record.pauseCalls++;
+    };
     window.__uiSounds = [];
     window.AudioContext = class {
       constructor() { this.currentTime = 0; this.state = "running"; this.destination = {}; this.notes = []; window.__uiSounds.push(this.notes); }
@@ -429,8 +447,14 @@ for (const game of SUBCATEGORY_ORDER) for (const score of [1, 3, 4]) {
     const state = await setup(page, { muted, completed: game === "numbers" ? ["pattern", "words", "instructions"] : [] });
     const dashboard = await playAttempt(page, state, game, score, { testInfo, geometry: score === 4 });
     const sounds = await page.evaluate(() => window.__uiSounds);
-    if (muted) expect(sounds).toEqual([]);
-    else expect(sounds.map(notes => notes.length), "one gentle sound per submission; decorative stars add no rewards or sound plays").toEqual(Array.from({ length: 5 }, (_, i) => i < score ? 4 : 2));
+    expect(sounds, "exactly one correct or incorrect feedback sound per submission, independent of music mute").toEqual(Array.from({ length: 5 }, (_, i) => i < score ? CORRECT_FEEDBACK_NOTES : INCORRECT_FEEDBACK_NOTES));
+    expect(await page.evaluate(() => localStorage.getItem("lexiland-wm-muted"))).toBe(String(muted));
+    if (muted) {
+      const music = await page.evaluate(() => window.__uiMediaStates.filter(record => record.src.includes("/audio/workingMemory/bgmusic.mp3")));
+      expect(music).toHaveLength(1);
+      expect(music[0].paused).toBe(true);
+      expect(music[0].playCalls, "answer sounds do not start muted background music").toBe(0);
+    }
     const continuation = dashboard.locator(".lx-pattern-continue");
     if (score < 3) {
       await expect(continuation).toBeDisabled();
@@ -466,19 +490,44 @@ for (const game of SUBCATEGORY_ORDER) for (const score of [1, 3, 4]) {
   });
 }
 
-test("sound control changes the following feedback effect without changing star rewards", async ({ page }) => {
+test("feedback sounds stay independent of background music and preserve star rewards", async ({ page }) => {
   const state = await setup(page, { muted: true });
+  const musicState = () => page.evaluate(() => ({
+    preference: localStorage.getItem("lexiland-wm-muted"),
+    media: window.__uiMediaStates.filter(record => record.src.includes("/audio/workingMemory/bgmusic.mp3"))
+      .map(({ paused, playCalls }) => ({ paused, playCalls })),
+  }));
   await startGame(page, "pattern");
   let q = await currentQuestion(page, "pattern");
   await answer(page, "pattern", q, true);
   await expect(feedback(page)).toBeVisible();
-  expect(await page.evaluate(() => window.__uiSounds)).toEqual([]);
+  expect(await page.evaluate(() => window.__uiSounds), "a muted background still allows exactly one correct-answer chime").toEqual([CORRECT_FEEDBACK_NOTES]);
+  expect(await musicState(), "feedback does not start background music or change its mute preference").toEqual({ preference: "true", media: [{ paused: true, playCalls: 0 }] });
+
   await page.getByRole("button", { name: "Unmute music", exact: true }).click();
   await board(page).getByRole("button", { name: "Next", exact: true }).click();
   q = await currentQuestion(page, "pattern");
   await answer(page, "pattern", q, false);
   await expect(feedback(page)).toBeVisible();
-  expect(await page.evaluate(() => window.__uiSounds.map(notes => notes.length))).toEqual([2]);
+  expect(await page.evaluate(() => window.__uiSounds), "incorrect feedback uses the same two-note tone as Phonological Awareness").toEqual([CORRECT_FEEDBACK_NOTES, INCORRECT_FEEDBACK_NOTES]);
+  const playing = await musicState();
+  expect(playing.preference).toBe("false");
+  expect(playing.media).toHaveLength(1);
+  expect(playing.media[0].paused).toBe(false);
   await expect(page.locator(".lx-nav-stars")).toHaveAttribute("aria-label", `${BASE_STARS + 5} stars`);
+
+  await page.getByRole("button", { name: "Mute music", exact: true }).click();
+  const mutedAgain = await musicState();
+  expect(mutedAgain.preference).toBe("true");
+  expect(mutedAgain.media[0].paused).toBe(true);
+  await board(page).getByRole("button", { name: "Next", exact: true }).click();
+  q = await currentQuestion(page, "pattern");
+  await answer(page, "pattern", q, true);
+  await expect(feedback(page)).toBeVisible();
+  expect(await page.evaluate(() => window.__uiSounds), "muting music again keeps feedback audible without duplicate sound plays").toEqual([CORRECT_FEEDBACK_NOTES, INCORRECT_FEEDBACK_NOTES, CORRECT_FEEDBACK_NOTES]);
+  expect(await musicState()).toEqual(mutedAgain);
+  await expect(page.locator(".lx-nav-stars")).toHaveAttribute("aria-label", `${BASE_STARS + 10} stars`);
   expect(state.submissions).toEqual([]);
+  expect(state.unexpectedWrites).toEqual([]);
+  expect(state.errors).toEqual([]);
 });
