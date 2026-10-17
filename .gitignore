@@ -153,3 +153,6 @@ backend/uploads/
 
 # Speech Python virtual environment
 backend/src/modules/speechProcessing/ml/.venv/
+
+# Windows PowerShell cache written into the repo folder by mistake
+Microsoft/
