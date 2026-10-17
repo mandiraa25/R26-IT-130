@@ -5,7 +5,7 @@ import PatternArtwork from "../shared/artwork/PatternArtwork";
 import { useNavigate } from "react-router-dom";
 import { MemoryStage, MemoryNav, MemoryBoard } from "../shared/GameLayout";
 import { SCREENING_ART } from "../config/levelThemes";
-import "../styles/identificationLayout.css";
+import "../styles/identificationScreens.css";
 
 export { default as ScreeningPicture } from "../shared/artwork/PictureArtwork";
 

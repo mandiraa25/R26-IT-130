@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { ArrowLeft, ChevronRight } from "lucide-react";
-import "../styles/identificationIntro.css";
+import "../styles/identificationScreens.css";
 import { ScreeningDemoCompleteScreen } from "../shared/ScreeningResults";
 import { MemoryStage, MemoryNav } from "../shared/GameLayout";
 import { SCREENING_ART } from "../config/levelThemes";

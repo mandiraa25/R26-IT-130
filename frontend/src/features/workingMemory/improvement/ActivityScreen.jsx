@@ -12,10 +12,7 @@ import HowToPlay from "../shared/HowToPlay";
 
 import "../styles/contentRefinement.css";
 
-import "../styles/levelOne.css";
-import "../styles/levelTwo.css";
-import "../styles/levelThree.css";
-import "../styles/levelFour.css";
+import "../styles/gameLevels.css";
 
 import { numberStageInstruction } from "../config/gameConfig";
 
