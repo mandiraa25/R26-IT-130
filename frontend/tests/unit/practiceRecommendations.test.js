@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { getPracticeRecommendations } from "../../src/features/workingMemory/logic/recommendations.js";
+import { getPracticeRecommendations } from "../../src/features/workingMemory/logic/progression.js";
 
 describe("screening practice recommendations", () => {
   test("ranks recorded mistakes by count, rate, then stable category order", () => {

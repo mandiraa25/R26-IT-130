@@ -5,7 +5,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getWorkingMemoryAccess } from "../services/improveApi";
 import { MemoryStage, MemoryNav, MemoryButton } from "../shared/GameLayout";
-import LevelMenu from "../shared/GameMenu";
+import LevelMenu from "./GameMenu";
 
 export default function LevelSelection() {
   const { grade } = useParams();

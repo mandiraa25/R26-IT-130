@@ -20,7 +20,7 @@
  * Where it is used
  *   - improvement/ImprovementPage.jsx  getLevelDisplaySeconds, SUBCATEGORY_ORDER
  *   - improvement/data/index.js        VALID_GRADES, VALID_LEVELS (question bank lookup)
- *   - improvement/games/NumberMemoryGame.jsx, shared/ActivityScreen.jsx  numberStageInstruction
+ *   - improvement/games/NumberMemoryGame.jsx, improvement/ActivityScreen.jsx  numberStageInstruction
  *   - shared/HowToPlay.jsx             getHowToPlayVideo
  *   - shared/ActivityResults.jsx, shared/LevelCompletion.jsx  GAME_CATEGORIES, DASHBOARD_CONTENT
  *   - tests (unit and e2e)             grades, levels, game order and timings

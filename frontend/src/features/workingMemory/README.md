@@ -10,17 +10,18 @@ Routes are registered in `src/App.jsx`. The backend lives in
 | --- | --- |
 | Screening (identification) page and flow | `identification/ScreeningPage.jsx`; intro popups in `ScreeningIntro.jsx`, question screens in `ScreeningQuestions.jsx` |
 | Screening questions | `identification/data/grade2.js`, `grade3.js`, `grade4.js` |
-| Level map | `improvement/LevelSelection.jsx` |
+| Level map and its game popup | `improvement/LevelSelection.jsx`, `improvement/GameMenu.jsx` |
+| Game screen (picks tutorial, question, results or level-complete view) | `improvement/ActivityScreen.jsx` |
 | Improvement game controller (question selection, timers, answers, stars, submit) | `improvement/ImprovementPage.jsx` |
 | The four games | `improvement/games/PatternGame.jsx`, `PictureMemoryGame.jsx`, `InstructionsGame.jsx`, `NumberMemoryGame.jsx` |
 | Improvement questions, one folder per game | `improvement/data/pattern/`, `pictures/`, `instructions/`, `numbers/`; `improvement/data/index.js` picks the bank for a grade, level, game and language |
-| Shared screens | `shared/GameLayout.jsx` (background, navigation, bunny, vine board, buttons), `HowToPlay.jsx`, `Feedback.jsx`, `ActivityResults.jsx`, `LevelCompletion.jsx`, `ScreeningResults.jsx`, `GameMenu.jsx` (level popup) |
+| Shared screens | `shared/GameLayout.jsx` (background, navigation, bunny, vine board, buttons), `HowToPlay.jsx`, `Feedback.jsx`, `ActivityResults.jsx`, `LevelCompletion.jsx`, `ScreeningResults.jsx` (includes the recommended-practice list) |
 | Picture and pattern artwork renderers | `shared/artwork/` (pattern emoji map: `patternSymbols.js` + `patternSymbolBounds.json`) |
 | How things look: level colours, level images, screening images | `config/levelThemes.js` |
 | Settings and text: grades, levels, game order, timings, game names, tutorial videos, Numbers game text, results-screen messages | `config/gameConfig.js` |
 | Answer checking | `logic/answerChecking.js` (screening and the three improvement checkers) |
 | Screening scoring | `logic/scoring.js` |
-| Saved progress helpers | `logic/progression.js`; unlocking rules are applied by the backend improve controller |
+| Saved progress, question selection, practice recommendations | `logic/progression.js`; unlocking rules are applied by the backend improve controller |
 | Stars | `STARS_PER_CORRECT` in `improvement/ImprovementPage.jsx` |
 | API calls | `services/identifyApi.js` (`/working-memory/identification/...`), `services/improveApi.js` (`/working-memory/improvement/...`) |
 | Styles | `styles/` |

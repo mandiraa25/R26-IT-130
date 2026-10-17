@@ -1,0 +1,47 @@
+﻿/* Pattern-only reference layout; the shared navigation and other games are untouched. */
+.lx-game--pattern .lx-board.lx-pattern-reference-board{left:450px;top:134px;width:1040px;height:682px;background-image:url('/images/workingMemory/pattern/vine-board.webp');background-size:100% 100%}
+.lx-game--pattern.lx-phase--result .lx-bucket{left:1403px;top:668px;width:194px;height:220px}
+.lx-pattern-question .lx-pattern-option.is-selected{outline:5px solid var(--lx-dark);outline-offset:4px;background:var(--lx-light);box-shadow:0 6px 0 var(--lx-dark)}
+.lx-game--pattern .lx-pattern-question .lx-pattern-option:disabled{opacity:1;cursor:default}
+.lx-pattern-response{width:100%;height:95px;display:flex;align-items:center;justify-content:center;gap:20px}
+.lx-pattern-toast{display:flex;align-items:center;gap:10px;max-width:530px;margin:0;padding:12px 20px;border:2px solid #98cfa2;border-radius:18px;background:#edf9eb;color:#24663d;font-size:22px;line-height:1.4;text-align:center}
+.lx-pattern-toast.is-incorrect{border-color:#e9bd86;background:#fff7e8;color:#875021}.lx-pattern-toast svg{width:26px;height:26px;flex-shrink:0;stroke-width:3}
+.lx-pattern-next{display:flex;align-items:center;justify-content:center;gap:10px;border:2px solid var(--lx-accent);border-radius:99px;background:var(--lx-dark);color:white;min-width:150px;min-height:64px;padding:10px 20px;font-weight:700;box-shadow:0 4px 0 var(--lx-accent)}
+.lx-pattern-result-bunny{position:absolute;left:30px;bottom:40px;width:365px;height:535px;object-fit:contain;object-position:center bottom;pointer-events:none}
+.lx-pattern-speech{position:absolute;left:170px;top:245px;width:260px;padding:18px 18px 22px;background:#fffdf6;border:4px solid #f4b746;border-radius:55%;color:#65300f;text-align:center;font:700 29px/1.25 Fredoka,'Noto Sans Sinhala',sans-serif;z-index:4;filter:drop-shadow(0 4px 0 #ffe1a7)}
+.lx-pattern-speech::after{content:'';position:absolute;bottom:-19px;left:80px;width:27px;height:29px;background:#fffdf6;border-right:4px solid #f4b746;border-bottom:4px solid #f4b746;transform:skewY(-34deg) rotate(22deg);border-radius:0 0 10px 0}
+.lx-pattern-result .lx-board-content{padding:46px 101px 48px 103px;justify-content:flex-start;gap:14px}
+.lx-pattern-result-heading{display:flex;align-items:center;justify-content:center;gap:20px;text-align:center;width:100%;height:97px}
+.lx-pattern-result-heading>img{width:95px;height:105px;object-fit:contain}
+.lx-pattern-result-heading h1{margin:0;color:#005f4d;font:700 69px/1.06 Fredoka,'Noto Sans Sinhala',sans-serif;-webkit-text-stroke:7px white;paint-order:stroke fill;letter-spacing:.3px}
+.lx-pattern-result-heading p{margin:7px 0 0;font-size:21px;font-weight:700;line-height:1.25;color:#77360f;white-space:nowrap}
+.lx-pattern-result.is-retry .lx-pattern-result-heading h1{color:#cf2443;font-size:64px}
+.lx-pattern-result.is-retry .lx-pattern-result-heading p{font-size:27px}
+.lx-pattern-score{display:flex;align-items:center;justify-content:space-between;width:100%;height:126px;padding:10px 30px 12px;border:3px solid #9dce9a;background:#e8f7e9;border-radius:42px;color:#005c39}
+.lx-pattern-score>div:first-child{min-width:225px;text-align:center}.lx-pattern-score span{display:block;font-size:24px;font-weight:700;line-height:1.1}
+.lx-pattern-score strong{display:block;font:700 77px/1.07 Fredoka,'Noto Sans Sinhala',sans-serif}
+.lx-pattern-result.is-retry .lx-pattern-score{color:#be2040;background:#fce8e6;border-color:#f59caa}
+.lx-pattern-stars{display:flex;align-items:center;justify-content:center;gap:10px}
+.lx-pattern-stars img{width:64px;height:64px;object-fit:contain;filter:grayscale(1);opacity:.65}.lx-pattern-stars img.is-earned{filter:none;opacity:1}
+.lx-pattern-statistics{display:grid;grid-template-columns:1fr 1fr 1.1fr;gap:18px;width:100%;height:108px}
+.lx-pattern-statistics>section{display:grid;grid-template-columns:49px 1fr;grid-template-rows:29px 1fr;column-gap:9px;align-items:center;padding:12px 13px;border-radius:28px;border:3px solid #a8dcbc;background:#e8f6ed;color:#006a3a;text-align:center}
+.lx-pattern-statistics>section>span:not(.lx-pattern-stat-icon){font-size:19px;line-height:1.2;font-weight:700;white-space:nowrap}
+.lx-pattern-statistics strong{grid-column:2;font:700 52px/1 Fredoka,'Noto Sans Sinhala',sans-serif}
+.lx-pattern-statistics .is-incorrect{color:#ca2140;background:#ffedeb;border-color:#f5b8c1}
+.lx-pattern-statistics .is-stars{color:#934b02;background:#fff8e6;border-color:#f5d67c}
+.lx-pattern-stat-icon{grid-row:1/3;align-self:start;width:46px;height:46px;border-radius:50%;background:linear-gradient(#5fc57f,#109246);border:2px solid #0c7d43;display:grid;place-items:center;box-shadow:inset 0 2px 2px #fffa;color:white}
+.is-incorrect .lx-pattern-stat-icon{background:linear-gradient(#ff627a,#e1144b);border-color:#b91e42}
+.lx-pattern-stat-icon svg{width:31px;height:31px;stroke-width:4}
+.lx-pattern-statistics>section>img{width:51px;height:51px;grid-row:1/3;align-self:start;object-fit:contain}
+.lx-pattern-save-status{margin:0;width:100%;height:41px;text-align:center;display:flex;align-items:center;justify-content:center;font-size:18px;line-height:1.35;color:#714419}
+.lx-pattern-result-actions{display:grid;grid-template-columns:1fr 1.15fr;gap:26px;width:100%;height:77px}
+.lx-pattern-result-actions button{min-height:72px;display:flex;justify-content:center;align-items:center;gap:14px;border-radius:99px;border:3px solid #ed9d32;font:700 31px/1.1 Fredoka,'Noto Sans Sinhala',sans-serif;padding:10px 14px;box-shadow:inset 0 3px 1px #fffa,0 5px 0 #e3bb7b}
+.lx-pattern-retry{background:linear-gradient(white,#fff9ec);color:#6a2e10}
+.lx-pattern-result-actions .lx-pattern-continue{background:linear-gradient(#1cc674,#00a572);border-color:#86bc72;color:white;box-shadow:inset 0 3px 1px #fffa,0 5px 0 #247f4a}
+.lx-pattern-result-actions svg{width:34px;height:34px;stroke-width:3;flex-shrink:0}
+.lx-game--pattern:lang(si) .lx-pattern-result-heading h1{font-size:45px;-webkit-text-stroke:4px white}.lx-game--pattern:lang(si) .lx-pattern-result-heading p{font-size:17px}
+.lx-game--pattern:lang(si) .lx-pattern-score span{font-size:21px}.lx-game--pattern:lang(si) .lx-pattern-statistics>section>span:not(.lx-pattern-stat-icon){font-size:16px}.lx-game--pattern:lang(si) .lx-pattern-result-actions button{font-size:23px}.lx-game--pattern:lang(si) .lx-pattern-save-status{font-size:16px}
+@media(prefers-reduced-motion:reduce){.lx-pattern-question .lx-pattern-option{transition:none}}
+.lx-pattern-result .lx-board-content{padding-top:52px;padding-bottom:44px;gap:18px}
+.lx-pattern-result-heading{height:145px}
+.lx-pattern-stars{gap:6px}.lx-pattern-stars img{width:82px;height:82px}

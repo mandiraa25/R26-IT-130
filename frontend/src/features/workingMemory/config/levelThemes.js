@@ -15,7 +15,7 @@
  *
  * Where it is used
  *   - shared/GameLayout.jsx          LEVEL_THEMES, UI (stage, navigation, buttons)
- *   - shared/ActivityScreen.jsx      UI
+ *   - improvement/ActivityScreen.jsx      UI
  *   - shared/ActivityResults.jsx     UI
  *   - improvement/LevelSelection.jsx LEVEL_THEMES (level card colours)
  *   - improvement/games/InstructionsGame.jsx  UI

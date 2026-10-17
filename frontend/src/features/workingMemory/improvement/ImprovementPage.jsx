@@ -1,8 +1,8 @@
-import ActivityScreen from "../shared/ActivityScreen";
+import ActivityScreen from "./ActivityScreen";
 import { readTotalStars } from "../logic/progression";
 import React, { useState, useEffect, useRef } from "react";
 import { useMemoryMusic } from "../logic/audio";
-import { selectAttemptQuestions } from "../logic/attempts";
+import { selectAttemptQuestions } from "../logic/progression";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getAttemptHistory, getWorkingMemoryAccess, submitSubCategoryAttempt } from "../services/improveApi";
