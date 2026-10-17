@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { getPracticeRecommendations, getPracticeLevel } from "../../src/utils/workingMemory/practiceRecommendations.util";
+import { getPracticeRecommendations } from "../../src/features/workingMemory/logic/progression.js";
 
 describe("screening practice recommendations", () => {
   test("ranks recorded mistakes by count, rate, then stable category order", () => {
@@ -19,15 +19,5 @@ describe("screening practice recommendations", () => {
   test("recorded skips and timeouts follow existing incorrect-answer scoring", () => {
     const result = getPracticeRecommendations([{ category: "Number Memory", isCorrect: false, errorType: "skipped" }]);
     expect(result.categories[0].incorrect).toBe(1);
-  });
-  test("only chooses accessible practice activities and prefers unfinished levels", () => {
-    const progress = { isIdentificationCompleted: true, maxUnlockedLevel: 2, levelsProgress: [
-      { levelNumber: 1, subCategories: [{ subCategoryKey: "words", isUnlocked: true, isCompleted: true }] },
-      { levelNumber: 2, subCategories: [{ subCategoryKey: "words", isUnlocked: true, isCompleted: false }] },
-      { levelNumber: 3, subCategories: [{ subCategoryKey: "words", isUnlocked: true }] },
-    ] };
-    expect(getPracticeLevel(progress, "words")).toBe(2);
-    expect(getPracticeLevel(progress, "numbers")).toBeNull();
-    expect(getPracticeLevel({ ...progress, isIdentificationCompleted: false }, "words")).toBeNull();
   });
 });

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { getStudentProgress, getAttemptHistory } from "../../../services/workingMemory/improveApi";
+import { getStudentProgress, getAttemptHistory } from "../../../features/workingMemory/services/improveApi";
 import { getStudentProfile } from "../../../services/student/api";
 
 export default function ImproveWorkingMemoryReport() {
@@ -69,7 +69,7 @@ export default function ImproveWorkingMemoryReport() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-sky-200 via-sky-100 to-white flex flex-col items-center justify-center">
+      <div className="min-h-screen bg-[#bdeee8] bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center" style={{ backgroundImage: "url('/images/reports/achievements-jungle-bg-wide.png')" }}>
         <div className="w-20 h-20 border-8 border-white border-t-indigo-500 rounded-full animate-spin mb-4" />
         <p className="text-indigo-600 font-black text-2xl animate-pulse">
           Gathering Memory Logs...
@@ -88,7 +88,7 @@ export default function ImproveWorkingMemoryReport() {
     : 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-100 via-sky-50 to-white flex flex-col p-4 md:p-8">
+    <div className="min-h-screen bg-[#bdeee8] bg-cover bg-center bg-no-repeat flex flex-col p-4 md:p-8" style={{ backgroundImage: "url('/images/reports/achievements-jungle-bg-wide.png')" }}>
       {/* Navigation Header */}
       <header className="max-w-6xl w-full mx-auto flex items-center gap-6 mb-10 bg-white/60 backdrop-blur-md p-6 rounded-[2.5rem] border border-white/50 shadow-xl">
         <button

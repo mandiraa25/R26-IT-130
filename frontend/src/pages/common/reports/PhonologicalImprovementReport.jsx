@@ -80,7 +80,7 @@ export default function PhonologicalImprovementReport() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-sky-200 via-sky-100 to-white flex flex-col items-center justify-center">
+      <div className="min-h-screen bg-[#bdeee8] bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center" style={{ backgroundImage: "url('/images/reports/achievements-jungle-bg-wide.png')" }}>
         <div className="w-20 h-20 border-8 border-white border-t-pink-500 rounded-full animate-spin mb-4" />
         <p className="text-pink-600 font-black text-2xl animate-pulse">
           {t("gathering_stars")}
@@ -99,7 +99,7 @@ export default function PhonologicalImprovementReport() {
     : 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-300 via-indigo-100 to-emerald-50 p-4 md:p-8 font-sans select-none relative overflow-x-hidden">
+    <div className="min-h-screen bg-[#bdeee8] bg-cover bg-center bg-no-repeat p-4 md:p-8 font-sans select-none relative overflow-x-hidden" style={{ backgroundImage: "url('/images/reports/achievements-jungle-bg-wide.png')" }}>
       {/* 🏠 Top Bar */}
       <header className="max-w-6xl mx-auto flex items-center justify-between mb-8 z-10 relative">
         <div className="flex items-center gap-4">

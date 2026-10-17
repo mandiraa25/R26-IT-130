@@ -1,7 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { WoodenLanguageSwitch } from './WoodenNavControls';
 
-const LanguageSwitcher = () => {
+const LanguageSwitcher = ({ variant, className }) => {
   const { i18n } = useTranslation();
 
   const changeLanguage = (lng) => {
@@ -9,6 +10,10 @@ const LanguageSwitcher = () => {
   };
 
   const currentLanguage = i18n.language || 'en';
+
+  if (variant === 'woodland') {
+    return <WoodenLanguageSwitch className={className} />;
+  }
 
   return (
     <div className="flex items-center bg-white/80 backdrop-blur-sm border border-gray-100 rounded-2xl p-1.5 shadow-sm">

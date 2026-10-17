@@ -1,0 +1,45 @@
+{
+  "api": "mocked",
+  "coverage": [
+    {
+      "level": 1,
+      "language": "en",
+      "viewport": "1600x900",
+      "questionCount": 5,
+      "score": 3,
+      "submissions": 1
+    },
+    {
+      "level": 2,
+      "language": "en",
+      "viewport": "1600x900",
+      "questionCount": 5,
+      "score": 3,
+      "submissions": 1
+    },
+    {
+      "level": 3,
+      "language": "en",
+      "viewport": "1600x900",
+      "questionCount": 5,
+      "score": 3,
+      "submissions": 1
+    },
+    {
+      "level": 4,
+      "language": "en",
+      "viewport": "1600x900",
+      "questionCount": 5,
+      "score": 3,
+      "submissions": 1
+    },
+    {
+      "level": 2,
+      "language": "si",
+      "viewport": "1366x768",
+      "questionCount": 5,
+      "score": 3,
+      "submissions": 1
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 import { describe, test, expect } from "vitest";
-import { getSubCategoryData } from "../../src/pages/workingMemory/data/improvement";
-import { VALID_GRADES, VALID_LEVELS, SUBCATEGORY_ORDER } from "../../src/pages/workingMemory/data/improvement/config";
-import { evaluateDragAnswer, evaluatePatternAnswer } from "../../src/utils/workingMemory/evaluateImprovementAnswer.util";
+import { getSubCategoryData } from "../../src/features/workingMemory/improvement/data";
+import { VALID_GRADES, VALID_LEVELS, SUBCATEGORY_ORDER } from "../../src/features/workingMemory/config/gameConfig";
+import { evaluateDragAnswer, evaluatePatternAnswer } from "../../src/features/workingMemory/logic/answerChecking.js";
 
 const SENTINEL = "__DEFINITELY_WRONG__";
 const LANGUAGES = ["en", "si"];

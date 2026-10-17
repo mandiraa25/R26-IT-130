@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 import { AUTH_FILE } from "./global-setup";
 import { makeStepper } from "./utils/screenshot";
 import { answerIdentifyQuestion } from "./utils/identifyAnswer";
-import { QUIZ_DATA } from "../../src/pages/workingMemory/quizData";
+import { QUIZ_DATA } from "../../src/features/workingMemory/identification/data";
 
 /**
  * Full-coverage browser suite: every Identification quiz question, in every

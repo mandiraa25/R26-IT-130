@@ -46,6 +46,7 @@ function Profile() {
           school: "",
           profilePhoto: "",
           totalStars: 0,
+          moduleStars: { workingMemory: 0, phonologicalAwareness: 0, speech: 0 },
         }
   );
   const [initialProfile, setInitialProfile] = useState(() =>
@@ -246,6 +247,37 @@ function Profile() {
                     </p>
                   </div>
                 </div>
+
+                {/* Stars earned in each module: the module's badge with its count */}
+                <ul className="mt-2 mb-2 grid w-full max-w-[212px] grid-cols-4 gap-1.5">
+                  {[
+                    { id: "wm", key: "working_memory", color: "text-[#ea580c]", stars: profile.moduleStars?.workingMemory },
+                    { id: "rp", key: "reading_processing", color: "text-[#0284c7]", stars: null },
+                    { id: "pa", key: "phonological_awareness", color: "text-[#16a34a]", stars: profile.moduleStars?.phonologicalAwareness },
+                    { id: "sp", key: "speech_processing", color: "text-[#9333ea]", stars: profile.moduleStars?.speech },
+                  ].map((module) => {
+                    const soon = module.stars === null;
+                    const label = `${t(module.key)}: ${soon ? t("coming_soon") : `${Number(module.stars) || 0} ${t("stars")}`}`;
+                    return (
+                      <li
+                        key={module.id} title={label} aria-label={label}
+                        className="flex flex-col items-center gap-0.5 rounded-xl border border-amber-200/80 bg-[#fffaf0] px-0.5 pt-1 pb-0.5 shadow-inner"
+                      >
+                        <img
+                          src={`/images/dashboard/reference-style/badge-${module.id}.png`} alt="" draggable="false"
+                          className={`h-7 w-7 object-contain ${soon ? "opacity-50 grayscale" : ""}`}
+                        />
+                        {soon ? (
+                          <span className="text-[10px] leading-4" aria-hidden="true">🔒</span>
+                        ) : (
+                          <span className={`text-[11px] font-black leading-4 tabular-nums ${module.color}`} aria-hidden="true">
+                            {Number(module.stars) || 0}
+                          </span>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
 
                 <button
                   type="button"

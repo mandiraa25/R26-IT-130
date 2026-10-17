@@ -1,0 +1,329 @@
+/*
+ * Working Memory: screening (identification) screen layout and intro popups
+ *
+ * What is inside
+ *   - Question-screen layout: board, tracker, picture/number/instruction answers
+ *     (.wm-screen, .lx-screening ...).
+ *   - Intro popups: the welcome choice and rules boards (.wm-intro-*).
+ *
+ * Why it is here
+ *   Both sets load after the shared game UI styles (memoryUI.css) so they can
+ *   override them for screening only. identification.css stays a separate file
+ *   because it must load BEFORE those shared styles.
+ *
+ * Where it is used
+ *   Imported by identification/ScreeningQuestions.jsx and identification/ScreeningIntro.jsx.
+ */
+
+/* ---------------------------------------------------------------------------
+   Question screens (was identificationLayout.css)
+   --------------------------------------------------------------------------- */
+/* Memory Check only. Keep the existing 1600 x 900 stage, board artwork and
+   board bounds; these rules also isolate screening from game-level themes. */
+.wm-screen.lx-screening {
+  --wm-ink:#483622;
+  --wm-border:#edacbc;
+  --wm-radius:18px;
+}
+
+/* The tracker is centered on the same x=800 axis as the vine board. */
+.wm-screen.lx-screening .wm-screen__tracking {
+  left:300px; right:auto; top:105px; width:1000px; height:50px;
+  margin:0; display:flex; flex-wrap:nowrap; justify-content:center; align-items:center; gap:20px;
+}
+.wm-screen.lx-screening .wm-screen__trackers { flex:0 0 auto; }
+.wm-screen.lx-screening .wm-screen__stars {
+  display:flex; align-items:center; gap:8px; width:auto; height:44px;
+  margin:0; padding:10px 18px; box-shadow:none;
+}
+.wm-screen.lx-screening .wm-screen__count {
+  position:static; width:auto; min-height:44px; display:flex; align-items:center;
+  margin:0; padding:8px 18px; font-size:19px; line-height:1.4;
+}
+
+/* Padding clears the visible inner frame and both decorative leaf corners.
+   Fixed header/content/footer areas keep study and recall on the same board. */
+.wm-screen.lx-screening .lx-board .lx-board-content { padding:40px 84px 76px; }
+.wm-screen.lx-screening .lx-board:has(.wm-screen__complete) .lx-board-content { padding-bottom:84px; }
+.wm-screen.lx-screening .lx-board .wm-screen__board-content {
+  position:relative; inset:auto; width:100%; height:100%; min-height:0; padding:0;
+  display:flex; flex-direction:column; justify-content:flex-start; gap:10px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__question-header {
+  display:flex; flex-direction:column; align-items:stretch; gap:8px; flex:none;
+}
+.wm-screen.lx-screening .wm-screen__category {
+  align-self:flex-start; padding:5px 13px; font-size:16px; line-height:1.4;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__title-row {
+  display:grid; grid-template-columns:132px minmax(0,1fr) 132px;
+  align-items:center; gap:12px; min-height:68px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__question-title {
+  grid-column:2; min-width:0; max-width:none; margin:0;
+  font-size:28px; line-height:1.35; text-align:center; color:var(--wm-ink);
+  overflow-wrap:break-word; text-wrap:pretty;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__listen {
+  grid-column:3; width:132px; min-height:60px; padding:6px 10px;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  border:2px solid transparent; border-radius:999px;
+  background:#f6e2c4; color:#603b1c; font-size:19px; line-height:1.3;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__listen img { width:38px; height:38px; flex:none; }
+/* The previous instruction outline indicated active audio. Keep that state
+   distinct from the consistent, high-contrast keyboard focus on all controls. */
+.wm-screen.lx-screening .wm-screen__listen[aria-pressed=true] { border-color:#a86624; outline:none; }
+.wm-screen.lx-screening button:focus-visible,
+.wm-screen.lx-screening .wm-screen__listen[aria-pressed=true]:focus-visible {
+  outline:4px solid #174d88; outline-offset:4px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__question-content {
+  flex:1 1 0; min-height:0; width:100%; padding:0;
+  display:flex; flex-direction:column; justify-content:flex-start; align-items:center; gap:18px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__question-footer { flex:none; margin:0; padding:0; }
+.wm-screen.lx-screening .wm-screen__question-footer p {
+  margin:0; color:#6f5138; font-size:19px; font-weight:700; line-height:1.45; text-align:center;
+}
+
+.wm-screen.lx-screening .lx-board .wm-screen__option {
+  min-width:0; padding:10px 18px; border-width:2px; border-radius:18px;
+  font-family:inherit; font-size:25px; line-height:1.4; color:var(--wm-ink);
+  overflow-wrap:break-word; box-shadow:0 3px 0 #70401612;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__pattern {
+  width:100%; min-height:116px; padding:16px 22px; gap:18px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__options--pattern {
+  width:100%; max-width:none; gap:16px; margin:0;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__options--pattern .wm-screen__option { min-height:100px; }
+.wm-screen.lx-screening .wm-screen__pattern > .lx-pattern-artwork { width:64px; height:64px; }
+.wm-screen.lx-screening .wm-screen__options--pattern .lx-pattern-artwork { width:60px; height:60px; }
+
+/* Fit the existing transparent pictures without distorting their aspect ratio.
+   Three-choice rows use a slightly smaller square to keep all rows readable. */
+.wm-screen.lx-screening .lx-board .wm-screen__memory-panel--pictures {
+  width:100%; padding:24px; border-radius:20px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__picture-strip,
+.wm-screen.lx-screening .lx-board .wm-screen__memory-panel--pictures .wm-screen__picture-strip,
+.wm-screen.lx-screening .lx-board .wm-screen__option--pictures .wm-screen__picture-strip {
+  display:flex; flex-wrap:nowrap; justify-content:center; align-items:center;
+  width:100%; gap:28px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__picture-item { display:flex; flex:0 1 auto; min-width:0; }
+.wm-screen.lx-screening .lx-board .wm-screen__memory-panel--pictures .wm-screen__picture-figure {
+  width:154px; height:154px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__options--orders {
+  width:100%; max-width:none; gap:8px; margin:0;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__options--orders .wm-screen__option {
+  border-style:dashed; min-height:82px; font-size:32px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__options--orders .wm-screen__option--pictures {
+  min-height:0; padding:7px 20px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__option--pictures .wm-screen__picture-figure {
+  width:clamp(78px,calc(234px / var(--choice-count,2)),117px);
+  height:clamp(78px,calc(234px / var(--choice-count,2)),117px);
+}
+.wm-screen.lx-screening .lx-board .wm-screen__memory-panel--plain { width:100%; padding:0; }
+.wm-screen.lx-screening .lx-board .wm-screen__number-sequence--study { flex-wrap:nowrap; gap:24px; }
+.wm-screen.lx-screening .lx-board .wm-screen__number-sequence--study > span {
+  width:138px; height:138px; font-size:66px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__number-sequence--study.wm-screen__number-sequence--4 > span {
+  width:116px; height:126px; font-size:56px;
+}
+
+.wm-screen.lx-screening .lx-board .wm-screen__instruction-area { width:100%; }
+.wm-screen.lx-screening .lx-board .wm-screen__instruction-steps { gap:10px; }
+.wm-screen.lx-screening .lx-board .wm-screen__instruction-steps li {
+  min-height:60px; padding:8px 18px; gap:14px; border-radius:18px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__instruction-steps li > span {
+  flex:none; width:40px; height:40px; font-size:22px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__instruction-steps p {
+  min-width:0; margin:0; font-size:25px; line-height:1.4; overflow-wrap:break-word;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__options--actions {
+  width:100%; max-width:none; margin:0; gap:16px;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+.wm-screen.lx-screening .lx-board .wm-screen__options--actions .wm-screen__option { min-height:88px; }
+.wm-screen.lx-screening .wm-screen__instruction-area .wm-screen__primary { margin-top:12px; }
+/* Four readable steps and the existing audio-failure Continue control must
+   share this area without reaching the helper text below it. */
+.wm-screen.lx-screening .lx-board .wm-screen__instruction-area:has(.wm-screen__primary):has(li:nth-child(4)) .wm-screen__instruction-steps { gap:8px; }
+.wm-screen.lx-screening .lx-board .wm-screen__instruction-area:has(.wm-screen__primary):has(li:nth-child(4)) .wm-screen__instruction-steps li {
+  min-height:48px; padding:6px 18px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__instruction-area:has(.wm-screen__primary):has(li:nth-child(4)) .wm-screen__instruction-steps li > span { width:32px; height:32px; font-size:20px; }
+.wm-screen.lx-screening .lx-board .wm-screen__instruction-area:has(.wm-screen__primary):has(li:nth-child(4)) .wm-screen__instruction-steps p { font-size:22px; line-height:1.4; }
+
+.wm-screen.lx-screening .lx-board .wm-screen__complete {
+  display:flex; flex-direction:column; height:100%; min-height:0; gap:12px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__complete header h1 { margin:0 0 5px; font-size:30px; line-height:1.3; }
+.wm-screen.lx-screening .lx-board .wm-screen__complete header p { margin:0; font-size:17px; line-height:1.4; }
+.wm-screen.lx-screening .lx-board .wm-screen__results {
+  display:grid; grid-template-columns:1fr 1.12fr; flex:1 1 0; min-height:0; gap:18px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__score,
+.wm-screen.lx-screening .lx-board .wm-screen__results .wm-recommendations {
+  min-width:0; min-height:0; padding:20px; gap:8px; border-radius:22px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__results h2 { margin:0; font-size:21px; line-height:1.4; }
+.wm-screen.lx-screening .lx-board .wm-screen__score strong { font-size:62px; line-height:1.1; }
+.wm-screen.lx-screening .lx-board .wm-screen__score small { font-size:16px; line-height:1.4; }
+.wm-screen.lx-screening .lx-board .wm-screen__score p { margin:0; padding:5px 10px; font-size:15px; line-height:1.4; }
+.wm-screen.lx-screening .lx-board .wm-screen__results .wm-recommendations ul { display:grid; gap:10px; }
+.wm-screen.lx-screening .lx-board .wm-screen__results .wm-recommendations button {
+  min-height:70px; padding:10px 12px; gap:12px; border-radius:16px;
+  font-family:inherit; font-size:17px; line-height:1.4;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__results .wm-recommendations img { width:48px; height:48px; }
+.wm-screen.lx-screening .lx-board .wm-screen__result-actions {
+  flex:none; display:grid; grid-template-columns:.8fr 1.2fr; gap:16px; padding-top:6px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__result-actions button {
+  min-height:64px; padding:10px 18px; font-size:19px; line-height:1.4;
+}
+.wm-screen.lx-screening .wm-screen__result-actions [data-testid=wm-go-improvement] {
+  background:#dceeff; border:2px solid #6b9dcb; box-shadow:0 4px 0 #93b7d8;
+  color:#2b4b69; font-weight:800;
+}
+.wm-screen.lx-screening .wm-screen__result-actions [data-testid=wm-go-improvement]::after { content:none; }
+.wm-screen.lx-screening .lx-board .wm-screen__complete--notice { gap:8px; }
+.wm-screen.lx-screening .lx-board .wm-screen__complete--notice .wm-screen__score,
+.wm-screen.lx-screening .lx-board .wm-screen__complete--notice .wm-screen__results .wm-recommendations { padding:12px 18px; }
+.wm-screen.lx-screening .lx-board .wm-screen__complete--notice .wm-screen__score strong { font-size:48px; }
+.wm-screen.lx-screening .lx-board .wm-screen__complete--notice .wm-screen__results .wm-recommendations button { min-height:56px; padding:6px 10px; font-size:16px; }
+.wm-screen.lx-screening .lx-board .wm-screen__complete--notice .wm-screen__results .wm-recommendations img { width:40px; height:40px; }
+
+.wm-screen.lx-screening:lang(si) .lx-board .wm-screen__question-title { font-size:24px; line-height:1.45; }
+.wm-screen.lx-screening:lang(si) .lx-board .wm-screen__instruction-steps p { font-size:23px; line-height:1.45; }
+.wm-screen.lx-screening:lang(si) .lx-board .wm-screen__complete header h1 { font-size:27px; }
+.wm-screen.lx-screening:lang(si) .lx-board .wm-screen__results .wm-recommendations button { font-size:16px; }
+.wm-screen.lx-screening:lang(si) .lx-board .wm-screen__result-actions button { font-size:18px; }
+
+/* ---------------------------------------------------------------------------
+   Intro popups: welcome choice and rules (was identificationIntro.css)
+   --------------------------------------------------------------------------- */
+.wm-intro-scene { position:relative; display:grid; place-items:center; min-height:100dvh; padding:24px; background-position:center; background-size:cover; font-family:'Nunito',sans-serif; }
+.wm-intro-dimmer { position:fixed; inset:0; background:rgb(10 35 22 / 35%); backdrop-filter:blur(3px); }
+.wm-intro-panel { --intro-ratio:1.18; position:relative; container-type:inline-size; width:min(860px,100%,calc((100dvh - 48px) * var(--intro-ratio))); aspect-ratio:var(--intro-ratio); color:#47210c; }
+.wm-intro-panel--rules { --intro-ratio:1.03; width:min(870px,100%,calc((100dvh - 48px) * var(--intro-ratio))); }
+.wm-intro-board { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; transform:scale(1.1); pointer-events:none; user-select:none; }
+.wm-intro-close { position:absolute; z-index:2; top:3.4%; right:3.1%; width:7.3%; aspect-ratio:1; border:0; padding:0; background:transparent; border-radius:50%; cursor:pointer; }
+.wm-intro-close img { width:100%; height:100%; object-fit:contain; pointer-events:none; }
+.wm-intro-header { position:absolute; top:4.2%; left:5%; right:5%; height:28%; display:flex; align-items:center; }
+.wm-intro-bunny { width:30%; height:100%; object-fit:contain; transform:scale(1.08); flex-shrink:0; pointer-events:none; }
+.wm-intro-heading { width:65%; margin-left:1%; text-align:center; }
+.wm-intro-grade { display:inline-block; padding:.5cqw 3.5cqw; border-radius:999px; background:#ffe2bb; color:#d74b00; font-size:2.65cqw; font-weight:900; line-height:1.2; }
+.wm-intro-heading h1 { margin:.6cqw 0 .7cqw; font-size:5.4cqw; font-weight:900; letter-spacing:-.12cqw; line-height:1.05; text-shadow:0 1px white; }
+.wm-intro-subtitle { margin:0; font-size:3.15cqw; font-weight:900; line-height:1.2; }
+.wm-intro-helper { margin:.7cqw 0 0; font-size:2.2cqw; font-weight:800; line-height:1.2; color:#6a5443; }
+.wm-choice-cards { position:absolute; top:33.5%; bottom:13.5%; left:6%; right:5.5%; display:grid; grid-template-columns:1fr 1fr; gap:2%; }
+.wm-choice-card { position:relative; border:1.5px solid #9ad779; border-radius:3.5cqw; background:linear-gradient(135deg,#f3fce7,#edf9e0); box-shadow:inset 0 0 0 2px #fffa; }
+.wm-choice-card--check { border-color:#ffaf67; background:linear-gradient(135deg,#fff3df,#fff0d9); }
+.wm-choice-art { position:absolute; top:2%; left:15%; width:70%; height:43%; object-fit:contain; transform:scale(1.2); pointer-events:none; }
+.wm-choice-card h2 { position:absolute; top:45%; left:3%; right:3%; margin:0; text-align:center; font-size:4.1cqw; font-weight:900; letter-spacing:-.06cqw; line-height:1.2; }
+.wm-choice-card > p { position:absolute; top:59%; left:3%; right:3%; margin:0; text-align:center; font-size:2.8cqw; font-weight:700; line-height:1.2; }
+.wm-choice-card small { position:absolute; top:68%; left:3%; right:3%; text-align:center; color:#6c6657; font-size:2.15cqw; font-weight:800; line-height:1.2; }
+.wm-intro-action { display:flex; align-items:center; justify-content:center; gap:1.5cqw; min-width:0; padding:0 3%; border:1px solid #fffa; border-radius:999px; background:linear-gradient(#ff7710,#d34a04); color:white; font-family:inherit; font-size:3.05cqw; font-weight:900; line-height:1.15; box-shadow:inset 0 2px 1px #fff4,0 3px 4px #65371c33; cursor:pointer; }
+.wm-choice-card .wm-intro-action { position:absolute; bottom:5%; left:5%; width:90%; height:18%; }
+.wm-intro-action--green { background:linear-gradient(#28b34a,#008626); }
+.wm-intro-play { width:2.8cqw; height:3.2cqw; flex-shrink:0; }
+.wm-intro-action:hover { filter:brightness(1.07); }
+.wm-intro-action:active { transform:translateY(1px); }
+.wm-intro-back-link { position:absolute; bottom:6%; left:7%; display:flex; align-items:center; gap:1cqw; padding:0; border:0; background:transparent; font-family:inherit; color:#47210c; font-size:2.75cqw; font-weight:900; cursor:pointer; }
+.wm-intro-back-link svg { width:3cqw; height:3cqw; stroke:#e25900; stroke-width:3; }
+.wm-intro-panel button:focus-visible { outline:3px solid #66320a; outline-offset:3px; }
+.wm-intro-panel--rules .wm-intro-header { top:4.7%; height:26%; }
+.wm-intro-panel--rules .wm-intro-heading h1 { font-size:5.75cqw; margin-top:1.2cqw; }
+.wm-intro-panel--rules .wm-intro-subtitle { font-size:3cqw; }
+.wm-intro-listen { position:absolute; top:27%; right:4.2%; width:3.5cqw; height:3.5cqw; display:grid; place-items:center; padding:.4cqw; border:1px solid #eed4a6; border-radius:50%; background:#fff1d7; color:#b9540a; cursor:pointer; }
+.wm-intro-listen svg { width:100%; height:100%; }
+.wm-rules-steps { position:absolute; top:32%; left:13.5%; right:10%; height:19.5%; display:grid; grid-template-columns:repeat(3,1fr); gap:11%; margin:0; padding:0; list-style:none; }
+.wm-rules-steps li { position:relative; border-radius:50%; background:#fff2d8; }
+.wm-rules-steps img { position:absolute; top:8%; left:17%; width:70%; height:70%; object-fit:contain; transform:scale(1.15); }
+.wm-rules-steps li:nth-child(-n+2) img { transform:scale(1.4); }
+.wm-rules-step-number { position:absolute; top:4%; left:-3%; z-index:1; width:32%; aspect-ratio:1; display:grid; place-items:center; border:1px solid white; border-radius:50%; background:linear-gradient(#ff7c0b,#f14400); color:white; font-size:3.6cqw; font-weight:900; }
+.wm-rules-step-label { position:absolute; bottom:0; left:0; width:100%; min-height:27%; display:grid; place-items:center; padding:0 3%; border-radius:999px; background:#ffedce; color:#481b0b; font-size:2.95cqw; font-weight:900; line-height:1.2; text-align:center; }
+.wm-rules-chevron { position:absolute; top:35%; right:-32%; width:4.5cqw; height:5cqw; color:#ffc390; stroke-width:4; }
+.wm-rules-hide-note { position:absolute; top:53%; left:5%; right:5%; margin:0; text-align:center; font-size:2.85cqw; font-weight:900; line-height:1.2; }
+.wm-rules-activities { position:absolute; top:59.2%; bottom:13.3%; left:5.5%; right:5.5%; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-template-rows:repeat(2,minmax(0,1fr)); row-gap:6%; column-gap:2%; }
+.wm-rules-activity { display:flex; align-items:center; min-height:0; min-width:0; gap:3%; padding:2% 3%; border:1.5px solid #ffa563; border-radius:2.2cqw; background:#fff8eb; }
+.wm-rules-activity img { width:48%; height:100%; object-fit:contain; flex-shrink:0; }
+.wm-rules-activity p { margin:0; font-size:2.35cqw; font-weight:900; line-height:1.22; }
+.wm-rules-activity--pictures { border-color:#89d56d; background:#f1fbe7; }
+.wm-rules-activity--instructions { border-color:#87bfff; background:#eaf4ff; }
+.wm-rules-activity--numbers { border-color:#c58aff; background:#f4eafa; }
+.wm-rules-activity--pattern img,.wm-rules-activity--numbers img { transform:scale(1.1); }
+.wm-rules-activity--pictures img { transform:scale(1.25); }
+.wm-rules-activity--instructions img { transform:scale(1.55); }
+.wm-rules-activity--numbers p { font-size:2.2cqw; }
+.wm-rules-actions { position:absolute; bottom:3.8%; left:5.5%; right:5.5%; height:8.5%; display:grid; grid-template-columns:1fr 1fr; gap:2%; }
+.wm-rules-actions .wm-intro-action { font-size:3.4cqw; }
+.wm-intro-action--back { background:linear-gradient(#fff9ec,#f6e9cd); border-color:#f6d6ab; color:#47210c; }
+.wm-intro-action--back svg { width:3.4cqw; height:3.4cqw; color:#ef7000; stroke-width:3; }
+.wm-intro-panel--si .wm-intro-heading h1 { font-size:4.25cqw; letter-spacing:0; }
+.wm-intro-panel--si .wm-intro-subtitle { font-size:2.55cqw; }
+.wm-intro-panel--si .wm-intro-helper { font-size:1.85cqw; }
+.wm-intro-panel--si .wm-choice-card h2 { font-size:3.2cqw; }
+.wm-intro-panel--si .wm-choice-card > p { font-size:2.35cqw; }
+.wm-intro-panel--si .wm-choice-card small { font-size:1.95cqw; }
+.wm-intro-panel--si .wm-intro-action { font-size:2.6cqw; }
+.wm-intro-panel--si .wm-rules-step-label { font-size:2cqw; }
+.wm-intro-panel--si .wm-rules-activity p { font-size:1.95cqw; }
+.wm-intro-panel--si .wm-rules-hide-note { font-size:2.45cqw; }
+@media(max-width:520px) { .wm-intro-scene {padding:22px} .wm-intro-panel {width:100%} .wm-intro-panel--rules {width:100%} }
+.wm-intro-listen img { width:100%; height:100%; object-fit:contain; }
+.wm-intro-listen { width:48px; height:48px; padding:0; border:0; background:transparent; }
+/* Keep the same illustrated frame, but let text and touch controls flow at
+   readable sizes instead of shrinking the desktop composition on phones. */
+@container (max-width:600px) {
+ .wm-intro-scene { padding:24px 14px; align-items:start; }
+ .wm-intro-panel { width:100%; aspect-ratio:auto; border:20px solid transparent; border-image:url('/images/workingMemory/identification/intro/choice-board.png') 100 fill /20px /4px stretch; }
+ .wm-intro-panel--rules { width:100%; border-image-source:url('/images/workingMemory/identification/intro/rules-board.png'); }
+ .wm-intro-board { display:none; }
+ .wm-intro-close { top:-9px; right:-9px; width:42px; height:42px; }
+ .wm-intro-header,.wm-intro-panel--rules .wm-intro-header { position:relative; inset:auto; height:auto; padding:22px 2px 8px; gap:8px; }
+ .wm-intro-bunny { width:86px; height:110px; transform:none; }
+ .wm-intro-heading { width:auto; flex:1; min-width:0; margin:0; }
+ .wm-intro-grade { font-size:14px; padding:5px 10px; }
+ .wm-intro-panel .wm-intro-heading h1 { font-size:22px; line-height:1.2; letter-spacing:0; margin:8px 0; }
+ .wm-intro-panel .wm-intro-subtitle { font-size:16px; line-height:1.35; }
+ .wm-intro-panel .wm-intro-helper { font-size:14px; line-height:1.4; margin-top:6px; }
+ .wm-choice-cards { position:static; height:auto; margin:14px 0; display:grid; grid-template-columns:1fr; gap:16px; }
+ .wm-choice-card { position:relative; display:flex; flex-direction:column; align-items:center; padding:16px 12px; gap:8px; border-radius:24px; }
+ .wm-choice-art { position:static; width:140px; height:110px; transform:none; object-fit:contain; }
+ .wm-intro-panel .wm-choice-card h2 { position:static; margin:0; font-size:22px; line-height:1.3; }
+ .wm-intro-panel .wm-choice-card > p { position:static; margin:0; font-size:17px; line-height:1.4; }
+ .wm-intro-panel .wm-choice-card small { position:static; font-size:14px; line-height:1.4; }
+ .wm-intro-panel .wm-intro-action { position:static; width:100%; min-height:48px; height:auto; padding:10px 12px; margin-top:6px; font-size:17px; gap:10px; }
+ .wm-intro-play { width:18px; height:20px; }
+ .wm-intro-back-link { position:static; min-height:48px; font-size:17px; gap:8px; padding:4px 8px; }
+ .wm-intro-back-link svg { width:20px; height:20px; }
+ .wm-intro-listen { position:static; width:44px; height:44px; margin:0 0 10px auto; padding:0; border:0; background:transparent; }
+ .wm-rules-steps { position:static; height:auto; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin:12px 0; }
+ .wm-rules-steps li { min-height:116px; border-radius:20px; }
+ .wm-rules-steps img { position:static; width:64px; height:64px; max-width:100%; margin:20px auto 0; transform:none; }
+ .wm-rules-steps li:nth-child(-n+2) img { transform:none; }
+ .wm-rules-step-number { width:28px; top:0; left:-3px; font-size:18px; }
+ .wm-intro-panel .wm-rules-step-label { position:static; min-height:36px; padding:5px 2px; font-size:14px; line-height:1.3; }
+ .wm-rules-chevron { width:14px; height:18px; right:-14px; }
+ .wm-intro-panel .wm-rules-hide-note { position:static; margin:14px 0; font-size:16px; line-height:1.4; }
+ .wm-rules-activities { position:static; display:grid; grid-template-columns:1fr; grid-template-rows:auto; gap:12px; }
+ .wm-rules-activity { min-height:84px; padding:8px 12px; gap:12px; border-radius:18px; }
+ .wm-rules-activity img { width:70px; height:64px; transform:none; }
+ .wm-rules-activity--instructions img,.wm-rules-activity--pattern img,.wm-rules-activity--numbers img,.wm-rules-activity--pictures img { transform:none; }
+ .wm-intro-panel .wm-rules-activity p { font-size:16px; line-height:1.4; }
+ .wm-rules-actions { position:static; height:auto; display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0 0; }
+ .wm-intro-action--back svg { width:20px; height:20px; }
+}

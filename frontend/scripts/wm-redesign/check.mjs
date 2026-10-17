@@ -15,7 +15,7 @@ async function bounds(name){const bad=await page.evaluate(()=>{const board=docum
 for(const level of (process.env.QA_LEVELS||"1,2,3,4").split(",").map(Number))for(const game of ['pattern','numbers','words','instructions']){
  await page.goto(`http://127.0.0.1:5173/improvement-activity-wm/3/${level}/${game}`);
  await page.locator('.how-video-board').waitFor();await page.getByRole('button',{name:'Skip video and play',exact:true}).click();await page.getByRole('button',{name:'Start the game',exact:true}).click();
- const data=await page.evaluate(async({level,game})=>{const m=await import('/src/pages/workingMemory/data/improvement/index.js');return m.getSubCategoryData('3',level,game,'en').questions;},{level,game});
+ const data=await page.evaluate(async({level,game})=>{const m=await import('/src/features/workingMemory/improvement/data/index.js');return m.getSubCategoryData('3',level,game,'en').questions;},{level,game});
  for(let index=0;index<5;index++){
   if(game==='pattern'){
    await page.locator('.pattern-choice-tile').first().waitFor();if(index===0)await shot(`${level}-${game}-answer`);
