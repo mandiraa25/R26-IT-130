@@ -33,9 +33,10 @@ function PatternQuestion({ p, si }) {
   return <>
     <MemoryTracker current={p.currentIdx + 1} total={p.questions.length} responses={p.results} questionIds={p.questions.map(question => question.id)} />
     <MemoryBunny message={getImprovementBunnyMessage({ game: "pattern", phase: p.phase, correct: p.isCurrentCorrect, si })} />
-    <MemoryBoard className="lx-pattern-question" data-question-id={q?.id}>
-      <MemoryHeading onListen={() => p.speakText(q.instruction)}>{q.questionText || (si ? "ඊළඟට පැමිණෙන්නේ කුමක්ද?" : "Which picture comes next?")}</MemoryHeading>
-      <div className="lx-pattern-sequence" aria-label={si ? "සම්පූර්ණ කළ යුතු රටාව" : "Pattern to complete"}>{q.showItems.map((item, i) => <div key={i} className={`lx-pattern-tile ${item === "?" ? "is-missing" : ""}`}>{item === "?" ? "?" : <PatternSymbol value={item} />}</div>)}</div>
+    <MemoryBoard className={`lx-pattern-question${q?.layout === "grid" ? " lx-pattern-question--grid" : ""}`} data-question-id={q?.id}>
+      <MemoryHeading onListen={() => p.speakText(q.instruction)}>{(q.prompt && (si ? q.prompt.si : q.prompt.en)) || q.questionText || (si ? "ඊළඟට පැමිණෙන්නේ කුමක්ද?" : "Which picture comes next?")}</MemoryHeading>
+      {/* A grid question shows one picture (the 2x2 squares with the gap) instead of a row. */}
+      <div className={`lx-pattern-sequence${q?.layout === "grid" ? " lx-pattern-sequence--grid" : ""}`} aria-label={si ? "සම්පූර්ණ කළ යුතු රටාව" : "Pattern to complete"}>{q.showItems.map((item, i) => <div key={i} className={`lx-pattern-tile ${item === "?" ? "is-missing" : ""}`}>{item === "?" ? "?" : <PatternSymbol value={item} />}</div>)}</div>
       <div className="lx-pattern-options">{p.dragPool.map((option, i) => {
         const selected = (answered ? p.lastUserAnswer : selectedAnswer) === option;
         return <button key={`${q.id}-${i}`} type="button" className={`lx-pattern-option ${selected ? "is-selected" : ""}`} aria-label={`Answer: ${option}`} aria-pressed={selected} disabled={answered} onClick={() => { if (!checked.current) setSelectedAnswer(option); }}><b aria-hidden="true">{String.fromCharCode(65 + i)}</b><PatternSymbol value={option} /></button>;

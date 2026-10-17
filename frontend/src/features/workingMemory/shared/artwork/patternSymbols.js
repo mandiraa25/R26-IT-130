@@ -76,6 +76,12 @@ const SYMBOLS = [
   ["🟪", "Purple square", "purple-square.png", 236, 235],
   ["🔷", "Blue diamond", "blue-diamond.png", 253, 254],
   ["✚", "Teal plus sign", "teal-plus-sign.png", 246, 248],
+  // Level 4 "rotating leaf" question: the 2x2 grid with a missing piece, and its four pieces.
+  ["leaf-grid", "Four squares with leaves; the bottom-left square is missing", "leaf-grid.png", 800, 800],
+  ["leaf-tile-a", "Leaf from top right to bottom left, yellow on the upper left", "leaf-tile-a.png", 400, 400],
+  ["leaf-tile-b", "Leaf from top right to bottom left, yellow on the lower right", "leaf-tile-b.png", 400, 400],
+  ["leaf-tile-c", "Leaf from top left to bottom right, yellow on the lower left", "leaf-tile-c.png", 400, 400],
+  ["leaf-tile-d", "Leaf from top left to bottom right, yellow on the upper right", "leaf-tile-d.png", 400, 400],
 ];
 
 const normalize = value => String(value ?? "").replace(/️/g, "");

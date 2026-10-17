@@ -44,3 +44,11 @@
 .lx-pattern-result .lx-board-content{padding-top:52px;padding-bottom:44px;gap:18px}
 .lx-pattern-result-heading{height:145px}
 .lx-pattern-stars{gap:6px}.lx-pattern-stars img{width:82px;height:82px}
+
+/* Grid question (Level 4): one large 2x2 picture with a gap, then four square pieces. */
+.lx-game .lx-pattern-question.lx-pattern-question--grid .lx-pattern-sequence.lx-pattern-sequence--grid { width:fit-content; height:auto; min-height:0; padding:6px; }
+.lx-game .lx-pattern-question.lx-pattern-question--grid .lx-pattern-sequence.lx-pattern-sequence--grid .lx-pattern-tile { flex:0 0 172px; width:172px; height:172px; }
+.lx-game .lx-pattern-question.lx-pattern-question--grid .lx-board-content .lx-pattern-options { max-width:640px; }
+.lx-game .lx-pattern-question.lx-pattern-question--grid .lx-board-content .lx-pattern-option { height:100px; padding:12px; }
+.lx-game .lx-pattern-question.lx-pattern-question--grid .lx-board-content.lx-board-content { gap:14px; }
+.lx-game .lx-pattern-question.lx-pattern-question--grid .lx-board-content .lx-pattern-option > .lx-pattern-artwork { inset:12px 22px 8px; }
