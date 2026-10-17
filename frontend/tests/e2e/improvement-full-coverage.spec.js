@@ -1,9 +1,9 @@
 import { test, expect } from "@playwright/test";
 import { makeStepper } from "./utils/screenshot";
 import { answerIdentifyQuestion, exactText, escapeRegExp } from "./utils/identifyAnswer";
-import { QUIZ_DATA } from "../../src/pages/workingMemory/quizData";
-import { getSubCategoryData } from "../../src/pages/workingMemory/data/improvement";
-import { getLevelDisplaySeconds, SUBCATEGORY_ORDER, VALID_LEVELS } from "../../src/pages/workingMemory/data/improvement/config";
+import { QUIZ_DATA } from "../../src/features/workingMemory/identification/data";
+import { getSubCategoryData } from "../../src/features/workingMemory/improvement/data";
+import { getLevelDisplaySeconds, SUBCATEGORY_ORDER, VALID_LEVELS } from "../../src/features/workingMemory/config/gameConfig";
 
 /**
  * Full-coverage browser suite for the Improvement games — one grade,

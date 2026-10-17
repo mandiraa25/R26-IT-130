@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { getStudentProgress, getAttemptHistory } from "../../../services/workingMemory/improveApi";
+import { getStudentProgress, getAttemptHistory } from "../../../features/workingMemory/services/improveApi";
 import { getStudentProfile } from "../../../services/student/api";
 
 export default function ImproveWorkingMemoryReport() {

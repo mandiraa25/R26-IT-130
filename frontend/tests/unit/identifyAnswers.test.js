@@ -1,6 +1,6 @@
 import { describe, test, expect } from "vitest";
-import { QUIZ_DATA } from "../../src/pages/workingMemory/quizData";
-import { evaluateIdentifyAnswer } from "../../src/utils/workingMemory/evaluateIdentifyAnswer.util";
+import { QUIZ_DATA } from "../../src/features/workingMemory/identification/data";
+import { evaluateIdentifyAnswer } from "../../src/features/workingMemory/logic/answerChecking.js";
 
 const SENTINEL = "__DEFINITELY_WRONG__";
 

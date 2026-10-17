@@ -18,7 +18,7 @@ for(const level of [1,2,3,4]){
 }
 assert.equal(new Set(boards).size,1);assert(boards[0].includes('how-to-boards/L1.png'));
 await page.setViewportSize({width:1366,height:768});await shot('laptop-pattern-4-si');
-const screeningId=await page.evaluate(async()=>{const {QUIZ_DATA}=await import('/src/pages/workingMemory/quizData.js');return QUIZ_DATA['3'].si[0].id});
+const screeningId=await page.evaluate(async()=>{const {QUIZ_DATA}=await import('/src/features/workingMemory/identification/data/index.js');return QUIZ_DATA['3'].si[0].id});
 await page.goto(`http://127.0.0.1:5173/working-memory/3?ids=${screeningId}`);await page.locator('.wm-screen__category').waitFor();await shot('screening-si');assert.equal(await page.locator('.lx-tracker li').count(),15);assert.equal(await page.locator('.wm-screen__stars li').count(),15);
 await page.goto('http://127.0.0.1:5173/working-memory/3');await page.locator('.wm-intro-panel').waitFor();await shot('screening-intro-si');
 assert.deepEqual(missing,[]);console.log('PASS shared Level 01 tutorial board, all four backgrounds, 15-step screening tracker, no missing image/font/audio requests. Artifacts:',out);await browser.close();

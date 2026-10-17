@@ -19,7 +19,7 @@ const submissions=[];
 await context.route('**/api/working-memory/improvement/submit-attempt',r=>{const body=r.request().postDataJSON();submissions.push(body);return r.fulfill({status:201,json:{success:true,data:{isPassed:body.score>=3,progress,totalStars:35+body.score*5}}})});
 await context.route('**/*youtube*',r=>r.fulfill({body:'',contentType:'text/html'}));
 const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
-async function question(level,game){const id=await page.locator('.lx-board').getAttribute('data-question-id');return page.evaluate(async({level,game,id})=>{const {getSubCategoryData}=await import('/src/pages/workingMemory/data/improvement/index.js');return getSubCategoryData('3',level,game,'en').questions.find(q=>q.id===id)},{level,game,id})}
+async function question(level,game){const id=await page.locator('.lx-board').getAttribute('data-question-id');return page.evaluate(async({level,game,id})=>{const {getSubCategoryData}=await import('/src/features/workingMemory/improvement/data/index.js');return getSubCategoryData('3',level,game,'en').questions.find(q=>q.id===id)},{level,game,id})}
 async function answer(level,game,correct=true,extra=false){
  const q=await question(level,game);assert(q,'real question must exist');
  if(game==='pattern'){
@@ -28,6 +28,7 @@ async function answer(level,game,correct=true,extra=false){
   const labels=await buttons.evaluateAll(bs=>bs.map(b=>b.getAttribute('aria-label')));
   const index=correct?labels.indexOf(`Answer: ${value}`):labels.findIndex(v=>v!==`Answer: ${q.missingAnswer}`);
   await buttons.nth(index).evaluate(b=>{b.click();b.click()});
+  await page.locator('.lx-pattern-check').evaluate(b=>{b.click();b.click()});
  } else if(game==='words'){
   assert.equal(await page.locator('.lx-picture-sequence [data-item-id]').count(),0);
   await page.getByRole('button',{name:'Ready',exact:true}).click();

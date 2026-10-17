@@ -1,0 +1,735 @@
+{
+  "gradeSplit": {
+    "moves": [
+      {
+        "from": "frontend/public/images/workingMemory/identification/objects/ball.png",
+        "to": "frontend/public/images/workingMemory/identification/grade2/ball.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/objects/bird.png",
+        "to": "frontend/public/images/workingMemory/identification/grade2/bird.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/objects/book.png",
+        "to": "frontend/public/images/workingMemory/identification/grade2/book.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/objects/bottle.png",
+        "to": "frontend/public/images/workingMemory/identification/grade2/bottle.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/objects/cat.png",
+        "to": "frontend/public/images/workingMemory/identification/grade2/cat.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/objects/cup.png",
+        "to": "frontend/public/images/workingMemory/identification/grade2/cup.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/objects/dog.png",
+        "to": "frontend/public/images/workingMemory/identification/grade2/dog.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/objects/fish.png",
+        "to": "frontend/public/images/workingMemory/identification/grade2/fish.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/objects/house.png",
+        "to": "frontend/public/images/workingMemory/identification/grade2/house.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/objects/river.png",
+        "to": "frontend/public/images/workingMemory/identification/grade2/river.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/objects/sun.png",
+        "to": "frontend/public/images/workingMemory/identification/grade2/sun.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/objects/tree.png",
+        "to": "frontend/public/images/workingMemory/identification/grade2/tree.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/objects/ball.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade2/ball.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/objects/bird.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade2/bird.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/objects/book.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade2/book.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/objects/cat.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade2/cat.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/objects/cup.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade2/cup.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/objects/dog.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade2/dog.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/objects/fish.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade2/fish.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/objects/flower.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade2/flower.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/objects/house.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade2/house.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/objects/sun.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade2/sun.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/objects/tree.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade2/tree.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pattern/symbols/objects-a.png",
+        "to": "frontend/public/images/workingMemory/pattern/grade2/symbols/objects-a.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pattern/symbols/objects-a.webp",
+        "to": "frontend/public/images/workingMemory/pattern/grade2/symbols/objects-a.webp"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pattern/symbols/objects-b.png",
+        "to": "frontend/public/images/workingMemory/pattern/grade2/symbols/objects-b.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pattern/symbols/objects-b.webp",
+        "to": "frontend/public/images/workingMemory/pattern/grade2/symbols/objects-b.webp"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pattern/symbols/README.md",
+        "to": "frontend/public/images/workingMemory/pattern/grade2/symbols/README.md"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pattern/symbols/shapes.png",
+        "to": "frontend/public/images/workingMemory/pattern/grade2/symbols/shapes.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pattern/symbols/shapes.webp",
+        "to": "frontend/public/images/workingMemory/pattern/grade2/symbols/shapes.webp"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/picture-memory-sprites.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade2/picture-memory-sprites.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/intro/answer.png",
+        "to": "frontend/public/images/workingMemory/shared/icons/screening/intro/answer.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/intro/choice-board.png",
+        "to": "frontend/public/images/workingMemory/shared/icons/screening/intro/choice-board.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/intro/controller.png",
+        "to": "frontend/public/images/workingMemory/shared/icons/screening/intro/controller.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/intro/instructions.png",
+        "to": "frontend/public/images/workingMemory/shared/icons/screening/intro/instructions.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/intro/look.png",
+        "to": "frontend/public/images/workingMemory/shared/icons/screening/intro/look.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/intro/numbers.png",
+        "to": "frontend/public/images/workingMemory/shared/icons/screening/intro/numbers.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/intro/pattern.png",
+        "to": "frontend/public/images/workingMemory/shared/icons/screening/intro/pattern.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/intro/pictures.png",
+        "to": "frontend/public/images/workingMemory/shared/icons/screening/intro/pictures.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/intro/README.md",
+        "to": "frontend/public/images/workingMemory/shared/icons/screening/intro/README.md"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/intro/remember.png",
+        "to": "frontend/public/images/workingMemory/shared/icons/screening/intro/remember.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/intro/rules-board.png",
+        "to": "frontend/public/images/workingMemory/shared/icons/screening/intro/rules-board.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/practice/instructions.png",
+        "to": "frontend/public/images/workingMemory/shared/icons/screening/practice/instructions.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/practice/numbers.png",
+        "to": "frontend/public/images/workingMemory/shared/icons/screening/practice/numbers.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/practice/pattern.png",
+        "to": "frontend/public/images/workingMemory/shared/icons/screening/practice/pattern.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/practice/pictures.png",
+        "to": "frontend/public/images/workingMemory/shared/icons/screening/practice/pictures.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/practice/README.md",
+        "to": "frontend/public/images/workingMemory/shared/icons/screening/practice/README.md"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/card-back-level-1.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/card-back-level-1.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/card-back-level-2.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/card-back-level-2.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/card-back-level-3.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/card-back-level-3.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/card-back-level-4.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/card-back-level-4.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/front-card.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/front-card.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/level1/level1-carrot-card-back.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/level1/level1-carrot-card-back.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/level2/level2-carrot-card-back.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/level2/level2-carrot-card-back.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/level3/level3-carrot-card-back.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/level3/level3-carrot-card-back.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/level4/level4-carrot-card-back.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/level4/level4-carrot-card-back.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l1-apple.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l1-apple.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l1-back.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l1-back.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l1-bird.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l1-bird.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l1-butterfly.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l1-butterfly.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l1-tree.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l1-tree.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l2-apple.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l2-apple.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l2-back.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l2-back.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l2-balloon.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l2-balloon.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l2-bird.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l2-bird.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l2-bunny.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l2-bunny.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l2-butterfly.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l2-butterfly.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l2-carrot.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l2-carrot.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l2-flower.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l2-flower.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l2-strawberry.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l2-strawberry.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l2-tree.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l2-tree.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l3-apple.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l3-apple.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l3-back.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l3-back.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l3-balloon.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l3-balloon.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l3-bird.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l3-bird.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l3-bunny.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l3-bunny.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l3-butterfly.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l3-butterfly.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l3-carrot.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l3-carrot.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l3-strawberry.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l3-strawberry.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l3-tree.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l3-tree.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l4-apple.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l4-apple.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l4-back.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l4-back.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l4-balloon.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l4-balloon.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l4-bird.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l4-bird.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l4-butterfly.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l4-butterfly.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l4-carrot.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l4-carrot.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l4-flower.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l4-flower.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l4-strawberry.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l4-strawberry.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/cards/pic-l4-tree.png",
+        "to": "frontend/public/images/workingMemory/shared/boards/picture-cards/pic-l4-tree.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/grade2/flower.png",
+        "to": "frontend/_workingMemoryReview/replaced inherited artwork/flower.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/shared/icons/speaker.png",
+        "to": "frontend/_workingMemoryReview/replaced inherited artwork/speaker.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/shared/buttons/close-wooden.png",
+        "to": "frontend/_workingMemoryReview/replaced inherited artwork/close.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/shared/bunny/bunny-intro.png",
+        "to": "frontend/_workingMemoryReview/replaced inherited artwork/bunny.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/shared/icons/magnifier.png",
+        "to": "frontend/_workingMemoryReview/replaced inherited artwork/magnifier.png"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/grade4/flower.png",
+        "to": "frontend/_workingMemoryReview/replaced inherited artwork/flower-grade4.png"
+      }
+    ],
+    "copies": [
+      {
+        "from": "frontend/public/images/workingMemory/identification/grade2/ball.png",
+        "to": "frontend/public/images/workingMemory/identification/grade3/ball.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/grade2/ball.png",
+        "to": "frontend/public/images/workingMemory/identification/grade4/ball.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/grade2/bird.png",
+        "to": "frontend/public/images/workingMemory/identification/grade3/bird.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/grade2/bird.png",
+        "to": "frontend/public/images/workingMemory/identification/grade4/bird.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/grade2/book.png",
+        "to": "frontend/public/images/workingMemory/identification/grade3/book.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/grade2/book.png",
+        "to": "frontend/public/images/workingMemory/identification/grade4/book.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/grade2/bottle.png",
+        "to": "frontend/public/images/workingMemory/identification/grade3/bottle.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/grade2/bottle.png",
+        "to": "frontend/public/images/workingMemory/identification/grade4/bottle.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/grade2/cat.png",
+        "to": "frontend/public/images/workingMemory/identification/grade3/cat.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/grade2/cat.png",
+        "to": "frontend/public/images/workingMemory/identification/grade4/cat.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/grade2/cup.png",
+        "to": "frontend/public/images/workingMemory/identification/grade3/cup.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/grade2/cup.png",
+        "to": "frontend/public/images/workingMemory/identification/grade4/cup.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/grade2/dog.png",
+        "to": "frontend/public/images/workingMemory/identification/grade3/dog.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/grade2/dog.png",
+        "to": "frontend/public/images/workingMemory/identification/grade4/dog.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/grade2/fish.png",
+        "to": "frontend/public/images/workingMemory/identification/grade3/fish.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/grade2/fish.png",
+        "to": "frontend/public/images/workingMemory/identification/grade4/fish.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/grade2/house.png",
+        "to": "frontend/public/images/workingMemory/identification/grade3/house.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/grade2/house.png",
+        "to": "frontend/public/images/workingMemory/identification/grade4/house.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/grade2/river.png",
+        "to": "frontend/public/images/workingMemory/identification/grade3/river.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/grade2/river.png",
+        "to": "frontend/public/images/workingMemory/identification/grade4/river.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/grade2/sun.png",
+        "to": "frontend/public/images/workingMemory/identification/grade3/sun.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/grade2/sun.png",
+        "to": "frontend/public/images/workingMemory/identification/grade4/sun.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/grade2/tree.png",
+        "to": "frontend/public/images/workingMemory/identification/grade3/tree.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/identification/grade2/tree.png",
+        "to": "frontend/public/images/workingMemory/identification/grade4/tree.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/grade2/ball.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade4/ball.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/grade2/bird.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade4/bird.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/grade2/book.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade4/book.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/grade2/cat.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade4/cat.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/grade2/cup.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade4/cup.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/grade2/dog.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade4/dog.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/grade2/fish.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade4/fish.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/grade2/flower.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade4/flower.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/grade2/house.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade4/house.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/grade2/sun.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade4/sun.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/grade2/tree.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade4/tree.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pattern/grade2/symbols/objects-a.png",
+        "to": "frontend/public/images/workingMemory/pattern/grade3/symbols/objects-a.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pattern/grade2/symbols/objects-a.png",
+        "to": "frontend/public/images/workingMemory/pattern/grade4/symbols/objects-a.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pattern/grade2/symbols/objects-a.webp",
+        "to": "frontend/public/images/workingMemory/pattern/grade3/symbols/objects-a.webp",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pattern/grade2/symbols/objects-a.webp",
+        "to": "frontend/public/images/workingMemory/pattern/grade4/symbols/objects-a.webp",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pattern/grade2/symbols/objects-b.png",
+        "to": "frontend/public/images/workingMemory/pattern/grade3/symbols/objects-b.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pattern/grade2/symbols/objects-b.png",
+        "to": "frontend/public/images/workingMemory/pattern/grade4/symbols/objects-b.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pattern/grade2/symbols/objects-b.webp",
+        "to": "frontend/public/images/workingMemory/pattern/grade3/symbols/objects-b.webp",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pattern/grade2/symbols/objects-b.webp",
+        "to": "frontend/public/images/workingMemory/pattern/grade4/symbols/objects-b.webp",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pattern/grade2/symbols/README.md",
+        "to": "frontend/public/images/workingMemory/pattern/grade3/symbols/README.md",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pattern/grade2/symbols/README.md",
+        "to": "frontend/public/images/workingMemory/pattern/grade4/symbols/README.md",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pattern/grade2/symbols/shapes.png",
+        "to": "frontend/public/images/workingMemory/pattern/grade3/symbols/shapes.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pattern/grade2/symbols/shapes.png",
+        "to": "frontend/public/images/workingMemory/pattern/grade4/symbols/shapes.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pattern/grade2/symbols/shapes.webp",
+        "to": "frontend/public/images/workingMemory/pattern/grade3/symbols/shapes.webp",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pattern/grade2/symbols/shapes.webp",
+        "to": "frontend/public/images/workingMemory/pattern/grade4/symbols/shapes.webp",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/grade2/picture-memory-sprites.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade4/picture-memory-sprites.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      },
+      {
+        "from": "frontend/public/images/workingMemory/pictures/grade2/wm-flower.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade4/wm-flower.png",
+        "reason": "WM-owned artwork shared across school grades; bytes preserved"
+      }
+    ],
+    "replacements": [
+      {
+        "name": "flower",
+        "from": "frontend/public/images/workingMemory/pictures/grade2/flower.png",
+        "to": "frontend/public/images/workingMemory/pictures/grade2/wm-flower.png",
+        "archive": "frontend/_workingMemoryReview/replaced inherited artwork/flower.png",
+        "generated": "C:/Users/USER/.codex/generated_images/01a148a3-7fad-7dc0-b74d-ce9096107b7a/exec-3984a5ee-bbc8-4122-8502-39bfec947647.png"
+      },
+      {
+        "name": "speaker",
+        "from": "frontend/public/images/workingMemory/shared/icons/speaker.png",
+        "to": "frontend/public/images/workingMemory/shared/icons/wm-speaker.png",
+        "archive": "frontend/_workingMemoryReview/replaced inherited artwork/speaker.png",
+        "generated": "C:/Users/USER/.codex/generated_images/01a148a3-7fad-7dc0-b74d-ce9096107b7a/exec-dc2399dd-e5a8-4963-9ce4-53df17b9680c.png"
+      },
+      {
+        "name": "close",
+        "from": "frontend/public/images/workingMemory/shared/buttons/close-wooden.png",
+        "to": "frontend/public/images/workingMemory/shared/buttons/wm-close.png",
+        "archive": "frontend/_workingMemoryReview/replaced inherited artwork/close.png",
+        "generated": "C:/Users/USER/.codex/generated_images/01a148a3-7fad-7dc0-b74d-ce9096107b7a/exec-c133f5df-ec75-4479-b988-bcf27760eb87.png"
+      },
+      {
+        "name": "bunny",
+        "from": "frontend/public/images/workingMemory/shared/bunny/bunny-intro.png",
+        "to": "frontend/public/images/workingMemory/shared/bunny/wm-intro-bunny.png",
+        "archive": "frontend/_workingMemoryReview/replaced inherited artwork/bunny.png",
+        "generated": "C:/Users/USER/.codex/generated_images/01a148a3-7fad-7dc0-b74d-ce9096107b7a/exec-0ed64166-3fd6-406e-937a-abbfdf7e3883.png"
+      },
+      {
+        "name": "magnifier",
+        "from": "frontend/public/images/workingMemory/shared/icons/magnifier.png",
+        "to": "frontend/public/images/workingMemory/shared/icons/wm-magnifier.png",
+        "archive": "frontend/_workingMemoryReview/replaced inherited artwork/magnifier.png",
+        "generated": "C:/Users/USER/.codex/generated_images/01a148a3-7fad-7dc0-b74d-ce9096107b7a/exec-81d72736-aa44-48b9-b9c3-4ae520f7d282.png"
+      }
+    ]
+  },
+  "revertedToShared": {
+    "note": "Grade copies were byte-identical and removed; grade2 files moved back to shared folders. New wm- artwork kept.",
+    "deletedDuplicates": [
+      "frontend/public/images/workingMemory/identification/grade3/ball.png",
+      "frontend/public/images/workingMemory/identification/grade4/ball.png",
+      "frontend/public/images/workingMemory/identification/grade3/bird.png",
+      "frontend/public/images/workingMemory/identification/grade4/bird.png",
+      "frontend/public/images/workingMemory/identification/grade3/book.png",
+      "frontend/public/images/workingMemory/identification/grade4/book.png",
+      "frontend/public/images/workingMemory/identification/grade3/bottle.png",
+      "frontend/public/images/workingMemory/identification/grade4/bottle.png",
+      "frontend/public/images/workingMemory/identification/grade3/cat.png",
+      "frontend/public/images/workingMemory/identification/grade4/cat.png",
+      "frontend/public/images/workingMemory/identification/grade3/cup.png",
+      "frontend/public/images/workingMemory/identification/grade4/cup.png",
+      "frontend/public/images/workingMemory/identification/grade3/dog.png",
+      "frontend/public/images/workingMemory/identification/grade4/dog.png",
+      "frontend/public/images/workingMemory/identification/grade3/fish.png",
+      "frontend/public/images/workingMemory/identification/grade4/fish.png",
+      "frontend/public/images/workingMemory/identification/grade3/house.png",
+      "frontend/public/images/workingMemory/identification/grade4/house.png",
+      "frontend/public/images/workingMemory/identification/grade3/river.png",
+      "frontend/public/images/workingMemory/identification/grade4/river.png",
+      "frontend/public/images/workingMemory/identification/grade3/sun.png",
+      "frontend/public/images/workingMemory/identification/grade4/sun.png",
+      "frontend/public/images/workingMemory/identification/grade3/tree.png",
+      "frontend/public/images/workingMemory/identification/grade4/tree.png",
+      "frontend/public/images/workingMemory/pictures/grade4/ball.png",
+      "frontend/public/images/workingMemory/pictures/grade4/bird.png",
+      "frontend/public/images/workingMemory/pictures/grade4/book.png",
+      "frontend/public/images/workingMemory/pictures/grade4/cat.png",
+      "frontend/public/images/workingMemory/pictures/grade4/cup.png",
+      "frontend/public/images/workingMemory/pictures/grade4/dog.png",
+      "frontend/public/images/workingMemory/pictures/grade4/fish.png",
+      "frontend/public/images/workingMemory/pictures/grade4/house.png",
+      "frontend/public/images/workingMemory/pictures/grade4/sun.png",
+      "frontend/public/images/workingMemory/pictures/grade4/tree.png",
+      "frontend/public/images/workingMemory/pattern/grade3/symbols/objects-a.png",
+      "frontend/public/images/workingMemory/pattern/grade4/symbols/objects-a.png",
+      "frontend/public/images/workingMemory/pattern/grade3/symbols/objects-a.webp",
+      "frontend/public/images/workingMemory/pattern/grade4/symbols/objects-a.webp",
+      "frontend/public/images/workingMemory/pattern/grade3/symbols/objects-b.png",
+      "frontend/public/images/workingMemory/pattern/grade4/symbols/objects-b.png",
+      "frontend/public/images/workingMemory/pattern/grade3/symbols/objects-b.webp",
+      "frontend/public/images/workingMemory/pattern/grade4/symbols/objects-b.webp",
+      "frontend/public/images/workingMemory/pattern/grade3/symbols/README.md",
+      "frontend/public/images/workingMemory/pattern/grade4/symbols/README.md",
+      "frontend/public/images/workingMemory/pattern/grade3/symbols/shapes.png",
+      "frontend/public/images/workingMemory/pattern/grade4/symbols/shapes.png",
+      "frontend/public/images/workingMemory/pattern/grade3/symbols/shapes.webp",
+      "frontend/public/images/workingMemory/pattern/grade4/symbols/shapes.webp",
+      "frontend/public/images/workingMemory/pictures/grade4/picture-memory-sprites.png",
+      "frontend/public/images/workingMemory/pictures/grade4/wm-flower.png"
+    ]
+  }
+}

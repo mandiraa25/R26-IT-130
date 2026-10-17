@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { stopAllAudio } from "./utils/phonologicalAwareness/audio";
-import { MemoryMusicRouteListener } from "./pages/workingMemory/utils/memoryMusic";
+import { MemoryMusicRouteListener } from "./features/workingMemory/logic/audio";
 
 import Login from "./pages/common/Login";
 import Register from "./pages/common/Register";
@@ -24,9 +24,9 @@ import SpeechIdentificationReport from "./pages/common/reports/SpeechIdentificat
 import SpeechImprovementReport from "./pages/common/reports/SpeechImprovementReport";
 
 // Working Memory
-import Identify from "./pages/workingMemory/identify/Identify";
-import ImprovementLevelsWM from "./pages/workingMemory/ImprovementLevelsWM";
-import ImprovementActivityWM from "./pages/workingMemory/ImprovementActivityWM";
+import Identify from "./features/workingMemory/identification/ScreeningPage";
+import ImprovementLevelsWM from "./features/workingMemory/improvement/LevelSelection";
+import ImprovementActivityWM from "./features/workingMemory/improvement/ImprovementPage";
 
 // Admin
 import AdminLogin from "./pages/admin/AdminLogin";

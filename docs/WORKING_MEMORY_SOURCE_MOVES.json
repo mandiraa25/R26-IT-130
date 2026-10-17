@@ -1,0 +1,567 @@
+[
+  {
+    "from": "frontend/src/pages/workingMemory/identification/Identify.jsx",
+    "to": [
+      "frontend/src/features/workingMemory/identification/ScreeningPage.jsx"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/identification/IdentifyIntroScreens.jsx",
+    "to": [
+      "frontend/src/features/workingMemory/identification/ScreeningIntro.jsx"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/identification/ScreeningUI.jsx",
+    "to": [
+      "frontend/src/features/workingMemory/identification/ScreeningQuestions.jsx"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/identification/screeningAssets.js",
+    "to": [
+      "frontend/src/features/workingMemory/config/screeningAssets.js"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/data/screening/grade2.js",
+    "to": [
+      "frontend/src/features/workingMemory/identification/data/grade2.js"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/data/screening/grade3.js",
+    "to": [
+      "frontend/src/features/workingMemory/identification/data/grade3.js"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/data/screening/grade4.js",
+    "to": [
+      "frontend/src/features/workingMemory/identification/data/grade4.js"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/data/screening/index.js",
+    "to": [
+      "frontend/src/features/workingMemory/identification/data/index.js"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/data/screening/legacyQuestions.js",
+    "to": [
+      "frontend/src/features/workingMemory/identification/data/legacyQuestions.js"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/improvement/ImprovementActivityWM.jsx",
+    "to": [
+      "frontend/src/features/workingMemory/improvement/ImprovementPage.jsx"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/improvement/ImprovementLevelsWM.jsx",
+    "to": [
+      "frontend/src/features/workingMemory/improvement/LevelSelection.jsx"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/improvement/games/PictureMemoryGame.jsx",
+    "to": [
+      "frontend/src/features/workingMemory/improvement/games/PictureMemoryGame.jsx"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/improvement/games/InstructionsGame.jsx",
+    "to": [
+      "frontend/src/features/workingMemory/improvement/games/InstructionsGame.jsx"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/improvement/games/NumbersGame.jsx",
+    "to": [
+      "frontend/src/features/workingMemory/improvement/games/NumberMemoryGame.jsx"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/improvement/games/PatternGame.jsx",
+    "to": [
+      "frontend/src/features/workingMemory/improvement/games/PatternGame.jsx"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/improvement/components/PatternPresentation.jsx",
+    "to": [
+      "frontend/src/features/workingMemory/improvement/games/PatternGame.jsx"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/improvement/components/GamePresentation.jsx",
+    "to": [
+      "frontend/src/features/workingMemory/shared/ActivityScreen.jsx"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/improvement/components/HowToPlayScreen.jsx",
+    "to": [
+      "frontend/src/features/workingMemory/shared/HowToPlay.jsx"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/improvement/components/MemoryUI.jsx",
+    "to": [
+      "frontend/src/features/workingMemory/shared/GameLayout.jsx"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/improvement/components/LevelMenu.jsx",
+    "to": [
+      "frontend/src/features/workingMemory/shared/GameMenu.jsx"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/improvement/components/LevelOneUI.jsx",
+    "to": [
+      "frontend/src/features/workingMemory/shared/Feedback.jsx"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/improvement/components/RecommendedPractice.jsx",
+    "to": [
+      "frontend/src/features/workingMemory/shared/RecommendedPractice.jsx"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/improvement/components/PatternArtwork.jsx",
+    "to": [
+      "frontend/src/features/workingMemory/shared/artwork/PatternArtwork.jsx"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/improvement/components/PictureArtwork.jsx",
+    "to": [
+      "frontend/src/features/workingMemory/shared/artwork/PictureArtwork.jsx"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/improvement/components/LevelThreeSprite.jsx",
+    "to": [
+      "frontend/src/features/workingMemory/shared/artwork/PictureSprite.jsx"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/improvement/components/LevelOneDashboard.jsx",
+    "to": [
+      "frontend/src/features/workingMemory/shared/ActivityResults.jsx",
+      "frontend/src/features/workingMemory/shared/LevelCompletion.jsx",
+      "frontend/src/features/workingMemory/config/dashboardContent.js"
+    ],
+    "action": "combined into shared results"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/improvement/components/LevelTwoDashboard.jsx",
+    "to": [
+      "frontend/src/features/workingMemory/shared/ActivityResults.jsx",
+      "frontend/src/features/workingMemory/shared/LevelCompletion.jsx",
+      "frontend/src/features/workingMemory/config/dashboardContent.js"
+    ],
+    "action": "combined into shared results"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/improvement/components/LevelThreeDashboard.jsx",
+    "to": [
+      "frontend/src/features/workingMemory/shared/ActivityResults.jsx",
+      "frontend/src/features/workingMemory/shared/LevelCompletion.jsx",
+      "frontend/src/features/workingMemory/config/dashboardContent.js"
+    ],
+    "action": "combined into shared results"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/improvement/components/LevelFourDashboard.jsx",
+    "to": [
+      "frontend/src/features/workingMemory/shared/ActivityResults.jsx",
+      "frontend/src/features/workingMemory/shared/LevelCompletion.jsx",
+      "frontend/src/features/workingMemory/config/dashboardContent.js"
+    ],
+    "action": "combined into shared results"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/data/howToPlayVideos.js",
+    "to": [
+      "frontend/src/features/workingMemory/config/tutorialVideos.js"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/data/patternArtworkManifest.js",
+    "to": [
+      "frontend/src/features/workingMemory/config/patternArtwork.js"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/data/patternArtworkBounds.json",
+    "to": [
+      "frontend/src/features/workingMemory/config/patternBounds.json"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/data/improvement/config.js",
+    "to": [
+      "frontend/src/features/workingMemory/config/gameConfig.js"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/data/improvement/index.js",
+    "to": [
+      "frontend/src/features/workingMemory/improvement/data/index.js"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/data/improvement/patternQuestions.js",
+    "to": [
+      "frontend/src/features/workingMemory/improvement/data/pattern/questions.js"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/data/improvement/pictureMemoryQuestions.js",
+    "to": [
+      "frontend/src/features/workingMemory/improvement/data/pictures/questions.js"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/data/improvement/grade2/en.js",
+    "to": [
+      "frontend/src/features/workingMemory/improvement/data/pattern/bank.js",
+      "frontend/src/features/workingMemory/improvement/data/pictures/bank.js",
+      "frontend/src/features/workingMemory/improvement/data/instructions/bank.js",
+      "frontend/src/features/workingMemory/improvement/data/numbers/bank.js"
+    ],
+    "action": "split into game banks"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/data/improvement/grade2/si.js",
+    "to": [
+      "frontend/src/features/workingMemory/improvement/data/pattern/bank.js",
+      "frontend/src/features/workingMemory/improvement/data/pictures/bank.js",
+      "frontend/src/features/workingMemory/improvement/data/instructions/bank.js",
+      "frontend/src/features/workingMemory/improvement/data/numbers/bank.js"
+    ],
+    "action": "split into game banks"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/data/improvement/grade3/en.js",
+    "to": [
+      "frontend/src/features/workingMemory/improvement/data/pattern/bank.js",
+      "frontend/src/features/workingMemory/improvement/data/pictures/bank.js",
+      "frontend/src/features/workingMemory/improvement/data/instructions/bank.js",
+      "frontend/src/features/workingMemory/improvement/data/numbers/bank.js"
+    ],
+    "action": "split into game banks"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/data/improvement/grade3/si.js",
+    "to": [
+      "frontend/src/features/workingMemory/improvement/data/pattern/bank.js",
+      "frontend/src/features/workingMemory/improvement/data/pictures/bank.js",
+      "frontend/src/features/workingMemory/improvement/data/instructions/bank.js",
+      "frontend/src/features/workingMemory/improvement/data/numbers/bank.js"
+    ],
+    "action": "split into game banks"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/data/improvement/grade4/en.js",
+    "to": [
+      "frontend/src/features/workingMemory/improvement/data/pattern/bank.js",
+      "frontend/src/features/workingMemory/improvement/data/pictures/bank.js",
+      "frontend/src/features/workingMemory/improvement/data/instructions/bank.js",
+      "frontend/src/features/workingMemory/improvement/data/numbers/bank.js"
+    ],
+    "action": "split into game banks"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/data/improvement/grade4/si.js",
+    "to": [
+      "frontend/src/features/workingMemory/improvement/data/pattern/bank.js",
+      "frontend/src/features/workingMemory/improvement/data/pictures/bank.js",
+      "frontend/src/features/workingMemory/improvement/data/instructions/bank.js",
+      "frontend/src/features/workingMemory/improvement/data/numbers/bank.js"
+    ],
+    "action": "split into game banks"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/utils/themes.js",
+    "to": [
+      "frontend/src/features/workingMemory/config/levelThemes.js"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/utils/themeAssets.js",
+    "to": [
+      "frontend/src/features/workingMemory/config/themeAssets.js"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/utils/levelThreePresentation.js",
+    "to": [
+      "frontend/src/features/workingMemory/config/numberInstructions.js"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/utils/audio.js",
+    "to": [
+      "frontend/src/features/workingMemory/logic/audio.js"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/utils/gameHelpers.js",
+    "to": [
+      "frontend/src/features/workingMemory/logic/presentation.js"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/utils/attemptQuestions.js",
+    "to": [
+      "frontend/src/features/workingMemory/logic/attempts.js"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/styles/contentRefinement.css",
+    "to": [
+      "frontend/src/features/workingMemory/styles/contentRefinement.css"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/styles/howToPlay.css",
+    "to": [
+      "frontend/src/features/workingMemory/styles/howToPlay.css"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/styles/identification.css",
+    "to": [
+      "frontend/src/features/workingMemory/styles/identification.css"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/styles/identificationIntro.css",
+    "to": [
+      "frontend/src/features/workingMemory/styles/identificationIntro.css"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/styles/identificationLayout.css",
+    "to": [
+      "frontend/src/features/workingMemory/styles/identificationLayout.css"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/styles/levelFour.css",
+    "to": [
+      "frontend/src/features/workingMemory/styles/levelFour.css"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/styles/levelOne.css",
+    "to": [
+      "frontend/src/features/workingMemory/styles/levelOne.css"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/styles/levelOneDashboard.css",
+    "to": [
+      "frontend/src/features/workingMemory/styles/levelOneDashboard.css"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/styles/levelThree.css",
+    "to": [
+      "frontend/src/features/workingMemory/styles/levelThree.css"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/styles/levelTwo.css",
+    "to": [
+      "frontend/src/features/workingMemory/styles/levelTwo.css"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/styles/memoryUI.css",
+    "to": [
+      "frontend/src/features/workingMemory/styles/memoryUI.css"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/styles/patternArtwork.css",
+    "to": [
+      "frontend/src/features/workingMemory/styles/patternArtwork.css"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/styles/patternReference.css",
+    "to": [
+      "frontend/src/features/workingMemory/styles/patternReference.css"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/styles/popupMap.css",
+    "to": [
+      "frontend/src/features/workingMemory/styles/popupMap.css"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/APPROVED_REDESIGN_REPORT.md",
+    "to": [
+      "docs/workingMemory/history/APPROVED_REDESIGN_REPORT.md"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/LEVEL_FOUR_REFINEMENT.md",
+    "to": [
+      "docs/workingMemory/history/LEVEL_FOUR_REFINEMENT.md"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/LEVEL_THREE_REFINEMENT.md",
+    "to": [
+      "docs/workingMemory/history/LEVEL_THREE_REFINEMENT.md"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/LEVEL_TWO_REFINEMENT.md",
+    "to": [
+      "docs/workingMemory/history/LEVEL_TWO_REFINEMENT.md"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/README.md",
+    "to": [
+      "docs/workingMemory/history/PREVIOUS_README.md"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/UI_REDESIGN.md",
+    "to": [
+      "docs/workingMemory/history/UI_REDESIGN.md"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/UI_REFINEMENT.md",
+    "to": [
+      "docs/workingMemory/history/UI_REFINEMENT.md"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/pages/workingMemory/identification/UI_AUDIT.md",
+    "to": [
+      "docs/workingMemory/history/SCREENING_UI_AUDIT.md"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/services/workingMemory/identifyApi.js",
+    "to": [
+      "frontend/src/features/workingMemory/services/identifyApi.js"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/services/workingMemory/improveApi.js",
+    "to": [
+      "frontend/src/features/workingMemory/services/improveApi.js"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/utils/workingMemory/errorAnalysis.js",
+    "to": [
+      "frontend/src/features/workingMemory/logic/errorAnalysis.js"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/utils/workingMemory/scoring.util.js",
+    "to": [
+      "frontend/src/features/workingMemory/logic/scoring.js"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/utils/workingMemory/practiceRecommendations.util.js",
+    "to": [
+      "frontend/src/features/workingMemory/logic/recommendations.js"
+    ],
+    "action": "moved/renamed"
+  },
+  {
+    "from": "frontend/src/utils/workingMemory/evaluateIdentifyAnswer.util.js",
+    "to": [
+      "frontend/src/features/workingMemory/logic/answerChecking.js"
+    ],
+    "action": "combined answer checkers"
+  },
+  {
+    "from": "frontend/src/utils/workingMemory/evaluateImprovementAnswer.util.js",
+    "to": [
+      "frontend/src/features/workingMemory/logic/answerChecking.js"
+    ],
+    "action": "combined answer checkers"
+  }
+]

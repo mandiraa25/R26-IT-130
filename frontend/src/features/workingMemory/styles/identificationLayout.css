@@ -1,0 +1,192 @@
+/* Memory Check only. Keep the existing 1600 x 900 stage, board artwork and
+   board bounds; these rules also isolate screening from game-level themes. */
+.wm-screen.lx-screening {
+  --wm-ink:#483622;
+  --wm-border:#edacbc;
+  --wm-radius:18px;
+}
+
+/* The tracker is centered on the same x=800 axis as the vine board. */
+.wm-screen.lx-screening .wm-screen__tracking {
+  left:300px; right:auto; top:105px; width:1000px; height:50px;
+  margin:0; display:flex; flex-wrap:nowrap; justify-content:center; align-items:center; gap:20px;
+}
+.wm-screen.lx-screening .wm-screen__trackers { flex:0 0 auto; }
+.wm-screen.lx-screening .wm-screen__stars {
+  display:flex; align-items:center; gap:8px; width:auto; height:44px;
+  margin:0; padding:10px 18px; box-shadow:none;
+}
+.wm-screen.lx-screening .wm-screen__count {
+  position:static; width:auto; min-height:44px; display:flex; align-items:center;
+  margin:0; padding:8px 18px; font-size:19px; line-height:1.4;
+}
+
+/* Padding clears the visible inner frame and both decorative leaf corners.
+   Fixed header/content/footer areas keep study and recall on the same board. */
+.wm-screen.lx-screening .lx-board .lx-board-content { padding:40px 84px 76px; }
+.wm-screen.lx-screening .lx-board:has(.wm-screen__complete) .lx-board-content { padding-bottom:84px; }
+.wm-screen.lx-screening .lx-board .wm-screen__board-content {
+  position:relative; inset:auto; width:100%; height:100%; min-height:0; padding:0;
+  display:flex; flex-direction:column; justify-content:flex-start; gap:10px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__question-header {
+  display:flex; flex-direction:column; align-items:stretch; gap:8px; flex:none;
+}
+.wm-screen.lx-screening .wm-screen__category {
+  align-self:flex-start; padding:5px 13px; font-size:16px; line-height:1.4;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__title-row {
+  display:grid; grid-template-columns:132px minmax(0,1fr) 132px;
+  align-items:center; gap:12px; min-height:68px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__question-title {
+  grid-column:2; min-width:0; max-width:none; margin:0;
+  font-size:28px; line-height:1.35; text-align:center; color:var(--wm-ink);
+  overflow-wrap:break-word; text-wrap:pretty;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__listen {
+  grid-column:3; width:132px; min-height:60px; padding:6px 10px;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  border:2px solid transparent; border-radius:999px;
+  background:#f6e2c4; color:#603b1c; font-size:19px; line-height:1.3;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__listen img { width:38px; height:38px; flex:none; }
+/* The previous instruction outline indicated active audio. Keep that state
+   distinct from the consistent, high-contrast keyboard focus on all controls. */
+.wm-screen.lx-screening .wm-screen__listen[aria-pressed=true] { border-color:#a86624; outline:none; }
+.wm-screen.lx-screening button:focus-visible,
+.wm-screen.lx-screening .wm-screen__listen[aria-pressed=true]:focus-visible {
+  outline:4px solid #174d88; outline-offset:4px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__question-content {
+  flex:1 1 0; min-height:0; width:100%; padding:0;
+  display:flex; flex-direction:column; justify-content:flex-start; align-items:center; gap:18px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__question-footer { flex:none; margin:0; padding:0; }
+.wm-screen.lx-screening .wm-screen__question-footer p {
+  margin:0; color:#6f5138; font-size:19px; font-weight:700; line-height:1.45; text-align:center;
+}
+
+.wm-screen.lx-screening .lx-board .wm-screen__option {
+  min-width:0; padding:10px 18px; border-width:2px; border-radius:18px;
+  font-family:inherit; font-size:25px; line-height:1.4; color:var(--wm-ink);
+  overflow-wrap:break-word; box-shadow:0 3px 0 #70401612;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__pattern {
+  width:100%; min-height:116px; padding:16px 22px; gap:18px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__options--pattern {
+  width:100%; max-width:none; gap:16px; margin:0;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__options--pattern .wm-screen__option { min-height:100px; }
+.wm-screen.lx-screening .wm-screen__pattern > .lx-pattern-artwork { width:64px; height:64px; }
+.wm-screen.lx-screening .wm-screen__options--pattern .lx-pattern-artwork { width:60px; height:60px; }
+
+/* Fit the existing transparent pictures without distorting their aspect ratio.
+   Three-choice rows use a slightly smaller square to keep all rows readable. */
+.wm-screen.lx-screening .lx-board .wm-screen__memory-panel--pictures {
+  width:100%; padding:24px; border-radius:20px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__picture-strip,
+.wm-screen.lx-screening .lx-board .wm-screen__memory-panel--pictures .wm-screen__picture-strip,
+.wm-screen.lx-screening .lx-board .wm-screen__option--pictures .wm-screen__picture-strip {
+  display:flex; flex-wrap:nowrap; justify-content:center; align-items:center;
+  width:100%; gap:28px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__picture-item { display:flex; flex:0 1 auto; min-width:0; }
+.wm-screen.lx-screening .lx-board .wm-screen__memory-panel--pictures .wm-screen__picture-figure {
+  width:154px; height:154px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__options--orders {
+  width:100%; max-width:none; gap:8px; margin:0;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__options--orders .wm-screen__option {
+  border-style:dashed; min-height:82px; font-size:32px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__options--orders .wm-screen__option--pictures {
+  min-height:0; padding:7px 20px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__option--pictures .wm-screen__picture-figure {
+  width:clamp(78px,calc(234px / var(--choice-count,2)),117px);
+  height:clamp(78px,calc(234px / var(--choice-count,2)),117px);
+}
+.wm-screen.lx-screening .lx-board .wm-screen__memory-panel--plain { width:100%; padding:0; }
+.wm-screen.lx-screening .lx-board .wm-screen__number-sequence--study { flex-wrap:nowrap; gap:24px; }
+.wm-screen.lx-screening .lx-board .wm-screen__number-sequence--study > span {
+  width:138px; height:138px; font-size:66px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__number-sequence--study.wm-screen__number-sequence--4 > span {
+  width:116px; height:126px; font-size:56px;
+}
+
+.wm-screen.lx-screening .lx-board .wm-screen__instruction-area { width:100%; }
+.wm-screen.lx-screening .lx-board .wm-screen__instruction-steps { gap:10px; }
+.wm-screen.lx-screening .lx-board .wm-screen__instruction-steps li {
+  min-height:60px; padding:8px 18px; gap:14px; border-radius:18px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__instruction-steps li > span {
+  flex:none; width:40px; height:40px; font-size:22px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__instruction-steps p {
+  min-width:0; margin:0; font-size:25px; line-height:1.4; overflow-wrap:break-word;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__options--actions {
+  width:100%; max-width:none; margin:0; gap:16px;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+.wm-screen.lx-screening .lx-board .wm-screen__options--actions .wm-screen__option { min-height:88px; }
+.wm-screen.lx-screening .wm-screen__instruction-area .wm-screen__primary { margin-top:12px; }
+/* Four readable steps and the existing audio-failure Continue control must
+   share this area without reaching the helper text below it. */
+.wm-screen.lx-screening .lx-board .wm-screen__instruction-area:has(.wm-screen__primary):has(li:nth-child(4)) .wm-screen__instruction-steps { gap:8px; }
+.wm-screen.lx-screening .lx-board .wm-screen__instruction-area:has(.wm-screen__primary):has(li:nth-child(4)) .wm-screen__instruction-steps li {
+  min-height:48px; padding:6px 18px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__instruction-area:has(.wm-screen__primary):has(li:nth-child(4)) .wm-screen__instruction-steps li > span { width:32px; height:32px; font-size:20px; }
+.wm-screen.lx-screening .lx-board .wm-screen__instruction-area:has(.wm-screen__primary):has(li:nth-child(4)) .wm-screen__instruction-steps p { font-size:22px; line-height:1.4; }
+
+.wm-screen.lx-screening .lx-board .wm-screen__complete {
+  display:flex; flex-direction:column; height:100%; min-height:0; gap:12px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__complete header h1 { margin:0 0 5px; font-size:30px; line-height:1.3; }
+.wm-screen.lx-screening .lx-board .wm-screen__complete header p { margin:0; font-size:17px; line-height:1.4; }
+.wm-screen.lx-screening .lx-board .wm-screen__results {
+  display:grid; grid-template-columns:1fr 1.12fr; flex:1 1 0; min-height:0; gap:18px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__score,
+.wm-screen.lx-screening .lx-board .wm-screen__results .wm-recommendations {
+  min-width:0; min-height:0; padding:20px; gap:8px; border-radius:22px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__results h2 { margin:0; font-size:21px; line-height:1.4; }
+.wm-screen.lx-screening .lx-board .wm-screen__score strong { font-size:62px; line-height:1.1; }
+.wm-screen.lx-screening .lx-board .wm-screen__score small { font-size:16px; line-height:1.4; }
+.wm-screen.lx-screening .lx-board .wm-screen__score p { margin:0; padding:5px 10px; font-size:15px; line-height:1.4; }
+.wm-screen.lx-screening .lx-board .wm-screen__results .wm-recommendations ul { display:grid; gap:10px; }
+.wm-screen.lx-screening .lx-board .wm-screen__results .wm-recommendations button {
+  min-height:70px; padding:10px 12px; gap:12px; border-radius:16px;
+  font-family:inherit; font-size:17px; line-height:1.4;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__results .wm-recommendations img { width:48px; height:48px; }
+.wm-screen.lx-screening .lx-board .wm-screen__result-actions {
+  flex:none; display:grid; grid-template-columns:.8fr 1.2fr; gap:16px; padding-top:6px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__result-actions button {
+  min-height:64px; padding:10px 18px; font-size:19px; line-height:1.4;
+}
+.wm-screen.lx-screening .wm-screen__result-actions [data-testid=wm-go-improvement] {
+  background:#dceeff; border:2px solid #6b9dcb; box-shadow:0 4px 0 #93b7d8;
+  color:#2b4b69; font-weight:800;
+}
+.wm-screen.lx-screening .wm-screen__result-actions [data-testid=wm-go-improvement]::after { content:none; }
+.wm-screen.lx-screening .lx-board .wm-screen__complete--notice { gap:8px; }
+.wm-screen.lx-screening .lx-board .wm-screen__complete--notice .wm-screen__score,
+.wm-screen.lx-screening .lx-board .wm-screen__complete--notice .wm-screen__results .wm-recommendations { padding:12px 18px; }
+.wm-screen.lx-screening .lx-board .wm-screen__complete--notice .wm-screen__score strong { font-size:48px; }
+.wm-screen.lx-screening .lx-board .wm-screen__complete--notice .wm-screen__results .wm-recommendations button { min-height:56px; padding:6px 10px; font-size:16px; }
+.wm-screen.lx-screening .lx-board .wm-screen__complete--notice .wm-screen__results .wm-recommendations img { width:40px; height:40px; }
+
+.wm-screen.lx-screening:lang(si) .lx-board .wm-screen__question-title { font-size:24px; line-height:1.45; }
+.wm-screen.lx-screening:lang(si) .lx-board .wm-screen__instruction-steps p { font-size:23px; line-height:1.45; }
+.wm-screen.lx-screening:lang(si) .lx-board .wm-screen__complete header h1 { font-size:27px; }
+.wm-screen.lx-screening:lang(si) .lx-board .wm-screen__results .wm-recommendations button { font-size:16px; }
+.wm-screen.lx-screening:lang(si) .lx-board .wm-screen__result-actions button { font-size:18px; }

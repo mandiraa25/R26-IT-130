@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { getWorkingMemoryIdentifyResults } from "../../../services/workingMemory/identifyApi";
+import { getWorkingMemoryIdentifyResults } from "../../../features/workingMemory/services/identifyApi";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 function IdentifyWorkingMemoryReport() {
