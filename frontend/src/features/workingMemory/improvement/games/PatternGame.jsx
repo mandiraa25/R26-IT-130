@@ -1,6 +1,8 @@
 import { ArrowRight, Check, RotateCcw, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { MemoryBoard, MemoryBunny, MemoryHeading, MemoryTracker, PatternSymbol } from "../../shared/GameLayout";
+import Feedback from "../../shared/Feedback";
+import { getImprovementBunnyMessage } from "../../config/gameConfig";
 import "../../styles/patternReference.css";
 
 const ART = "/images/workingMemory/shared";
@@ -29,8 +31,8 @@ function PatternQuestion({ p, si }) {
     p.handlePatternAnswer(selectedAnswer);
   };
   return <>
-    <MemoryTracker correctOnly={Number(p.levelNumber) === 4} current={p.currentIdx + 1} total={p.questions.length} responses={p.results} />
-    <MemoryBunny message={si ? "රටාව හොඳින් බලා පිළිතුර තෝරන්න!" : "Look at the pattern carefully and guess it!"} />
+    <MemoryTracker current={p.currentIdx + 1} total={p.questions.length} responses={p.results} questionIds={p.questions.map(question => question.id)} />
+    <MemoryBunny message={getImprovementBunnyMessage({ game: "pattern", phase: p.phase, correct: p.isCurrentCorrect, si })} />
     <MemoryBoard className="lx-pattern-question" data-question-id={q?.id}>
       <MemoryHeading onListen={() => p.speakText(q.instruction)}>{q.questionText || (si ? "ඊළඟට පැමිණෙන්නේ කුමක්ද?" : "Which picture comes next?")}</MemoryHeading>
       <div className="lx-pattern-sequence" aria-label={si ? "සම්පූර්ණ කළ යුතු රටාව" : "Pattern to complete"}>{q.showItems.map((item, i) => <div key={i} className={`lx-pattern-tile ${item === "?" ? "is-missing" : ""}`}>{item === "?" ? "?" : <PatternSymbol value={item} />}</div>)}</div>
@@ -38,13 +40,13 @@ function PatternQuestion({ p, si }) {
         const selected = (answered ? p.lastUserAnswer : selectedAnswer) === option;
         return <button key={`${q.id}-${i}`} type="button" className={`lx-pattern-option ${selected ? "is-selected" : ""}`} aria-label={`Answer: ${option}`} aria-pressed={selected} disabled={answered} onClick={() => { if (!checked.current) setSelectedAnswer(option); }}><b aria-hidden="true">{String.fromCharCode(65 + i)}</b><PatternSymbol value={option} /></button>;
       })}</div>
-      <div className="lx-pattern-response">
+      <div className={`lx-pattern-response${answered ? " lx-feedback-footer" : ""}`}>
         {answered ? <>
-          {!levelOne && <p className={`lx-pattern-toast ${p.isCurrentCorrect ? "is-correct" : "is-incorrect"}`} role="status">{p.isCurrentCorrect ? <Check aria-hidden="true" /> : <X aria-hidden="true" />}<span>{si ? p.isCurrentCorrect ? "හොඳයි!" : "හොඳ උත්සාහයක්! ඉදිරියට යමු." : p.isCurrentCorrect ? "Great job!" : "Good try! Let's keep going."}</span></p>}
-          <button type="button" className="lx-pattern-next" onClick={p.handleNextQuestion}>{si ? p.currentIdx === 4 ? "ප්‍රතිඵල" : "ඊළඟ" : p.currentIdx === 4 ? "See results" : "Next"}<ArrowRight aria-hidden="true" /></button>
-        </> : <><p className="lx-note">{si ? "ඔබේ පිළිතුර තෝරන්න." : "Tap your answer."}</p><button type="button" className={`lx-pattern-check${si || levelOne ? "" : " lx-pattern-check--illustrated"}`} disabled={selectedAnswer === null} onClick={checkAnswer}><span className="lx-pattern-check-label">{si ? "පරීක්ෂා කරන්න" : "CHECK"}</span>{si || levelOne ? <Check aria-hidden="true" /> : <img src="/images/workingMemory/shared/buttons/actions/check-button.png" alt="" />}</button></>}
+          <button type="button" className="lx-pattern-next" onClick={p.handleNextQuestion}>{si ? p.currentIdx === p.questions.length - 1 ? "ප්‍රතිඵල" : "ඊළඟ" : p.currentIdx === p.questions.length - 1 ? "See results" : "Next"}<ArrowRight aria-hidden="true" /></button>
+        </> : <><p className="lx-note">{si ? "ඔබේ පිළිතුර තෝරන්න." : "Tap your answer."}</p><button type="button" className={`lx-pattern-check${si || levelOne ? "" : " lx-pattern-check--illustrated"}`} disabled={selectedAnswer === null} onClick={checkAnswer}><span className="lx-pattern-check-label">{si ? "පරීක්ෂා කරන්න" : "Check"}</span>{si || levelOne ? <Check aria-hidden="true" /> : <img src="/images/workingMemory/shared/buttons/actions/check-button.png" alt="" />}</button></>}
       </div>
     </MemoryBoard>
+    {answered && <Feedback p={p} si={si} />}
   </>;
 }
 
@@ -54,7 +56,7 @@ function PatternResults({ p, si }) {
   const nextDisabled = !passed || p.isSubmitting || !p.submitResult;
   return <>
     <img className="lx-pattern-result-bunny" src={`${ART}/bunny/bunny-${passed ? "happy" : "sad"}.webp`} alt={text(passed ? "Happy bunny" : "Encouraging bunny", passed ? "සතුටු හාවා" : "දිරිගන්වන හාවා")} />
-    <aside className="lx-pattern-speech">{text(passed ? "Well done!" : "Oops! Let's try again!", passed ? "හොඳයි!" : "නැවත උත්සාහ කරමු!")}</aside>
+    <aside className="lx-pattern-speech">{text(passed ? "Well done! You kept going!" : "Good effort! Keep learning.", passed ? "හොඳයි! ඔබ දිගටම උත්සාහ කළා!" : "හොඳ උත්සාහයක්! ඉගෙන ගනිමු.")}</aside>
     <MemoryBoard className={`lx-pattern-reference-board lx-pattern-result ${passed ? "is-passed" : "is-retry"}`} data-testid="pattern-results">
       <header className="lx-pattern-result-heading">
         {passed && <img src={`${ART}/feedback/trophy.webp`} alt="" />}

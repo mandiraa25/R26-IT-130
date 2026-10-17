@@ -1,7 +1,7 @@
 import ActivityScreen from "./ActivityScreen";
 import { readTotalStars } from "../logic/progression";
 import React, { useState, useEffect, useRef } from "react";
-import { useMemoryMusic } from "../logic/audio";
+import { playMemoryFeedbackSound, useMemoryMusic } from "../logic/audio";
 import { selectAttemptQuestions } from "../logic/progression";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -72,6 +72,7 @@ export default function ImprovementPage() {
   const submissionStartedRef = useRef(false);
   const saveAttemptInFlightRef = useRef(false);
   const savedAttemptRef = useRef(false);
+  const attemptGenerationRef = useRef(0);
   const wordsSpeechTimeoutRef = useRef(null);
   const numbersReadyStartedRef = useRef(false);
   const [earnedStars, setEarnedStars] = useState(0);
@@ -257,6 +258,14 @@ export default function ImprovementPage() {
 
   useEffect(() => {
     const currentLang = i18n.language?.startsWith("si") ? "si" : "en";
+    attemptGenerationRef.current += 1;
+    saveAttemptInFlightRef.current = false;
+    savedAttemptRef.current = false;
+    progressRefreshRef.current = null;
+    historyRefreshRef.current = null;
+    setIsSubmitting(false);
+    setProgressLoading(false);
+    setHistoryLoading(false);
     // Load the existing bank for this grade, language, level and game.
     const data = getSubCategoryData(grade, levelNumber, subCategoryKey, currentLang);
     if (data) {
@@ -275,56 +284,6 @@ export default function ImprovementPage() {
 
   const handleSkipAndPlay = () => {
     startQuiz();
-  };
-
-  // Match the child-friendly answer feedback used by Phonological Awareness:
-  // a four-note victory chime for correct answers and a gentle descending
-  // two-note tone for incorrect answers.
-  const playResultSound = (isCorrect) => {
-    if (!soundEnabled) return;
-
-    try {
-      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContextClass) return;
-
-      const audioContext = new AudioContextClass();
-      const scheduleNotes = () => {
-        const notes = isCorrect
-          ? [523.25, 659.25, 783.99, 1046.5]
-          : [220, 164.81];
-        const noteDelay = isCorrect ? 0.08 : 0.12;
-        const noteDuration = isCorrect ? 0.3 : 0.25;
-
-        notes.forEach((frequency, index) => {
-          const startTime = audioContext.currentTime + index * noteDelay;
-          const oscillator = audioContext.createOscillator();
-          const gain = audioContext.createGain();
-
-          oscillator.type = isCorrect ? "triangle" : "sine";
-          oscillator.frequency.setValueAtTime(frequency, startTime);
-          gain.gain.setValueAtTime(isCorrect ? 0.3 : 0.25, startTime);
-          gain.gain.exponentialRampToValueAtTime(
-            isCorrect ? 0.001 : 0.01,
-            startTime + noteDuration,
-          );
-          oscillator.connect(gain);
-          gain.connect(audioContext.destination);
-          oscillator.start(startTime);
-          oscillator.stop(startTime + noteDuration);
-        });
-
-        const totalDuration = (notes.length - 1) * noteDelay + noteDuration;
-        window.setTimeout(() => audioContext.close().catch(() => {}), (totalDuration + 0.1) * 1000);
-      };
-
-      if (audioContext.state === "suspended") {
-        audioContext.resume().then(scheduleNotes).catch(() => audioContext.close().catch(() => {}));
-      } else {
-        scheduleNotes();
-      }
-    } catch (error) {
-      console.warn("Answer feedback audio could not play:", error);
-    }
   };
 
   // Text-to-speech for instructions. Accepts an optional onEnd callback so callers
@@ -387,6 +346,14 @@ export default function ImprovementPage() {
 
   // Start a fresh five-question attempt, including when the child plays again.
   const startQuiz = () => {
+    if (saveAttemptInFlightRef.current) return;
+    attemptGenerationRef.current += 1;
+    progressRefreshRef.current = null;
+    historyRefreshRef.current = null;
+    setProgressLoading(false);
+    setProgressError(false);
+    setHistoryLoading(false);
+    setHistoryError(false);
     const attempt = selectAttemptQuestions(subCatData?.questions || questions, previousQuestionIdsRef.current);
     previousQuestionIdsRef.current = attempt.map(q => q.id);
     setQuestions(attempt);
@@ -400,6 +367,7 @@ export default function ImprovementPage() {
     setLastStarReward(0);
     setEarnedStars(0);
     setSubmitResult(null);
+    setIsSubmitting(false);
     setTotalStartTime(performance.now());
     setSubmissionError(false);
     setupQuestion(0, attempt);
@@ -638,8 +606,7 @@ export default function ImprovementPage() {
 
   const handleDragSubmit = () => {
     const q = questions[currentIdx];
-
-    if (slots.some((s) => s === "" || s === null)) {
+    if (!q || phase !== "answer" || answeredQuestionRef.current || slots.length === 0 || slots.some((s) => s === "" || s === null)) {
       return;
     }
 
@@ -662,6 +629,7 @@ export default function ImprovementPage() {
     const q = questions[currentIdx];
     if (!q || phase !== "answer" || answeredQuestionRef.current) return;
     answeredQuestionRef.current = true;
+    playMemoryFeedbackSound(isCorrect);
     const endTime = performance.now();
     const timeTaken = Math.round(endTime - questionStartTime);
 
@@ -673,11 +641,9 @@ export default function ImprovementPage() {
       setEarnedStars((prev) => prev + STARS_PER_CORRECT);
       setTotalStars((prev) => prev + STARS_PER_CORRECT);
       setLastStarReward(STARS_PER_CORRECT);
-      playResultSound(true);
       setScore((prev) => prev + 1);
     } else {
       setLastStarReward(0);
-      playResultSound(false);
     }
 
     const newResult = {
@@ -712,9 +678,11 @@ export default function ImprovementPage() {
   // never retry the successful attempt POST, which would award the stars twice.
   const handleRetryProgress = () => {
     if (progressRefreshRef.current) return progressRefreshRef.current;
+    const generation = attemptGenerationRef.current;
     setProgressLoading(true);
     setProgressError(false);
     const request = getWorkingMemoryAccess({ refresh: true }).then(({ profile: student, progress }) => {
+      if (generation !== attemptGenerationRef.current) return progress;
       setProfile(student);
       setSavedProgress(progress);
       sessionStorage.setItem(WM_PROFILE_CACHE, JSON.stringify(student));
@@ -722,11 +690,13 @@ export default function ImprovementPage() {
       setTotalStars(readTotalStars(progress));
       return progress;
     }).catch(() => {
-      setProgressError(true);
+      if (generation === attemptGenerationRef.current) setProgressError(true);
       return null;
     }).finally(() => {
-      setProgressLoading(false);
-      progressRefreshRef.current = null;
+      if (progressRefreshRef.current === request) {
+        setProgressLoading(false);
+        progressRefreshRef.current = null;
+      }
     });
     progressRefreshRef.current = request;
     return request;
@@ -734,6 +704,7 @@ export default function ImprovementPage() {
 
   const handleRetryLevelHistory = () => {
     if (historyRefreshRef.current) return historyRefreshRef.current;
+    const generation = attemptGenerationRef.current;
     const studentId = profile?._id || localStorage.getItem("studentId");
     if (!studentId) {
       setHistoryError(true);
@@ -743,14 +714,16 @@ export default function ImprovementPage() {
     setHistoryError(false);
     const request = getAttemptHistory(studentId, Number(levelNumber)).then((response) => {
       if (response?.success === false || !Array.isArray(response?.data)) throw new Error("Attempt history unavailable");
-      setLevelHistory(response.data);
+      if (generation === attemptGenerationRef.current) setLevelHistory(response.data);
       return response.data;
     }).catch(() => {
-      setHistoryError(true);
+      if (generation === attemptGenerationRef.current) setHistoryError(true);
       return null;
     }).finally(() => {
-      setHistoryLoading(false);
-      historyRefreshRef.current = null;
+      if (historyRefreshRef.current === request) {
+        setHistoryLoading(false);
+        historyRefreshRef.current = null;
+      }
     });
     historyRefreshRef.current = request;
     return request;
@@ -758,17 +731,19 @@ export default function ImprovementPage() {
 
   // Save through the existing API; its response controls saved progression.
   const handleCompleteQuiz = async (finalScore, finalResults) => {
-    const isLevelOne = [1, 2, 3, 4].includes(Number(levelNumber));
-    if (isLevelOne && (saveAttemptInFlightRef.current || savedAttemptRef.current)) return;
+    if (saveAttemptInFlightRef.current || savedAttemptRef.current) return;
+    const generation = attemptGenerationRef.current;
     const totalTimeTaken = Math.round((performance.now() - totalStartTime) / 1000);
     const studentId = profile?._id || localStorage.getItem("studentId");
 
     if (!studentId) {
       console.warn("No studentId found for submitting improvement attempt.");
+      setSubmissionError(true);
+      setIsSubmitting(false);
       return;
     }
 
-    if (isLevelOne) saveAttemptInFlightRef.current = true;
+    saveAttemptInFlightRef.current = true;
     setIsSubmitting(true);
     setSubmissionError(false);
     try {
@@ -784,23 +759,27 @@ export default function ImprovementPage() {
         totalTimeTaken,
       });
 
+      if (generation !== attemptGenerationRef.current) return;
+      if (res?.success === false || !res?.data) throw new Error("Improvement attempt was not saved");
       setSubmitResult(res.data);
-      if (isLevelOne) savedAttemptRef.current = true;
+      savedAttemptRef.current = true;
       if (res.data?.progress) sessionStorage.setItem(WM_PROGRESS_CACHE, JSON.stringify(res.data.progress));
-      if (isLevelOne && res.data?.progress) setSavedProgress(res.data.progress);
+      if (res.data?.progress) setSavedProgress(res.data.progress);
       if (Number.isFinite(res.data?.totalStars ?? res.data?.totalCarrots)) {
         setTotalStars(readTotalStars(res.data));
       }
-      if (isLevelOne) await Promise.all([
-        handleRetryProgress(),
-        (subCategoryKey === "numbers" || Number(levelNumber) === 4) ? handleRetryLevelHistory() : Promise.resolve(),
-      ]);
+      // The POST is saved already. Refreshes have separate loading/error states
+      // and must not leave a completed attempt stuck on "Saving".
+      void handleRetryProgress();
+      if (subCategoryKey === "numbers" || Number(levelNumber) === 4) void handleRetryLevelHistory();
     } catch (err) {
-      setSubmissionError(true);
+      if (generation === attemptGenerationRef.current) setSubmissionError(true);
       console.error("Error saving improvement attempt:", err);
     } finally {
-      if (isLevelOne) saveAttemptInFlightRef.current = false;
-      setIsSubmitting(false);
+      if (generation === attemptGenerationRef.current) {
+        saveAttemptInFlightRef.current = false;
+        setIsSubmitting(false);
+      }
     }
   };
 

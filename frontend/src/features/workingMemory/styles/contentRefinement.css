@@ -1,8 +1,5 @@
 /* UIs.zip refinement: only board contents. The board, backdrop, navigation,
    tracker, outside mascot and basket retain their original geometry/artwork. */
-.lx-game:not(.lx-phase--video) .lx-board:not(.lx-pattern-question):not(.lx-pattern-result):not(.lx-results) .lx-board-content {
-  padding:44px 68px 70px;
-}
 .lx-game .lx-game-activity {
   display:flex; flex-direction:column; align-items:center; justify-content:space-between;
   width:100%; height:100%; min-height:0; gap:18px;

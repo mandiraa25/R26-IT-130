@@ -40,7 +40,7 @@ export default function LevelCompletion({ p, si = false }) {
   else status = text(messages.nextLocked.en, messages.nextLocked.si);
 
   return <>
-    <DashboardBunny happy si={si} message={text(isComplete ? "Well done! What an adventure!" : "Every step helps you grow!", isComplete ? "හොඳයි! අපූරු වික්‍රමයක්!" : "සෑම පියවරක්ම ඔබට උපකාරී වේ!")} />
+    <DashboardBunny happy si={si} message={text(isComplete ? "You did it! Well done!" : "Keep going. You are learning!", isComplete ? "ඔබ කළා! හොඳයි!" : "දිගටම යමු. ඔබ ඉගෙන ගන්නවා!")} />
     <MemoryBoard className="lx-level-one-dashboard lx-level-one-completion lx-pattern-reference-board lx-pattern-result" data-testid={messages.ids.completion}>
       <header className="lx-pattern-result-heading"><img src={`${ART}/feedback/trophy.webp`} alt="" /><div><h1>{text(isComplete ? messages.completionTitle.en : messages.progressTitle.en, isComplete ? messages.completionTitle.si : messages.progressTitle.si)}</h1><p>{text("Your saved journey across all four games", "ක්‍රීඩා හතරේම සුරැකි ප්‍රගතිය")}</p></div></header>
       <section className="lx-level-one-overview">
@@ -52,7 +52,7 @@ export default function LevelCompletion({ p, si = false }) {
         const Icon = CATEGORY_ICONS[icon];
         const saved = recordedCategories.find(category => category.subCategoryKey === key);
         return <section key={key} data-category={key} className={`lx-level-one-category ${saved?.isCompleted ? "is-complete" : ""}`}>
-          <Icon className="lx-level-one-category-icon" aria-hidden="true" /><div><h2>{text(isFinal && key === "numbers" ? "Number Recall" : en, sinhala)}</h2><p>{text(saved?.isCompleted ? "Complete" : saved?.isUnlocked ? "Ready to practise" : "Locked", saved?.isCompleted ? "සම්පූර්ණයි" : saved?.isUnlocked ? "පුහුණුවට සූදානම්" : "අගුළු දමා ඇත")}</p></div><strong><img src={`${ART}/feedback/star.webp`} alt={text("Recorded stars", "සුරැකි තරු")} /><span>{starsValue(recordedStars[key])}</span></strong>
+          <Icon className="lx-level-one-category-icon" aria-hidden="true" /><div><h2>{text(en, sinhala)}</h2><p>{text(saved?.isCompleted ? "Complete" : saved?.isUnlocked ? "Ready to practise" : "Locked", saved?.isCompleted ? "සම්පූර්ණයි" : saved?.isUnlocked ? "පුහුණුවට සූදානම්" : "අගුළු දමා ඇත")}</p></div><strong><img src={`${ART}/feedback/star.webp`} alt={text("Recorded stars", "සුරැකි තරු")} /><span>{starsValue(recordedStars[key])}</span></strong>
         </section>;
       })}</div>
       <div className="lx-level-one-completion-status" role="status"><p>{!isFinal && !isNextLevelUnlocked && <LockKeyhole aria-hidden="true" />}{status}</p>{p.historyLoading && <small>{text("Loading recorded stars…", "සුරැකි තරු ලබා ගනිමින්…")}</small>}{p.historyError && <small>{text("Recorded stars could not be loaded.", "සුරැකි තරු ලබා ගැනීමට නොහැකි විය.")} <button type="button" onClick={p.handleRetryLevelHistory}>{text("Retry loading stars", "තරු නැවත ලබා ගන්න")}</button></small>}{p.progressError && <button type="button" onClick={p.handleRetryProgress}>{text("Refresh progress", "ප්‍රගතිය නැවත ලබා ගන්න")}</button>}</div>

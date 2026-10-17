@@ -1,5 +1,6 @@
 /* global process */
 import { test, expect } from "@playwright/test";
+import { expectFeedbackBelowBoard, expectImprovementFeedback, expectImprovementTracker } from "./helpers/workingMemoryUi";
 import { getSubCategoryData } from "../../src/features/workingMemory/improvement/data";
 import { getLevelDisplaySeconds, SUBCATEGORY_ORDER } from "../../src/features/workingMemory/config/gameConfig";
 import { parseInstructionSteps } from "../../src/features/workingMemory/logic/presentation";
@@ -7,7 +8,7 @@ import { parseInstructionSteps } from "../../src/features/workingMemory/logic/pr
 const GRADE = process.env.WM_UI_GRADE || "2";
 const BASE_STARS = 98_765; // Deliberately large enough to catch badge clipping.
 const VIEWPORTS = [{ width: 1366, height: 768 }, { width: 2878, height: 1540 }];
-const NAMES = { pattern: "Pattern Recognition", words: "Picture Memory", instructions: "Following Instructions", numbers: "Number Recall" };
+const NAMES = { pattern: "Pattern Recognition", words: "Picture Memory", instructions: "Following Instructions", numbers: "Number Memory" };
 const FIXED_TIME = new Date("2026-10-17T06:00:00.000Z");
 const board = page => page.locator(".lx-level-four .lx-board");
 const feedback = page => page.getByTestId("level-one-feedback");
@@ -51,7 +52,7 @@ async function setup(page, options = {}) {
   // Pause browser time before loading. Tests advance the *existing* configured
   // durations; no production timing, data, reward, or progression is replaced.
   await page.clock.install({ time: FIXED_TIME });
-  await page.clock.pauseAt(new Date(FIXED_TIME.getTime() + 100));
+  await page.clock.pauseAt(new Date(FIXED_TIME.getTime() + 60_000));
   await page.addInitScript(({ muted }) => {
     localStorage.setItem("token", "level-one-ui-review");
     localStorage.setItem("studentId", "level-one-ui-review");
@@ -71,9 +72,9 @@ async function setup(page, options = {}) {
     window.AudioContext = class {
       constructor() { this.currentTime = 0; this.state = "running"; this.destination = {}; this.notes = []; window.__uiSounds.push(this.notes); }
       createOscillator() {
-        return { frequency: { setValueAtTime: frequency => this.notes.push(frequency) }, connect() {}, start() {}, stop() {} };
+        return { frequency: { setValueAtTime: frequency => this.notes.push(frequency) }, connect() {}, disconnect() {}, start() {}, stop() {} };
       }
-      createGain() { return { gain: { setValueAtTime() {}, exponentialRampToValueAtTime() {} }, connect() {} }; }
+      createGain() { return { gain: { setValueAtTime() {}, linearRampToValueAtTime() {}, exponentialRampToValueAtTime() {} }, connect() {}, disconnect() {} }; }
       resume() { return Promise.resolve(); }
       close() { return Promise.resolve(); }
     };
@@ -151,24 +152,7 @@ async function currentQuestion(page, game, level = 4) {
 }
 
 async function tracker(page, index) {
-  const list = page.locator(".lx-level-four .lx-tracker");
-  const items = list.locator(".lx-step");
-  await expect(items).toHaveCount(5);
-  await expect(items.nth(index)).toHaveAttribute("aria-current", "step");
-  await expect(items.nth(index)).toHaveClass(/is-current/);
-  await expect(list.locator("[aria-current=step]")).toHaveCount(1);
-  await expect(list.locator(".lx-step-art,.lx-step-circle")).toHaveCount(0);
-  const alignment = await list.evaluate(element => {
-    const box = element.getBoundingClientRect();
-    const stage = element.closest(".lx-stage");
-    const scale = stage.getBoundingClientRect().width / stage.offsetWidth;
-    const active = element.querySelector(".is-current");
-    return { background:getComputedStyle(element).backgroundImage, shadow:getComputedStyle(active).boxShadow,
-      circles:[...element.children].map((child,i) => { const r = child.getBoundingClientRect(); return { x:((r.left+r.right)/2-box.left)/scale - (100+i*212)/1050*box.width/scale, y:((r.top+r.bottom-box.top-box.bottom)/2)/scale }; }) };
-  });
-  expect(alignment.background).toContain("nav-tracker.png");
-  expect(alignment.shadow).not.toBe("none");
-  for (const circle of alignment.circles) { expect(Math.abs(circle.x)).toBeLessThan(1); expect(Math.abs(circle.y)).toBeLessThan(1); }
+  await expectImprovementTracker(page, index);
 }
 
 async function questionToAnswer(page, game, q, { inspect, checkReadyTiming = false } = {}) {
@@ -179,14 +163,14 @@ async function questionToAnswer(page, game, q, { inspect, checkReadyTiming = fal
   }
   if (game === "instructions") {
     await expect(page.locator(".lx-listening-bunny")).toHaveCount(1);
-    await expect(page.locator(".lx-bunny")).toHaveCount(0);
+    await expect(page.locator(".lx-bunny")).toHaveCount(1);
     await expect(page.locator(".lx-instruction-options")).toHaveCount(0);
     if (inspect) await inspect("listen-ready");
     await page.getByRole("button", { name: "Listen", exact: true }).click();
     await advance(page, (parseInstructionSteps(q.instruction).length + 1) * 1000);
-    await expect(page.getByRole("button", { name: "Show the Question", exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Show question", exact: true })).toBeVisible();
     if (inspect) await inspect("listened");
-    await page.getByRole("button", { name: "Show the Question", exact: true }).click();
+    await page.getByRole("button", { name: "Show question", exact: true }).click();
     await expect(page.locator(".lx-instruction-options")).toBeVisible();
     if (inspect) await inspect("answer");
     return;
@@ -195,7 +179,13 @@ async function questionToAnswer(page, game, q, { inspect, checkReadyTiming = fal
   await expect(ready).toBeVisible();
   await expect(page.getByRole("timer")).toHaveCount(0);
   await expect(page.locator(".lx-keypad,.lx-picture-pool")).toHaveCount(0);
-  if (game === "numbers") await expect(page.locator(".lx-numbers-show")).toHaveCount(0);
+  if (game === "numbers") {
+    await expect(page.locator(".lx-numbers-show,.lx-number-slots")).toHaveCount(0);
+    const blanks = page.locator(".lx-number-ready[data-number-stage=ready] .lx-number-concealed .lx-number");
+    await expect(blanks).toHaveCount(q.showItems.length);
+    await expect(blanks).toHaveText(q.showItems.map(() => ""));
+    for (const blank of await blanks.all()) await expect(blank).toBeDisabled();
+  }
   else await expect(page.locator(".lx-picture-sequence [data-item-id]")).toHaveCount(0);
   if (inspect) await inspect("ready");
   if (checkReadyTiming) {
@@ -204,15 +194,14 @@ async function questionToAnswer(page, game, q, { inspect, checkReadyTiming = fal
     await expect(page.getByRole("timer")).toHaveCount(0);
     await expect(page.locator(".lx-keypad")).toHaveCount(0);
   }
-  if (game === "numbers") {
-    await expect(page.locator(".lx-question-heading")).toContainText("Tap Ready");
-    await expect(page.locator(".lx-question-heading")).toContainText(q.isBackward ? "BACKWARD" : "same order");
-  }
   if (game === "numbers") await doubleActivate(ready);
   else await ready.click();
   const duration = game === "words" ? 10 : getLevelDisplaySeconds(4);
   await expect(page.getByRole("timer")).toHaveAttribute("aria-label", `${duration} seconds remaining`);
-  if (game === "numbers") await expect(page.locator(".lx-numbers-show .lx-number")).toHaveText(q.showItems);
+  if (game === "numbers") {
+    await expect(page.locator(".lx-numbers-show[data-number-stage=reveal] .lx-number")).toHaveText(q.showItems);
+    await expect(page.locator(".lx-number-slots,.lx-keypad")).toHaveCount(0);
+  }
   else await expect(page.locator(".lx-picture-sequence [data-item-id]")).toHaveCount(q.showItems.length);
   if (inspect) await inspect("memorize");
   // Flush the Ready render before advancing timer time. Check each tick so
@@ -229,7 +218,8 @@ async function questionToAnswer(page, game, q, { inspect, checkReadyTiming = fal
   await expect(page.getByRole("timer")).toHaveCount(0);
   if (game === "numbers") {
     await expect(page.locator(".lx-numbers-show")).toHaveCount(0);
-    await expect(page.locator(".lx-question-heading")).toContainText(q.isBackward ? "Enter the numbers in BACKWARD order" : "Enter the numbers in the same order");
+    await expect(page.locator(".lx-question-heading")).toContainText(q.isBackward ? /backward|last to first/i : /same order/i);
+    await expect(page.locator(".lx-number-slots[data-number-stage=recall]")).toBeVisible();
     const rows = await page.locator(".lx-keypad .lx-number").evaluateAll(buttons => new Set(buttons.map(button => Math.round(button.getBoundingClientRect().top))).size);
     expect(rows, "number keypad retains exactly two rows").toBe(2);
   }
@@ -280,15 +270,14 @@ async function answer(page, game, q, correct, { exerciseUndo = false, drag = fal
       if (drag) await source.dragTo(page.locator(".lx-picture-slot").nth(i));
       else await source.click();
     }
-    if (drag) await page.clock.pauseAt(new Date(await page.evaluate(() => Date.now()) + 100));
+    if (drag) await page.clock.pauseAt(new Date(await page.evaluate(() => Date.now()) + 1000));
     expect(await page.locator(".lx-picture-slots [data-item-id]").evaluateAll(cards => cards.map(card => card.dataset.itemId))).toEqual(values.map(value => value.id));
   }
-  const slotsSelector = game === "words" ? ".lx-picture-slot" : ".lx-number-slot";
-  const filledBefore = await page.locator(slotsSelector).evaluateAll(nodes => nodes.map(node => { const r = node.getBoundingClientRect(); return { x:r.x, y:r.y, width:r.width, height:r.height }; }));
   await doubleActivate(page.getByRole("button", { name: "Submit", exact: true }));
   await expect(feedback(page)).toBeVisible();
-  const filledAfter = await page.locator(slotsSelector).evaluateAll(nodes => nodes.map(node => { const r = node.getBoundingClientRect(); return { x:r.x, y:r.y, width:r.width, height:r.height }; }));
-  expect(filledAfter, "submitted sequence retains its position").toEqual(filledBefore);
+  if (game === "words") {
+    expect(await page.locator(".lx-picture-slots [data-item-id]").evaluateAll(cards => cards.map(card => card.dataset.itemId)), "feedback preserves the submitted picture order").toEqual(values.map(value => value.id));
+  } else await expect(page.locator(".lx-number-slot")).toHaveText(values);
 }
 
 async function checkGeometry(page, { question = true } = {}) {
@@ -304,14 +293,13 @@ async function checkGeometry(page, { question = true } = {}) {
     const board = rect(screen.querySelector(".lx-board"));
     const nav = rect(screen.querySelector(".lx-nav"));
     const tracker = rect(screen.querySelector(".lx-tracker"));
-    const feedback = rect(screen.querySelector(".lx-level-one-feedback"));
-    const bunny = rect(screen.querySelector(".lx-bunny,.lx-pattern-result-bunny"));
     const controls = [...screen.querySelectorAll(".lx-nav-left,.lx-nav-right")].map(rect);
     const content = [...screen.querySelectorAll([
       ".lx-question-heading", ".lx-pattern-sequence", ".lx-pattern-options", ".lx-pattern-response",
       ".lx-picture-sequence", ".lx-card-rows", ".lx-numbers-show", ".lx-number-slots", ".lx-keypad",
       ".lx-instruction-options", ".lx-listening-scene", ".lx-actions", ".lx-reminder", ".lx-timer",
       ".lx-pattern-result-heading", ".lx-pattern-score", ".lx-pattern-statistics", ".lx-pattern-result-actions",
+      ".lx-feedback-footer", ".lx-answer-feedback", ".lx-pattern-save-status",
     ].join(","))].filter(element => element.closest(".lx-board") && rect(element).width > 0 && rect(element).height > 0).map(element => {
       const box = rect(element);
       return { name: element.className, left: (box.left - board.left) / scale, right: (board.right - box.right) / scale, top: (box.top - board.top) / scale, bottom: (board.bottom - box.bottom) / scale };
@@ -321,8 +309,9 @@ async function checkGeometry(page, { question = true } = {}) {
     const currentCircle = screen.querySelector(".lx-step.is-current");
     const activeBox = rect(currentCircle);
     const activeIndex = currentCircle ? [...currentCircle.parentElement.children].indexOf(currentCircle) : 0;
+    const trackerGrid = screen.querySelector(".lx-tracker") && getComputedStyle(screen.querySelector(".lx-tracker")).display === "grid";
     const ringOffset = currentCircle && tracker ? {
-      x: ((activeBox.left + activeBox.right) / 2 - tracker.left) / scale - (100 + activeIndex * 212) / 1050 * tracker.width / scale,
+      x: ((activeBox.left + activeBox.right) / 2 - tracker.left - (trackerGrid ? (activeIndex + .5) / 5 : (100 + activeIndex * 212) / 1050) * tracker.width) / scale,
       y: (activeBox.top + activeBox.bottom - tracker.top - tracker.bottom) / 2 / scale,
     } : null;
     const primaryStyles = [...screen.querySelectorAll(".lx-button:not(.lx-button--secondary),.lx-pattern-check,.lx-pattern-next,.lx-howto-skip,.lx-howto-watch")]
@@ -333,6 +322,7 @@ async function checkGeometry(page, { question = true } = {}) {
         return { name: element.className, orange: /orange/.test(background) || colors.some(([r,g,b]) => b > g && b > r) };
       });
     return {
+      boardPadding: board && !screen.querySelector(".lx-level-one-dashboard") ? (() => { const style = getComputedStyle(screen.querySelector(".lx-board-content")); return { top: parseFloat(style.paddingTop), right: parseFloat(style.paddingRight), bottom: parseFloat(style.paddingBottom), left: parseFloat(style.paddingLeft) }; })() : null,
       horizontalOverflow: document.documentElement.scrollWidth > innerWidth,
       navOverlap: intersection(controls[0], controls[1]),
       navBounds: controls.map(box => ({ left: (box.left - stageBox.left) / scale, right: (stageBox.right - box.right) / scale })),
@@ -343,24 +333,25 @@ async function checkGeometry(page, { question = true } = {}) {
       ringOffset,
       nonOrangePrimary: primaryStyles.filter(item => !item.orange),
       frameCollisions: content.filter(item => [item.left, item.right, item.top, item.bottom].some(distance => distance < 27)),
-      feedbackBoardOverlap: intersection(feedback, board),
-      feedbackBunnyOverlap: intersection(feedback, bunny),
-      feedbackBottom: feedback ? (stageBox.bottom - feedback.bottom) / scale : null,
       starClipping: (() => { const badge = screen.querySelector(".lx-nav-stars"); const value = badge?.querySelector("strong"); if (!badge || !value) return false; const a = rect(badge), b = rect(value); return b.left < a.left || b.right > a.right || b.top < a.top || b.bottom > a.bottom; })(),
     };
   });
   expect(result.horizontalOverflow).toBe(false);
+  if (result.boardPadding) {
+    expect(result.boardPadding.top, "questions clear the vine artwork above the cream content area").toBeGreaterThanOrEqual(64);
+    expect(result.boardPadding.bottom).toBeGreaterThanOrEqual(56);
+    expect(result.boardPadding.left).toBeGreaterThanOrEqual(80);
+    expect(result.boardPadding.right).toBeGreaterThanOrEqual(80);
+  }
   expect(result.navOverlap, "long game plaque does not collide with stars/music").toBe(false);
   expect(result.navBounds.every(item => item.left >= 19 && item.right >= 19)).toBe(true);
   expect(result.starClipping, "large real star totals remain inside the padded badge").toBe(false);
   expect(result.nonOrangePrimary, "enabled primary actions retain the shared purple theme").toEqual([]);
   expect(result.frameCollisions, "question/dashboard content clears the wooden frame").toEqual([]);
-  expect(result.feedbackBoardOverlap, "feedback sits below the board").toBe(false);
-  expect(result.feedbackBunnyOverlap, "feedback does not cover the bunny").toBe(false);
-  if (result.feedbackBottom !== null) expect(result.feedbackBottom).toBeGreaterThanOrEqual(10);
+  await expectFeedbackBelowBoard(page);
   if (question && result.tracker) {
     expect(Math.abs(result.tracker.center)).toBeLessThanOrEqual(2);
-    expect(result.tracker.boardGap).toBeGreaterThanOrEqual(7.9);
+    expect(result.tracker.boardGap, "tracker has a clear gap above the vine board").toBeGreaterThanOrEqual(8);
     expect(result.tracker.headerGap).toBeGreaterThanOrEqual(4);
     expect(Math.max(...result.stepWidths) - Math.min(...result.stepWidths)).toBeLessThanOrEqual(1);
     expect(Math.max(...result.stepTops) - Math.min(...result.stepTops)).toBeLessThanOrEqual(1);
@@ -381,7 +372,7 @@ async function atBothSizes(page, testInfo, name, question = true) {
     await page.setViewportSize(viewport);
     await waitForViewport(page);
     await checkGeometry(page, { question });
-    if (name) await page.screenshot({ path: testInfo.outputPath(`${name}-${viewport.width}.png`) });
+    if (name) await page.screenshot({ path: testInfo.outputPath(`${name}-${viewport.width}.png`), animations: "disabled" });
   }
   await page.setViewportSize(VIEWPORTS[0]);
   await waitForViewport(page);
@@ -398,25 +389,20 @@ async function playAttempt(page, state, game, score, { testInfo, geometry = fals
     const trackerBefore = await page.locator(".lx-tracker").boundingBox();
     await questionToAnswer(page, game, q, { inspect: index === 0 ? inspect : undefined, checkReadyTiming: index === 0 && game === "numbers" });
     const correct = index < score;
-    const work = page.locator({ pattern: ".lx-pattern-option", words: ".lx-picture-slot", instructions: ".lx-instruction-option", numbers: ".lx-number-slot" }[game]);
-    const workBefore = await work.evaluateAll(nodes => nodes.map(node => { const r = node.getBoundingClientRect(); return { x:r.x, y:r.y, width:r.width, height:r.height }; }));
     await answer(page, game, q, correct, { exerciseUndo: index === 0, drag: game === "words" && index === 0 });
     rewards += correct ? 5 : 0;
     await expect(feedback(page)).toBeVisible();
     await expect(feedback(page)).toHaveAttribute("role", "status");
-    await expect(feedback(page).locator(".lx-feedback-stars img")).toHaveCount(3);
+    await expectImprovementFeedback(page, { correct });
+    await expect(feedback(page).locator(".lx-feedback-stars img")).toHaveCount(correct ? 3 : 0);
     for (const image of await feedback(page).locator("img").all()) await expect(image).toHaveAttribute("alt", "");
-    await expect(feedback(page)).toContainText(correct ? /correct|great|well done/i : /not quite|keep trying|good try/i);
-    await expect(feedback(page)).not.toContainText(/correct answer|correct sequence|the answer (is|was)/i);
+    await expect(feedback(page)).toContainText(correct ? /correct|great|well done/i : /oops|try again later/i);
+    await expect(feedback(page)).not.toContainText(/not quite|correct sequence|the answer (is|was)/i);
     await expect(page.locator(".lx-feedback-summary")).toHaveCount(0);
     await expect(feedback(page).locator(".lx-picture,.lx-pattern-option,.lx-number")).toHaveCount(0);
     await expect(page.locator(".lx-nav-stars")).toHaveAttribute("aria-label", `${BASE_STARS + rewards} stars`);
-    await expect(page.locator(".lx-tracker .lx-step > b")).toHaveCount(Math.min(index + 1, score));
-    await expect(page.locator(".lx-step").nth(index).locator("b")).toHaveCount(correct ? 1 : 0);
-    if (game !== "words") {
-      const workAfter = await work.evaluateAll(nodes => nodes.map(node => { const r = node.getBoundingClientRect(); return { x:r.x, y:r.y, width:r.width, height:r.height }; }));
-      expect(workAfter, "submission keeps answer geometry stable").toEqual(workBefore);
-    }
+    await expect(page.locator(".lx-tracker .lx-step > b")).toHaveCount(index + 1);
+    await expect(page.locator(".lx-step").nth(index).locator("b")).toHaveCount(1);
     await tracker(page, index); // Submitting must not advance or remove the highlight.
     expect(await board(page).boundingBox(), "board position remains fixed across memory, answer, feedback").toEqual(boardBefore);
     expect(await page.locator(".lx-tracker").boundingBox(), "completion/highlight does not move the tracker").toEqual(trackerBefore);
@@ -528,7 +514,7 @@ test("sound control changes the following feedback effect without changing star 
   await expect(page.getByTestId("level-four-completion")).toHaveCount(0);
 });
 
-for (const level of [1,2,3]) test('Level ' + level + ' retains its existing tracker and pattern flow', async ({page}) => {
+for (const level of [1,2,3]) test('Level ' + level + ' shares the completed-question tracker and pattern flow', async ({page}) => {
   await setup(page);
   await startGame(page, 'pattern', {level});
   const q = await currentQuestion(page, 'pattern', level);
@@ -536,9 +522,11 @@ for (const level of [1,2,3]) test('Level ' + level + ' retains its existing trac
   await expect(page.locator('.lx-level-four')).toHaveCount(0);
   await expect(list.locator('.lx-step-circle,.lx-step-art')).toHaveCount(0);
   expect(await list.evaluate(node => getComputedStyle(node).backgroundImage)).toContain('nav-tracker.png');
-  await expect(list.locator('.lx-step').first()).not.toHaveAttribute('style', /step-index/);
+  await expectImprovementTracker(page, 0);
   await answer(page, 'pattern', q, true);
-  await expect(feedback(page)).toContainText(/Correct/);
+  await expect(feedback(page)).toContainText(/Well done/);
+  await expectImprovementTracker(page, 0);
   await page.getByRole('button', {name:'Next', exact:true}).click();
   await expect(list.locator('[aria-current=step]')).toHaveAttribute('aria-label', /Question 2/);
+  await expectImprovementTracker(page, 1);
 });

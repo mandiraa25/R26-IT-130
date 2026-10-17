@@ -11,6 +11,8 @@
  *   - HOW_TO_PLAY_VIDEOS / getHowToPlayVideo: the tutorial video link per game,
  *     level and language.
  *   - numberStageInstruction: the instruction text shown in the Numbers game.
+ *   - getImprovementBunnyMessage / getImprovementFeedback: short, shared guidance
+ *     and encouragement for every Improvement level.
  *   - DASHBOARD_CONTENT: the messages on the results and level-complete screens.
  *
  * Why it is here
@@ -84,22 +86,52 @@ export function getHowToPlayVideo(game, level, language, fallback = "") {
 // ---------------------------------------------------------------------------
 
 export function numberStageInstruction({ recall, awaiting, backward, si }) {
-  if (recall) return si
-    ? backward ? "අංක ප්‍රතිලෝම අනුපිළිවෙලට ඇතුළත් කරන්න." : "අංක එම අනුපිළිවෙලට ඇතුළත් කරන්න."
-    : backward ? "Enter the numbers in BACKWARD order." : "Enter the numbers in the same order.";
-  if (awaiting) return si
-    ? backward ? "අංක බැලීමට සූදානම් ඔබන්න. ප්‍රතිලෝම අනුපිළිවෙලට පිළිතුරු දෙන්න." : "අංක බැලීමට සූදානම් ඔබන්න. එම අනුපිළිවෙලට පිළිතුරු දෙන්න."
-    : backward ? "Tap Ready. You will recall the numbers in BACKWARD order." : "Tap Ready. You will recall the numbers in the same order.";
-  return si
-    ? backward ? "අංක මතක තබා ගන්න. ප්‍රතිලෝම අනුපිළිවෙලට පිළිතුරු දෙන්න." : "අංක එම අනුපිළිවෙලට මතක තබා ගන්න."
-    : backward ? "Remember the numbers. Recall them in BACKWARD order." : "Remember the numbers in the same order.";
+  return getImprovementBunnyMessage({ game: "numbers", phase: recall ? "answer" : "show", awaiting, backward, si });
+}
+
+export function getImprovementFeedback({ correct = false, si = false } = {}) {
+  return correct
+    ? { title: si ? "හොඳයි!" : "Well done!", note: si ? "ඔබ නිවැරදි පිළිතුර සොයා ගත්තා!" : "You found the answer!" }
+    : { title: si ? "අයියෝ!" : "Oops!", note: si ? "එය නිවැරදි පිළිතුර නොවේ. පසුව නැවත උත්සාහ කරන්න!" : "That’s not the correct answer. Try again later!" };
+}
+
+// Deliberately independent of level: the same activity gets the same short guide.
+export function getImprovementBunnyMessage({ game, phase, awaiting = false, correct = false, backward = false, si = false } = {}) {
+  const text = (en, sinhala) => si ? sinhala : en;
+  if (phase === "feedback") return correct
+    ? getImprovementFeedback({ correct, si }).note
+    : text("Every go helps you learn.", "හැම උත්සාහයකින්ම අපි ඉගෙන ගනිමු.");
+  if (phase === "result" || phase === "levelComplete") return text("You worked hard. Well done!", "ඔබ හොඳින් උත්සාහ කළා!");
+  if (game === "pattern") return text("Look at the pattern. What comes next?", "රටාව බලන්න. ඊළඟට එන්නේ කුමක්ද?");
+  if (game === "words") {
+    if (phase === "answer") return text("Put the pictures in the same order.", "පින්තූර එම අනුපිළිවෙලට තබන්න.");
+    if (awaiting || phase === "ready") return text("Tap Ready to see the pictures.", "පින්තූර බැලීමට සූදානම් ඔබන්න.");
+    return text("Remember the picture order.", "පින්තූර අනුපිළිවෙල මතක තබා ගන්න.");
+  }
+  if (game === "numbers") {
+    if (phase === "answer") return backward
+      ? text("Tap the numbers from last to first.", "අන්තිම අංකයේ සිට මුලට ඔබන්න.")
+      : text("Tap the numbers in the same order.", "අංක එම අනුපිළිවෙලට ඔබන්න.");
+    if (awaiting || phase === "ready") return backward
+      ? text("Tap Ready. Later, start with the last number.", "සූදානම් ඔබන්න. පසුව අන්තිම අංකයෙන් පටන් ගන්න.")
+      : text("Tap Ready to see the numbers.", "අංක බැලීමට සූදානම් ඔබන්න.");
+    return backward
+      ? text("Remember the numbers. Start with the last one.", "අංක මතක තබා ගන්න. අන්තිම අංකයෙන් පටන් ගන්න.")
+      : text("Remember the number order.", "අංක අනුපිළිවෙල මතක තබා ගන්න.");
+  }
+  if (game === "instructions") return phase === "answer"
+    ? text("Think about the steps. Choose your answer.", "පියවර ගැන සිතන්න. පිළිතුර තෝරන්න.")
+    : awaiting || phase === "ready"
+      ? text("Tap Listen when you are ready.", "සූදානම් වූ විට සවන් දෙන්න ඔබන්න.")
+      : text("Listen and remember the steps.", "සවන් දී පියවර මතක තබා ගන්න.");
+  return text("Take your time. You can do it!", "සෙමින් කරන්න. ඔබට පුළුවන්!");
 }
 
 // ---------------------------------------------------------------------------
 // Results and level-complete screen messages (English / Sinhala)
 // ---------------------------------------------------------------------------
 
-// Exact existing messages, including historical translation differences.
+// Result labels and progression guidance in both interface languages.
 export const DASHBOARD_CONTENT = {
   "1": {
     "gamesComplete": {
@@ -145,35 +177,35 @@ export const DASHBOARD_CONTENT = {
   "2": {
     "gamesComplete": {
       "en": "Progress saved. All four Level 2 games are complete!",
-      "si": "ප්‍රගතිය සුරැකී ඇත. පළමු මට්ටමේ ක්‍රීඩා හතරම සම්පූර්ණයි!"
+      "si": "ප්‍රගතිය සුරැකී ඇත. මට්ටම 2 ක්‍රීඩා හතරම සම්පූර්ණයි!"
     },
     "level": {
       "en": "Level 2",
-      "si": "මට්ටම 1"
+      "si": "මට්ටම 2"
     },
     "nextUnlocked": {
       "en": "Level 3 is unlocked. Your next adventure is ready!",
-      "si": "දෙවන මට්ටම විවෘතයි. ඊළඟ වික්‍රමය සූදානම්!"
+      "si": "මට්ටම 3 විවෘතයි. ඊළඟ වික්‍රමය සූදානම්!"
     },
     "nextLocked": {
       "en": "Level 3 is locked. Complete all four Level 2 games with at least 3 out of 5 to unlock it.",
-      "si": "දෙවන මට්ටම අගුළු දමා ඇත. එය විවෘත කිරීමට පළමු මට්ටමේ ක්‍රීඩා හතරම 5 න් 3 ක් ලබා සම්පූර්ණ කරන්න."
+      "si": "මට්ටම 3 විවෘත කිරීමට මට්ටම 2 ක්‍රීඩා හතරේම 5 න් 3 ක් ලබා ගන්න."
     },
     "completionTitle": {
       "en": "Level 2 Complete!",
-      "si": "මට්ටම 1 සම්පූර්ණයි!"
+      "si": "මට්ටම 2 සම්පූර්ණයි!"
     },
     "progressTitle": {
       "en": "Level 2 Progress",
-      "si": "මට්ටම 1 ප්‍රගතිය"
+      "si": "මට්ටම 2 ප්‍රගතිය"
     },
     "totalStarsLabel": {
       "en": "Total Level 2 stars",
-      "si": "මට්ටම 1 මුළු තරු"
+      "si": "මට්ටම 2 මුළු තරු"
     },
     "completionLabel": {
       "en": "Level 2 completion",
-      "si": "මට්ටම 1 සම්පූර්ණ කිරීම"
+      "si": "මට්ටම 2 සම්පූර්ණ කිරීම"
     },
     "ids": {
       "results": "level-two-results",

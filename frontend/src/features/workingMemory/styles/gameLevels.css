@@ -28,20 +28,6 @@
   white-space:normal; font-size:22px; line-height:1.25; text-align:center;
 }
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-nav-right { flex:none; gap:16px; }
-.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-nav-stars {
-  position:relative; width:auto; min-width:152px; height:64px;
-  display:flex; align-items:center; justify-content:center; padding:10px 20px 10px 64px;
-  border:3px solid #b77a37; border-radius:32px; background:#fff3d7;
-  box-shadow:inset 0 2px 0 #fff9,0 3px 0 #7c461d;
-}
-.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-nav-stars > img { display:none; }
-.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-nav-stars::before {
-  content:''; position:absolute; left:9px; top:8px; width:42px; height:42px;
-  background:url('/images/workingMemory/shared/feedback/star.webp') center/contain no-repeat;
-}
-.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-nav-stars strong {
-  position:static; min-width:48px; font-size:25px; line-height:1.2; font-variant-numeric:tabular-nums;
-}
 /* Original tracker artwork is cropped into five independent circles. The
    printed numbers, active ring and completion marker share each item's box. */
 /* Retain the original wooden vine tracker. */
@@ -405,7 +391,6 @@
 .lx-game:is(.lx-level-two,.lx-level-three,.lx-level-four):lang(si) .lx-level-one-category-results h2 { font-size:16px; }
 .lx-game:is(.lx-level-two,.lx-level-three,.lx-level-four):lang(si) .lx-level-one-completion-status p { font-size:15px; }
 .lx-game:is(.lx-level-two,.lx-level-three,.lx-level-four) .lx-picture-face > span[role="img"] { clip-path:inset(2%); }
-.lx-game:is(.lx-level-two,.lx-level-three,.lx-level-four) .lx-nav-stars { background:url("/images/workingMemory/shared/boards/navigation/nav-star-pill.png") center/100% 100% no-repeat; }
 .lx-game.lx-level-two .lx-level-one-dashboard .lx-button:not(.lx-button--secondary) { background:linear-gradient(#83bb43,#43862b); border-color:#387125; box-shadow:inset 0 3px 1px #fff8,0 4px 0 #28551e; }
 .lx-game.lx-level-two .lx-level-one-dashboard .lx-button:disabled { color:#53624c; background:#dee6d8; border-color:#b4c2a8; box-shadow:none; }
 .lx-game.lx-level-two .lx-level-one-dashboard .lx-button--secondary { color:#315d26; background:#f5faed; border-color:#709c53; box-shadow:0 4px 0 #ceddbd; }
@@ -427,7 +412,6 @@
 .lx-game.lx-level-four .lx-level-one-category-icon { color:#8052ad; }
 .lx-game.lx-level-four .lx-game-activity .lx-button:not(.lx-button--secondary):not(:disabled) { color:white; border-color:#624092; background:linear-gradient(#b897e5,#7550b6); box-shadow:inset 0 3px 1px #fff8,0 4px 0 #49316f; }
 .lx-game.lx-level-four .lx-game-activity .lx-button:disabled { color:#6c617b; background:#e7e1ed; border-color:#c3b7cf; box-shadow:none; }
-.lx-game:is(.lx-level-two,.lx-level-three,.lx-level-four) .lx-nav-stars::before { content:none; }
 .lx-game.lx-level-two .lx-level-one-dashboard .lx-pattern-result-actions .lx-button.lx-button--secondary { color:#315d26; background:#f5faed; border-color:#709c53; box-shadow:0 4px 0 #ceddbd; }
 .lx-game.lx-level-three .lx-level-one-dashboard .lx-pattern-result-actions .lx-button.lx-button--secondary { color:#853759; background:#fff3f8; border-color:#c97c9e; box-shadow:0 4px 0 #eac8d9; }
 .lx-game.lx-level-four .lx-level-one-dashboard .lx-pattern-result-actions .lx-button.lx-button--secondary { color:#5f3c86; background:#f7f2ff; border-color:#a38ac7; box-shadow:0 4px 0 #d9cdea; }
@@ -477,7 +461,7 @@
    1000 x 600 board) and bottom-left corner (x <= 137, y >= 453). Bars that span
    the board - the question heading and the Picture Memory "memorise" reminder -
    are kept to the 680px centre band so they never run under the leaves.
-   Change the question layout for all four games here.
+   Shared content padding and row spacing live in improvementLayout.css.
    --------------------------------------------------------------------------- */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board:not(.lx-level-one-dashboard):not(.lx-pattern-result) :is(.lx-question-heading,.lx-reminder) {
   width:680px; max-width:100%; margin-inline:auto;
@@ -487,21 +471,4 @@
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--numbers:is(.lx-phase--answer,.lx-phase--feedback) .lx-board .lx-game-activity {
   justify-content:center;
 }
-/* Vertical centring: the board's cream area runs from y 42 to y 544 (of 600). The
-   content box is placed symmetrically inside it (8px clear at top and bottom) and the
-   question block is centred in that box, so the space above the heading equals the
-   space below the last row on every game and level. */
-.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):not(.lx-phase--video) .lx-board:not(.lx-level-one-dashboard):not(.lx-pattern-result):not(.lx-results) .lx-board-content {
-  padding-top:50px; padding-bottom:64px;
-}
-.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):not(.lx-phase--video) .lx-board:not(.lx-level-one-dashboard):not(.lx-pattern-result):not(.lx-results) .lx-game-activity {
-  justify-content:center;
-}
-/* Pattern lays its rows out directly in the board content (no activity wrapper). */
-.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):not(.lx-phase--video) .lx-board.lx-pattern-question .lx-board-content {
-  justify-content:center;
-}
-/* Number Recall's Ready screen: keep its box at content height so it centres with the heading. */
-.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):not(.lx-phase--video) .lx-board .lx-game-activity > .lx-number-ready {
-  flex:0 0 auto;
-}
+/* Improvement content positioning is shared in improvementLayout.css. */

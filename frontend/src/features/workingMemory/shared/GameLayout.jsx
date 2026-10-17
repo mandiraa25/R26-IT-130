@@ -5,6 +5,8 @@ import "../styles/memoryUI.css";
 import PictureArtwork from "./artwork/PictureArtwork";
 import LevelThreeSprite from "./artwork/PictureSprite";
 import PatternArtwork from "./artwork/PatternArtwork";
+import LanguageSwitcher from "../../../components/common/LanguageSwitcher";
+import { WoodenMusicToggle, WoodenStarCounter } from "../../../components/common/WoodenNavControls";
 
 import { UI, LEVEL_THEMES } from "../config/levelThemes";
 const warmedImages = new Set();
@@ -35,7 +37,6 @@ export function MemoryButton({ children, variant = "primary", className = "", ..
   return <button type="button" {...props} className={`lx-button lx-button--${variant} ${className}`}>{children}</button>;
 }
 export function MemoryNav({ title, onBack, stars = 0, language = false, map = false, controls = true }) {
-  const { i18n } = useTranslation();
   const { muted, toggle } = useMemoryMusic();
   return <header className="lx-nav">
     <div className="lx-nav-left">
@@ -44,21 +45,22 @@ export function MemoryNav({ title, onBack, stars = 0, language = false, map = fa
     </div>
     <div className="lx-nav-right">
       {controls && <>
-        <div className="lx-nav-stars" aria-label={`${stars} stars`}><img src={`${UI}/boards/navigation/nav-star-pill.png`} alt="" /><strong>{stars}</strong></div>
-        <button className={`lx-nav-icon ${muted ? "is-muted" : ""}`} type="button" onClick={toggle} aria-label={muted ? "Unmute music" : "Mute music"} aria-pressed={muted}><img src={`${UI}/buttons/navigation/nav-music.png`} alt="" />{muted && <span className="lx-mute-slash" />}</button>
+        <WoodenStarCounter className="lx-nav-stars" value={stars} />
+        <WoodenMusicToggle className="lx-nav-icon" muted={muted} onToggle={toggle} ariaLabel={muted ? "Unmute music" : "Mute music"} />
       </>}
-      {language && <div className="lx-nav-language" style={{ backgroundImage: `url('${UI}/buttons/navigation/nav-lang-${i18n.language?.startsWith("si") ? "si" : "en"}.png')` }}>
-        <button onClick={() => i18n.changeLanguage("en")} aria-pressed={!i18n.language?.startsWith("si")}>EN</button><button lang="si" onClick={() => i18n.changeLanguage("si")} aria-pressed={i18n.language?.startsWith("si")}>සිං</button>
-      </div>}
+      {language && <LanguageSwitcher variant="woodland" className="lx-nav-language" />}
     </div>
   </header>;
 }
-export function MemoryTracker({ current = 1, total = 5, responses = [], correctOnly = false }) {
-  return <ol className={`lx-tracker ${total > 5 ? "lx-tracker--long" : ""}`} aria-label={`Question ${current} of ${total}`}>
+export function MemoryTracker({ current = 1, total = 5, responses = [], questionIds = [] }) {
+  const activeIndex = Math.max(0, Math.min(total - 1, current - 1));
+  return <ol className={`lx-tracker ${total > 5 ? "lx-tracker--long" : ""}`} aria-label={`Question ${activeIndex + 1} of ${total}`}>
     {Array.from({ length: total }, (_, i) => {
-      const done = correctOnly ? responses[i]?.isCorrect === true : i < current - 1 || Boolean(responses[i]);
-      const state = correctOnly ? `${i === current - 1 ? "is-current" : ""} ${done ? "is-done" : responses[i] ? "is-answered" : i !== current - 1 ? "is-upcoming" : ""}` : done ? "is-done" : i === current - 1 ? "is-current" : "is-upcoming";
-      return <li key={i} className={`lx-step ${state}`} style={correctOnly ? { "--step-index": i } : undefined} aria-current={i === current - 1 ? "step" : undefined} aria-label={`Question ${i + 1}${done ? ": completed" : correctOnly && responses[i] ? ": answered incorrectly" : ""}`}>
+      const response = questionIds[i] === undefined ? responses[i] : responses.find(answer => answer.questionId === questionIds[i]);
+      const done = Boolean(response);
+      const isCurrent = i === activeIndex;
+      const state = [isCurrent && "is-current", done && "is-done", !done && !isCurrent && "is-upcoming"].filter(Boolean).join(" ");
+      return <li key={questionIds[i] ?? i} className={`lx-step ${state}`} style={{ "--step-index": i }} data-question-id={questionIds[i]} aria-current={isCurrent ? "step" : undefined} aria-label={`Question ${i + 1}${done ? ": completed" : isCurrent ? ": current" : ": upcoming"}`}>
         {total > 5 && <><img src={`${UI}/buttons/btn-orange.png`} alt="" /><span>{i + 1}</span></>}{done && <b aria-hidden="true">✓</b>}
       </li>;
     })}

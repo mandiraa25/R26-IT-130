@@ -25,9 +25,26 @@ Routes are registered in `src/App.jsx`. The backend lives in
 | Stars | `STARS_PER_CORRECT` in `improvement/ImprovementPage.jsx` |
 | API calls | `services/identifyApi.js` (`/working-memory/identification/...`), `services/improveApi.js` (`/working-memory/improvement/...`) |
 | Styles | `styles/` |
+| Shared Improvement board padding, rows, in-board feedback and result spacing | `styles/improvementLayout.css` (all four games and levels) |
+| Short bunny guidance and feedback text | `getImprovementBunnyMessage` / `getImprovementFeedback` in `config/gameConfig.js` |
+| Correct / incorrect answer sounds | `playMemoryFeedbackSound` in `logic/audio.js`; called once by the answer controller |
 
 The Picture Memory game is stored under the key `words` (routes, saved progress,
 data). Do not rename that key; it is part of the API and database records.
+
+Number Memory waits for Ready, reveals the sequence for the existing level duration,
+then displays the recall slots and keypad. The five-question tracker marks every
+submitted question complete and highlights the current question; Play Again resets it.
+Feedback is centered in the space below the board; Next stays inside the board. Three decorative feedback stars do
+not change the five-star reward for a correct answer.
+
+Answer feedback sounds play even when background music is muted. The incorrect
+sound matches the two-note tone used in Phonological Awareness; the music toggle
+controls background music only.
+
+A successful attempt POST releases the result controls while progress/history
+refresh separately. Refresh failure can be retried without submitting the saved
+attempt again; a late refresh cannot overwrite a restarted attempt.
 
 ## Images
 
