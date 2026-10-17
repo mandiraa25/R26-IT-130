@@ -4,7 +4,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { getSubCategoryData } from "../../src/features/workingMemory/improvement/data";
 import { VALID_GRADES, VALID_LEVELS } from "../../src/features/workingMemory/config/gameConfig";
-import { PATTERN_ARTWORK } from "../../src/features/workingMemory/shared/artwork/patternSymbols";
+import { patternImageSrc, resolvePatternArtwork } from "../../src/features/workingMemory/shared/artwork/patternSymbols";
+import { QUIZ_DATA } from "../../src/features/workingMemory/identification/data";
 import { getWorkingMemoryThemeAssets } from "../../src/features/workingMemory/config/levelThemes";
 
 const publicRoot = fileURLToPath(new URL("../../public/", import.meta.url));
@@ -31,11 +32,23 @@ describe("Working Memory reorganized assets", () => {
     });
   }
 
-  it("keeps the pattern atlas delivery files", () => {
-    for (const src of new Set(Object.values(PATTERN_ARTWORK).map(symbol => symbol.src))) {
-      expect(existsSync(publicFile(src))).toBe(true);
-    }
-  });
+  // Every pattern symbol a grade/level (or a grade's screening) shows must exist in its own folder.
+  const patternTokens = question => [...(question.showItems ?? String(question.text ?? "").split(/[s,]+/)), ...(question.options ?? [])];
+  const patternSymbols = questions => questions.flatMap(question => patternTokens(question).flatMap(token => resolvePatternArtwork(token) || []));
+  for (const grade of VALID_GRADES) {
+    for (const level of VALID_LEVELS) it(`has every pattern image for Grade ${grade}, Level ${level}`, () => {
+      const questions = ["en", "si"].flatMap(language => getSubCategoryData(grade, level, "pattern", language).questions);
+      for (const symbol of patternSymbols(questions)) {
+        const src = patternImageSrc(symbol, grade, level);
+        expect(src).toBe(`/images/workingMemory/pattern/grade${grade}/level${level}/${symbol.file}`);
+        expect(existsSync(publicFile(src)), src).toBe(true);
+      }
+    });
+    it(`has every pattern image for Grade ${grade} screening`, () => {
+      const questions = Object.values(QUIZ_DATA[grade]).flat().filter(question => question.category === "Pattern");
+      for (const symbol of patternSymbols(questions)) expect(existsSync(publicFile(patternImageSrc(symbol, grade))), symbol.file).toBe(true);
+    });
+  }
 
   it("resolves all level theme backgrounds and boards", () => {
     for (const level of VALID_LEVELS) {

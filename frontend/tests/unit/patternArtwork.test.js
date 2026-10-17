@@ -24,10 +24,10 @@ describe("Pattern illustration coverage", () => {
     expect(resolvePatternArtwork(value).map(symbol => symbol.value)).toEqual(Array.from(value));
   });
 
-  it("keeps geometric colour and shape distinctions in separate atlas cells", () => {
+  it("keeps geometric colour and shape distinctions in separate image files", () => {
     const shapes = ["🔴", "🔵", "🟡", "🟢", "🟠", "🟣", "⚪", "🔺", "🟥", "🟦", "🟩", "🟨", "🟧", "🟪", "🔷", "✚"];
-    const cells = shapes.map(value => resolvePatternArtwork(value)[0]).map(symbol => `${symbol.sheet}:${symbol.row}:${symbol.column}`);
-    expect(new Set(cells).size).toBe(shapes.length);
+    const files = shapes.map(value => resolvePatternArtwork(value)[0].file);
+    expect(new Set(files).size).toBe(shapes.length);
   });
 
   it("supports optional emoji presentation selectors without changing the question value", () => {
@@ -40,9 +40,9 @@ describe("Pattern illustration coverage", () => {
     expect(resolvePatternArtwork(token)).toBeNull();
   });
 
-  it("has no overlapping illustration cells", () => {
+  it("gives every symbol its own image file", () => {
     const entries = Object.values(PATTERN_ARTWORK);
-    const cells = entries.map(symbol => `${symbol.sheet}:${symbol.row}:${symbol.column}`);
-    expect(new Set(cells).size).toBe(entries.length);
+    const files = entries.map(symbol => symbol.file);
+    expect(new Set(files).size).toBe(entries.length);
   });
 });

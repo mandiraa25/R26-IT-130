@@ -16,7 +16,7 @@ Routes are registered in `src/App.jsx`. The backend lives in
 | The four games | `improvement/games/PatternGame.jsx`, `PictureMemoryGame.jsx`, `InstructionsGame.jsx`, `NumberMemoryGame.jsx` |
 | Improvement questions, one folder per game | `improvement/data/pattern/`, `pictures/`, `instructions/`, `numbers/`; `improvement/data/index.js` picks the bank for a grade, level, game and language |
 | Shared screens | `shared/GameLayout.jsx` (background, navigation, bunny, vine board, buttons), `HowToPlay.jsx`, `Feedback.jsx`, `ActivityResults.jsx`, `LevelCompletion.jsx`, `ScreeningResults.jsx` (includes the recommended-practice list) |
-| Picture and pattern artwork renderers | `shared/artwork/` (pattern emoji map: `patternSymbols.js` + `patternSymbolBounds.json`) |
+| Picture and pattern artwork renderers | `shared/artwork/` (pattern emoji → image map: `patternSymbols.js`) |
 | How things look: level colours, level images, screening images | `config/levelThemes.js` |
 | Settings and text: grades, levels, game order, timings, game names, tutorial videos, Numbers game text, results-screen messages | `config/gameConfig.js` |
 | Answer checking | `logic/answerChecking.js` (screening and the three improvement checkers) |
@@ -36,7 +36,7 @@ served from `/images/workingMemory/...`. Do not reference images from other modu
 
 ```text
 identification/   intro/ popup art, objects/ for picture questions, practice/ recommendation art
-pattern/symbols/  emoji artwork atlases (PNG sources + WebP delivery); mapping in shared/artwork/patternSymbols.js
+pattern/          one PNG per symbol: grade2-4/level1-4/ for the games, grade2-4/screening/ for screening; map in shared/artwork/patternSymbols.js
 pictures/         cards/, objects/, picture-memory-sprites.png, grade3/level1-4/ (Grade 3 only cards)
 instructions/     instruction-frame.png
 numbers/          number buttons
@@ -49,9 +49,9 @@ shared/
   feedback/       star and trophy
 ```
 
-Screening art, Pattern atlases and picture objects are the same for every grade, so
-each is stored once instead of being copied into grade folders. Only Grade 3 Picture
-Memory has grade-specific cards.
+Screening art and picture objects are the same for every grade, so each is stored
+once. Pattern images are stored per grade and level, each folder holding only the
+symbols those questions use. Only Grade 3 Picture Memory has grade-specific cards.
 
 The `wm-` flower, speaker, close button, intro bunny and magnifier are original
 Working Memory artwork that replaced images copied from other modules; prompts are in
