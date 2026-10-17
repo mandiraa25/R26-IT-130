@@ -45,7 +45,7 @@ function IdentifyWorkingMemoryReport() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-teal-100">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-[#bdeee8] bg-cover bg-top bg-no-repeat" style={{ backgroundImage: "url('/images/reports/achievements-jungle-bg-tall.png')" }}>
         <div className="relative">
             <div className="w-24 h-24 border-8 border-white border-t-amber-400 rounded-full animate-spin"></div>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-3xl">🧠</div>
@@ -56,7 +56,7 @@ function IdentifyWorkingMemoryReport() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-teal-400 via-emerald-300 to-sky-200 p-8 relative overflow-x-hidden">
+    <div className="min-h-screen bg-[#bdeee8] bg-cover bg-top bg-no-repeat p-8 relative overflow-x-hidden" style={{ backgroundImage: "url('/images/reports/achievements-jungle-bg-tall.png')" }}>
       {/* Dashboard Button */}
       <div className="absolute top-8 right-8 z-50 flex items-center gap-4">
         <button 
@@ -68,11 +68,6 @@ function IdentifyWorkingMemoryReport() {
       </div>
 
       
-      {/* Background Decorations */}
-      <div className="absolute top-10 left-[10%] text-9xl opacity-10 animate-pulse">💡</div>
-      <div className="absolute top-[20%] right-[10%] text-8xl opacity-10 rotate-12 animate-pulse">🧩</div>
-      <div className="absolute bottom-20 left-[5%] text-7xl opacity-10 -rotate-12">🎯</div>
-      <div className="absolute bottom-40 right-[15%] text-9xl opacity-10 animate-bounce">⚡</div>
 
       <div className="max-w-6xl mx-auto relative z-10">
         <br />
