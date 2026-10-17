@@ -1,0 +1,41 @@
+{
+  "generator": "built-in image_gen.imagegen",
+  "reference": "User-provided LexiLand dashboard reference",
+  "assets": [
+    {
+      "file": "wooden-pill.png",
+      "prompt": "Use case: stylized-concept. Asset type: reusable bitmap background for a children's jungle learning app's header buttons. Reference image: the attached LexiLand dashboard, use its warm polished wooden controls as style reference only. Generate ONE wide horizontal rounded capsule button frame, front view, no perspective, approximately 3:1 aspect ratio, centered with almost no outer margin. Rich honey orange carved wood outer rim with darker warm brown side groove, bright golden top bevel, cream parchment inner flat center with a gentle warm gradient. Friendly premium 3D cartoon game UI, crisp edges, soft natural highlights, subtle short bottom shadow. Interior must be EMPTY, fully opaque pale cream, ample blank center for live HTML labels and icons. Outside the button must be genuinely transparent. No letters, numbers, logos, symbols, plants or extra objects. This will be resized to star count, language and achievements buttons.",
+      "transparent_background": true,
+      "width": 960,
+      "height": 320
+    },
+    {
+      "file": "badge-wm.png",
+      "prompt": "Use case: stylized-concept. Asset type: ONE circular category button icon for the LexiLand children's jungle learning dashboard. Create a perfect circular premium 3D cartoon game UI medallion in vivid tangerine orange, front view, centered and filling 90% of a square image. Glossy slightly domed face, bright soft highlight on upper left, beveled double ring rim with white fine inset highlight, darker matching color lower bevel and a very short soft shadow. Inside: a simple centered white stylized brain silhouette, highly legible and flat white with tiny dimensional shading, occupying 52% of circle. Match friendly polished colorful children's educational game UI. Actual transparent background outside the circle; no square, no text, no lettering, no other objects, no plants. Strong readable silhouette at 64px.",
+      "transparent_background": true,
+      "width": 256,
+      "height": 256
+    },
+    {
+      "file": "badge-rp.png",
+      "prompt": "Use case: stylized-concept. Asset type: ONE circular category button icon for the LexiLand children's jungle learning dashboard. Create a perfect circular premium 3D cartoon game UI medallion in bright sky blue, front view, centered and filling 90% of a square image. Glossy slightly domed face, bright soft highlight on upper left, beveled double ring rim with white fine inset highlight, darker matching color lower bevel and a very short soft shadow. Inside: a simple centered white open book with a few blue page lines, highly legible and flat white with tiny dimensional shading, occupying 52% of circle. Match friendly polished colorful children's educational game UI. Actual transparent background outside the circle; no square, no text, no lettering, no other objects, no plants. Strong readable silhouette at 64px.",
+      "transparent_background": true,
+      "width": 256,
+      "height": 256
+    },
+    {
+      "file": "badge-pa.png",
+      "prompt": "Use case: stylized-concept. Asset type: ONE circular category button icon for the LexiLand children's jungle learning dashboard. Create a perfect circular premium 3D cartoon game UI medallion in fresh apple green, front view, centered and filling 90% of a square image. Glossy slightly domed face, bright soft highlight on upper left, beveled double ring rim with white fine inset highlight, darker matching color lower bevel and a very short soft shadow. Inside: a simple centered white loudspeaker with three clean white sound wave arcs, highly legible and flat white with tiny dimensional shading, occupying 52% of circle. Match friendly polished colorful children's educational game UI. Actual transparent background outside the circle; no square, no text, no lettering, no other objects, no plants. Strong readable silhouette at 64px.",
+      "transparent_background": true,
+      "width": 256,
+      "height": 256
+    },
+    {
+      "file": "badge-sp.png",
+      "prompt": "Use case: stylized-concept. Asset type: ONE circular category button icon for the LexiLand children's jungle learning dashboard. Create a perfect circular premium 3D cartoon game UI medallion in rich cheerful violet purple, front view, centered and filling 90% of a square image. Glossy slightly domed face, bright soft highlight on upper left, beveled double ring rim with white fine inset highlight, darker matching color lower bevel and a very short soft shadow. Inside: a simple centered white speech bubble with three purple dots, highly legible and flat white with tiny dimensional shading, occupying 52% of circle. Match friendly polished colorful children's educational game UI. Actual transparent background outside the circle; no square, no text, no lettering, no other objects, no plants. Strong readable silhouette at 64px.",
+      "transparent_background": true,
+      "width": 256,
+      "height": 256
+    }
+  ]
+}
