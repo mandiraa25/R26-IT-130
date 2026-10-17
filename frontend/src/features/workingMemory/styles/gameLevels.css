@@ -470,3 +470,20 @@
 .lx-game.lx-level-four .lx-level-one-dashboard .lx-board-content { padding-bottom:68px; }
 .lx-game.lx-level-four .lx-level-one-dashboard .lx-pattern-result-actions.lx-final-actions { display:flex; justify-content:center; }
 .lx-game.lx-level-four .lx-level-one-dashboard .lx-final-actions .lx-button { width:380px; max-width:100%; flex:none; }
+
+/* ---------------------------------------------------------------------------
+   Question area: one centred layout inside the vine board, for every game and level.
+   The board art has leaves in its top-right corner (x >= 857, y <= 149 on the
+   1000 x 600 board) and bottom-left corner (x <= 137, y >= 453). Bars that span
+   the board - the question heading and the Picture Memory "memorise" reminder -
+   are kept to the 680px centre band so they never run under the leaves.
+   Change the question layout for all four games here.
+   --------------------------------------------------------------------------- */
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board:not(.lx-level-one-dashboard):not(.lx-pattern-result) :is(.lx-question-heading,.lx-reminder) {
+  width:680px; max-width:100%; margin-inline:auto;
+}
+/* Number Recall's answer and feedback screens switch the activity to a grid; centre
+   its column so the heading, digit boxes, keypad and buttons sit in the middle. */
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--numbers:is(.lx-phase--answer,.lx-phase--feedback) .lx-board .lx-game-activity {
+  justify-content:center;
+}
