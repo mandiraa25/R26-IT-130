@@ -487,3 +487,21 @@
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--numbers:is(.lx-phase--answer,.lx-phase--feedback) .lx-board .lx-game-activity {
   justify-content:center;
 }
+/* Vertical centring: the board's cream area runs from y 42 to y 544 (of 600). The
+   content box is placed symmetrically inside it (8px clear at top and bottom) and the
+   question block is centred in that box, so the space above the heading equals the
+   space below the last row on every game and level. */
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):not(.lx-phase--video) .lx-board:not(.lx-level-one-dashboard):not(.lx-pattern-result):not(.lx-results) .lx-board-content {
+  padding-top:50px; padding-bottom:64px;
+}
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):not(.lx-phase--video) .lx-board:not(.lx-level-one-dashboard):not(.lx-pattern-result):not(.lx-results) .lx-game-activity {
+  justify-content:center;
+}
+/* Pattern lays its rows out directly in the board content (no activity wrapper). */
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):not(.lx-phase--video) .lx-board.lx-pattern-question .lx-board-content {
+  justify-content:center;
+}
+/* Number Recall's Ready screen: keep its box at content height so it centres with the heading. */
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):not(.lx-phase--video) .lx-board .lx-game-activity > .lx-number-ready {
+  flex:0 0 auto;
+}
