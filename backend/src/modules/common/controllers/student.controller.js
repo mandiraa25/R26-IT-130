@@ -30,18 +30,17 @@ exports.getProfile = async (req, res) => {
       sumPhonologicalStars(student._id),
       SpeechProgress.findOne({ studentId: student._id }).select("stars"),
     ]);
-    const totalStars = Math.max(Number(student.totalStars) || 0, readProgressStars(wmProgress));
+    // Stars per module. Reading has no activities yet. student.totalStars is only
+    // ever added to by Working Memory, so it counts toward Working Memory here.
+    const moduleStars = {
+      workingMemory: Math.max(Number(student.totalStars) || 0, readProgressStars(wmProgress)),
+      phonologicalAwareness: paStars,
+      speech: Math.max(0, Number(speechProgress?.stars) || 0),
+    };
+    // Total shown on the home page and profile: every module's stars added up.
+    const totalStars = moduleStars.workingMemory + moduleStars.phonologicalAwareness + moduleStars.speech;
 
-    res.json({
-      ...student.toObject(),
-      totalStars,
-      // Stars per module for the profile screen. Reading has no activities yet.
-      moduleStars: {
-        workingMemory: readProgressStars(wmProgress),
-        phonologicalAwareness: paStars,
-        speech: Math.max(0, Number(speechProgress?.stars) || 0),
-      },
-    });
+    res.json({ ...student.toObject(), totalStars, moduleStars });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

@@ -248,26 +248,35 @@ function Profile() {
                   </div>
                 </div>
 
-                {/* Stars earned in each module */}
-                <ul className="mt-1.5 mb-1.5 w-full max-w-[212px] divide-y divide-amber-100 rounded-xl border border-amber-200/80 bg-[#fffaf0] px-2 py-0.5 text-left shadow-inner">
+                {/* Stars earned in each module: the module's badge with its count */}
+                <ul className="mt-2 mb-2 grid w-full max-w-[212px] grid-cols-4 gap-1.5">
                   {[
-                    { key: "working_memory", icon: "🧠", color: "text-[#ea580c]", stars: profile.moduleStars?.workingMemory },
-                    { key: "phonological_awareness", icon: "🔤", color: "text-[#16a34a]", stars: profile.moduleStars?.phonologicalAwareness },
-                    { key: "reading_processing", icon: "📖", color: "text-[#0284c7]", stars: null },
-                    { key: "speech_processing", icon: "🎤", color: "text-[#9333ea]", stars: profile.moduleStars?.speech },
-                  ].map((module) => (
-                    <li key={module.key} className="flex items-center gap-1.5 py-px">
-                      <span className="w-4 shrink-0 text-center text-xs" aria-hidden="true">{module.icon}</span>
-                      <span className="min-w-0 flex-1 text-[10px] font-bold leading-snug text-[#5b493a]">{t(module.key)}</span>
-                      {module.stars === null ? (
-                        <span className="shrink-0 text-[9px] font-semibold text-[#5b493a]/60">{t("coming_soon")}</span>
-                      ) : (
-                        <span className={`shrink-0 text-[11px] font-black tabular-nums ${module.color}`}>
-                          <span aria-hidden="true">⭐</span> {Number(module.stars) || 0}
-                        </span>
-                      )}
-                    </li>
-                  ))}
+                    { id: "wm", key: "working_memory", color: "text-[#ea580c]", stars: profile.moduleStars?.workingMemory },
+                    { id: "rp", key: "reading_processing", color: "text-[#0284c7]", stars: null },
+                    { id: "pa", key: "phonological_awareness", color: "text-[#16a34a]", stars: profile.moduleStars?.phonologicalAwareness },
+                    { id: "sp", key: "speech_processing", color: "text-[#9333ea]", stars: profile.moduleStars?.speech },
+                  ].map((module) => {
+                    const soon = module.stars === null;
+                    const label = `${t(module.key)}: ${soon ? t("coming_soon") : `${Number(module.stars) || 0} ${t("stars")}`}`;
+                    return (
+                      <li
+                        key={module.id} title={label} aria-label={label}
+                        className="flex flex-col items-center gap-0.5 rounded-xl border border-amber-200/80 bg-[#fffaf0] px-0.5 pt-1 pb-0.5 shadow-inner"
+                      >
+                        <img
+                          src={`/images/dashboard/reference-style/badge-${module.id}.png`} alt="" draggable="false"
+                          className={`h-7 w-7 object-contain ${soon ? "opacity-50 grayscale" : ""}`}
+                        />
+                        {soon ? (
+                          <span className="text-[10px] leading-4" aria-hidden="true">🔒</span>
+                        ) : (
+                          <span className={`text-[11px] font-black leading-4 tabular-nums ${module.color}`} aria-hidden="true">
+                            {Number(module.stars) || 0}
+                          </span>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
 
                 <button
