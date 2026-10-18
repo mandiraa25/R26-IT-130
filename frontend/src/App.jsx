@@ -1,15 +1,27 @@
-import { useEffect } from "react";
+import { Suspense, lazy, useEffect, useRef } from "react";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { stopAllAudio } from "./utils/phonologicalAwareness/audio";
 import { MemoryMusicRouteListener } from "./features/workingMemory/logic/audio";
+import "./styles/pageTransitions.css";
+
+// Every page a child uses is bundled so it opens instantly on tap. Pages children
+// never visit (admin, password reset) load as separate chunks, fetched in the
+// background once the browser is idle (see PagePrefetcher).
+const lazyPages = [];
+const lazyPage = (load) => {
+  const Page = lazy(load);
+  lazyPages.push(load);
+  return Page;
+};
 
 import Login from "./pages/common/Login";
 import Register from "./pages/common/Register";
-import { ForgotPassword, ResetPassword } from "./pages/common/PasswordReset";
+const ForgotPassword = lazyPage(() => import("./pages/common/PasswordReset").then(m => ({ default: m.ForgotPassword })));
+const ResetPassword = lazyPage(() => import("./pages/common/PasswordReset").then(m => ({ default: m.ResetPassword })));
 import Dashboard from "./pages/common/Dashboard";
 import Profile from "./pages/common/Profile";
-import PhonologicalAwareness  from "./pages/phonologicalAwareness/sample";
-import ReadingProcessing  from "./pages/readingProcessing/sample";
+import PhonologicalAwareness from "./pages/phonologicalAwareness/sample";
+import ReadingProcessing from "./pages/readingProcessing/sample";
 import LeoIdentificationGame from "./pages/speechProcessing/LeoIdentificationGame";
 import LeoTrainingSafari from "./pages/speechProcessing/LeoTrainingSafari";
 import IdentificationActivitiesPA from "./pages/phonologicalAwareness/identificationActivities";
@@ -30,9 +42,32 @@ import ImprovementLevelsWM from "./features/workingMemory/improvement/LevelSelec
 import ImprovementActivityWM from "./features/workingMemory/improvement/ImprovementPage";
 
 // Admin
-import AdminLogin from "./pages/admin/AdminLogin";
-import AdminRegister from "./pages/admin/AdminRegister";
-import AdminDashboard from "./pages/admin/Dashboard";
+const AdminLogin = lazyPage(() => import("./pages/admin/AdminLogin"));
+const AdminRegister = lazyPage(() => import("./pages/admin/AdminRegister"));
+const AdminDashboard = lazyPage(() => import("./pages/admin/Dashboard"));
+
+// Downloads every page chunk once, after the first screen has settled.
+const PagePrefetcher = () => {
+  useEffect(() => {
+    const idle = window.requestIdleCallback || ((callback) => window.setTimeout(callback, 1200));
+    const cancel = window.cancelIdleCallback || window.clearTimeout;
+    const handle = idle(() => { lazyPages.forEach((load) => { load().catch(() => {}); }); });
+    return () => cancel(handle);
+  }, []);
+  return null;
+};
+
+// Each page fades in softly instead of appearing all at once. The wrapper stays
+// mounted (no remount of the page tree); only an opacity animation replays.
+const PageTransition = ({ children }) => {
+  const { pathname } = useLocation();
+  const wrapper = useRef(null);
+  useEffect(() => {
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    wrapper.current?.animate?.([{ opacity: 0 }, { opacity: 1 }], { duration: 220, easing: "ease-out" });
+  }, [pathname]);
+  return <div ref={wrapper} className="lx-page-transition">{children}</div>;
+};
 
 // Route-level listener to ensure audio/speech is cancelled when changing pages
 const GlobalAudioListener = () => {
@@ -84,6 +119,9 @@ function App() {
     <BrowserRouter>
       <GlobalAudioListener />
       <MemoryMusicRouteListener />
+      <PagePrefetcher />
+      <PageTransition>
+      <Suspense fallback={<div className="lx-page-loading" aria-hidden="true" />}>
       <Routes>
         {/* Public Routes - Only accessible if NOT logged in */}
         <Route path="/" element={<PublicRoute><Login /></PublicRoute>} />
@@ -127,6 +165,8 @@ function App() {
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      </Suspense>
+      </PageTransition>
     </BrowserRouter>
   );
 }

@@ -1,7 +1,7 @@
 ﻿/* One invariant tutorial layout; level colours never restyle its board/buttons. */
 .lx-howto-board.lx-video-howto{left:255px;top:98px;width:1120px;height:755px;padding:0;display:block;background-image:url('/images/workingMemory/shared/boards/how-to-play/wm-level1-how-to-board.png');background-size:100% 100%;background-repeat:no-repeat}
 .lx-video-howto .lx-howto-title{top:45px;left:170px;right:170px;height:75px;display:flex;align-items:center;justify-content:center;margin:0;color:#863900;font:700 48px/1.15 Fredoka,'Noto Sans Sinhala',sans-serif;-webkit-text-stroke:4px white;paint-order:stroke fill;text-shadow:0 3px 0 #9d5a2480}
-.lx-video-howto .lx-howto-text{position:absolute;left:125px;right:125px;top:151px;height:60px;max-width:none;margin:0;display:flex;align-items:center;justify-content:center;text-align:center;color:#71330c;font:600 20px/1.45 Lexend,'Noto Sans Sinhala',sans-serif}
+.lx-video-howto .lx-howto-text{position:absolute;left:125px;right:125px;top:151px;height:60px;max-width:none;margin:0;display:flex;align-items:center;justify-content:center;text-align:center;color:#71330c;font:600 20px/1.45 Fredoka,'Noto Sans Sinhala',sans-serif}
 .lx-howto-video-frame{position:absolute;left:123px;right:112px;top:217px;height:366px;border:7px solid #ff9c21;border-radius:29px;overflow:hidden;background:#153e22;box-shadow:0 0 0 2px #d66a0c,inset 0 0 0 3px #ffe68b;isolation:isolate}
 .lx-howto-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .lx-howto-video-frame iframe,.lx-howto-video-frame video{display:block;width:100%;height:100%;border:0;background:#10251b;object-fit:contain}

@@ -3,13 +3,24 @@ import { MemoryButton, MemoryHeading } from "../../shared/GameLayout";
 import { parseInstructionSteps } from "../../logic/presentation";
 import { UI } from "../../config/levelThemes";
 import { getImprovementBunnyMessage } from "../../config/gameConfig";
+import { getInstructionAudioUrl } from "../../config/instructionAudio";
+import { playInstructionRecording } from "../../logic/instructionRecording";
 
 export default function InstructionsGame(props) {
   const si = props.i18n.language?.startsWith("si");
   const p = { ...props, phase: props.phase === "feedback" ? "answer" : props.phase, showingFeedback: props.phase === "feedback" };
   const [status, setStatus] = useState("idle");
   const token = useRef(0);
-  useEffect(() => { const playback = token; playback.current++; return () => { playback.current++; window.speechSynthesis?.cancel(); }; }, [p.currentQuestion.id]);
+  const stopRecording = useRef(null);
+  useEffect(() => {
+    const playback = token;
+    playback.current++;
+    return () => {
+      playback.current++;
+      stopRecording.current?.();
+      window.speechSynthesis?.cancel();
+    };
+  }, [p.currentQuestion.id, props.i18n.language]);
   const listen = () => {
     if (status === "playing") return;
     const current = ++token.current;
@@ -20,7 +31,16 @@ export default function InstructionsGame(props) {
       if (index >= steps.length) { setStatus("done"); return; }
       p.speakText(steps[index], false, () => { if (current !== token.current) return; if (index === steps.length - 1) setStatus("done"); else window.setTimeout(() => speak(index + 1), 1000); });
     };
-    speak(0);
+    stopRecording.current?.();
+    window.speechSynthesis?.cancel();
+    const recordingUrl = getInstructionAudioUrl(p.currentQuestion.id, props.i18n.language);
+    if (recordingUrl) {
+      stopRecording.current = playInstructionRecording(recordingUrl,
+        () => { if (current === token.current) setStatus("done"); },
+        () => { if (current === token.current) speak(0); });
+    } else {
+      speak(0);
+    }
   };
   if (p.phase === "answer") return <>
     <MemoryHeading onListen={() => p.speakText(p.currentQuestion.questionText)}>{p.currentQuestion.questionText}</MemoryHeading>

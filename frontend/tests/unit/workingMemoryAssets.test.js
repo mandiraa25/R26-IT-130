@@ -17,17 +17,11 @@ describe("Working Memory reorganized assets", () => {
       const questions = getSubCategoryData(grade, level, "words", language).questions;
       const sharedArtwork = new Map();
       for (const question of questions) for (const item of question.dragPool) {
-        expect(item.image).toMatch(/^\/images\/workingMemory\/pictures\//);
+        // One PNG per picture in this grade/level's own folder.
+        expect(item.image).toBe(`/images/workingMemory/pictures/grade${grade}/level${level}/wm-picture-g${grade}-l${level}-${item.id.toLowerCase()}.png`);
         expect(existsSync(publicFile(item.image)), `${question.id}: ${item.image}`).toBe(true);
-        if (item.spriteIndex !== null) {
-          expect(Number.isInteger(item.spriteIndex)).toBe(true);
-          expect(item.spriteIndex).toBeGreaterThanOrEqual(0);
-          expect(item.spriteIndex).toBeLessThan(36);
-        }
-        if (grade === "3") {
-          if (sharedArtwork.has(item.id)) expect(item.image).toBe(sharedArtwork.get(item.id));
-          sharedArtwork.set(item.id, item.image);
-        }
+        if (sharedArtwork.has(item.id)) expect(item.image).toBe(sharedArtwork.get(item.id));
+        sharedArtwork.set(item.id, item.image);
       }
     });
   }

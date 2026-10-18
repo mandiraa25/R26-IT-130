@@ -1,4 +1,4 @@
-import { LEVEL_THEMES } from "../config/levelThemes";
+import { LEVEL_MAP_CARDS } from "../config/levelMapCards";
 import "../styles/popupMap.css";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { getWorkingMemoryAccess } from "../services/improveApi";
 import { MemoryStage, MemoryNav, MemoryButton } from "../shared/GameLayout";
 import LevelMenu from "./GameMenu";
+import LevelMapCard from "./LevelMapCard";
 
 export default function LevelSelection() {
   const { grade } = useParams();
@@ -58,17 +59,10 @@ export default function LevelSelection() {
     <MemoryNav title={`${si ? "ශ්‍රේණිය" : "Grade"} ${grade || profile?.grade || ""}`} onBack={goBack} stars={totalStars} language map />
     <h1 className="lx-adventure-heading">{si ? "ක්‍රියාකාරී මතකය වැඩිදියුණු කිරීම" : "WORKING MEMORY IMPROVEMENT"}</h1>
     <h2 className="lx-adventure-subtitle">{si ? "ඔබේ වික්‍රමය තෝරන්න" : "Choose Your Adventure"}</h2>
-    <div className="lx-level-cards">{[1,2,3,4].map(n => {
+    <div className="lx-level-cards">{LEVEL_MAP_CARDS.map(({ level: n, artwork }) => {
       const locked = !eligible || n > (progress?.maxUnlockedLevel || 0);
       const completed = progress?.levelsProgress?.find(l => l.levelNumber === n)?.subCategories?.filter(s => s.isCompleted).length || 0;
-      const theme = LEVEL_THEMES[n];
-      return <button key={n} type="button" className={`lx-level-card ${locked ? "is-locked" : ""}`} style={{ "--card-accent": theme.accent, "--card-dark": theme.dark }} onClick={() => choose(n)} disabled={!progress} aria-disabled={locked} aria-label={`${si ? "මට්ටම" : "Level"} ${n}${locked ? ", locked" : ""}`}>
-        <img className="lx-adventure-scene" src={`/images/workingMemory/shared/backgrounds/level-map/level-scene-${n}.webp`} alt="" />
-        <img className="lx-adventure-frame" src="/images/workingMemory/shared/boards/level-map/level-card-frame.webp" alt="" />
-        <h2 className="lx-adventure-level">{si ? "මට්ටම" : "LEVEL"} {n}</h2>
-        <span className="lx-adventure-progress"><img src="/images/workingMemory/shared/icons/star.svg" alt="" />{completed} / 4 {si ? "ක්‍රීඩා" : "Games"}</span>
-        <span className={`lx-level-cta ${locked ? "is-locked" : ""}`}>{locked ? (si ? "අගුළු දමා ඇත" : "LOCKED") : <>{si ? "ක්‍රීඩා කරමු" : "PLAY"}<span className="lx-level-arrow" aria-hidden="true">›</span></>}</span>
-      </button>;
+      return <LevelMapCard key={n} level={n} artwork={artwork} completed={completed} locked={locked} loading={!progress} si={si} onSelect={choose} />;
     })}</div>
     </div>
     {open && <LevelMenu level={selected} progress={levelData?.subCategories || []} onSelect={key => navigate(`/improvement-activity-wm/${grade || profile?.grade}/${selected}/${key}`)} onLocked={() => setNotice(t("complete_previous_subcat"))} onClose={() => { setSearch({}); setNotice(""); }} notice={notice} si={si} />}

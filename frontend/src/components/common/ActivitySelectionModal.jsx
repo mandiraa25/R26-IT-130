@@ -58,7 +58,7 @@ export default function ActivitySelectionModal({ category, grade, onClose, onSel
         className={'activity-popup activity-popup--'+category.id+(localized ? ' activity-popup--localized' : '')}
         style={{ "--reference-ratio": design.width / design.height, "--accent": design.accent, "--accent-dark": design.dark, "--tint": design.tint, "--grade-ink": design.ink, "--card-tint": design.card }}
       >
-        <img className="activity-popup__board" src={assetRoot+'board-separated.png'} alt="" draggable="false" />
+        <img className="activity-popup__board" src={assetRoot+'board-separated.webp'} alt="" draggable="false" />
         <img className="activity-popup__mascot" src={assetRoot+design.mascot+'-separated.png'} style={regionStyle(design.animal, design)} alt="" draggable="false" />
         <span className="activity-popup__text activity-popup__grade" style={regionStyle(design.grade, design)}>{t("grade")} {grade}</span>
         <h2 id="activity-popup-title" className="activity-popup__text activity-popup__title" style={regionStyle(design.title, design)}>{category.title}</h2>

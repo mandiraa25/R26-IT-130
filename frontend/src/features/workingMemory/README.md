@@ -11,6 +11,7 @@ Routes are registered in `src/App.jsx`. The backend lives in
 | Screening (identification) page and flow | `identification/ScreeningPage.jsx`; intro popups in `ScreeningIntro.jsx`, question screens in `ScreeningQuestions.jsx` |
 | Screening questions | `identification/data/grade2.js`, `grade3.js`, `grade4.js` |
 | Level map and its game popup | `improvement/LevelSelection.jsx`, `improvement/GameMenu.jsx` |
+| Reference-style level cards | `improvement/LevelMapCard.jsx`, `config/levelMapCards.js`, `styles/levelMapCards.css`; PNGs and prompts in `public/images/workingMemory/level-map/cards/` |
 | Game screen (picks tutorial, question, results or level-complete view) | `improvement/ActivityScreen.jsx` |
 | Improvement game controller (question selection, timers, answers, stars, submit) | `improvement/ImprovementPage.jsx` |
 | The four games | `improvement/games/PatternGame.jsx`, `PictureMemoryGame.jsx`, `InstructionsGame.jsx`, `NumberMemoryGame.jsx` |
@@ -53,8 +54,10 @@ served from `/images/workingMemory/...`. Do not reference images from other modu
 
 ```text
 identification/   intro/ popup art, objects/ for picture questions, practice/ recommendation art
+level-map/        cards/level-1.png through level-4.png; complete illustrated cards with live labels and counts
 pattern/          one PNG per symbol: grade2-4/level1-4/ for the games, grade2-4/screening/ for screening; map in shared/artwork/patternSymbols.js
-pictures/         cards/, objects/, picture-memory-sprites.png, grade3/level1-4/ (Grade 3 only cards)
+pictures/         grade{2,3,4}/level{1-4}/wm-picture-g{grade}-l{level}-<name>.png - one PNG per picture, like pattern/;
+                  cards/ - card backs and the four Level 1 card fronts
 instructions/     instruction-frame.png
 numbers/          number buttons
 shared/

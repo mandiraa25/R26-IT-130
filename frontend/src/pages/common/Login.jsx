@@ -49,13 +49,13 @@ function Login() {
     <div
       className="relative flex h-dvh items-start justify-center overflow-hidden bg-center bg-no-repeat px-4 pt-[min(26vh,210px)]"
       style={{
-        backgroundImage: "url('/images/auth/signin-bg.png')",
+        backgroundImage: "url('/images/auth/signin-bg.webp')",
         backgroundSize: "100% 100%",
       }}
     >
       <div className="relative aspect-[3/2] w-[min(59vw,720px)] max-w-full scale-75">
         <img
-          src="/images/auth/signin-vine-board.png"
+          src="/images/auth/signin-vine-board.webp"
           alt=""
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 h-full w-full object-contain drop-shadow-2xl"

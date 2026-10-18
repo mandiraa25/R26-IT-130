@@ -1,0 +1,22 @@
+{
+  "method": "Built-in imagegen tool; transparent PNG assets",
+  "reference": "Jungle journal mascot report badges (1).png, supplied by the user",
+  "assets": [
+    {
+      "key": "journal-board",
+      "prompt": "Use case: stylized-concept. Asset type: production PNG background for a children's learning reports journal, blank reusable UI asset. Input image 1 is a STYLE AND SHAPE REFERENCE only. Create the empty landscape journal board seen in the central area of the reference, closely matching its warm honey-brown polished carved wooden rim, fine wood grain, gently rounded rectangular corners, cream ivory lightly mottled parchment center, subtle golden inner bevel, small bronze binder pins vertically spaced along the left edge, small clusters of glossy jungle leaves ONLY over top-left and bottom-right corners. Front-on orthographic view, landscape approximately 1.69:1. The entire board should nearly fill the canvas with a very narrow transparent margin, intact edges and corner leaves. Center is completely blank uninterrupted parchment, no writing, no lines, no headings, no characters, no buttons, no tabs, no numbers, no icons, no background scenery, no shadows outside its silhouette. Transparent outside the board and leaves; parchment interior opaque. Match the soft polished 3D illustrated game aesthetic and exact understated thin wooden frame thickness of the supplied reference. This will have live HTML content placed over it. No watermark. Requested output approximately 1696x1008 PNG."
+    },
+    {
+      "key": "wooden-disc",
+      "prompt": "Use case: stylized-concept. Asset type: reusable wooden navigation/report icon button, transparent PNG. Input image 1 is a STYLE REFERENCE only, especially the circular wooden Home control at top left. Create ONE single perfectly round front-on wooden button, no symbol inside. Match the glossy honey-brown wooden button texture: warm chestnut interior with horizontal wood grain and 2 or 3 subtle curved plank seams, raised concentric golden amber beveled rim with dark brown outer edging, small soft highlights at top-left, shaded lower rim, friendly polished 3D illustration. The inner central face must be completely blank wood with room for an HTML cream Home/magnifier/chart icon overlaid later. Symmetrical circular silhouette, no perspective tilt. Entire disc fully visible and centered, fills roughly 94% of a square canvas. Real transparent outside circular button, no white square or background. No icon, arrow, house, lettering, text, watermark, leaves or scene. Requested output 512x512 PNG."
+    }
+  ],
+  "refinement": {
+    "asset": "journal-board.png",
+    "prompt": "Use case: precise-object-edit. Input image 1 is the edit target: a blank journal board asset. Preserve the entire cream parchment texture, wooden rim, bronze left binder pins, overall dimensions and top-left leaf cluster exactly. Change ONLY the bottom-right leaf cluster: make that cluster approximately 50% smaller than it currently is, anchored at the same bottom-right corner, confined to the bottom 13% of the canvas and rightmost 10% of the canvas. It must leave clear parchment above it for live UI buttons. Keep its same green glossy illustrated leaf identity and coherent natural overlapping composition. Keep all wooden edges and parchment unchanged. Keep the actual transparent exterior and opaque parchment interior. Do not add any new objects, text, tabs, buttons, icons or background. Output a PNG reusable UI background with same framing and aspect ratio."
+  },
+  "finalSources": {
+    "journal-board.png": "exec-ff55168d-fd98-482c-8205-6da39223e61d.png",
+    "wooden-disc.png": "exec-696878ac-7dab-4b8c-9fe9-4998f3e268ae.png"
+  }
+}

@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { useMemoryMusic } from "../logic/audio";
 import "../styles/memoryUI.css";
 import PictureArtwork from "./artwork/PictureArtwork";
-import LevelThreeSprite from "./artwork/PictureSprite";
 import PatternArtwork from "./artwork/PatternArtwork";
 import LanguageSwitcher from "../../../components/common/LanguageSwitcher";
 import { WoodenMusicToggle, WoodenStarCounter } from "../../../components/common/WoodenNavControls";
@@ -88,9 +87,8 @@ export function MemoryPicture({ item, level = 1, hidden = false, onClick, onDrag
   const name = String(item?.id || "").toLowerCase();
   const assetName = PICTURE_NAMES[name] || name;
   const supplied = ![2, 3, 4].includes(Number(level)) && FRONTS[level]?.includes(assetName);
-  const sprite = Number.isInteger(item?.spriteIndex);
   const content = hidden && [3, 4].includes(Number(level)) ? <span className="lx-picture-face lx-picture-back"><span role="img" aria-label="Face-down picture" style={{ backgroundImage: `url('/images/workingMemory/pictures/cards/pic-l${level}-back.png')` }} /></span> : hidden ? <img src={`/images/workingMemory/pictures/cards/pic-l${level}-back.png`} alt="Face-down picture" /> : supplied ? <img src={`/images/workingMemory/pictures/cards/pic-l${level}-${assetName}.png`} alt={item.alt} /> : <span className="lx-picture-face">
-    {sprite && [3, 4].includes(Number(level)) ? <LevelThreeSprite key={`${item.image}:${item.spriteIndex}`} item={item} /> : sprite ? <span role="img" aria-label={item?.alt} style={{ backgroundImage: `url('${item.image}')`, backgroundSize: "600% 600%", backgroundPosition: `${item.spriteIndex % 6 * 20}% ${Math.floor(item.spriteIndex / 6) * 20}%` }} /> : typeof item?.image === "string" ? <PictureArtwork src={item.image} alt={item.alt} /> : <span>{typeof item === "object" ? item.alt : item}</span>}
+    {typeof item?.image === "string" ? <PictureArtwork src={item.image} alt={item.alt} /> : <span>{typeof item === "object" ? item.alt : item}</span>}
   </span>;
   return <div className={`lx-picture ${className}`} data-item-id={hidden ? undefined : item?.id} draggable={!hidden && Boolean(onDragStart)} onDragStart={onDragStart} onClick={onClick} role={onClick ? "button" : undefined} tabIndex={onClick ? 0 : undefined} aria-label={onClick ? `Select ${item?.alt || item?.id}` : undefined} onKeyDown={onClick ? e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onClick(); } } : undefined}>{content}</div>;
 }

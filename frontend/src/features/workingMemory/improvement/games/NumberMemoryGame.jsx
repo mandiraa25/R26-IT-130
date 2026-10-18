@@ -36,10 +36,11 @@ export default function NumberMemoryGame(p) {
       <div className="lx-keypad">
         {Array.from({ length: 10 }, (_, digit) => <MemoryNumber key={digit} aria-label={`Digit ${digit}`} onClick={() => { playKeypadTone(digit); p.handleTileClick(String(digit)); }} disabled={phase !== "answer" || !hasEmptySlot}>{digit}</MemoryNumber>)}
       </div>
-      <div className="lx-actions">
+      {/* After checking, the keypad stays (disabled) and Next replaces Undo/Submit. */}
+      {phase === "answer" && <div className="lx-actions">
         <MemoryButton variant="secondary" onClick={p.handleUndo} disabled={phase !== "answer" || slots.every(value => value === "")}>{text("Undo", "ආපසු")}</MemoryButton>
         <MemoryButton onClick={p.handleDragSubmit} disabled={phase !== "answer" || hasEmptySlot}>{text("Submit", "පිළිතුර යවන්න")}</MemoryButton>
-      </div>
+      </div>}
     </>}
   </>;
 }

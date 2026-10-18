@@ -4,12 +4,24 @@ import { useTranslation } from "react-i18next";
 import { Leaf, Trophy } from "lucide-react";
 import { getLearningSummary, getStudentProfile } from "../../services/student/api";
 import { getCachedProfile } from "../../utils/studentProfileCache";
+import { warmImagesWhenIdle } from "../../utils/warmImages";
 import LanguageSwitcher from "../../components/common/LanguageSwitcher";
 import ActivitySelectionModal from "../../components/common/ActivitySelectionModal";
 import { WoodenMusicToggle, WoodenStarCounter } from "../../components/common/WoodenNavControls";
 import "./dashboard.css";
 
 const UI_ASSETS = "/images/dashboard/reference-style/";
+// Pictures of the screens a tap on the home page opens: the activity popup and
+// the first Working Memory screens. Fetched while the child looks at the home page.
+const POPUP_ART = "/images/dashboard/activity-popup/";
+const NEXT_SCREEN_IMAGES = [
+  `${POPUP_ART}board-separated.webp`, `${POPUP_ART}close-wooden.png`, `${POPUP_ART}magnifier-separated.png`, `${POPUP_ART}puzzle-separated.png`,
+  ...["bunny", "lion", "parrot", "zebra"].map(name => `${POPUP_ART}${name}-separated.png`),
+  "/images/workingMemory/shared/backgrounds/level-map/map-background.webp",
+  ...[1, 2, 3, 4].map(n => `/images/workingMemory/level-map/cards/level-${n}.png`),
+  "/images/workingMemory/shared/backgrounds/screening/forest.webp",
+  "/images/workingMemory/identification/intro/choice-board.png",
+];
 // Home card id -> key in GET /students/learning-summary.
 const SUMMARY_KEYS = { wm: "workingMemory", rp: "reading", pa: "phonologicalAwareness", sp: "speech" };
 // Working Memory screening weak areas (stored by the screening) -> label keys.
@@ -58,7 +70,8 @@ function Dashboard() {
       }
     })();
     getLearningSummary().then(res => { if (!cancelled) setSummary(res.data); }).catch(() => {});
-    return () => { cancelled = true; };
+    const stopWarming = warmImagesWhenIdle(NEXT_SCREEN_IMAGES);
+    return () => { cancelled = true; stopWarming(); };
   }, []);
 
   const cards = [
@@ -121,7 +134,7 @@ function Dashboard() {
         ref={backgroundVideoRef}
         className="student-home__video"
         autoPlay loop muted={!musicEnabled} playsInline
-        poster="/images/bg.png" aria-hidden="true"
+        poster="/images/bg.webp" aria-hidden="true"
       >
         <source src="/vedios/bgvedio.mp4" type="video/mp4" />
       </video>

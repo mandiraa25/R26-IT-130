@@ -1,56 +1,15 @@
 const SI = { Cat:"පූසා", Ball:"බෝලය", Sun:"ඉර", Shoe:"සපත්තුව", Apple:"ඇපල්", Car:"කාර් රථය", Book:"පොත", Bird:"කුරුල්ලා", Moon:"හඳ", Bear:"වලහා", Dog:"බල්ලා", Star:"තරුව", Orange:"දොඩම්", Bus:"බස් රථය", Flower:"මල", Spoon:"හැන්ද", Duck:"තාරාවා", Key:"යතුර", Grapes:"මිදි", Cloud:"වලාකුළ", Sock:"මේස්", Banana:"කෙසෙල්", Rabbit:"හාවා", Pencil:"පැන්සල", Bicycle:"බයිසිකලය", Fish:"මාළුවා", Hat:"තොප්පිය", Strawberry:"ස්ට්‍රෝබෙරි", Frog:"ගෙම්බා", Tree:"ගස", Cup:"කෝප්පය", Balloon:"බැලුනය", Glove:"අත්ආවරණය", Airplane:"ගුවන් යානය", Crown:"ඔටුන්න", Bag:"බෑගය", House:"ගෙදර", Turtle:"ඉබ්බා", Mushroom:"බිම්මල්", Butterfly:"සමනලයා", Pen:"පෑන", Tortoise:"කැස්බෑවා", Elephant:"අලියා", School:"පාසල", YoYo:"යෝ-යෝ", Bike:"බයිසිකලය" };
 
-const PICTURE_ASSETS = {
-  Cat: "/images/workingMemory/pictures/objects/cat.png",
-  Ball: "/images/workingMemory/pictures/objects/ball.png",
-  Sun: "/images/workingMemory/pictures/objects/sun.png",
-  Book: "/images/workingMemory/pictures/objects/book.png",
-  Bird: "/images/workingMemory/pictures/objects/bird.png",
-  Dog: "/images/workingMemory/pictures/objects/dog.png",
-  Flower: "/images/workingMemory/pictures/objects/wm-flower.png",
-  Fish: "/images/workingMemory/pictures/objects/fish.png",
-  Tree: "/images/workingMemory/pictures/objects/tree.png",
-  Cup: "/images/workingMemory/pictures/objects/cup.png",
-  House: "/images/workingMemory/pictures/objects/house.png",
-  Shoe: 0,
-  Apple: 1,
-  Car: 2,
-  Moon: 3,
-  Bear: 4,
-  Star: 5,
-  Orange: 6,
-  Bus: 7,
-  Spoon: 8,
-  Duck: 9,
-  Key: 10,
-  Grapes: 11,
-  Cloud: 12,
-  Sock: 13,
-  Banana: 14,
-  Rabbit: 15,
-  Pencil: 16,
-  Bicycle: 17,
-  Bike: 17,
-  Hat: 18,
-  Strawberry: 19,
-  Frog: 20,
-  Balloon: 21,
-  Glove: 22,
-  Airplane: 23,
-  Crown: 24,
-  Bag: 25,
-  Turtle: 26,
-  Mushroom: 27,
-  Butterfly: 28,
-  Pen: 29,
-  Tortoise: 30,
-  Elephant: 31,
-  School: 32,
-  YoYo: 33,
+// One PNG per picture, organised like the Pattern images:
+//   /images/workingMemory/pictures/grade{2,3,4}/level{1..4}/wm-picture-g{grade}-l{level}-<name>.png
+// (unique names, so a file is still identifiable outside its folder)
+// Each folder holds exactly the pictures that grade/level's questions use
+// (checked by tests/unit/workingMemoryAssets.test.js).
+const PICTURES_ROOT = "/images/workingMemory/pictures";
+export const pictureImageSrc = (grade, level, name) => {
+  const levelNumber = String(level).replace("level", "");
+  return `${PICTURES_ROOT}/grade${grade}/level${levelNumber}/wm-picture-g${grade}-l${levelNumber}-${String(name).toLowerCase()}.png`;
 };
-
-const SPRITE_SHEET = "/images/workingMemory/pictures/picture-memory-sprites.png";
-const GRADE_3_WORDS_PATH = "/images/workingMemory/pictures/grade3";
 
 const BANK = {
   "2": {
@@ -76,18 +35,11 @@ const BANK = {
 const createBank = (language) => Object.fromEntries(Object.entries(BANK).map(([grade, levels]) => [grade, Object.fromEntries(Object.entries(levels).map(([level, rows]) => [level, rows.map((row, index) => {
   const split = row.indexOf("|");
   const translate = (value) => language === "si" ? SI[value] || value : value;
-  const toPictureItem = (value) => {
-    const asset = PICTURE_ASSETS[value];
-    const grade3Image = grade === "3"
-      ? `${GRADE_3_WORDS_PATH}/${level}/wm-picture-g3-l${level.replace("level", "")}-${value.toLowerCase()}.png`
-      : null;
-    return {
-      id: value,
-      image: grade3Image || (typeof asset === "string" ? asset : SPRITE_SHEET),
-      spriteIndex: grade3Image ? null : (typeof asset === "number" ? asset : null),
-      alt: translate(value),
-    };
-  };
+  const toPictureItem = (value) => ({
+    id: value,
+    image: pictureImageSrc(grade, level, value),
+    alt: translate(value),
+  });
   const items = row.filter((value) => value !== "|").map(toPictureItem);
   const correctCount = split < 0 ? row.length : split;
   const correct = items.slice(0, correctCount);

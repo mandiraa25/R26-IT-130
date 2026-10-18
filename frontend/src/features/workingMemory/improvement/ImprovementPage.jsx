@@ -315,8 +315,14 @@ export default function ImprovementPage() {
     if (voice) utterance.voice = voice;
 
     if (onEnd) {
-      utterance.onend = onEnd;
-      utterance.onerror = onEnd;
+      // Some browsers never fire onend (or drop an utterance spoken right after
+      // cancel()), which would leave the Instructions game waiting forever. A
+      // backup timer sized to the text finishes the step once, whichever is first.
+      let finished = false;
+      const finish = () => { if (finished) return; finished = true; window.clearTimeout(backup); onEnd(); };
+      const backup = window.setTimeout(finish, 2500 + cleanText.length * 110 / utterance.rate);
+      utterance.onend = finish;
+      utterance.onerror = finish;
     }
 
     window.speechSynthesis.speak(utterance);

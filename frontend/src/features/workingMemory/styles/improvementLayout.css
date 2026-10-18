@@ -150,3 +150,68 @@
 @media (prefers-reduced-motion:reduce) {
   .lx-game .lx-feedback-stars img { animation:none; }
 }
+
+/* ---------------------------------------------------------------------------
+   Platform-wide refinements (all games, Levels 1-4, Grades 2-4)
+   --------------------------------------------------------------------------- */
+
+/* Tracker: a wrong answer shows a red cross instead of the green tick. */
+.lx-step.is-incorrect b { background:#d33d34; }
+
+/* Picture Memory and Number Memory study screens: the cards and the timer sit
+   together in the middle of the board, with the timer well clear of the frame. */
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):is(.lx-game--words,.lx-game--numbers).lx-phase--show .lx-board .lx-game-activity { justify-content:center; gap:34px; }
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):is(.lx-game--words,.lx-game--numbers).lx-phase--show .lx-board .lx-game-activity > .lx-question-heading { margin-bottom:auto; }
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):is(.lx-game--words,.lx-game--numbers).lx-phase--show .lx-board :is(.lx-timer,.lx-reminder) { margin-bottom:auto; }
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-reminder { gap:20px; }
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-reminder p { flex:1; text-align:left; }
+
+/* Picture Memory: larger cards (there is room on the board). */
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-picture-sequence .lx-picture {
+  width:min(172px,calc((800px - (var(--item-count,5) - 1) * 20px) / var(--item-count,5)));
+}
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-picture-sequence { max-width:800px; gap:20px; }
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-picture-slot,
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-picture-pool > .lx-picture {
+  width:min(136px,calc((760px - (var(--item-count,5) - 1) * 18px) / var(--item-count,5)));
+}
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--words.lx-phase--answer .lx-board .lx-board-content { padding-top:64px; padding-bottom:56px; }
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--words.lx-phase--answer .lx-board .lx-card-rows { gap:20px; }
+
+/* Number Memory answer: answer boxes, keypad and buttons centred as one group. */
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--numbers.lx-phase--answer .lx-board .lx-game-activity {
+  grid-template-rows:auto auto auto auto; align-content:center; gap:24px;
+}
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--numbers.lx-phase--answer .lx-board .lx-game-activity > .lx-question-heading { margin-bottom:6px; }
+
+/* Score dashboard and level results: buttons fit their content. */
+.lx-game .lx-pattern-result-actions,
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-level-one-dashboard .lx-pattern-result-actions {
+  display:flex; justify-content:center; align-items:center; gap:22px; width:auto;
+}
+.lx-game .lx-pattern-result-actions > button,
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-level-one-dashboard .lx-pattern-result-actions .lx-button {
+  flex:0 0 auto; width:auto; min-width:0; padding-inline:30px;
+}
+/* The picture/number rows keep their natural height on study screens so the
+   free space goes above and below the group, not inside the row. */
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):is(.lx-game--words,.lx-game--numbers).lx-phase--show .lx-board :is(.lx-picture-sequence,.lx-numbers-show,.lx-number-ready) { flex:0 0 auto; }
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--numbers.lx-phase--show .lx-board .lx-number-ready { margin-bottom:auto; }
+
+/* Number Memory feedback: keep the answer boxes and the (disabled) keypad on
+   the board so it is not empty; Next sits where Undo/Submit were. */
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--numbers.lx-phase--feedback .lx-game-activity .lx-keypad { display:grid; visibility:visible; }
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--numbers.lx-phase--feedback .lx-board .lx-game-activity { flex:0 1 auto; gap:24px; }
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--numbers.lx-phase--feedback .lx-board .lx-keypad .lx-number:disabled { opacity:.55; filter:saturate(.7); cursor:default; }
+
+/* Number Memory study: bigger balls and digits so the board is not empty. */
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board :is(.lx-number-concealed,.lx-numbers-show) { max-width:800px; gap:26px; }
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board :is(.lx-number-concealed,.lx-numbers-show) .lx-number {
+  width:min(176px,calc((800px - (var(--item-count,4) - 1) * 26px) / var(--item-count,4))); font-size:84px;
+}
+/* Number Memory feedback (all levels): heading, answer, keypad and Next as one centred group. */
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--numbers.lx-phase--feedback .lx-board .lx-board-content { justify-content:center; gap:22px; }
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--numbers.lx-phase--feedback .lx-board .lx-board-content > .lx-game-activity {
+  display:flex; flex-direction:column; align-items:center; justify-content:center; flex:0 0 auto; height:auto; gap:22px;
+}
+.lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--numbers.lx-phase--feedback .lx-board .lx-number-slots { width:100%; justify-content:center; align-self:center; }

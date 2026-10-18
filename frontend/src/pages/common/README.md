@@ -8,6 +8,7 @@ The student home route is `/dashboard`, registered in [`src/App.jsx`](../../App.
 | --- | --- |
 | Home layout, category cards, demo links and background video | [`Dashboard.jsx`](Dashboard.jsx), [`dashboard.css`](dashboard.css) |
 | Profile, photo upload and stars per module | [`Profile.jsx`](Profile.jsx); route `/profile` |
+| My Achievements module list and report-type selection | [`reports/README.md`](reports/README.md); routes `/reports` and `/reports/:componentId` |
 | Category activity selection popup | [`ActivitySelectionModal.jsx`](../../components/common/ActivitySelectionModal.jsx), [`activitySelectionModal.css`](../../components/common/activitySelectionModal.css) |
 | Shared wooden star counter, music button and language control | [`WoodenNavControls.jsx`](../../components/common/WoodenNavControls.jsx), [`woodenNavControls.css`](../../components/common/woodenNavControls.css) |
 | Language selection | [`LanguageSwitcher.jsx`](../../components/common/LanguageSwitcher.jsx); its `woodland` variant delegates to the shared segmented `EN` / `සිං` control |

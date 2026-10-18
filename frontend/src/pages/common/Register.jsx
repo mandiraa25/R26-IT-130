@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { registerStudent } from "../../services/auth/api";
 import { useNavigate, Link } from "react-router-dom";
-import bgImage from "../../assets/register-bg.png";
+const bgImage = "/images/auth/register-bg.webp";
 import { MAX_AGE, MIN_AGE, validateRegistrationForm } from "../../utils/authValidation";
 
 const inputClass = (error) => `w-full rounded-xl border bg-white px-4 py-2.5 text-slate-800 shadow-sm outline-none transition focus:ring-4 ${error ? "border-red-400 focus:border-red-500 focus:ring-red-100" : "border-[#ddd6ca] focus:border-[#65a832] focus:ring-green-100"}`;
