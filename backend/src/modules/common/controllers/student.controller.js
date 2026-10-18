@@ -1,4 +1,5 @@
 const Student = require("../models/student.model");
+const { validateProfileUpdate } = require("../validation/studentValidation");
 const { WorkingMemoryImproveProgress } = require("../../workingMemory/models/workingMemoryImprove.model");
 const { PhonologicalImproveAttempt } = require("../../phonologicalAwareness/models/phonologicalImprove.model");
 const SpeechProgress = require("../../speechProcessing/models/speechProgress.model");
@@ -49,7 +50,10 @@ exports.getProfile = async (req, res) => {
 // PUT /api/students/profile
 exports.updateProfile = async (req, res) => {
   try {
-    const { fullName, grade, profilePhoto, gender, school } = req.body;
+    const { message, errors } = validateProfileUpdate(req.body);
+    if (message) return res.status(400).json({ message, errors });
+    const { fullName, grade, profilePhoto, gender } = req.body;
+    const school = typeof req.body.school === "string" ? req.body.school.trim() : req.body.school;
     
     const student = await Student.findByIdAndUpdate(
       req.user.id,

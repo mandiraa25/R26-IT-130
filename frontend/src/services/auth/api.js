@@ -14,3 +14,13 @@ export const registerAdmin = (data) => {
 export const login = (data) => {
   return API.post("/auth/login", data);
 };
+
+// Forgot password: emails a reset link to a registered address
+export const requestPasswordReset = (email) => {
+  return API.post("/auth/forgot-password", { email });
+};
+
+// Reset password with the token from the emailed link
+export const resetPassword = (data) => {
+  return API.post("/auth/reset-password", data);
+};

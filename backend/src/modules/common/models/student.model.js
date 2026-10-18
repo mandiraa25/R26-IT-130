@@ -56,6 +56,9 @@ const studentSchema = new mongoose.Schema(
       default: 0,
       min: 0,
     },
+    // Password reset: only a SHA-256 hash of the emailed token is stored.
+    resetPasswordTokenHash: { type: String, select: false },
+    resetPasswordExpires: { type: Date, select: false },
   },
   { timestamps: true }
 );

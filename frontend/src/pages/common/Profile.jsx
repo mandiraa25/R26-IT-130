@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getStudentProfile, updateStudentProfile } from "../../services/student/api";
 import { getCachedProfile, clearCachedProfile, toProfileFormState } from "../../utils/studentProfileCache";
+import { validateFullName, validateSchool } from "../../utils/authValidation";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Toast from "../../components/ui/Toast";
@@ -117,13 +118,18 @@ function Profile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const problem = validateFullName(profile.fullName) || validateSchool(profile.school);
+    if (problem) {
+      setToast({ show: true, message: problem, type: "error" });
+      return;
+    }
     setSaving(true);
     try {
       await updateStudentProfile({
-        fullName: profile.fullName,
+        fullName: profile.fullName.trim(),
         grade: profile.grade,
         gender: profile.gender,
-        school: profile.school,
+        school: profile.school.trim(),
         profilePhoto: profile.profilePhoto,
       });
       setInitialProfile({ ...profile });

@@ -5,6 +5,7 @@ import { MemoryMusicRouteListener } from "./features/workingMemory/logic/audio";
 
 import Login from "./pages/common/Login";
 import Register from "./pages/common/Register";
+import { ForgotPassword, ResetPassword } from "./pages/common/PasswordReset";
 import Dashboard from "./pages/common/Dashboard";
 import Profile from "./pages/common/Profile";
 import PhonologicalAwareness  from "./pages/phonologicalAwareness/sample";
@@ -87,6 +88,8 @@ function App() {
         {/* Public Routes - Only accessible if NOT logged in */}
         <Route path="/" element={<PublicRoute><Login /></PublicRoute>} />
         <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+        <Route path="/forgot-password" element={<PublicRoute><ForgotPassword /></PublicRoute>} />
+        <Route path="/reset-password" element={<PublicRoute><ResetPassword /></PublicRoute>} />
 
         {/* Protected Routes - Only accessible if logged in */}
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />

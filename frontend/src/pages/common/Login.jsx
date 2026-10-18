@@ -2,6 +2,7 @@ import { useState } from "react";
 import { login } from "../../services/auth/api";
 import { getStudentProfile } from "../../services/student/api";
 import { useNavigate, Link } from "react-router-dom";
+import { validateLoginForm } from "../../utils/authValidation";
 
 function Login() {
   const navigate = useNavigate();
@@ -11,17 +12,24 @@ function Login() {
     password: "",
   });
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [serverError, setServerError] = useState("");
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    if (errors[e.target.name]) setErrors(current => ({ ...current, [e.target.name]: "" }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const found = validateLoginForm(form);
+    setErrors(found);
+    setServerError("");
+    if (Object.keys(found).length) return;
     setLoading(true);
 
     try {
-      const res = await login(form);
+      const res = await login({ email: form.email.trim().toLowerCase(), password: form.password });
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("role", res.data.role);
@@ -31,7 +39,7 @@ function Login() {
 
       navigate("/dashboard");
     } catch (err) {
-      alert(err.response?.data?.message || "Login failed");
+      setServerError(err.response?.data?.message || "Sign in failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -58,7 +66,7 @@ function Login() {
             <h2 className="text-xl font-extrabold text-[#25364a] sm:text-2xl">Welcome Back</h2>
           </header>
 
-          <form onSubmit={handleSubmit} className="mx-auto w-full max-w-md space-y-3">
+          <form onSubmit={handleSubmit} noValidate className="mx-auto w-full max-w-md space-y-3">
               <div>
                 <label className="mb-1 block text-sm font-bold text-[#49351f]">
                   Email Address
@@ -66,11 +74,13 @@ function Login() {
                 <input
                   name="email"
                   type="email"
-                  required
+                  autoComplete="email"
+                  aria-invalid={Boolean(errors.email)}
                   placeholder="name@example.com"
                   className="w-full rounded-xl border-2 border-[#dfc79e] bg-white/85 px-4 py-2.5 text-slate-800 shadow-sm outline-none transition focus:border-[#65a832] focus:ring-4 focus:ring-green-100/70 placeholder:text-gray-400"
                   onChange={handleChange}
                 />
+                {errors.email && <p className="mt-1 text-xs font-semibold text-red-600">{errors.email}</p>}
               </div>
 
               <div>
@@ -78,19 +88,23 @@ function Login() {
                   <label className="text-sm font-bold text-[#49351f]">
                     Password
                   </label>
-                  <a href="#" className="text-xs font-bold text-[#287b25] transition-colors hover:text-[#145d2a]">
+                  <Link to="/forgot-password" className="text-xs font-bold text-[#287b25] transition-colors hover:text-[#145d2a]">
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
                 <input
                   name="password"
                   type="password"
-                  required
+                  autoComplete="current-password"
+                  aria-invalid={Boolean(errors.password)}
                   placeholder="••••••••"
                   className="w-full rounded-xl border-2 border-[#dfc79e] bg-white/85 px-4 py-2.5 text-slate-800 shadow-sm outline-none transition focus:border-[#65a832] focus:ring-4 focus:ring-green-100/70 placeholder:text-gray-400"
                   onChange={handleChange}
                 />
+                {errors.password && <p className="mt-1 text-xs font-semibold text-red-600">{errors.password}</p>}
               </div>
+
+              {serverError && <p role="alert" className="rounded-xl bg-red-50 px-3 py-2 text-center text-sm font-semibold text-red-700">{serverError}</p>}
 
               <button
                 type="submit"
