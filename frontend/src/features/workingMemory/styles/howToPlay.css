@@ -18,3 +18,7 @@
 .lx-video-howto:lang(si) .lx-howto-title{font-size:35px;-webkit-text-stroke:2px white}.lx-video-howto:lang(si) .lx-howto-text{font-size:18px;line-height:1.6}.lx-video-howto:lang(si) .lx-howto-reference-actions button{font-size:22px;gap:10px}
 .lx-howto-video-status{position:absolute;top:703px;left:140px;right:140px;text-align:center;margin:0;font-size:16px;color:#71330c}
 @media(prefers-reduced-motion:reduce){.lx-howto-reference-actions button{transition:none}}
+
+/* Board: slightly smaller and centred on the 1600px stage. No text sits
+   between the title and the video. */
+.lx-howto-board.lx-video-howto{left:240px;transform:scale(.92);transform-origin:top center}

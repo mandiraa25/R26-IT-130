@@ -43,3 +43,7 @@
 .lx-adventure-map .lx-map-underlay{position:absolute;inset:0}.lx-adventure-map .lx-map-underlay[inert],.lx-adventure-map:has(.lx-menu-overlay)>.lx-background{filter:blur(4px)}
 
 .lx-adventure-map .lx-map-notice:empty{display:none}.lx-adventure-map .lx-level-cta{display:flex;align-items:center;justify-content:center;gap:9px}.lx-level-arrow{font:600 44px/.8 Lexend,sans-serif}.lx-adventure-map:lang(si) .lx-adventure-heading{font-size:25px}.lx-adventure-map:lang(si) .lx-level-cta{font-size:24px}.lx-adventure-map .lx-level-cta.is-locked{font-size:23px}
+/* Close: the same wooden round button as the home-page activity popups. */
+.lx-popup-close{width:64px;height:64px;padding:0;border:0;border-radius:50%;background:none;box-shadow:none;filter:drop-shadow(0 3px 2px #5c351e55)}
+.lx-popup-close img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.lx-popup-close:hover{filter:drop-shadow(0 3px 2px #5c351e55) brightness(1.06)}

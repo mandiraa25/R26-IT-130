@@ -1,5 +1,5 @@
 ﻿.activity-popup-overlay { position:fixed; inset:0; z-index:50; display:grid; place-items:center; padding:24px; background:rgb(15 26 21 / 62%); backdrop-filter:blur(5px); }
-.activity-popup { position:relative; container-type:inline-size; width:min(860px,100%,calc((100dvh - 96px) * var(--reference-ratio))); aspect-ratio:var(--reference-ratio); color:#3d1d09; font-family:'Nunito',sans-serif; animation:activity-popup-enter 180ms ease-out; }
+.activity-popup { position:relative; container-type:inline-size; width:min(700px,100%,calc((100dvh - 160px) * var(--reference-ratio))); aspect-ratio:var(--reference-ratio); color:#3d1d09; font-family:'Nunito',sans-serif; animation:activity-popup-enter 180ms ease-out; }
 .activity-popup__board { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; pointer-events:none; user-select:none; }
 .activity-popup__mascot { position:absolute; object-fit:contain; transform:scale(1.12); user-select:none; pointer-events:none; }
 .activity-popup__text { position:absolute; display:grid; place-items:center; margin:0; text-align:center; font-weight:900; line-height:1.1; }

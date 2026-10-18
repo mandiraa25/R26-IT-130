@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Lock, Play, X } from "lucide-react";
+import { Lock, Play } from "lucide-react";
 const BOARD = "/images/workingMemory/shared/boards/level-map";
 const THUMBNAILS = "/images/workingMemory/shared/icons/games";
 const GAMES = [
@@ -35,7 +35,7 @@ export default function LevelMenu({ level, progress, onSelect, onLocked, onClose
     <section ref={dialog} className="lx-menu-board lx-popup-board" role="dialog" aria-modal="true" aria-labelledby="lx-popup-title">
       <img className="lx-popup-board-art" src={`${BOARD}/popup-vine-board.webp`} alt="" draggable="false" />
       <h2 id="lx-popup-title" className="lx-popup-title">{si ? "මට්ටම" : "Level"} {level}</h2>
-      <button type="button" className="lx-popup-close" onClick={onClose} aria-label={si ? "ක්‍රීඩා මෙනුව වසන්න" : "Close game menu"}><X aria-hidden="true" /></button>
+      <button type="button" className="lx-popup-close" onClick={onClose} aria-label={si ? "ක්‍රීඩා මෙනුව වසන්න" : "Close game menu"}><img src="/images/dashboard/activity-popup/close-wooden.png" alt="" draggable="false" /></button>
       <div className="lx-popup-games">{GAMES.map(game => {
         const unlocked = progress.find(item => item.subCategoryKey === game.key)?.isUnlocked;
         return <button key={game.key} type="button" className={`lx-popup-game ${unlocked ? "" : "is-locked"}`} style={{ "--game-c": game.colour, "--game-d": game.dark }} onClick={() => unlocked ? onSelect(game.key) : onLocked()} aria-label={`${si ? game.si : game.name}${unlocked ? "" : ", locked"}`}>
