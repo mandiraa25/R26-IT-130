@@ -191,6 +191,10 @@ export const INSTRUCTION_BANKS = {
       ]
     },
     },
+    // Sinhala (Grade 2): uses the Grade 3 Sinhala questions (set below the bank),
+    // because Sinhala recordings exist only for Grade 3. The original Grade 2
+    // Sinhala questions are kept here, unchanged, for when recordings are added:
+    /*
     si: {
       level1: {
       youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
@@ -381,6 +385,7 @@ export const INSTRUCTION_BANKS = {
       ]
     },
     },
+    */
   },
   "3": {
     en: {
@@ -955,6 +960,10 @@ export const INSTRUCTION_BANKS = {
       ]
     },
     },
+    // Sinhala (Grade 4): uses the Grade 3 Sinhala questions (set below the bank),
+    // because Sinhala recordings exist only for Grade 3. The original Grade 4
+    // Sinhala questions are kept here, unchanged, for when recordings are added:
+    /*
     si: {
       level1: {
       youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
@@ -1145,5 +1154,13 @@ export const INSTRUCTION_BANKS = {
       ]
     },
     },
+    */
   },
 };
+
+// Listening (Following Instructions) game: every grade uses the Grade 3 Sinhala
+// questions for Levels 1-4, so each Sinhala question has its recording
+// (/audio/workingMemory/instructions/grade3/si/<question id>.mp4, matched by id
+// in config/instructionAudio.js). English questions are unchanged per grade.
+INSTRUCTION_BANKS["2"].si = INSTRUCTION_BANKS["3"].si;
+INSTRUCTION_BANKS["4"].si = INSTRUCTION_BANKS["3"].si;
