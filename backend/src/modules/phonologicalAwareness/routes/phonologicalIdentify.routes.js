@@ -6,4 +6,3 @@ router.post("/save-result", phonologicalIdentifyController.saveQuizResult);
 router.get("/student-results/:studentId", phonologicalIdentifyController.getStudentResults);
 
 module.exports = router;
-

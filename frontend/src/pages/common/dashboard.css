@@ -1,0 +1,289 @@
+.student-home {
+  position: relative;
+  isolation: isolate;
+  min-height: 100dvh;
+  padding: clamp(18px, 2.5vw, 40px) clamp(16px, 2.4vw, 42px) 24px;
+  overflow-x: clip;
+  color: #1e251a;
+  font-family: 'Lexend', 'Noto Sans Sinhala', sans-serif;
+  background: #7cd8ee;
+}
+
+.student-home__video,
+.student-home__backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100dvh;
+  pointer-events: none;
+}
+
+.student-home__video { z-index: -2; object-fit: cover; }
+.student-home__backdrop { z-index: -1; background: linear-gradient(#fff1, transparent 45%, #123e1612); }
+
+.student-home__topbar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+  max-width: 1740px;
+  margin: 0 auto;
+}
+
+.student-greeting {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  max-width: 42%;
+  min-height: clamp(64px, 5.6vw, 92px);
+  padding: 0 23px 0 0;
+  border: 2px solid #fff;
+  border-radius: 60px;
+  background: linear-gradient(white, #fffcf0);
+  box-shadow: 0 4px 0 #796b3d48, 0 7px 14px #19451826;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 160ms;
+}
+
+.student-greeting__avatar {
+  display: block;
+  flex-shrink: 0;
+  width: clamp(72px, 6.8vw, 112px);
+  aspect-ratio: 1;
+  margin: -9px 12px -9px -5px;
+  overflow: hidden;
+  border: 4px solid white;
+  border-radius: 50%;
+  background: radial-gradient(at 55% 30%, #b8f5f5, #47c2dc 60%, #83c853);
+  box-shadow: 0 3px 5px #274b2433;
+}
+
+.student-greeting__avatar img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.student-greeting__avatar .student-greeting__mascot { object-fit: contain; transform: scale(1.15) translateY(7%); }
+.student-greeting__copy { display: block; min-width: 0; }
+.student-greeting__name { display: flex; align-items: center; gap: 6px; color: #125d12; font: 700 clamp(20px, 1.9vw, 32px)/1.15 'Fredoka', 'Noto Sans Sinhala', sans-serif; }
+.student-greeting__name svg { width: 22px; height: 22px; flex-shrink: 0; fill: #83b51a; stroke: #59870b; }
+.student-greeting__subtitle { display: block; margin-top: 6px; font-size: clamp(10px, .92vw, 15px); line-height: 1.5; }
+.student-home__controls { --wooden-control-height: clamp(62px, 4.8vw, 82px); --wooden-music-height: calc(var(--wooden-control-height) * 1.1); display: flex; align-items: center; gap: clamp(8px, .9vw, 16px); }
+.student-home__utility-controls { display: flex; align-items: center; gap: clamp(8px, .9vw, 16px); }
+
+.student-home .dashboard-wood-control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  gap: 9px;
+  height: clamp(62px, 5.4vw, 90px);
+  padding: 12px 24px 16px;
+  border: 0;
+  background: url('/images/dashboard/reference-style/wooden-pill.png') center / 100% 100% no-repeat;
+  color: #54200d;
+  font: 700 clamp(17px, 1.35vw, 24px)/1 'Fredoka', 'Noto Sans Sinhala', sans-serif;
+  filter: drop-shadow(0 3px 2px #23451a44);
+}
+
+.student-home .dashboard-achievements { padding-inline: clamp(21px, 1.8vw, 32px); cursor: pointer; }
+.dashboard-achievements svg { width: clamp(22px, 2.2vw, 38px); height: auto; fill: #ffc528; stroke: #d77a06; stroke-width: 1.7; }
+
+.student-home__main { position: relative; }
+.student-home__intro { margin: clamp(25px, 4vh, 44px) auto 0; text-align: center; }
+.student-home__title { margin: 0; color: #075b12; font: 700 clamp(34px, 4.2vw, 72px)/1.12 'Fredoka', 'Noto Sans Sinhala', sans-serif; letter-spacing: -.025em; -webkit-text-stroke: clamp(3px, .35vw, 6px) white; paint-order: stroke fill; filter: drop-shadow(0 3px 0 #3c80294d); }
+.student-home__title span { color: #ff6e12; }
+.student-home__subtitle { display: flex; align-items: center; justify-content: center; gap: clamp(8px, 2vw, 32px); margin: 12px auto 0; padding: 0 8px; font-size: clamp(13px, 1.4vw, 24px); line-height: 1.5; }
+.student-home__subtitle svg { width: clamp(20px, 2.4vw, 36px); height: auto; flex-shrink: 0; fill: #85b606; stroke: #619509; transform: rotate(-20deg); }
+.student-home__subtitle svg:last-child { transform: rotate(20deg); }
+.student-home__flourish { display: flex; align-items: center; justify-content: center; gap: 9px; height: 24px; margin-top: 5px; color: #ffb600; font-size: 36px; line-height: 1; text-shadow: 0 2px 0 #e18908; }
+.student-home__flourish span { width: 85px; height: 5px; border-top: 4px dotted #7cb218; }
+
+/* The side margins leave the video's tiger and giraffe faces uncovered. */
+.dashboard-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: stretch; gap: clamp(10px, 1vw, 20px); width: 73%; max-width: 1220px; margin: clamp(14px, 2vh, 22px) auto 0; padding-bottom: 32px; }
+.learning-card { position: relative; display: block; container-type: inline-size; width: 100%; padding: 0; border: 0; background: transparent; cursor: pointer; filter: drop-shadow(0 8px 6px #23491c38); transition: transform 180ms, filter 180ms; }
+.learning-card__image { display: block; width: 100%; height: auto; user-select: none; }
+.learning-card__text { position: absolute; inset: 67% 5% auto; display: flex; flex-direction: column; align-items: center; gap: 9px; text-align: center; pointer-events: none; }
+.learning-card__title { display: block; width: 100%; color: #ef4c00; font: 700 8.5cqw/1.08 'Fredoka', 'Noto Sans Sinhala', sans-serif; letter-spacing: -.035em; text-wrap: balance; }
+.learning-card--rp .learning-card__title { color: #0052f5; }
+.learning-card--pa .learning-card__title { color: #17630b; font-size: 7.7cqw; }
+.learning-card--sp .learning-card__title { color: #7400be; }
+.learning-card__description { display: block; max-width: 82%; color: #191e1b; font-size: 5.6cqw; font-weight: 500; line-height: 1.35; text-wrap: balance; }
+.learning-card__badge { position: absolute; bottom: -8%; left: 50%; width: 36%; aspect-ratio: 1; object-fit: contain; transform: translateX(-50%); pointer-events: none; user-select: none; }
+.learning-card:hover { transform: translateY(-6px); filter: drop-shadow(0 12px 8px #23491c45) brightness(1.03); }
+.learning-card:active { transform: translateY(-1px) scale(.99); }
+.student-greeting:hover, .student-home__controls button:hover { transform: translateY(-2px); }
+.student-home button:focus-visible, .student-home select:focus-visible { outline: 3px solid white; outline-offset: 5px; box-shadow: 0 0 0 8px #2a711c; }
+.student-home__controls button { transition: transform 160ms; }
+
+.student-home__demo { display: flex; flex-direction: column; align-items: center; margin: 12px auto 0; }
+.student-home__demo h2 { margin: 0 0 8px; color: #fffef4; font-size: 11px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase; text-shadow: 0 1px 4px #173d0e, 0 1px 2px #173d0e; }
+.student-home__demo-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.dashboard-demo { display: flex; align-items: center; gap: 12px; padding: 10px 22px; border: 2px solid #fffc; border-bottom: 4px solid #c8b5fa; border-radius: 18px; background: #f4effff5; color: #6943ce; box-shadow: 0 4px 7px #143c2026; cursor: pointer; text-align: left; transition: transform 160ms; }
+.dashboard-demo--pa { border-bottom-color: #f4b4db; background: #fff0f9f5; color: #c82486; }
+.dashboard-demo:hover { transform: translateY(-3px); }
+.dashboard-demo__icon { font-size: 26px; }
+.dashboard-demo__category { display: block; font-size: 9px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; opacity: .8; }
+.dashboard-demo__title { display: block; margin-top: 2px; font: 700 18px/1.1 'Fredoka', 'Noto Sans Sinhala', sans-serif; text-transform: uppercase; }
+
+.student-home--localized .student-home__title { font-size: clamp(28px, 3.5vw, 60px); line-height: 1.5; }
+.student-home--localized .learning-card__text { top: 66%; gap: 4px; }
+.student-home--localized .learning-card__title { font-size: 6cqw; letter-spacing: 0; line-height: 1.4; }
+.student-home--localized .learning-card__description { max-width: 90%; font-size: 4.6cqw; line-height: 1.45; }
+.student-home--localized .learning-card__badge { bottom: -12%; }
+.student-home--localized .dashboard-cards { padding-bottom: 48px; }
+.student-home--localized .student-greeting__name { font-size: clamp(16px, 1.6vw, 26px); line-height: 1.5; }
+.student-home--localized .dashboard-achievements { font-size: clamp(13px, 1.1vw, 19px); }
+
+@media (min-width: 1100px) and (max-height: 800px) {
+  .student-home { padding-top: 22px; }
+  .student-home__intro { margin-top: 25px; }
+  .student-home__title { font-size: clamp(34px, 4vw, 58px); }
+  .student-home__subtitle { margin-top: 6px; }
+  .dashboard-cards { width: 71%; max-width: calc((100dvh - 355px) * 2.65); margin-top: 10px; padding-bottom: 28px; }
+  .student-home__demo { margin-top: 7px; }
+}
+
+@media (max-width: 1099px) {
+  .student-home { padding: 20px 20px 26px; }
+  .student-home__topbar { gap: 14px; }
+  .student-home__controls { --wooden-control-height: 54px; --wooden-music-height: 60px; }
+  .student-greeting { max-width: 45%; padding-right: 15px; }
+  .student-greeting__avatar { width: 70px; margin-right: 8px; }
+  .student-greeting__name { font-size: 22px; }
+  .student-greeting__subtitle { font-size: 10px; }
+  .student-home .dashboard-wood-control { height: 58px; padding-inline: 18px; font-size: 15px; }
+  .student-home .dashboard-achievements { gap: 5px; padding-inline: 19px; }
+  .dashboard-achievements svg { width: 24px; }
+  .student-home__intro { margin-top: 38px; }
+  .dashboard-cards { width: 74%; gap: 10px; }
+  .learning-card__text { gap: 6px; }
+}
+
+/* On portrait screens the full-width video becomes a scenic footer. Its
+   original proportions and both animals remain visible below the controls. */
+@media (max-aspect-ratio: 4/3) {
+  .student-home { padding-bottom: calc(56.25vw + 24px); background: linear-gradient(#7cd6f3, #ccf3dc 85%); }
+  .student-home__video { position: absolute; top: auto; bottom: 0; height: auto; aspect-ratio: 16/9; object-fit: contain; }
+  .student-home__backdrop { display: none; }
+  .student-home__topbar { flex-wrap: wrap; }
+  .student-greeting { max-width: 100%; }
+  .student-home__controls { margin-left: auto; }
+  .student-home__intro { margin-top: 28px; }
+  .dashboard-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); width: 82%; max-width: 620px; row-gap: 46px; column-gap: 18px; }
+  .student-home__demo { margin-top: 20px; }
+  .student-home__demo h2 { color: #225a19; text-shadow: none; }
+}
+
+@media (max-width: 600px) {
+  .student-home { padding-top: 18px; padding-inline: 12px; }
+  .student-home__topbar { justify-content: center; gap: 16px; }
+  .student-greeting { width: auto; min-height: 58px; padding-right: 18px; }
+  .student-greeting__avatar { width: 68px; }
+  .student-greeting__name { font-size: 22px; }
+  .student-greeting__subtitle { font-size: 10px; }
+  .student-home__controls { --wooden-control-height: 44px; --wooden-music-height: 48px; flex-wrap: wrap; justify-content: center; gap: 8px; width: 100%; margin: 0; }
+  .student-home .dashboard-wood-control { height: 49px; padding-inline: 14px; font-size: 13px; }
+  .student-home .dashboard-achievements { gap: 3px; padding-inline: 14px; }
+  .dashboard-achievements svg { width: 20px; }
+  .student-home__intro { margin-top: 24px; }
+  .student-home__title { font-size: clamp(27px, 7.5vw, 43px); -webkit-text-stroke-width: 3px; }
+  .student-home__subtitle { max-width: 365px; margin-top: 9px; gap: 5px; font-size: 12px; }
+  .student-home__subtitle svg { width: 19px; }
+  .student-home__flourish { margin-top: 7px; }
+  .dashboard-cards { width: 94%; gap: 35px 10px; margin-top: 15px; padding-bottom: 22px; }
+  .learning-card__text { gap: 6px; }
+  .learning-card__title { font-size: 8.3cqw; }
+  .learning-card--pa .learning-card__title { font-size: 7.5cqw; }
+  .learning-card__description { font-size: 5.7cqw; }
+  .student-home__demo-buttons { gap: 8px; }
+  .dashboard-demo { gap: 6px; padding: 9px 12px; border-radius: 14px; }
+  .dashboard-demo__category { max-width: 145px; font-size: 7px; letter-spacing: .04em; }
+  .dashboard-demo__title { font-size: 16px; }
+  .dashboard-demo__icon { font-size: 21px; }
+  .student-home--localized .student-home__title { font-size: 25px; }
+  .student-home--localized .student-greeting__name { font-size: 18px; }
+  .student-home--localized .dashboard-achievements { font-size: 10px; }
+}
+
+@media (max-width: 359px) {
+  .student-home__controls { --wooden-control-height: 40px; --wooden-music-height: 44px; max-width: 290px; margin-inline: auto; }
+  .student-home .dashboard-achievements { flex-basis: 175px; }
+  .student-home__title { font-size: 25px; }
+  .student-home__subtitle { font-size: 11px; }
+  .learning-card__text { gap: 3px; }
+  .learning-card__badge { bottom: -12%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .student-home button { transition: none; }
+  .learning-card:hover, .student-greeting:hover, .student-home__controls button:hover, .dashboard-demo:hover { transform: none; }
+}
+
+/* ---------------------------------------------------------------------------
+   Compact top bar: the greeting, star counter, music, language and
+   My Achievements controls at 70% of their original size (desktop and tablet).
+   Same wooden style and layout; phones keep their own compact sizes above.
+   --------------------------------------------------------------------------- */
+@media (min-width: 1100px) {
+  .student-home__topbar { gap: 17px; }
+  .student-greeting { min-height: clamp(45px, 3.92vw, 64px); padding-right: 16px; }
+  .student-greeting__avatar { width: clamp(50px, 4.76vw, 78px); margin: -6px 9px -6px -4px; border-width: 3px; }
+  .student-greeting__name { gap: 4px; font-size: clamp(14px, 1.33vw, 22px); }
+  .student-greeting__name svg { width: 15px; height: 15px; }
+  .student-greeting__subtitle { margin-top: 3px; font-size: clamp(9px, .68vw, 11px); }
+  .student-home__controls { --wooden-control-height: clamp(43px, 3.36vw, 57px); gap: clamp(6px, .63vw, 11px); }
+  .student-home__utility-controls { gap: clamp(6px, .63vw, 11px); }
+  .student-home .dashboard-wood-control { gap: 6px; height: clamp(43px, 3.78vw, 63px); padding: 8px 17px 11px; font-size: clamp(12px, .95vw, 17px); }
+  .student-home .dashboard-achievements { padding-inline: clamp(15px, 1.26vw, 22px); }
+  .dashboard-achievements svg { width: clamp(15px, 1.54vw, 27px); }
+  .student-home--localized .student-greeting__name { font-size: clamp(11px, 1.12vw, 18px); }
+  .student-home--localized .dashboard-achievements { font-size: clamp(9px, .77vw, 13px); }
+}
+@media (min-width: 601px) and (max-width: 1099px) {
+  .student-home__topbar { gap: 10px; }
+  .student-home__controls { --wooden-control-height: 38px; --wooden-music-height: 42px; }
+  .student-greeting { padding-right: 11px; }
+  .student-greeting__avatar { width: 49px; margin-right: 6px; }
+  .student-greeting__name { font-size: 15px; }
+  .student-greeting__name svg { width: 15px; height: 15px; }
+  .student-greeting__subtitle { font-size: 9px; }
+  .student-home .dashboard-wood-control { height: 41px; padding-inline: 13px; font-size: 11px; }
+  .student-home .dashboard-achievements { gap: 4px; padding-inline: 13px; }
+  .dashboard-achievements svg { width: 17px; }
+}
+
+/* ---------------------------------------------------------------------------
+   Learning journey: card progress, Working Memory focus chips, demo buttons.
+   Colours follow the screening-test answer buttons (solid pink / blue /
+   yellow with a stitched inner edge and dark matching text).
+   --------------------------------------------------------------------------- */
+.learning-card__progress { display: flex; flex-direction: column; align-items: center; gap: 1.6cqw; width: 84%; color: #2b2116; font-size: 5.2cqw; font-weight: 600; line-height: 1.2; }
+.learning-card__progress strong { font: 700 6.4cqw/1.1 'Fredoka', 'Noto Sans Sinhala', sans-serif; color: #1f2a17; }
+.learning-card__progress i { display: block; width: 100%; height: 2.6cqw; overflow: hidden; border-radius: 99px; background: #00000017; }
+.learning-card__progress i b { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #ff9a3d, #e45a00); }
+.learning-card--rp .learning-card__progress i b { background: linear-gradient(90deg, #4aa3ff, #0052f5); }
+.learning-card--pa .learning-card__progress i b { background: linear-gradient(90deg, #6fd14a, #17630b); }
+.learning-card--sp .learning-card__progress i b { background: linear-gradient(90deg, #b56cff, #7400be); }
+.learning-card__progress--soon { width: auto; padding: 1.2cqw 4cqw; border-radius: 99px; background: #0052f51a; color: #0b3a8f; font: 700 5.4cqw/1.2 'Fredoka', 'Noto Sans Sinhala', sans-serif; }
+
+.student-home__focus { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; max-width: min(92vw, 980px); margin: 10px auto 0; padding: 0 8px; }
+.student-home__focus-label { padding: 5px 12px; border-radius: 99px; background: #fffdf5e8; color: #1d5c14; font: 700 clamp(12px, 1vw, 17px)/1.2 'Fredoka', 'Noto Sans Sinhala', sans-serif; box-shadow: 0 2px 4px #173d0e30; }
+.student-home__focus-chip { position: relative; padding: 5px 14px; border: 2px solid; border-radius: 99px; font: 700 clamp(12px, 1vw, 17px)/1.2 'Fredoka', 'Noto Sans Sinhala', sans-serif; }
+.student-home__focus-chip::after { content: ''; position: absolute; inset: 3px; border: 1.5px dashed #ffffff8c; border-radius: inherit; pointer-events: none; }
+.student-home__focus-chip--0 { background: #ffa9bf; border-color: #f07c9c; color: #7a1230; box-shadow: 0 3px 0 #e5809d; }
+.student-home__focus-chip--1 { background: #7cbcff; border-color: #3d8ff0; color: #0b2a78; box-shadow: 0 3px 0 #4b8fdc; }
+.student-home__focus-chip--2 { background: #ffe066; border-color: #f0b92c; color: #5a2c00; box-shadow: 0 3px 0 #d9a52a; }
+.student-home__focus-chip--ok { background: #9be37a; border-color: #5fb23d; color: #1d4d0b; box-shadow: 0 3px 0 #5fa63f; }
+
+.dashboard-demo { position: relative; border: 2px solid; }
+.dashboard-demo::after { content: ''; position: absolute; inset: 4px; border: 1.5px dashed #ffffff8c; border-radius: 13px; pointer-events: none; }
+.dashboard-demo--wm { background: #ffa9bf; border-color: #f07c9c; color: #7a1230; box-shadow: 0 4px 0 #e5809d; }
+.dashboard-demo--pa { background: #7cbcff; border-color: #3d8ff0; color: #0b2a78; box-shadow: 0 4px 0 #4b8fdc; }
+.student-home--localized .learning-card__progress { font-size: 4.4cqw; }
+.student-home--localized .learning-card__progress strong { font-size: 5.4cqw; }
+/* Progress keeps the title's position; tighter rows keep the bar above the badge. */
+.learning-card__text:has(.learning-card__progress) { gap: 1.2cqw; }
+.learning-card__text:has(.learning-card__progress) .learning-card__progress { gap: .9cqw; font-size: 4.8cqw; }
+.learning-card__text:has(.learning-card__progress) .learning-card__progress strong { font-size: 5.8cqw; }
+.learning-card__text:has(.learning-card__progress) .learning-card__progress i { width: 70%; height: 2cqw; }

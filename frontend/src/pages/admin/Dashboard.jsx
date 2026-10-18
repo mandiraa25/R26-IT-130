@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import AdminLayout from "../../components/admin/AdminLayout";
 import StudentProfiles from "./components/StudentProfiles";
+import UserManagement from "./components/UserManagement";
+import SchoolManagement from "./components/SchoolManagement";
 import WMIdentifyResults from "./components/WMIdentifyResults";
 import WMImproveResults from "./components/WMImproveResults";
 import PAIdentifyResults from "./components/PAIdentifyResults";
@@ -25,6 +27,8 @@ const Dashboard = () => {
     <AdminLayout>
       <Routes>
         <Route path="students" element={<StudentProfiles />} />
+        <Route path="users" element={<UserManagement />} />
+        <Route path="schools" element={<SchoolManagement />} />
         <Route path="wm-identify" element={<WMIdentifyResults />} />
         <Route path="wm-improve" element={<WMImproveResults />} />
         <Route path="pa-identify" element={<PAIdentifyResults />} />

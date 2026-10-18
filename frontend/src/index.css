@@ -1,1 +1,5 @@
 @import "tailwindcss";
+
+.recording-animations-paused * {
+  animation-play-state: paused !important;
+}

@@ -1,0 +1,73 @@
+{
+  "method": "Built-in imagegen, one Level 1 generation plus three image edits",
+  "reference": "User-provided four-card level map reference",
+  "basePrompt": "Use case: stylized-concept. Asset type: production PNG UI card for a children's Working Memory level map. The supplied FOUR-CARD reference image is the PRIMARY reference. Standalone older bunny/frame images are secondary identity references only; the requested style is the thin cream/gold border in the FOUR-CARD reference, not the older heavy wooden border. Recreate ONLY its FIRST/LEVEL-1 CARD, as one standalone portrait card, as closely as possible. Rounded tall rectangular cream and honey-gold double-beveled frame, small glossy green leaf clusters at top-left, top-right and bottom-right. Inside, identical adorable white fluffy baby bunny with enormous blue eyes, orange round glasses, orange neckerchief with a tiny carrot emblem, sitting holding a large orange carrot at a diagonal, all paws and ears fully visible. Bunny face at middle height, never obstructed by UI. Scene: warm sunny golden morning, lush meadow flowers, low wooden fence, distant mountains, sun in upper-right. At the top, a wide shiny orange rounded pill in the exact reference position; bottom quarter an ivory cream rounded panel containing a narrow inset cream progress capsule, then a large shiny orange pill at the very bottom. Crucial: ALL THREE UI AREAS MUST BE COMPLETELY BLANK: top orange pill NO LEVEL LABEL; narrow progress capsule NO star, NO numbers, NO text; bottom orange button NO PLAY, NO arrow. The app will render all labels and stars live. Preserve the reference's layout, glossy bevel highlights, proportions, cheerful premium 3D cartoon quality. Coordinates: outer frame fills canvas with only a 2% transparent safety margin; top title pill x22%-78%, y9%-19%; bunny ears y25%, face/eyes y43%-57%, paws finish by y73%; cream lower panel begins y73%; blank progress capsule x8%-92%, y75%-83%; blank orange play pill x8%-92%, y85%-96%. Output portrait approximately 640x1024 pixels, actual transparent background ONLY outside the outer silhouette. Entire interior fully opaque. No surrounding landscape outside the card, no second card, no mockup, no lettering, no watermark. Keep every frame edge fully visible.",
+  "variants": [
+    {
+      "level": 2,
+      "prompt": "Use case: precise-object-edit. Input image 1 is the EDIT TARGET and identity/layout reference. Create its matching Level 2 portrait UI card. Preserve the SAME bunny identity, orange glasses, white fur, blue eyes, neckerchief, carrot, pose, size, location and expression EXACTLY; preserve the entire thin cream/gold frame, leaf clusters, lower ivory panel, three blank UI spaces and their positions. Change ONLY (1) the illustrated environmental scenery to bright clear daytime with a cheerful blue sky and fluffy white clouds, leafy tree at upper-left, fresh green meadow, a small blue stream behind the bunny, wooden fence and distant mountains; (2) recolor BOTH the top blank pill AND bottom blank play button to vivid emerald green, glossy highlights and dark green lower bevel. Keep the narrow progress capsule blank ivory cream. No changes to bunny, frame, blank UI geometry or canvas framing. Keep all UI areas completely blank: no LEVEL label, no PLAY label, no star, no counts, no arrow, no text or watermark of any kind. The app overlays live labels. Maintain the input image's portrait aspect ratio and 1024x1536 dimensions, with actual transparent pixels outside the rounded card/leaves silhouette, an opaque card interior, all frame edges fully visible. One card only, no mockup or surrounding scene outside the card."
+    },
+    {
+      "level": 3,
+      "prompt": "Use case: precise-object-edit. Input image 1 is the EDIT TARGET and identity/layout reference. Create its matching Level 3 portrait UI card. Preserve the SAME bunny identity, orange glasses, white fur, blue eyes, neckerchief, carrot, pose, size, location and expression EXACTLY; preserve the entire thin cream/gold frame, leaf clusters, lower ivory panel, three blank UI spaces and their positions. Change ONLY (1) the illustrated environmental scenery to warm pink-and-peach sunset sky with a glowing orange sun near upper-right, coral sunset clouds, hazy golden mountains and lush green meadow and flowers around the wooden fence; (2) recolor BOTH the top blank pill AND bottom blank play button to bright hot pink/magenta, glossy highlights and deep pink lower bevel. Keep the narrow progress capsule blank ivory cream. No changes to bunny, frame, blank UI geometry or canvas framing. Keep all UI areas completely blank: no LEVEL label, no PLAY label, no star, no counts, no arrow, no text or watermark of any kind. The app overlays live labels. Maintain the input image's portrait aspect ratio and 1024x1536 dimensions, with actual transparent pixels outside the rounded card/leaves silhouette, an opaque card interior, all frame edges fully visible. One card only, no mockup or surrounding scene outside the card."
+    },
+    {
+      "level": 4,
+      "prompt": "Use case: precise-object-edit. Input image 1 is the EDIT TARGET and identity/layout reference. Create its matching Level 4 portrait UI card. Preserve the SAME bunny identity, orange glasses, white fur, blue eyes, neckerchief, carrot, pose, size, location and expression EXACTLY; preserve the entire thin cream/gold frame, leaf clusters, lower ivory panel, three blank UI spaces and their positions. Change ONLY (1) the illustrated environmental scenery to deep indigo and violet night sky, small golden crescent moon at upper-right, tiny stars and a few glowing yellow fireflies, blue-purple nighttime jungle foliage, purple flowers and wooden fence; keep the bunny warmly lit, white, fully visible and cheerful; (2) recolor BOTH the top blank pill AND bottom blank play button to vibrant royal purple/violet, glossy highlights and dark violet lower bevel. Keep the narrow progress capsule blank ivory cream. No changes to bunny, frame, blank UI geometry or canvas framing. Keep all UI areas completely blank: no LEVEL label, no PLAY label, no star, no counts, no arrow, no text or watermark of any kind. The app overlays live labels. Maintain the input image's portrait aspect ratio and 1024x1536 dimensions, with actual transparent pixels outside the rounded card/leaves silhouette, an opaque card interior, all frame edges fully visible. One card only, no mockup or surrounding scene outside the card."
+    }
+  ],
+  "outputs": [
+    {
+      "level": 1,
+      "file": "level-1.png",
+      "size": [
+        640,
+        960
+      ],
+      "originalSize": [
+        1024,
+        1536
+      ],
+      "outputHint": "Generated images are saved to C:\\Users\\USER\\.codex\\generated_images\\01a14aca-67e8-7b81-ace7-620cb084b704 as C:\\Users\\USER\\.codex\\generated_images\\01a14aca-67e8-7b81-ace7-620cb084b704\\exec-3c96cda6-159a-4ce5-9f4d-04f3e62634ce.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    {
+      "level": 2,
+      "file": "level-2.png",
+      "size": [
+        640,
+        960
+      ],
+      "originalSize": [
+        1024,
+        1536
+      ],
+      "outputHint": "Generated images are saved to C:\\Users\\USER\\.codex\\generated_images\\01a14aca-67e8-7b81-ace7-620cb084b704 as C:\\Users\\USER\\.codex\\generated_images\\01a14aca-67e8-7b81-ace7-620cb084b704\\exec-38f9d288-412d-420c-8fa2-0bf1bdfa9c30.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    {
+      "level": 3,
+      "file": "level-3.png",
+      "size": [
+        640,
+        960
+      ],
+      "originalSize": [
+        1024,
+        1536
+      ],
+      "outputHint": "Generated images are saved to C:\\Users\\USER\\.codex\\generated_images\\01a14aca-67e8-7b81-ace7-620cb084b704 as C:\\Users\\USER\\.codex\\generated_images\\01a14aca-67e8-7b81-ace7-620cb084b704\\exec-05790115-6f5c-4391-a2ce-291cc4328972.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    {
+      "level": 4,
+      "file": "level-4.png",
+      "size": [
+        640,
+        960
+      ],
+      "originalSize": [
+        1024,
+        1536
+      ],
+      "outputHint": "Generated images are saved to C:\\Users\\USER\\.codex\\generated_images\\01a14aca-67e8-7b81-ace7-620cb084b704 as C:\\Users\\USER\\.codex\\generated_images\\01a14aca-67e8-7b81-ace7-620cb084b704\\exec-485a1c78-288b-4462-9d18-45b0eda306cb.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    }
+  ]
+}

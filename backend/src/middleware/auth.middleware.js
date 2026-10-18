@@ -16,3 +16,19 @@ exports.verifyToken = (req, res, next) => {
     res.status(401).json({ message: "Invalid token" });
   }
 };
+
+exports.isAdmin = (req, res, next) => {
+  if (req.user && req.user.type === 'admin') {
+    next();
+  } else {
+    res.status(403).json({ message: "Access denied. Admin only." });
+  }
+};
+
+exports.isSuperAdmin = (req, res, next) => {
+  if (req.user && req.user.type === 'admin' && req.user.role === 'super admin') {
+    next();
+  } else {
+    res.status(403).json({ message: "Access denied. Super Admin only." });
+  }
+};

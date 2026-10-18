@@ -1,3 +1,9 @@
+const dns = require("dns");
+try {
+  dns.setServers(["8.8.8.8", "1.1.1.1"]);
+} catch (e) {
+  // ignore
+}
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const app = require("./app");

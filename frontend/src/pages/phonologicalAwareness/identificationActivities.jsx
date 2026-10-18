@@ -4,6 +4,9 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { QUIZ_DATA } from './quizData';
 import { calculatePhonologicalMetrics } from '../../utils/phonologicalAwareness/scoring.util';
+import { stopAllAudio } from '../../utils/phonologicalAwareness/audio';
+
+const SCREENING_BACKGROUND = 'url("/images/phonologicalAwareness/pa-screen-test.png")';
 
 // --- SUB-COMPONENTS (Polished for Children) ---
 
@@ -188,7 +191,7 @@ export default function IdentificationActivities() {
 
   useEffect(() => {
     return () => {
-      window.speechSynthesis.cancel();
+      stopAllAudio();
     };
   }, []);
 
@@ -342,7 +345,7 @@ export default function IdentificationActivities() {
     <div
       className="h-screen p-2 md:p-4 flex flex-col items-center font-sans overflow-hidden"
       style={{
-        backgroundImage: 'url("/images/phonologicalAwareness/quiz_interaction_bg2.png")',
+        backgroundImage: SCREENING_BACKGROUND,
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }}
@@ -399,7 +402,7 @@ export default function IdentificationActivities() {
             <div
               className="absolute inset-0 opacity-40 blur-[2px]"
               style={{
-                backgroundImage: 'url("/images/phonologicalAwareness/quiz_interaction_bg.png")',
+                backgroundImage: SCREENING_BACKGROUND,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
               }}

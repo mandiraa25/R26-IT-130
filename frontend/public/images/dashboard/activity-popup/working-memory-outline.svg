@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1422" height="1138" viewBox="0 0 1422 1138">
+  <!-- Only the board and its two leaf clusters are opaque. The source PNG's
+       rectangular scenery is excluded without resampling the original artwork. -->
+  <path fill="white" d="M158 4 C155 31 146 54 125 70 L127 86 C144 95 142 112 129 118 L95 112 C80 126 62 153 14 168 C12 147 20 127 28 108 L42 83 C34 68 40 46 51 28 L71 12 L89 19 C112 9 134 3 158 4 Z"/>
+  <rect x="38" y="16" width="1367" height="1108" rx="87" fill="white"/>
+  <path fill="white" d="M1407 979 C1418 1001 1422 1027 1421 1055 L1415 1086 C1420 1100 1419 1120 1409 1133 C1385 1126 1373 1110 1367 1095 C1347 1120 1316 1136 1288 1136 C1285 1110 1297 1088 1319 1070 C1307 1058 1300 1042 1306 1027 C1331 1027 1351 1035 1367 1051 C1362 1024 1375 995 1407 979 Z"/>
+</svg>

@@ -21,6 +21,13 @@ const adminSchema = new mongoose.Schema(
       enum: ["school admin", "super admin"],
       required: true,
     },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+    school: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

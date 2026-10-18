@@ -118,3 +118,5 @@ const getWeakAreas = (categoryScores, timeScore) => {
   }
   return weak;
 };
+
+

@@ -1,0 +1,3 @@
+This backup preserves the exact pre-edit versions, including existing uncommitted changes.
+To undo this How to Play change, copy the three files under frontend/ in this backup back to their matching project paths. Remove frontend/public/images/workingMemory/improve/themes/how-to-backgrounds (created for this change). Do not use git reset: other user changes exist.
+The ZIP images were inspected as visual references; no document instructions were applied.

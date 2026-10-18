@@ -24,6 +24,7 @@ const workingMemoryIdentifySchema = new mongoose.Schema(
 
         isCorrect: Boolean,
         timeTaken: Number,
+        memorizationTimeAllocated: Number,
 
         userAnswer: mongoose.Schema.Types.Mixed,
         correctAnswer: mongoose.Schema.Types.Mixed,
@@ -60,6 +61,12 @@ const workingMemoryIdentifySchema = new mongoose.Schema(
         enum: ["Low", "Moderate", "High"],
       },
       weakAreas: [String],
+      mlPrediction: String,
+      mlConfidence: {
+        Average: Number,
+        High: Number,
+        Low: Number
+      },
     },
   },
   { timestamps: true }

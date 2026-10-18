@@ -1,4 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
+import { stopAllAudio } from "../../utils/phonologicalAwareness/audio";
 
 function HomeButton() {
   const navigate = useNavigate();
@@ -10,7 +11,10 @@ function HomeButton() {
 
   return (
     <button
-      onClick={() => navigate("/dashboard")}
+      onClick={() => {
+        stopAllAudio();
+        navigate("/dashboard");
+      }}
       className="fixed top-6 left-6 z-[100] group flex items-center justify-center"
       aria-label="Go to Dashboard"
     >

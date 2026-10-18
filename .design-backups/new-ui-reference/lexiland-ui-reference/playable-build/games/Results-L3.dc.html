@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Results Level 3</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit}
+/* ===== Responsive stage: 1600×900 scaled to fit the window ===== */
+.viewport{position:fixed;inset:0;overflow:hidden;background:#20301f;font-family:'Lexend',system-ui,sans-serif;color:#2E2A26}
+.vbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.root{position:absolute;left:50%;top:50%;width:1600px;height:900px;transform-origin:50% 50%}
+/* ===== LexiLand top navigation (shared) ===== */
+.topnav{position:absolute;top:16px;left:22px;right:22px;height:74px;display:flex;align-items:center;justify-content:space-between;z-index:6;pointer-events:none}
+.topnav>div{display:flex;align-items:center;gap:10px;pointer-events:auto}
+.navback{display:block;width:70px;height:73px;transition:transform .12s}
+.navback:active,.navmusic:active{transform:translateY(2px) scale(.97)}
+.navback img,.navmusic img,.navstar img,.navlang img{display:block;width:100%;height:100%;pointer-events:none;user-select:none}
+.navtitle{height:64px;box-sizing:border-box;border-style:solid;border-width:0 40px;border-image:url(../assets/45d19c473a24c3db41cb93a31b33760f.png) 0 122 fill / 0 40px stretch;display:flex;align-items:center;padding:0 4px 5px;font-family:'Lexend',system-ui,sans-serif;font-size:22px;font-weight:700;letter-spacing:.03em;color:#4A2410;white-space:nowrap;text-shadow:0 1px 0 rgba(255,255,255,.55)}
+.navstar{position:relative;width:93px;height:60px}
+.navstar>span{position:absolute;left:50px;width:32px;top:0;bottom:5px;display:flex;align-items:center;justify-content:center;font-size:25px;font-weight:700;color:#4A2410}
+.navmusic{position:relative;width:70px;height:73px;padding:0;border:none;background:none;cursor:pointer;transition:transform .12s}
+.navlang{position:relative;width:131px;height:60px}
+.navlang button{position:absolute;top:13px;height:30px;width:50px;padding:0;border:none;background:none;border-radius:15px;cursor:pointer;font-size:17px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.navlang .si{font-family:'Noto Sans Sinhala',system-ui,sans-serif;font-size:16px}
+/* ===== Results board ===== */
+.board{position:absolute;left:470px;top:128px;width:1060px;height:660px;background:url(../assets/e8666b5eb680848f69e4f1a789c20a87.webp) 0 0 / 100% 100% no-repeat;filter:drop-shadow(0 12px 20px rgba(30,20,10,.32))}
+.inner{position:absolute;left:41px;right:41px;top:44px;bottom:44px;box-sizing:border-box;padding:26px 56px 30px;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly}
+.head{display:flex;align-items:center;gap:18px}
+.head h1{margin:0;font-size:42px;line-height:1.1;font-weight:700;letter-spacing:.02em;color:#3B2414}
+.head p{margin:4px 0 0;font-size:20px;font-weight:600;color:#7A6552}
+.score{width:100%;box-sizing:border-box;border-radius:30px;padding:16px 34px;display:flex;align-items:center;justify-content:space-between}
+.score small{display:block;font-size:20px;font-weight:700;letter-spacing:.12em;color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.18)}
+.score b{display:block;font-size:60px;line-height:1.05;font-weight:700;color:#fff}
+.stars{display:flex;gap:10px}
+.stars span{width:56px;height:56px;display:block;transition:transform .2s}
+.tiles{width:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.tile{border-radius:24px;border:4px solid;padding:12px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;box-sizing:border-box}
+.tile small{font-size:16px;font-weight:700;letter-spacing:.06em}
+.tile b{font-size:36px;line-height:1.1;font-weight:700;display:flex;align-items:center;gap:8px}
+.tile b i{width:30px;height:30px;display:inline-block}
+.pill{display:inline-flex;align-items:center;gap:12px;border-radius:999px;padding:12px 28px;font-size:21px;font-weight:700;border:3px solid}
+.btns{display:flex;gap:20px;width:100%}
+.btn{flex:1;height:68px;box-sizing:border-box;border-radius:999px;display:flex;align-items:center;justify-content:center;gap:12px;font-size:25px;font-weight:700;text-decoration:none;letter-spacing:.03em;transition:transform .12s}
+.btn:active{transform:translateY(3px)}
+.bubble{position:absolute;left:40px;top:196px;width:340px;box-sizing:border-box;background:#fff;border:4px solid #E7B67C;border-radius:30px;padding:20px 24px;font-size:23px;font-weight:700;line-height:1.4;text-align:center;box-shadow:0 6px 0 rgba(46,42,38,.14)}
+.dot{position:absolute;border-radius:50%;background:#fff;border:3px solid #E7B67C}
+.confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.confetti i{position:absolute;top:-20px;width:12px;height:18px;border-radius:3px;animation:fall linear infinite}
+@keyframes fall{0%{transform:translateY(-20px) rotate(0)}100%{transform:translateY(940px) rotate(540deg)}}
+@keyframes popin{0%{transform:scale(.4);opacity:0}70%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+@media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}}
+
+/* ===== Centered layout: vine board + tracker centred on the 1600px stage ===== */
+.board{left:300px !important;width:1000px !important}
+.tracker{left:550px !important}
+.root.q .board{left:300px !important}
+.root.q .tracker{left:550px !important}
+.bubble,.qbubble{left:20px !important;top:184px !important;width:262px !important;font-size:21px !important;padding:16px 18px !important}
+</style>
+</helmet>
+<div class="viewport">
+<img class="vbg" src="../assets/8de8da2e765340cc05d0b70105fa9460.webp" alt="">
+<div class="root" style="{{stageStyle}}">
+  <nav class="topnav" aria-label="Game navigation">
+    <div>
+      <a class="navback" href="{{backHref}}" aria-label="Back"><img src="../assets/8df4fc9d624722d5a1b6da5cd3f91e00.png" alt=""></a>
+      <div class="navtitle">{{navTitle}}</div>
+    </div>
+    <div>
+      <div class="navstar" role="img" aria-label="{{navStarsLabel}}"><img src="../assets/fe727e3baa691011b578eb2e56de54ae.png" alt=""><span>{{navStars}}</span></div>
+      <button class="navmusic" onClick="{{toggleMusic}}" aria-label="{{musicLabel}}" aria-pressed="{{musicMuted}}"><img src="../assets/be6c13121ad06ebc7e1ec721e4fea807.png" alt="">
+        <sc-if value="{{musicMuted}}" hint-placeholder-val="{{ false }}"><svg style="position:absolute;inset:14px" viewBox="0 0 40 40" aria-hidden="true"><path d="M6 34 L34 6" stroke="#fff" stroke-width="7" stroke-linecap="round"/><path d="M6 34 L34 6" stroke="#D9472B" stroke-width="4" stroke-linecap="round"/></svg></sc-if>
+      </button>
+      <div class="navlang" role="group" aria-label="Language"><img src="{{navLangSrc}}" alt="">
+        <button style="{{enStyle}}" onClick="{{setEn}}" aria-pressed="{{isEn}}">EN</button>
+        <button class="si" style="{{siStyle}}" onClick="{{setSi}}" aria-pressed="{{isSi}}" lang="si">සිං</button>
+      </div>
+    </div>
+  </nav>
+  <sc-if value="{{party}}" hint-placeholder-val="{{ true }}">
+    <div class="confetti" aria-hidden="true"><sc-for list="{{confetti}}" as="p" hint-placeholder-count="18"><i style="{{p.style}}"></i></sc-for></div>
+  </sc-if>
+
+  <div class="bubble">{{bubbleText}}</div>
+  <div class="dot" style="left:196px;top:316px;width:22px;height:22px"></div>
+  <div class="dot" style="left:182px;top:348px;width:13px;height:13px"></div>
+  <img src="../assets/044c7ae59144599a3e2a41c9e1b3011a.webp" alt="" style="position:absolute;left:28px;bottom:36px;height:400px;transform:rotate(5deg);transform-origin:50% 100%;filter:drop-shadow(0 8px 10px rgba(30,20,10,.3))">
+
+  <div class="board">
+    <div class="inner">
+      <div class="head">
+        <svg width="74" height="74" viewBox="0 0 64 64" aria-hidden="true"><path d="M18 8h28v12c0 9-6 16-14 16S18 29 18 20z" fill="#FFC531" stroke="#D98E00" stroke-width="2.5"/><path d="M18 12H9c0 9 4 14 10 15M46 12h9c0 9-4 14-10 15" fill="none" stroke="#D98E00" stroke-width="3" stroke-linecap="round"/><path d="M28 36h8v8h-8z" fill="#E9A800"/><rect x="20" y="44" width="24" height="9" rx="3" fill="#B5560B"/><rect x="16" y="52" width="32" height="6" rx="3" fill="#8A4006"/><path d="M25 14c1-2 3-3 5-3" stroke="#FFF1B8" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M32 18l2 4 4.4.5-3.2 3 .8 4.4L32 27.8l-4 2.1.8-4.4-3.2-3 4.4-.5z" fill="#fff"/></svg>
+        <div>
+          <h1>{{headline}}</h1>
+          <p>{{subline}}</p>
+        </div>
+      </div>
+
+      <div class="score" style="{{scoreStyle}}" role="status" aria-label="{{scoreLabel}}">
+        <div><small>YOUR SCORE</small><b>{{scoreText}}</b></div>
+        <div class="stars" aria-hidden="true"><sc-for list="{{starRow}}" as="s" hint-placeholder-count="5"><span style="{{s.style}}"><svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden="true"><path d="M12 2.2l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.1 6.1 20.3l1.3-6.6L2.5 9.1l6.6-.8z" fill="#FFC531" stroke="#E09A00" stroke-width="1.4" stroke-linejoin="round"/><path d="M8.4 7.6c.9-.6 2-.9 3.1-.8" stroke="#FFF3C4" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg></span></sc-for></div>
+      </div>
+
+      <div class="tiles">
+        <div class="tile" style="background:#E8F8F0;border-color:#8FD8B6;color:#1F7A52"><small>CORRECT</small><b>{{correct}}</b></div>
+        <div class="tile" style="background:#FDEFF3;border-color:#F3AFC2;color:#B4234E"><small>INCORRECT</small><b>{{incorrect}}</b></div>
+        <div class="tile" style="background:#FFF8E3;border-color:#F4D47A;color:#8A5A00"><small>GAME STARS</small><b><i><svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden="true"><path d="M12 2.2l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.1 6.1 20.3l1.3-6.6L2.5 9.1l6.6-.8z" fill="#FFC531" stroke="#E09A00" stroke-width="1.4" stroke-linejoin="round"/><path d="M8.4 7.6c.9-.6 2-.9 3.1-.8" stroke="#FFF3C4" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg></i>{{gameStars}}</b></div>
+        <div class="tile" style="background:#FFF8E3;border-color:#F4D47A;color:#8A5A00"><small>TOTAL STARS</small><b><i><svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden="true"><path d="M12 2.2l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.1 6.1 20.3l1.3-6.6L2.5 9.1l6.6-.8z" fill="#FFC531" stroke="#E09A00" stroke-width="1.4" stroke-linejoin="round"/><path d="M8.4 7.6c.9-.6 2-.9 3.1-.8" stroke="#FFF3C4" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg></i>{{totalStars}}</b></div>
+      </div>
+
+      <div class="pill" style="{{pillStyle}}">
+        <sc-if value="{{unlocked}}" hint-placeholder-val="{{ true }}"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="12" rx="3" fill="#F2B21B" stroke="#B57A00" stroke-width="1.6"/><path d="M8 10V7a4 4 0 0 1 7.6-1.7" fill="none" stroke="#8A8A8A" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="15.5" r="1.8" fill="#8A5A00"/></svg></sc-if>
+        <sc-if value="{{locked}}" hint-placeholder-val="{{ false }}"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="12" rx="3" fill="#D8CFC0" stroke="#9C8F7B" stroke-width="1.6"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="#9C8F7B" stroke-width="2.4"/><circle cx="12" cy="15.5" r="1.8" fill="#6B5F4F"/></svg></sc-if>
+        <span>{{pillText}}</span>
+      </div>
+
+      <div class="btns">
+        <a class="btn" href="{{againHref}}" style="{{againStyle}}"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12 a8 8 0 1 0 3 -6.2 M4 4 v5 h5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Play again</a>
+        <sc-if value="{{canNext}}" hint-placeholder-val="{{ true }}">
+          <a class="btn" href="{{nextHref}}" style="background:#14A877;color:#fff;border:4px solid #14A877;box-shadow:0 6px 0 #0B7A55">{{nextLabel}}<svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </sc-if>
+        <sc-if value="{{noNext}}" hint-placeholder-val="{{ false }}">
+          <span class="btn" style="background:#E5DED1;color:#8A7F70;border:4px solid #E5DED1;cursor:not-allowed" aria-disabled="true">{{nextLabel}}</span>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+
+  <img src="../assets/f9ee966320b5981cde6837f2a13b1e6f.png" alt="" style="position:absolute;left:1367px;bottom:28px;width:198px;filter:drop-shadow(0 8px 10px rgba(0,0,0,.35))">
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1600,"height":900}}'>
+// ===== Level settings =====
+const LEVEL = 3;
+const C = { accent:'#E77FA6', dark:'#B23C6C', deep:'#8E2A55', light:'#FBE1EB', text:'#8E2A55', ring:'#F8D3E2', soft:'#FFF5F9', hi:'#F7B3CC' };
+const BACK = '../index.html#level-3';
+// Shown on the canvas (or when no game has been played yet)
+const SAMPLE = { game:'Numbers', correct:5 };
+const GAMES = [
+  { id:'Pattern',  name:'Pattern Recognition',    title:'PATTERN RECOGNITION',    start:'Pattern-L3-Q1.dc.html' },
+  { id:'Instruct', name:'Following Instructions', title:'FOLLOWING INSTRUCTIONS', start:'Instruct-L3-Listen.dc.html' },
+  { id:'Numbers',  name:'Number Recall',          title:'NUMBER RECALL',          start:'Numbers-L3-Memorise.dc.html' },
+  { id:'Picture',  name:'Picture Memory',         title:'PICTURE MEMORY',         start:'Picture-L3-Memorise.dc.html' }
+];
+const TOTAL = 5, PASS = 3, STARS_EACH = 5;
+// ===== Results logic =====
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = {}; }
+  readResult() {
+    // A finished game saves which questions were right first time (see rec() in each game).
+    try {
+      const ss = window.sessionStorage, last = ss.getItem('lexi:last') || '';
+      const [gid, lv] = last.split(':');
+      if (lv === 'L' + LEVEL && GAMES.some((g) => g.id === gid)) {
+        const m = JSON.parse(ss.getItem('lexi:res:' + last) || '{}');
+        let c = 0; for (let i = 0; i < TOTAL; i++) if (m[i] === true) c++;
+        let total = null; try { total = parseInt(window.localStorage.getItem('lexi:totalStars') || '', 10); } catch (e) {}
+        if (c >= PASS) { try { window.localStorage.setItem('lexi:pass:' + last, '1'); } catch (e) {} }
+        return { game: gid, correct: c, total: isNaN(total) ? null : total };
+      }
+    } catch (e) {}
+    return { game: SAMPLE.game, correct: SAMPLE.correct, total: null };
+  }
+  navVals() {
+    const VW = (typeof window !== 'undefined' && window.innerWidth) || 1600, VH = (typeof window !== 'undefined' && window.innerHeight) || 900;
+    if (!this._fitOn && typeof window !== 'undefined') { this._fitOn = true; window.addEventListener('resize', () => this.setState({})); }
+    const N = this.nav || (this.nav = { lang: 'en', muted: false });
+    const st = (this.state && typeof this.state.stars === 'number') ? this.state.stars : 0;
+    const on = 'color:#fff', off = 'color:#6B3A1E';
+    return {
+      navStars: String(st), navStarsLabel: st + (st === 1 ? ' star' : ' stars'),
+      stageStyle: 'transform:translate(-50%,-50%) scale(' + Math.min(VW / 1600, VH / 900) + ')',
+      musicMuted: N.muted, musicLabel: N.muted ? 'Turn music on' : 'Turn music off',
+      toggleMusic: () => { N.muted = !N.muted; this.setState({}); },
+      navLangSrc: N.lang === 'en' ? '../assets/6f7c2bb7a5525738674145255fc58787.png' : '../assets/825f199a805633d8f930859013f1c3b0.png', isEn: N.lang === 'en', isSi: N.lang === 'si',
+      enStyle: 'left:16px;' + (N.lang === 'en' ? on : off), siStyle: 'left:66px;' + (N.lang === 'si' ? on : off),
+      setEn: () => { N.lang = 'en'; this.setState({}); }, setSi: () => { N.lang = 'si'; this.setState({}); }
+    };
+  }
+  renderVals() {
+    const r = this.readResult();
+    const gi = Math.max(0, GAMES.findIndex((g) => g.id === r.game)), G = GAMES[gi];
+    const correct = r.correct, incorrect = TOTAL - correct, gameStars = correct * STARS_EACH;
+    const totalStars = r.total !== null ? r.total : gameStars + 240;
+    const unlocked = correct >= PASS;
+    let next = null;
+    if (gi < GAMES.length - 1) next = { href: GAMES[gi + 1].start, label: 'Next game', what: GAMES[gi + 1].name };
+    else if (LEVEL < 4) next = { href: 'Pattern-L' + (LEVEL + 1) + '-Q1.dc.html', label: 'Next level', what: 'Level ' + (LEVEL + 1) };
+    const canNext = unlocked && !!next;
+    const colors = ['#FF6B6B', '#FFC531', '#5BC0EB', '#7ED957', '#C77DFF', '#FF9F43'];
+    const confetti = Array.from({ length: 18 }, (_, i) => ({ style: 'left:' + ((i * 89) % 1600) + 'px;background:' + colors[i % 6] + ';animation-duration:' + (4 + (i % 5) * 0.8) + 's;animation-delay:' + ((i * 0.37) % 3).toFixed(2) + 's;opacity:.85' }));
+    return { ...this.navVals(),
+      backHref: BACK, navTitle: 'LEVEL ' + LEVEL + ' • ' + G.title,
+      navStars: String(gameStars), navStarsLabel: gameStars + ' stars in this game',
+      party: correct >= PASS, confetti,
+      bubbleText: correct === TOTAL ? 'Wow! All 5 right! You\'re a superstar!' : correct >= 4 ? 'Fantastic memory! Well done!' : correct >= PASS ? 'Great job! Keep it up!' : 'Good try! Let\'s practise together again!',
+      headline: correct >= PASS ? 'CONGRATULATIONS!' : 'NICE TRY!',
+      subline: 'You finished ' + G.name + ' · Level ' + LEVEL,
+      scoreStyle: 'background:linear-gradient(180deg,' + C.hi + ',' + C.accent + ');box-shadow:0 7px 0 ' + C.deep + ',inset 0 3px 0 rgba(255,255,255,.35)',
+      scoreText: correct + ' / ' + TOTAL, scoreLabel: 'Your score: ' + correct + ' out of ' + TOTAL,
+      starRow: Array.from({ length: TOTAL }, (_, i) => ({ style: i < correct ? 'animation:popin .45s ease-out both;animation-delay:' + (0.15 * i + 0.2) + 's' : 'filter:grayscale(1) brightness(1.25);opacity:.45' })),
+      correct, incorrect, gameStars, totalStars,
+      unlocked: unlocked, locked: !unlocked,
+      pillStyle: unlocked ? 'background:#E8F8F0;border-color:#8FD8B6;color:#1F7A52' : 'background:#FFF6E8;border-color:#EAD3B0;color:#7A5A2E',
+      pillText: canNext ? 'Unlocked: ' + next.what + '!' : !next ? (unlocked ? 'You finished every game in LexiLand!' : 'Get ' + PASS + ' or more right to finish LexiLand') : 'Get ' + PASS + ' or more right to unlock ' + next.what,
+      againHref: G.start,
+      againStyle: 'background:#fff;color:' + C.text + ';border:4px solid ' + C.accent + ';box-shadow:0 6px 0 ' + C.ring,
+      canNext, noNext: !canNext, nextHref: next ? next.href : G.start,
+      nextLabel: next ? next.label : 'All done'
+    };
+  }
+}
+</script>
+</body>
+</html>

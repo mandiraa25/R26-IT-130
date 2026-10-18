@@ -1,0 +1,46 @@
+/* Each cell shows one original generated illustration without changing the
+   question token, reordering composite symbols, or drawing adjacent cells. */
+.lx-pattern-artwork {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:90%;
+  height:90%;
+  max-width:100%;
+  max-height:100%;
+  flex-shrink:0;
+  vertical-align:middle;
+  line-height:1;
+  pointer-events:none;
+}
+.lx-pattern-artwork__cell {
+  display:block;
+  flex:0 0 100%;
+  width:100%;
+  height:100%;
+}
+.lx-pattern-artwork__crop { display:block; position:relative; overflow:hidden; width:100%; height:100%; }
+.lx-pattern-artwork__image { position:absolute; max-width:none; max-height:none; user-select:none; }
+.lx-pattern-artwork--compound { gap:4px; }
+.lx-pattern-artwork--compound .lx-pattern-artwork__cell {
+  flex:0 0 calc(50% - 2px);
+  width:calc(50% - 2px);
+  height:auto;
+  aspect-ratio:1;
+}
+.lx-game .lx-pattern-question .lx-pattern-option > .lx-pattern-artwork {
+  position:absolute;
+  inset:24px 28px 16px;
+  width:auto;
+  height:auto;
+  max-width:none;
+  max-height:none;
+}
+.lx-screening .wm-screen__pattern > .lx-pattern-artwork {
+  width:64px;
+  height:64px;
+}
+.lx-screening .wm-screen__options--pattern .lx-pattern-artwork {
+  width:60px;
+  height:60px;
+}
