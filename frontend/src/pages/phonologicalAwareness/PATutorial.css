@@ -1,0 +1,37 @@
+.pa-tutorial-screen { color: #642604; }
+.pa-tutorial-nav { position: relative; z-index: 10; display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 2vh 2vw; flex-shrink: 0; }
+.pa-tutorial-nav-group { display: flex; align-items: center; gap: clamp(8px, 1vw, 20px); }
+.pa-wood-circle, .pa-wood-plaque { background-image: url('/images/phonologicalAwareness/tutorial/navigation-kit.png'); background-repeat: no-repeat; color: #642604; font-weight: 900; display: flex; align-items: center; justify-content: center; filter: drop-shadow(0 3px 2px #49210065); }
+.pa-wood-circle { width: clamp(46px, 5.8vw, 98px); height: clamp(46px, 5.8vw, 98px); background-size: 250% 100%; background-position: left center; border: 0; cursor: pointer; flex-shrink: 0; }
+.pa-wood-circle svg { width: 53%; height: 53%; color: #fff9e9; stroke-width: 3.5; filter: drop-shadow(0 3px 0 #733300); }
+.pa-wood-plaque { background-size: 181.82% 100%; background-position: right center; min-height: clamp(48px, 5.6vw, 94px); padding: 12px 24px; }
+.pa-tutorial-grade { font-size: clamp(12px, 1.55vw, 26px); white-space: nowrap; }
+.pa-tutorial-stars { gap: 12px; font-size: clamp(22px, 2.3vw, 38px); min-width: 9vw; }
+.pa-tutorial-stars svg { width: 3vw; height: 3vw; min-width: 25px; min-height: 25px; }
+.pa-tutorial-languages { gap: 2px; padding: 10px 13px; }
+.pa-tutorial-languages button { border: 0; border-radius: 999px; padding: 8px 20px; font-size: clamp(16px, 1.7vw, 28px); font-weight: 900; cursor: pointer; }
+.pa-tutorial-languages button[aria-pressed='true'] { background: linear-gradient(#b368ff, #6721e9); color: white; box-shadow: inset 0 2px 2px #ffffff80, 0 2px 0 #5b159f; }
+.pa-tutorial-main { position: relative; z-index: 1; flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; padding: 0 12px 5vh; }
+.pa-tutorial-board { position: relative; width: min(62vw, 1080px, calc((100dvh - 135px) * 1.45)); aspect-ratio: 1.45; }
+.pa-tutorial-board-art { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.pa-tutorial-board h1 { position: absolute; top: 5.5%; left: 18%; width: 64%; margin: 0; text-align: center; font-size: clamp(22px, 3vw, 50px); line-height: 1.2; font-weight: 1000; color: #733000; -webkit-text-stroke: 1px #fff6d8; paint-order: stroke fill; text-shadow: 0 3px 1px #f6b857; }
+.pa-tutorial-content { position: absolute; inset: 21% 11% 11%; display: flex; flex-direction: column; gap: 2.5%; }
+.pa-tutorial-instruction { margin: 0; text-align: center; font-weight: 800; font-size: clamp(12px, 1.4vw, 23px); line-height: 1.3; flex: 0 0 auto; }
+.pa-tutorial-video { position: relative; flex: 1; min-height: 0; overflow: hidden; border: 4px solid #fa9d16; border-radius: 22px; background: #173919; box-shadow: 0 2px 0 #b75c05; }
+.pa-tutorial-video > iframe, .pa-tutorial-video > div { width: 100%; height: 100%; }
+.pa-tutorial-poster { position: absolute; inset: 0; z-index: 25; width: 100%; height: 100%; border: 0; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 12px; background: url('/images/phonologicalAwareness/tutorial/video-poster.png') center / cover; }
+.pa-tutorial-logo { position: relative; background: #fffffff0; border: 3px solid #ffd291; border-radius: 24px; padding: 0 18px; color: #0098ec; font-size: clamp(26px, 3.6vw, 60px); font-weight: 1000; transform: rotate(-5deg); text-shadow: 0 3px 0 #0074bc35; }
+.pa-tutorial-logo > span { color: #ff8b00; }
+.pa-tutorial-logo > svg { position: absolute; width: 42px; height: 42px; top: -28px; right: 4px; }
+.pa-tutorial-play { width: clamp(58px, 7.2vw, 120px); aspect-ratio: 1; border: 4px solid white; outline: 3px solid #ffc94e; border-radius: 50%; display: grid; place-items: center; color: white; background: linear-gradient(#ffbd00, #ff7e00); box-shadow: 0 4px 6px #57300040; }
+.pa-tutorial-play svg { width: 48%; height: 48%; margin-left: 5%; }
+.pa-tutorial-actions { display: flex; gap: 4%; flex: 0 0 19%; min-height: 48px; }
+.pa-tutorial-actions button { width: 50%; border-radius: 24px; display: flex; align-items: center; justify-content: center; gap: 12px; font-size: clamp(14px, 1.8vw, 30px); font-weight: 900; cursor: pointer; border: 3px solid #ffbd54; box-shadow: inset 0 0 0 2px #fff2b570, 0 4px 1px #b25a1470; }
+.pa-tutorial-watch { background: linear-gradient(#ffb900, #ff8700); color: white; }
+.pa-tutorial-skip { background: linear-gradient(#fff5d9, #ffe5aa); color: #984000; outline: 1px dashed #f1ae51; outline-offset: -8px; }
+.pa-tutorial-actions svg { width: 1.1em; height: 1.1em; flex-shrink: 0; }
+.pa-tutorial-screen button { transition: transform .15s, filter .15s; }
+.pa-tutorial-screen button:hover { filter: brightness(1.06); }
+.pa-tutorial-screen button:active { transform: translateY(2px); }
+.pa-tutorial-screen button:focus-visible { outline: 3px solid #7133ef; outline-offset: 3px; }
+@media (max-width: 760px) { .pa-tutorial-nav { flex-wrap: wrap; justify-content: center; gap: 4px; padding: 8px; } .pa-tutorial-nav-group { gap: 8px; } .pa-tutorial-grade { font-size: 12px; padding: 10px 18px; } .pa-tutorial-stars { min-height: 44px; } .pa-tutorial-languages { min-height: 44px; } .pa-tutorial-languages button { padding: 3px 15px; } .pa-tutorial-main { padding-bottom: 2vh; } .pa-tutorial-board { width: min(98vw, calc((100dvh - 165px) * 1.45)); } .pa-tutorial-board h1 { font-size: clamp(18px, 4vw, 28px); } .pa-tutorial-content { inset: 21% 10% 11%; } .pa-tutorial-instruction { font-size: 11px; } .pa-tutorial-actions { min-height: 34px; } .pa-tutorial-actions button { font-size: 12px; border-radius: 16px; gap: 5px; } .pa-tutorial-video { border-radius: 14px; border-width: 3px; } .pa-tutorial-logo { font-size: 28px; } .pa-tutorial-play { width: 50px; } }
