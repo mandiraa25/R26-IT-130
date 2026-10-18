@@ -1,26 +1,37 @@
-import React from 'react';
-import { ArrowLeft, ArrowRight, Music2, Play, Star, VolumeX } from 'lucide-react';
+import React, { useLayoutEffect, useRef } from 'react';
+import { ArrowRight, Play, Star } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { WoodenMusicToggle, WoodenStarCounter } from '../../components/common/WoodenNavControls';
 import './PATutorial.css';
 
 const ART = '/images/phonologicalAwareness/tutorial';
 
-export function PATutorialNavigation({ grade, score, soundEnabled, onToggleSound, onBack }) {
+export function PATutorialStage({ active, children }) {
+  const stage = useRef(null);
+  useLayoutEffect(() => {
+    if (!active) return;
+    const fit = () => {
+      if (stage.current) stage.current.style.transform = `translate(-50%, -50%) scale(${Math.min(window.innerWidth / 1600, window.innerHeight / 900)})`;
+    };
+    fit();
+    window.addEventListener('resize', fit);
+    return () => window.removeEventListener('resize', fit);
+  }, [active]);
+  return active ? <div className="pa-tutorial-stage" ref={stage}>{children}</div> : <>{children}</>;
+}
+
+export function PATutorialNavigation({ levelNumber, score, soundEnabled, onToggleSound, onBack }) {
   const { i18n } = useTranslation('pa');
   const sinhala = i18n.language?.startsWith('si');
   return (
     <header className="pa-tutorial-nav">
       <div className="pa-tutorial-nav-group">
-        <button className="pa-wood-circle" onClick={onBack} aria-label={sinhala ? 'ආපසු' : 'Go back'}><ArrowLeft /></button>
-        <div className="pa-wood-plaque pa-tutorial-grade">{sinhala ? `${grade} ශ්‍රේණිය • ශබ්ද පිළිබඳ දැනුවත්භාවය` : `GRADE ${grade} • PHONOLOGICAL AWARENESS`}</div>
+        <button type="button" className="pa-tutorial-back" onClick={onBack} aria-label={sinhala ? 'ආපසු' : 'Go back'}><img src="/images/workingMemory/shared/buttons/navigation/nav-back.png" alt="" draggable="false" /></button>
+        <div className="pa-tutorial-level">{sinhala ? `මට්ටම ${levelNumber} • ශබ්ද පිළිබඳ දැනුවත්භාවය` : `LEVEL ${levelNumber} • PHONOLOGICAL AWARENESS`}</div>
       </div>
       <div className="pa-tutorial-nav-group">
-        <div className="pa-wood-plaque pa-tutorial-stars" aria-label={`${score} stars`}><Star fill="#ffbf00" stroke="#ef8100" />{score}</div>
-        <button className="pa-wood-circle" onClick={onToggleSound} aria-label={soundEnabled ? 'Mute sound' : 'Enable sound'} aria-pressed={soundEnabled}>{soundEnabled ? <Music2 /> : <VolumeX />}</button>
-        <div className="pa-wood-plaque pa-tutorial-languages" aria-label="Language">
-          <button onClick={() => i18n.changeLanguage('en')} aria-pressed={!sinhala}>EN</button>
-          <button onClick={() => i18n.changeLanguage('si')} aria-pressed={sinhala}>සිං</button>
-        </div>
+        <WoodenStarCounter value={score} />
+        <WoodenMusicToggle muted={!soundEnabled} onToggle={onToggleSound} ariaLabel={soundEnabled ? 'Mute sound' : 'Enable sound'} />
       </div>
     </header>
   );
@@ -30,9 +41,9 @@ export default function PATutorial({ instruction, videoStarted, onWatch, onSkip,
   const { i18n } = useTranslation('pa');
   const sinhala = i18n.language?.startsWith('si');
   return (
-    <main className="pa-tutorial-main">
+    <main className="pa-tutorial-main" lang={i18n.language}>
       <section className="pa-tutorial-board" aria-labelledby="pa-tutorial-heading">
-        <img className="pa-tutorial-board-art" src={`${ART}/vine-board.png`} alt="" />
+        <img className="pa-tutorial-board-art" src={`${ART}/vine-board-v2.png`} alt="" draggable="false" />
         <h1 id="pa-tutorial-heading">{sinhala ? 'ක්‍රීඩා කරන ආකාරය' : 'HOW TO PLAY'}</h1>
         <div className="pa-tutorial-content">
           <p className="pa-tutorial-instruction">{instruction}</p>

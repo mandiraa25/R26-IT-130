@@ -4,7 +4,7 @@
 export const improvementGrade4_si = {
   level1: {
     phonological_awareness: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=6kPx1jxS2ZM",
       title: "ධ්වන්යාත්මක අවබෝධය (4 ශ්‍රේණිය - Level 1)",
       instruction: "පළමුව වීඩියෝව නරඹන්න, ඉන්පසු වචනවල මුල් ශබ්දය හඳුනාගන්න!",
       questions: [
@@ -16,7 +16,7 @@ export const improvementGrade4_si = {
       ]
     },
     visual_processing: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/ZhDeREhaOoc",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=0mBzuxZkvRw",
       title: "දෘශ්‍ය සැකසුම් (4 ශ්‍රේණිය - Level 1)",
       instruction: "නියමිත අකුර හඳුනාගෙන නිවැරදි අකුර තෝරන්න!",
       questions: [
@@ -28,7 +28,7 @@ export const improvementGrade4_si = {
       ]
     },
     orthographic_skills: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/78MkQYTLWO0",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=fSirKyiRP0k",
       title: "අක්ෂර වින්‍යාස කුසලතා (4 ශ්‍රේණිය - Level 1)",
       instruction: "නිවැරදි අක්ෂර වින්‍යාසය සහිත වචනය තෝරන්න!",
       questions: [
@@ -40,7 +40,7 @@ export const improvementGrade4_si = {
       ]
     },
     segmentation_counting: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/bEIa9mjhJvI",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=DzDQHS9TqLU",
       title: "අක්ෂර වෙන් කිරීම සහ ගණන් කිරීම (4 ශ්‍රේණිය - Level 1)",
       instruction: "වචනයේ ඇති මාත්‍රා/අකුරු ගණන ගණන් කරන්න!",
       questions: [
@@ -54,7 +54,7 @@ export const improvementGrade4_si = {
   },
   level2: {
     phonological_awareness: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=6kPx1jxS2ZM",
       title: "ධ්වන්යාත්මක අවබෝධය (4 ශ්‍රේණිය - Level 2)",
       instruction: "පළමුව වීඩියෝව නරඹන්න, ඉන්පසු වචනවල මුල් ශබ්දය හඳුනාගන්න!",
       questions: [
@@ -66,7 +66,7 @@ export const improvementGrade4_si = {
       ]
     },
     visual_processing: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=0mBzuxZkvRw",
       title: "දෘශ්‍ය සැකසුම් (4 ශ්‍රේණිය - Level 2)",
       instruction: "නියමිත අකුර හඳුනාගෙන නිවැරදි අකුර තෝරන්න!",
       questions: [
@@ -78,7 +78,7 @@ export const improvementGrade4_si = {
       ]
     },
     orthographic_skills: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=fSirKyiRP0k",
       title: "අක්ෂර වින්‍යාස කුසලතා (4 ශ්‍රේණිය - Level 2)",
       instruction: "නිවැරදි අක්ෂර වින්‍යාසය සහිත වචනය තෝරන්න!",
       questions: [
@@ -90,7 +90,7 @@ export const improvementGrade4_si = {
       ]
     },
     segmentation_counting: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=DzDQHS9TqLU",
       title: "අක්ෂර වෙන් කිරීම සහ ගණන් කිරීම (4 ශ්‍රේණිය - Level 2)",
       instruction: "වචනයේ ඇති මාත්‍රා/අකුරු ගණන ගණන් කරන්න!",
       questions: [
@@ -104,7 +104,7 @@ export const improvementGrade4_si = {
   },
   level3: {
     phonological_awareness: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=6kPx1jxS2ZM",
       title: "ධ්වන්යාත්මක අවබෝධය (4 ශ්‍රේණිය - Level 3)",
       instruction: "පළමුව වීඩියෝව නරඹන්න, ඉන්පසු ශබ්ද හඳුනාගන්න!",
       questions: [
@@ -116,7 +116,7 @@ export const improvementGrade4_si = {
       ]
     },
     visual_processing: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=0mBzuxZkvRw",
       title: "දෘශ්‍ය සැකසුම් (4 ශ්‍රේණිය - Level 3)",
       instruction: "නියමිත අකුර හඳුනාගෙන නිවැරදි අකුර තෝරන්න!",
       questions: [
@@ -128,7 +128,7 @@ export const improvementGrade4_si = {
       ]
     },
     orthographic_skills: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=fSirKyiRP0k",
       title: "අක්ෂර වින්‍යාස කුසලතා (4 ශ්‍රේණිය - Level 3)",
       instruction: "නිවැරදි අක්ෂර වින්‍යාසය සහිත වචනය තෝරන්න!",
       questions: [
@@ -140,7 +140,7 @@ export const improvementGrade4_si = {
       ]
     },
     segmentation_counting: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=DzDQHS9TqLU",
       title: "අක්ෂර වෙන් කිරීම සහ ගණන් කිරීම (4 ශ්‍රේණිය - Level 3)",
       instruction: "වචනයේ ඇති මාත්‍රා/අකුරු ගණන ගණන් කරන්න!",
       questions: [
@@ -154,7 +154,7 @@ export const improvementGrade4_si = {
   },
   level4: {
     phonological_awareness: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=6kPx1jxS2ZM",
       title: "ධ්වන්යාත්මක අවබෝධය (4 ශ්‍රේණිය - Level 4)",
       instruction: "පළමුව වීඩියෝව නරඹන්න, ඉන්පසු ශබ්ද හඳුනාගන්න!",
       questions: [
@@ -166,7 +166,7 @@ export const improvementGrade4_si = {
       ]
     },
     visual_processing: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=0mBzuxZkvRw",
       title: "දෘශ්‍ය සැකසුම් (4 ශ්‍රේණිය - Level 4)",
       instruction: "නියමිත අකුර හඳුනාගෙන නිවැරදි අකුර තෝරන්න!",
       questions: [
@@ -178,7 +178,7 @@ export const improvementGrade4_si = {
       ]
     },
     orthographic_skills: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=fSirKyiRP0k",
       title: "අක්ෂර වින්‍යාස කුසලතා (4 ශ්‍රේණිය - Level 4)",
       instruction: "නිවැරදි අක්ෂර වින්‍යාසය සහිත වචනය තෝරන්න!",
       questions: [
@@ -190,7 +190,7 @@ export const improvementGrade4_si = {
       ]
     },
     segmentation_counting: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=DzDQHS9TqLU",
       title: "අක්ෂර වෙන් කිරීම සහ ගණන් කිරීම (4 ශ්‍රේණිය - Level 4)",
       instruction: "වචනයේ ඇති මාත්‍රා/අකුරු ගණන ගණන් කරන්න!",
       questions: [

@@ -4,7 +4,7 @@
 export const improvementGrade2_en = {
   level1: {
     phonological_awareness: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=6kPx1jxS2ZM",
       title: "Phonological Awareness (Grade 2 - Level 1)",
       instruction: "Watch the video first, then answer the questions on word sounds!",
       questions: [
@@ -16,7 +16,7 @@ export const improvementGrade2_en = {
       ]
     },
     visual_processing: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=0mBzuxZkvRw",
       title: "Visual Processing (Grade 2 - Level 1)",
       instruction: "Watch the demonstration video and find the matching letters!",
       questions: [
@@ -28,7 +28,7 @@ export const improvementGrade2_en = {
       ]
     },
     orthographic_skills: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=fSirKyiRP0k",
       title: "Orthographic Skills (Grade 2 - Level 1)",
       instruction: "Watch the video and select the correctly spelled word!",
       questions: [
@@ -40,7 +40,7 @@ export const improvementGrade2_en = {
       ]
     },
     segmentation_counting: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=DzDQHS9TqLU",
       title: "Segmentation & Counting (Grade 2 - Level 1)",
       instruction: "Watch how to segment words into letters/words and count them!",
       questions: [
@@ -54,7 +54,7 @@ export const improvementGrade2_en = {
   },
   level2: {
     phonological_awareness: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=6kPx1jxS2ZM",
       title: "Phonological Awareness (Grade 2 - Level 2)",
       instruction: "Listen and identify letter sounds and rhymes!",
       questions: [
@@ -66,7 +66,7 @@ export const improvementGrade2_en = {
       ]
     },
     visual_processing: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=0mBzuxZkvRw",
       title: "Visual Processing (Grade 2 - Level 2)",
       instruction: "Find visually similar letters and mirror images!",
       questions: [
@@ -78,7 +78,7 @@ export const improvementGrade2_en = {
       ]
     },
     orthographic_skills: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=fSirKyiRP0k",
       title: "Orthographic Skills (Grade 2 - Level 2)",
       instruction: "Identify correct word spellings and fill in missing letters!",
       questions: [
@@ -90,7 +90,7 @@ export const improvementGrade2_en = {
       ]
     },
     segmentation_counting: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=DzDQHS9TqLU",
       title: "Segmentation & Counting (Grade 2 - Level 2)",
       instruction: "Count the letters in words and words in sentences!",
       questions: [
@@ -104,7 +104,7 @@ export const improvementGrade2_en = {
   },
   level3: {
     phonological_awareness: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=6kPx1jxS2ZM",
       title: "Phonological Awareness (Grade 2 - Level 3)",
       instruction: "Practice sound identification and rhyming words!",
       questions: [
@@ -116,7 +116,7 @@ export const improvementGrade2_en = {
       ]
     },
     visual_processing: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=0mBzuxZkvRw",
       title: "Visual Processing (Grade 2 - Level 3)",
       instruction: "Recognize capital letters, mirror images, and letter sequences!",
       questions: [
@@ -128,7 +128,7 @@ export const improvementGrade2_en = {
       ]
     },
     orthographic_skills: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=fSirKyiRP0k",
       title: "Orthographic Skills (Grade 2 - Level 3)",
       instruction: "Choose correct spellings and fill in missing letters!",
       questions: [
@@ -140,7 +140,7 @@ export const improvementGrade2_en = {
       ]
     },
     segmentation_counting: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=DzDQHS9TqLU",
       title: "Segmentation & Counting (Grade 2 - Level 3)",
       instruction: "Count letters in longer words and words in sentences!",
       questions: [
@@ -154,7 +154,7 @@ export const improvementGrade2_en = {
   },
   level4: {
     phonological_awareness: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=6kPx1jxS2ZM",
       title: "Phonological Awareness (Grade 2 - Level 4)",
       instruction: "Master sound identification, initial sounds, and rhymes!",
       questions: [
@@ -166,7 +166,7 @@ export const improvementGrade2_en = {
       ]
     },
     visual_processing: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=0mBzuxZkvRw",
       title: "Visual Processing (Grade 2 - Level 4)",
       instruction: "Master mirror image recognition and complex letter patterns!",
       questions: [
@@ -178,7 +178,7 @@ export const improvementGrade2_en = {
       ]
     },
     orthographic_skills: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=fSirKyiRP0k",
       title: "Orthographic Skills (Grade 2 - Level 4)",
       instruction: "Identify complex word spellings and fill in missing letters!",
       questions: [
@@ -190,7 +190,7 @@ export const improvementGrade2_en = {
       ]
     },
     segmentation_counting: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://www.youtube.com/watch?v=DzDQHS9TqLU",
       title: "Segmentation & Counting (Grade 2 - Level 4)",
       instruction: "Count letters in long words and words in sentences!",
       questions: [
