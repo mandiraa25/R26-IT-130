@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import PAQuizHeaderControls from "./PAQuizHeaderControls";
 import { renderMirroredText, getCleanText } from "../../utils/phonologicalAwareness/text.util";
 
 /**
@@ -308,52 +309,15 @@ export default function PACategory3({
           </div>
         </div>
 
-        {/* Center: Vine Progress Path (Centered directly in middle of screen) */}
-        <div className="hidden sm:flex items-center justify-center bg-emerald-900/40 backdrop-blur-md px-6 py-2 rounded-full border-2 border-emerald-400/40 absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-0 shadow-inner">
-          <div className="absolute top-1/2 left-4 right-4 h-2 bg-[#704824] -translate-y-1/2 rounded-full -z-10 border border-[#422912]" />
-          <div className="flex items-center gap-3 md:gap-5">
-            {Array.from({ length: totalQuestions }).map((_, i) => {
-              const isCompleted = i < currentIdx;
-              const isCurrent = i === currentIdx;
-              return (
-                <div key={i} className="relative flex items-center justify-center">
-                  <div
-                    className={`w-9 h-9 md:w-11 md:h-11 rounded-full flex items-center justify-center font-black text-base md:text-lg border-2 md:border-3 transition-all duration-300 ${
-                      isCompleted
-                        ? "bg-[#52C41A] border-[#2B7A0B] text-white shadow-md scale-95"
-                        : isCurrent
-                        ? "bg-[#22C55E] border-[#15803D] text-white shadow-lg ring-4 ring-emerald-400/50 scale-110"
-                        : "bg-[#5A3818] border-[#3B220C] text-[#C29B75]"
-                    }`}
-                  >
-                    {i + 1}
-                  </div>
-                  {isCurrent && (
-                    <span className="absolute -bottom-4 text-xs animate-bounce">🧩</span>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Right: Sound Toggle Button */}
-        <div className="flex items-center gap-2 z-10">
-          <button
-            onClick={() => {
-              playBtnSound();
-              onToggleSound();
-            }}
-            className={`w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center text-2xl shadow-lg border-b-4 active:translate-y-1 active:border-b-0 transition-all cursor-pointer ${
-              soundEnabled
-                ? "bg-[#8B4513] border-[#5C2E0B] hover:bg-[#72380F] text-white"
-                : "bg-gray-500 border-gray-700 text-gray-200"
-            }`}
-            title="Toggle Sound"
-          >
-            {soundEnabled ? "🔊" : "🔇"}
-          </button>
-        </div>
+        <PAQuizHeaderControls
+          currentIdx={currentIdx}
+          totalQuestions={totalQuestions}
+          soundEnabled={soundEnabled}
+          onToggleSound={() => {
+            playBtnSound();
+            onToggleSound();
+          }}
+        />
       </header>
 
       {/* 🧩 MAIN CONTENT ROW */}
