@@ -9,7 +9,8 @@ import PACategory1 from "./PACategory1";
 import PACategory2 from "./PACategory2";
 import PACategory3 from "./PACategory3";
 import PACategory4 from "./PACategory4";
-import PATutorial, { PATutorialNavigation } from "./PATutorial";
+import PATutorial, { PATutorialNavigation, PATutorialStage } from "./PATutorial";
+import PAScoreboard from "./PAScoreboard";
 import { registerAudio, stopAllAudio } from "../../utils/phonologicalAwareness/audio";
 
 // Helper to format YouTube Embed URL with auto-loop parameter (prevents YouTube end-screen video grids)
@@ -599,19 +600,36 @@ export default function ImprovementActivityPA() {
     );
   }
 
+  if (phase === "result") {
+    return <PAScoreboard
+      levelNumber={levelNumber}
+      categoryTitle={t(`subcat_${subCategoryKey}`)}
+      score={score}
+      totalQuestions={questions.length}
+      soundEnabled={soundEnabled}
+      onToggleSound={() => setSoundEnabled(!soundEnabled)}
+      onBack={handleBackToLevels}
+      onRetry={startQuiz}
+      onNext={handleNextSubCategory}
+      isSubmitting={isSubmitting}
+      submitResult={submitResult}
+    />;
+  }
+
   return (
     <div className={`relative w-full h-screen h-dvh overflow-hidden font-sans select-none flex flex-col ${phase === "video" ? "pa-tutorial-screen" : ""}`}>
       {/* 🌄 Jungle Background */}
       <img
-        src={phase === "video" ? "/images/phonologicalAwareness/tutorial/jungle-background.png" : "/images/phonologicalAwareness/quiz_interaction_bg2.png"}
+        src={phase === "video" ? "/images/phonologicalAwareness/tutorial/jungle-background-v2.png" : "/images/phonologicalAwareness/quiz_interaction_bg2.png"}
         alt="Jungle Background"
         className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
       />
       {phase !== "video" && <div className="absolute inset-0 bg-black/20 pointer-events-none" />}
+      <PATutorialStage active={phase === "video"}>
 
       {/* 🌟 Header */}
       {phase === "video" ? (
-        <PATutorialNavigation grade={grade} score={score} soundEnabled={soundEnabled} onToggleSound={() => setSoundEnabled(!soundEnabled)} onBack={handleBackToLevels} />
+        <PATutorialNavigation levelNumber={levelNumber} score={score} soundEnabled={soundEnabled} onToggleSound={() => setSoundEnabled(!soundEnabled)} onBack={handleBackToLevels} />
       ) : <header className="relative z-10 w-full px-4 py-2 md:px-8 md:py-3 flex items-center justify-between gap-4 shrink-0">
         {/* Left: Back button & Title */}
         <div className="flex items-center gap-4">
@@ -798,99 +816,7 @@ export default function ImprovementActivityPA() {
         </main>
       )}
 
-      {/* 🎉 PHASE 3: RESULTS & UNLOCK STATS (Redesigned 2-Column Centered Modal) */}
-      {phase === "result" && (
-        <main className="relative z-50 flex-1 w-full flex items-center justify-center p-4 md:p-6 my-auto min-h-0 overflow-y-auto animate-fadeIn">
-          <div className="bg-white/95 backdrop-blur-md rounded-[2.5rem] md:rounded-[3rem] p-6 sm:p-8 md:p-10 shadow-2xl border-b-[8px] border-slate-200/90 w-full max-w-4xl max-h-[85vh] overflow-y-auto flex flex-col md:flex-row items-center justify-between gap-6 md:gap-10 relative">
-            
-            {/* 🖼️ LEFT COLUMN: Sample Image / Mascot Display */}
-            <div className="w-full md:w-5/12 flex flex-col items-center justify-center shrink-0">
-              <div className="w-full max-w-[260px] sm:max-w-[290px] md:max-w-[320px] aspect-square rounded-[2rem] bg-gradient-to-b from-amber-100 via-amber-50 to-orange-100 p-4 sm:p-5 border-4 border-amber-300/80 shadow-xl flex items-center justify-center relative overflow-hidden group">
-                <img
-                  src="/images/phonologicalAwareness/Improvement/parrot.png"
-                  alt="Completion Mascot"
-                  className="w-full h-full object-contain drop-shadow-md transform group-hover:scale-105 transition-transform"
-                  onError={(e) => {
-                    e.target.src = "/images/phonologicalAwareness/cat.png";
-                  }}
-                />
-              </div>
-            </div>
-
-            {/* 📊 RIGHT COLUMN: Completion Details & Actions */}
-            <div className="w-full md:w-7/12 flex flex-col items-center text-center">
-              {/* Star Badge Icon */}
-              <div className="w-20 h-20 md:w-24 md:h-24 bg-yellow-100 rounded-full flex items-center justify-center text-5xl md:text-6xl shadow-inner mb-3 animate-bounce shrink-0">
-                {score >= Math.ceil(questions.length / 2) ? "🌟" : "💪"}
-              </div>
-
-              {/* Congratulations Title */}
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-800 mb-2 uppercase tracking-wide">
-                {score >= Math.ceil(questions.length / 2)
-                  ? t("congratulations")
-                  : t("great_effort")}
-              </h2>
-
-              {/* Score Banner */}
-              <div className="bg-gradient-to-r from-amber-400 to-yellow-400 border-b-6 border-amber-600 px-6 py-4 rounded-3xl w-full max-w-md shadow-xl my-2 text-center">
-                <span className="text-amber-950 font-black text-sm sm:text-base uppercase tracking-widest block mb-0.5">
-                  {t("your_score")}
-                </span>
-                <span className="text-4xl sm:text-5xl md:text-6xl font-black text-white drop-shadow-md">
-                  {score} / {questions.length}
-                </span>
-              </div>
-
-              {/* Passed Status Badge */}
-              {isSubmitting ? (
-                <div className="text-slate-500 font-bold text-base my-2 animate-pulse">
-                  Saving your progress...
-                </div>
-              ) : submitResult ? (
-                <div className="my-2 w-full max-w-md">
-                  {submitResult.isPassed ? (
-                    <div className="bg-emerald-100 border-2 border-emerald-300 text-emerald-800 font-black px-4 py-2.5 rounded-2xl text-base sm:text-lg shadow-sm">
-                      🔓 {t("unlocked_next")} 🌟
-                    </div>
-                  ) : (
-                    <div className="bg-amber-100 border-2 border-amber-300 text-amber-800 font-bold px-4 py-2.5 rounded-2xl text-sm sm:text-base shadow-sm">
-                      {t("score_needed")}
-                    </div>
-                  )}
-                </div>
-              ) : null}
-
-              {/* Action Buttons */}
-              <div className="flex flex-row gap-3 sm:gap-4 w-full max-w-md mt-4">
-                <button
-                  onClick={startQuiz}
-                  className="flex-1 bg-slate-200 hover:bg-slate-300 border-b-6 border-slate-400 text-slate-700 font-black text-base sm:text-lg py-3 sm:py-3.5 rounded-2xl transition-all active:translate-y-1 active:border-b-0 uppercase shadow-md cursor-pointer"
-                >
-                  {t("retry")}
-                </button>
-
-                {submitResult?.isPassed ? (
-                  <button
-                    onClick={handleNextSubCategory}
-                    className="flex-1 bg-emerald-500 hover:bg-emerald-600 border-b-6 border-emerald-700 text-white font-black text-base sm:text-lg py-3 sm:py-3.5 rounded-2xl transition-all active:translate-y-1 active:border-b-0 uppercase shadow-lg cursor-pointer"
-                  >
-                    {t("next_activity")} ➔
-                  </button>
-                ) : (
-                  <button
-                    onClick={handleBackToLevels}
-                    className="flex-1 bg-sky-500 hover:bg-sky-600 border-b-6 border-sky-700 text-white font-black text-base sm:text-lg py-3 sm:py-3.5 rounded-2xl transition-all active:translate-y-1 active:border-b-0 uppercase shadow-lg cursor-pointer"
-                  >
-                    {t("back_to_levels")}
-                  </button>
-                )}
-              </div>
-            </div>
-
-          </div>
-        </main>
-      )}
-
+      </PATutorialStage>
       {/* Animation Styles */}
       <style>{`
         @keyframes fadeIn {

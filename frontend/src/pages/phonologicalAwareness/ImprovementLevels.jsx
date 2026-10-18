@@ -3,7 +3,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getStudentProfile } from "../../services/student/api";
 import { getStudentProgress } from "../../services/phonologicalAwareness/improveApi";
-import LanguageSwitcher from "../../components/common/LanguageSwitcher";
+import { LockKeyhole } from "lucide-react";
+import { WoodenMusicToggle } from "../../components/common/WoodenNavControls";
+import { PATutorialStage } from "./PATutorial";
+import "./PALevelMap.css";
+
+const LEVEL_MAP_ART = "/images/phonological-awareness/level-map";
 
 export default function ImprovementLevels() {
   const { grade } = useParams();
@@ -92,44 +97,12 @@ export default function ImprovementLevels() {
     };
   };
 
-  const levelsConfig = [
-    {
-      num: 1,
-      titleKey: "level_1_title",
-      descKey: "level_1_desc",
-      color: "bg-emerald-400 border-emerald-500 text-emerald-800",
-      buttonColor: "bg-emerald-500 hover:bg-emerald-600 border-emerald-700 text-white",
-      animalImage: "/images/phonologicalAwareness/cat.png",
-      emoji: "🦁",
-    },
-    {
-      num: 2,
-      titleKey: "level_2_title",
-      descKey: "level_2_desc",
-      color: "bg-amber-400 border-amber-500 text-amber-800",
-      buttonColor: "bg-amber-500 hover:bg-amber-600 border-amber-700 text-white",
-      animalImage: "/images/phonologicalAwareness/pig.png",
-      emoji: "🐯",
-    },
-    {
-      num: 3,
-      titleKey: "level_3_title",
-      descKey: "level_3_desc",
-      color: "bg-sky-400 border-sky-500 text-sky-800",
-      buttonColor: "bg-sky-500 hover:bg-sky-600 border-sky-700 text-white",
-      animalImage: "/images/phonologicalAwareness/dog.png",
-      emoji: "🦓",
-    },
-    {
-      num: 4,
-      titleKey: "level_4_title",
-      descKey: "level_4_desc",
-      color: "bg-purple-400 border-purple-500 text-purple-800",
-      buttonColor: "bg-purple-500 hover:bg-purple-600 border-purple-700 text-white",
-      animalImage: "/images/phonologicalAwareness/van.png",
-      emoji: "🦜",
-    },
-  ];
+  const levelsConfig = ['sunny', 'morning', 'sunset', 'moonlight'].map((scene, index) => ({
+    num: index + 1,
+    titleKey: 'level_' + (index + 1) + '_title',
+    descKey: 'level_' + (index + 1) + '_desc',
+    artwork: LEVEL_MAP_ART + '/level-' + (index + 1) + '-' + scene + '.png',
+  }));
 
   const subCategoriesMeta = [
     { key: "phonological_awareness", icon: "🎵", color: "bg-amber-50 border-amber-200" },
@@ -139,192 +112,63 @@ export default function ImprovementLevels() {
   ];
 
   return (
-    <div className="relative w-full min-h-screen overflow-x-hidden font-sans select-none flex flex-col">
-      {/* 🌄 Jungle Background */}
-      <img
-        src="/images/phonologicalAwareness/Improvement/bg.png"
-        alt="Jungle Background"
-        className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
-      />
-      <div className="absolute inset-0 bg-black/15 pointer-events-none" />
-
-      {/* 🌟 Header Section */}
-      <header className="relative z-10 w-full px-4 py-4 md:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-        {/* Left: Back Button & Grade Tag */}
-        <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-start">
-          <button
-            onClick={handleBack}
-            className="w-14 h-14 rounded-full bg-emerald-500 hover:bg-emerald-600 border-b-6 border-emerald-700 text-white flex items-center justify-center text-3xl font-black transition-all transform active:translate-y-1 active:border-b-0 shadow-lg cursor-pointer"
-            title="Go Back"
-          >
-            ←
-          </button>
-
-          <div className="bg-yellow-400 border-b-6 border-yellow-600 px-6 py-2 rounded-2xl shadow-lg flex items-center gap-2">
-            <span className="text-yellow-900 text-xl font-black uppercase tracking-wider">
-              {t("common:grade")} {grade || profile?.grade || "1-3"}
-            </span>
-          </div>
-        </div>
-
-        {/* Center: Wood-panel Title */}
-        <div className="relative transform hover:scale-105 transition-transform duration-300">
-          <div className="bg-amber-950 border-4 border-amber-800 px-8 py-3 rounded-3xl shadow-2xl relative flex items-center justify-center">
-            <span className="absolute -top-3 left-4 text-2xl">🍃</span>
-            <span className="absolute -top-3 right-4 text-2xl">🍃</span>
-            <h1 className="text-2xl md:text-3xl font-black text-amber-50 uppercase tracking-wide text-center drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
-              {t("improvement_path")}
-            </h1>
-          </div>
-        </div>
-
-        {/* Right: Sound, Lang, Profile */}
-        <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
-          <button
-            onClick={() => {
-              setSoundEnabled(!soundEnabled);
-              playClick();
-            }}
-            className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-lg border-b-6 active:translate-y-1 active:border-b-0 transition-all ${soundEnabled
-              ? "bg-purple-500 border-purple-700 hover:bg-purple-600 text-white"
-              : "bg-gray-400 border-gray-600 hover:bg-gray-500 text-gray-200"
-              }`}
-            title="Toggle Sound"
-          >
-            {soundEnabled ? "🔊" : "🔇"}
-          </button>
-
-          <div className="bg-white/80 backdrop-blur-sm p-1 rounded-2xl shadow-md">
-            <LanguageSwitcher />
-          </div>
-
-          <div className="flex items-center gap-2 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-2xl border-b-4 border-slate-200 shadow-md">
-            <div className="w-10 h-10 rounded-xl overflow-hidden bg-indigo-100 flex items-center justify-center">
-              {profile?.profilePhoto ? (
-                <img
-                  src={profile.profilePhoto}
-                  alt="Profile"
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <span className="text-xl">👦</span>
-              )}
+    <div className="pa-level-map-screen font-sans select-none">
+      <img className="pa-level-map-background" src={LEVEL_MAP_ART + '/jungle-background.png'} alt="" />
+      <PATutorialStage active>
+        <div className="pa-level-map-canvas" lang={i18n.language} aria-busy={loading}>
+          <header className="pa-level-map-nav">
+            <div className="pa-level-map-nav-left">
+              <button type="button" className="pa-level-map-back" onClick={handleBack} aria-label={t('common:back', { defaultValue: 'Go back' })}>
+                <img src="/images/workingMemory/shared/buttons/navigation/nav-back.png" alt="" draggable="false" />
+              </button>
+              <div className="pa-level-map-grade">{t('common:grade')} {grade || profile?.grade || '1-3'}</div>
             </div>
-            <div className="hidden md:flex flex-col text-left">
-              <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">
-                {t("common:hello")}
-              </span>
-              <span className="text-sm font-black text-slate-700 leading-tight">
-                {profile?.fullName?.split(" ")[0] || "Explorer"}
-              </span>
+            <div className="pa-level-map-nav-right">
+              <WoodenMusicToggle muted={!soundEnabled} onToggle={() => { setSoundEnabled(!soundEnabled); playClick(); }} ariaLabel={soundEnabled ? 'Mute sound' : 'Enable sound'} />
             </div>
-          </div>
-        </div>
-      </header>
-
-      {/* 🗺️ Main Content */}
-      <main className="relative z-10 flex-1 max-w-6xl mx-auto w-full px-6 py-4 flex flex-col justify-center items-center">
-        {/* Banner if identification quiz not completed yet */}
-        {progressData && !progressData.isIdentificationCompleted && (
-          <div className="w-full max-w-4xl bg-amber-500/90 backdrop-blur-md border-4 border-amber-300 text-white p-4 rounded-3xl shadow-xl mb-6 flex flex-col sm:flex-row items-center justify-between gap-4 animate-fadeIn">
-            <div className="flex items-center gap-3">
-              <span className="text-4xl">💡</span>
-              <p className="font-bold text-base md:text-lg">
-                {t("need_identification_quiz")}
-              </p>
+          </header>
+          <h1 className="pa-level-map-heading"><img src={LEVEL_MAP_ART + '/wooden-title-banner.png'} alt="" /><span>{t('improvement_path')}</span></h1>
+          <main aria-labelledby="pa-level-map-subtitle">
+            <h2 id="pa-level-map-subtitle" className="pa-level-map-subtitle">{t('select_level')}</h2>
+            <div className="pa-level-map-cards">
+              {levelsConfig.map((lvl) => {
+                const isLocked = lvl.num > maxUnlocked;
+                const stats = getLevelStats(lvl.num);
+                return (
+                  <button
+                    type="button"
+                    key={lvl.num}
+                    data-level={lvl.num}
+                    className={'pa-level-map-card' + (isLocked ? ' is-locked' : '')}
+                    onClick={() => handleLevelClick(lvl.num, isLocked)}
+                    disabled={loading}
+                    aria-disabled={isLocked}
+                    aria-label={t(lvl.titleKey) + (isLocked ? ', ' + t('locked') : '')}
+                    aria-describedby={'pa-level-' + lvl.num + '-description pa-level-' + lvl.num + '-progress'}
+                  >
+                    <img className="pa-level-map-scene" src={lvl.artwork} alt="" draggable="false" />
+                    <img className="pa-level-map-frame" src={LEVEL_MAP_ART + '/vine-card-frame.png'} alt="" draggable="false" />
+                    <span className="pa-level-map-level-label">{t(lvl.titleKey)}</span>
+                    <span id={'pa-level-' + lvl.num + '-description'} className="sr-only">{t(lvl.descKey)}</span>
+                    <span id={'pa-level-' + lvl.num + '-progress'} className="pa-level-map-progress">
+                      <img src="/images/workingMemory/shared/feedback/star.webp" alt="" />
+                      <span>{stats.stars} {t('subcategories')}</span>
+                    </span>
+                    <span className="pa-level-map-play">{isLocked && <LockKeyhole aria-hidden="true" />}{isLocked ? t('locked') : t('level_play')}</span>
+                  </button>
+                );
+              })}
             </div>
-            <button
-              onClick={() => {
-                playClick();
-                // navigate(`/identificationActivities-pa/${grade || profile?.grade || "2"}`);
-                navigate("/dashboard");
-              }}
-              className="bg-white hover:bg-amber-100 text-amber-900 font-black px-6 py-2.5 rounded-2xl shadow-md border-b-4 border-amber-200 transition-all uppercase tracking-wider shrink-0"
-            >
-              {t("go_to_identification")} ➔
-            </button>
-          </div>
-        )}
-
-        {/* Title Tag */}
-        <p className="text-white text-xl md:text-2xl font-black text-center mb-6 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] uppercase tracking-wide">
-          {t("select_level")}
-        </p>
-
-        {/* Levels Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full max-w-5xl">
-          {levelsConfig.map((lvl) => {
-            const isLocked = lvl.num > maxUnlocked;
-            const stats = getLevelStats(lvl.num);
-
-            return (
-              <div
-                key={lvl.num}
-                onClick={() => handleLevelClick(lvl.num, isLocked)}
-                className={`group relative bg-white/95 backdrop-blur-sm rounded-[2.5rem] p-6 shadow-2xl border-b-[8px] border-slate-200 ${isLocked
-                  ? "opacity-80 grayscale-[20%] border-gray-300 cursor-pointer"
-                  : "cursor-pointer transform hover:-translate-y-3 hover:shadow-indigo-300/40 active:translate-y-0 active:border-b-0 hover:border-indigo-400 transition-all duration-300"
-                  } flex flex-col items-center justify-between text-center overflow-hidden min-h-[360px]`}
-              >
-                {/* Level Tag */}
-                <div
-                  className={`px-6 py-1.5 rounded-full font-black text-sm uppercase tracking-widest text-white border-b-4 ${isLocked ? "bg-gray-400 border-gray-500" : lvl.color
-                    } mb-4 shadow-md`}
-                >
-                  {t(lvl.titleKey)}
-                </div>
-
-                {/* Animal Graphic */}
-                <div className="relative w-32 h-32 flex items-center justify-center mb-4">
-                  {isLocked ? (
-                    <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center shadow-inner relative">
-                      <span className="text-6xl grayscale">🔒</span>
-                    </div>
-                  ) : (
-                    <div className="w-24 h-24 bg-indigo-50 rounded-full flex items-center justify-center shadow-inner relative group-hover:scale-110 transition-transform duration-300">
-                      <img
-                        src={lvl.animalImage}
-                        alt="Level Animal"
-                        className="w-20 h-20 object-contain drop-shadow-md"
-                      />
-                      <span className="absolute -bottom-2 -right-2 text-3xl animate-bounce">
-                        {lvl.emoji}
-                      </span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Level Description */}
-                <div className="flex-1 flex flex-col justify-center mb-6">
-                  <p className="text-slate-700 font-black text-lg leading-snug px-2">
-                    {t(lvl.descKey)}
-                  </p>
-                </div>
-
-                {/* Bottom Stars & Play Button */}
-                <div className="w-full">
-                  {isLocked ? (
-                    <div className="bg-gray-200 text-gray-500 font-black py-3 rounded-2xl flex items-center justify-center gap-2 border-b-4 border-gray-300 uppercase tracking-widest">
-                      🔒 {t("locked")}
-                    </div>
-                  ) : (
-                    <div className="flex flex-col gap-2">
-                      <div className="bg-yellow-100 border-2 border-yellow-200 text-yellow-800 font-black py-2 rounded-2xl flex items-center justify-center gap-2 shadow-inner text-sm">
-                        ⭐ {stats.stars} {t("subcategories")}
-                      </div>
-                      <button
-                        className={`w-full py-3 rounded-2xl font-black text-lg uppercase tracking-wider border-b-6 transform transition-all active:translate-y-1 active:border-b-0 shadow-md ${lvl.buttonColor}`}
-                      >
-                        {t("level_play")}
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
-          })}
+          </main>
+          {loading && <p className="pa-level-map-notice" role="status">{t('getting_ready')}</p>}
+          {progressData && !progressData.isIdentificationCompleted && (
+            <div className="pa-level-map-notice" role="status">
+              <p>{t('need_identification_quiz')}</p>
+              <button type="button" onClick={() => { playClick(); navigate('/dashboard'); }}>{t('go_to_identification')}</button>
+            </div>
+          )}
         </div>
-      </main>
+      </PATutorialStage>
 
       {/* 📂 SUB-CATEGORIES MODAL (Slightly Reduced Dimensions, 100% Uncropped) */}
       {showSubCatModal && selectedLevelNum && (
