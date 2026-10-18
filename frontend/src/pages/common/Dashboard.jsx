@@ -35,7 +35,15 @@ const FOCUS_KEYS = {
 
 // The card's progress line: current level, games done in it, and a small bar.
 function CardProgress({ id, module, t, description }) {
-  if (id === "rp") return <span className="learning-card__progress learning-card__progress--soon">{t("coming_soon")}</span>;
+  if (id === "rp") {
+    if (!module?.started) return <span className="learning-card__description">{description}</span>;
+    if (module.finished) return <span className="learning-card__progress"><strong>{t("all_levels_complete")}</strong></span>;
+    return <span className="learning-card__progress">
+      <strong>{t("level_of", { level: module.currentLevel, total: module.totalLevels })}</strong>
+      <span>{t("levels_done", { done: module.completedLevels, total: module.totalLevels })}</span>
+      <i aria-hidden="true"><b style={{ width: `${Math.round((module.completedLevels / Math.max(module.totalLevels, 1)) * 100)}%` }} /></i>
+    </span>;
+  }
   if (!module?.started) return <span className="learning-card__description">{description}</span>;
   if (module.finished) return <span className="learning-card__progress"><strong>{t("all_levels_complete")}</strong></span>;
   const isSpeech = id === "sp";
@@ -100,6 +108,10 @@ function Dashboard() {
       navigate("/speech-processing/leo-identification");
     } else if (type === "improvement" && selectedCategory?.id === "sp") {
       navigate("/speech-processing/leo-training");
+    } else if (type === "identification" && selectedCategory?.id === "rp") {
+      navigate("/reading-processing/play/identification");
+    } else if (type === "improvement" && selectedCategory?.id === "rp") {
+      navigate("/reading-processing/play/improvement");
     } else {
       console.log(`${type} clicked for ${selectedCategory?.title} - not implemented yet`);
     }

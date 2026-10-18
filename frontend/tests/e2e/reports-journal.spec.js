@@ -90,7 +90,7 @@ for (const module of MODULES) {
       await expect(page.locator(".reports-type-row")).toHaveCount(2);
       await expect(page.locator(".reports-bookmark[aria-current=page]")).toHaveAttribute("href", "/reports/" + module.id);
       for (const [index, type] of ["identification", "improvement"].entries()) {
-        await expect(page.locator(".reports-type-row .reports-action-link").nth(index)).toHaveAttribute("href", module.id === "rp" ? "/reading-processing" : "/reports/" + module.id + "/" + type);
+        await expect(page.locator(".reports-type-row .reports-action-link").nth(index)).toHaveAttribute("href", "/reports/" + module.id + "/" + type);
       }
       await expectClearLayout(page);
       await page.screenshot({ path: testInfo.outputPath(module.id + "-report-types-" + size.width + ".png"), fullPage: true });
