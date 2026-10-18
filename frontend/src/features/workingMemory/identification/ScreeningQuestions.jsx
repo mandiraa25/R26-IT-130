@@ -15,6 +15,13 @@ const categoryKeys = {
   "Number Memory": "screen_number_memory",
   Instruction: "screen_instructions",
 };
+// Round category icons (also used on the screening results screen).
+const categoryIcons = {
+  Pattern: "pattern.png",
+  "Picture Memory": "pictures.png",
+  "Number Memory": "numbers.png",
+  Instruction: "instructions.png",
+};
 export function ScreeningShell({ children, t, current = 0, total = 15, completed = false, responses = [] }) {
   const navigate = useNavigate();
   return (
@@ -78,7 +85,10 @@ export function ScreeningQuestionScreen({ question, current, total, phase, t, he
   return (
     <ScreeningShell t={t} current={current} total={total} responses={responses}>
       <header className="wm-screen__question-header">
-        <span className="wm-screen__category">{t(categoryKeys[question.category])}</span>
+        <span className="wm-screen__category">
+          <img src={`/images/workingMemory/identification/practice/${categoryIcons[question.category]}`} alt="" draggable="false" />
+          {t(categoryKeys[question.category])}
+        </span>
         <div className="wm-screen__title-row">
           <h1 ref={headingRef} tabIndex={-1} className="wm-screen__question-title" id="wm-screen-title">{heading}</h1>
           <button type="button" onClick={onListen} className="wm-screen__listen" aria-label={t("identify_listen_briefing")} aria-pressed={audioState === "playing"}><img src="/images/workingMemory/shared/icons/wm-speaker.png" alt="" /><span>{t("identify_listen_briefing")}</span></button>

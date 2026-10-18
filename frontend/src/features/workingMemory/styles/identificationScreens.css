@@ -327,3 +327,90 @@
  .wm-rules-actions { position:static; height:auto; display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0 0; }
  .wm-intro-action--back svg { width:20px; height:20px; }
 }
+
+/* ---------------------------------------------------------------------------
+   Question screens: reference look (category pill with icon, green title,
+   solid stitched answer buttons, content centred in the vine board).
+   Used by the real screening test and the demo, which share these screens.
+   --------------------------------------------------------------------------- */
+.wm-screen.lx-screening .lx-board .lx-board-content { padding:62px 84px 70px; }
+
+/* Category pill: sits a little lower and further in, with the category's icon. */
+.wm-screen.lx-screening .lx-board .wm-screen__category {
+  display:inline-flex; align-items:center; gap:8px; margin:0 0 2px 6px; padding:5px 18px 5px 7px;
+  border:2px dashed #f1a3b9; border-radius:999px; background:#fff;
+  color:#e0336c; font:700 19px/1.2 'Fredoka','Noto Sans Sinhala',sans-serif;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__category img { width:32px; height:32px; object-fit:contain; flex:none; }
+
+/* Title: bold dark green like the reference. */
+.wm-screen.lx-screening .lx-board .wm-screen__question-title {
+  color:#1d5c14; font:700 34px/1.25 'Fredoka','Noto Sans Sinhala',sans-serif; letter-spacing:-.01em;
+}
+.wm-screen.lx-screening:lang(si) .lx-board .wm-screen__question-title { font-size:27px; line-height:1.45; }
+.wm-screen.lx-screening .lx-board .wm-screen__listen {
+  background:#f9e4c6; color:#5b2d0e; font:700 19px/1.2 'Fredoka','Noto Sans Sinhala',sans-serif;
+}
+
+/* Balance: the question area and its hint sit together in the middle of the
+   space below the header, instead of hugging the top of the board. */
+.wm-screen.lx-screening .lx-board .wm-screen__question-content { flex:0 1 auto; margin-top:auto; justify-content:center; gap:20px; }
+.wm-screen.lx-screening .lx-board .wm-screen__question-footer { margin:16px 0 auto; }
+.wm-screen.lx-screening .wm-screen__question-footer p {
+  color:#8a4a22; font:600 20px/1.4 'Fredoka','Noto Sans Sinhala',sans-serif;
+}
+
+/* What the child studies (pattern row, pictures, numbers): a dashed pink box. */
+.wm-screen.lx-screening .lx-board .wm-screen__pattern,
+.wm-screen.lx-screening .lx-board .wm-screen__memory-panel--pictures,
+.wm-screen.lx-screening .lx-board .wm-screen__number-sequence--study {
+  border:2px dashed #f2a7bb; border-radius:22px; background:#fff5f7;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__number-sequence--study { padding:16px 24px; }
+
+/* Answer buttons: pink / blue / yellow with a stitched inner edge and a soft
+   bottom shadow. Word and number answers are solid; picture and pattern
+   answers use lighter tints so the pictures stay easy to see. */
+.wm-screen.lx-screening .lx-board .wm-screen__option {
+  position:relative; border:2px solid; border-radius:20px;
+  font:700 28px/1.3 'Fredoka','Noto Sans Sinhala',sans-serif;
+  transition:transform .15s, filter .15s;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__option::after {
+  content:''; position:absolute; inset:6px; border:2px dashed #ffffff8c; border-radius:15px; pointer-events:none;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__option--0 { background:#ffa9bf; border-color:#f07c9c; color:#7a1230; box-shadow:0 4px 0 #e5809d; }
+.wm-screen.lx-screening .lx-board .wm-screen__option--1 { background:#7cbcff; border-color:#3d8ff0; color:#0b2a78; box-shadow:0 4px 0 #4b8fdc; }
+.wm-screen.lx-screening .lx-board .wm-screen__option--2 { background:#ffe066; border-color:#f0b92c; color:#5a2c00; box-shadow:0 4px 0 #d9a52a; }
+.wm-screen.lx-screening .lx-board :is(.wm-screen__options--pattern, .wm-screen__options--orders) .wm-screen__option--pictures.wm-screen__option--0,
+.wm-screen.lx-screening .lx-board .wm-screen__options--pattern .wm-screen__option--0 { background:#ffdbe5; }
+.wm-screen.lx-screening .lx-board :is(.wm-screen__options--pattern, .wm-screen__options--orders) .wm-screen__option--pictures.wm-screen__option--1,
+.wm-screen.lx-screening .lx-board .wm-screen__options--pattern .wm-screen__option--1 { background:#d5e9ff; }
+.wm-screen.lx-screening .lx-board :is(.wm-screen__options--pattern, .wm-screen__options--orders) .wm-screen__option--pictures.wm-screen__option--2,
+.wm-screen.lx-screening .lx-board .wm-screen__options--pattern .wm-screen__option--2 { background:#fff2b8; }
+.wm-screen.lx-screening .lx-board .wm-screen__options--orders .wm-screen__option { border-style:solid; }
+.wm-screen.lx-screening .lx-board .wm-screen__options--orders .wm-screen__option--numbers { font-size:36px; letter-spacing:2px; }
+.wm-screen.lx-screening .lx-board .wm-screen__option:hover:not(:disabled) { transform:translateY(-2px); filter:brightness(1.03); }
+.wm-screen.lx-screening .lx-board .wm-screen__option[aria-pressed=true] { outline:4px solid #2f6f2f; outline-offset:3px; }
+
+/* Instruction answers: one row, one column per action, like the reference. */
+.wm-screen.lx-screening .lx-board .wm-screen__options--actions {
+  grid-template-columns:repeat(var(--choice-count,3),minmax(0,1fr)); gap:22px;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__options--actions .wm-screen__option { min-height:110px; }
+.wm-screen.lx-screening:lang(si) .lx-board .wm-screen__option { font-size:24px; }
+/* Keep a clear gap under the header, and keep three answer rows inside the board. */
+.wm-screen.lx-screening .lx-board .wm-screen__question-header { margin-bottom:14px; }
+.wm-screen.lx-screening .lx-board .wm-screen__options--orders { gap:12px; }
+.wm-screen.lx-screening .lx-board .wm-screen__options--orders .wm-screen__option--numbers { min-height:72px; }
+.wm-screen.lx-screening .lx-board .wm-screen__options--orders .wm-screen__option--pictures { padding:6px 20px; }
+.wm-screen.lx-screening .lx-board .wm-screen__option--pictures .wm-screen__picture-figure {
+  width:clamp(56px,calc(180px / var(--choice-count,2)),84px);
+  height:clamp(56px,calc(180px / var(--choice-count,2)),84px);
+}
+.wm-screen.lx-screening .lx-board .wm-screen__instruction-steps p { font-family:'Fredoka','Noto Sans Sinhala',sans-serif; font-weight:600; }
+/* Four steps plus the audio-failure Continue button: use less space around them
+   so Continue keeps a clear gap above the helper text. */
+.wm-screen.lx-screening .lx-board .wm-screen__board-content:has(.wm-screen__instruction-area .wm-screen__primary) .wm-screen__question-header { margin-bottom:4px; }
+.wm-screen.lx-screening .lx-board .wm-screen__board-content:has(.wm-screen__instruction-area .wm-screen__primary) .wm-screen__question-footer { margin-top:10px; }
+.wm-screen.lx-screening .lx-board .wm-screen__instruction-area .wm-screen__primary { margin-top:8px; }
