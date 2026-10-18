@@ -41,24 +41,15 @@ const createInitialLevelsProgress = (maxUnlockedLevel = 1) => {
   return levels;
 };
 
-// Map identification quiz result to starting level (1 to 4)
+// Starting level (1 to 4) from the screening-test marks.
+// Out of 15: 0-5 -> Level 1, 6-9 -> Level 2, 10-12 -> Level 3, 13-15 -> Level 4.
+// Every level up to the starting level is unlocked, each with only its first
+// game (Pattern) open; the other games then unlock in order at 3/5 or more.
 const determineLevelFromIdentification = (firstIdentifyResult) => {
   if (!firstIdentifyResult) return 1;
-
-  // Check ML prediction risk level first if available
-  const riskLevel =
-    firstIdentifyResult.metrics?.mlPrediction ||
-    firstIdentifyResult.metrics?.riskLevel;
-
-  if (riskLevel === "High" || riskLevel === "Severe") return 1;
-  if (riskLevel === "Moderate" || riskLevel === "Medium") return 2;
-  if (riskLevel === "Low" || riskLevel === "Mild") return 3;
-  if (riskLevel === "No Risk" || riskLevel === "Minimal" || riskLevel === "Low Risk") return 4;
-
-  // Fallback based on overall accuracy percentage
-  const totalScore = firstIdentifyResult.totalScore || 0;
-  const totalQuestions = firstIdentifyResult.totalQuestions || 1;
-  const percentage = (totalScore / totalQuestions) * 100;
+  const totalQuestions = Number(firstIdentifyResult.totalQuestions) || 0;
+  if (totalQuestions < 1) return 1;
+  const percentage = ((Number(firstIdentifyResult.totalScore) || 0) / totalQuestions) * 100;
 
   if (percentage < 40) return 1;
   if (percentage < 65) return 2;
@@ -332,3 +323,7 @@ exports.getAttemptHistory = async (req, res) => {
     });
   }
 };
+
+// Exposed for tests.
+exports._determineLevelFromIdentification = determineLevelFromIdentification;
+exports._createInitialLevelsProgress = createInitialLevelsProgress;
