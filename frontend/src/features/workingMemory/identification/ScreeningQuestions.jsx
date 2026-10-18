@@ -81,6 +81,8 @@ export function ScreeningQuestionScreen({ question, current, total, phase, t, he
     : canAnswer
       ? (isPicture || isNumber ? t("screen_tap_order") : t("screen_tap_answer"))
       : isInstruction ? t("screen_look_carefully") : isPicture ? t("screen_look_remember") : t("screen_remember_order");
+  // While the numbers are shown, the hint sits inside the number box.
+  const hintInPanel = isNumber && !canAnswer;
 
   return (
     <ScreeningShell t={t} current={current} total={total} responses={responses}>
@@ -117,6 +119,7 @@ export function ScreeningQuestionScreen({ question, current, total, phase, t, he
         ) : !canAnswer ? (
           <div className={`wm-screen__memory-panel${isPicture ? " wm-screen__memory-panel--pictures" : " wm-screen__memory-panel--plain"}`}>
             {isPicture ? renderPictures(question.words.join(", ")) : <NumberSequence sequence={question.sequence} study />}
+            {hintInPanel && <p className="wm-screen__panel-hint">{hint}</p>}
           </div>
         ) : (
           <div className={`wm-screen__options${isInstruction ? " wm-screen__options--actions" : " wm-screen__options--orders"}`} style={{ "--choice-count": question.options.length }}>
@@ -126,7 +129,7 @@ export function ScreeningQuestionScreen({ question, current, total, phase, t, he
           </div>
         )}
       </div>
-      <footer className="wm-screen__question-footer"><p>{hint}</p></footer>
+      {!hintInPanel && <footer className="wm-screen__question-footer"><p>{hint}</p></footer>}
     </ScreeningShell>
   );
 }

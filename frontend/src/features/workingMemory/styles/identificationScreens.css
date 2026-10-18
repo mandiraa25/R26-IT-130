@@ -414,3 +414,26 @@
 .wm-screen.lx-screening .lx-board .wm-screen__board-content:has(.wm-screen__instruction-area .wm-screen__primary) .wm-screen__question-header { margin-bottom:4px; }
 .wm-screen.lx-screening .lx-board .wm-screen__board-content:has(.wm-screen__instruction-area .wm-screen__primary) .wm-screen__question-footer { margin-top:10px; }
 .wm-screen.lx-screening .lx-board .wm-screen__instruction-area .wm-screen__primary { margin-top:8px; }
+
+/* Number study: one large pink box with a stitched inner edge, cream number
+   cards with big dark-green digits, and the hint inside the box. */
+.wm-screen.lx-screening .lx-board .wm-screen__memory-panel--plain:has(.wm-screen__number-sequence--study) {
+  position:relative; display:flex; flex-direction:column; align-items:center;
+  padding:36px 24px 22px; border:2px solid #f3b6c4; border-radius:28px; background:#fde9ed;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__memory-panel--plain:has(.wm-screen__number-sequence--study)::before {
+  content:''; position:absolute; inset:9px; border:2px dashed #f0b4c2; border-radius:21px; pointer-events:none;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__number-sequence--study {
+  gap:44px; padding:0; border:0; background:none;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__number-sequence--study > span {
+  width:150px; height:150px; border:2px solid #f1b3c1; border-radius:24px; background:#fdf4ec;
+  color:#1f4a12; font:700 92px/1 'Fredoka',sans-serif; box-shadow:0 3px 0 #f4cad3;
+}
+.wm-screen.lx-screening .lx-board .wm-screen__number-sequence--study.wm-screen__number-sequence--4 { gap:28px; }
+.wm-screen.lx-screening .lx-board .wm-screen__number-sequence--study.wm-screen__number-sequence--4 > span { width:130px; height:140px; font-size:80px; }
+.wm-screen.lx-screening .lx-board .wm-screen__panel-hint {
+  position:relative; margin:22px 0 0; color:#8a4a22; text-align:center;
+  font:600 21px/1.4 'Fredoka','Noto Sans Sinhala',sans-serif;
+}
