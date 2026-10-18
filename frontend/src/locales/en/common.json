@@ -72,5 +72,17 @@
   "play_and_practise": "Play & practise",
   "begin_activity": "Begin",
   "play_activity": "Play",
-  "close_activity_popup": "Close activity selection"
+  "close_activity_popup": "Close activity selection",
+  "level_of": "Level {{level}} of {{total}}",
+  "games_done": "{{done}}/{{total}} games done",
+  "levels_done": "{{done}}/{{total}} levels done",
+  "all_levels_complete": "All levels complete!",
+  "focus_title": "Working Memory focus",
+  "focus_none": "No areas need extra practice",
+  "focus_slow_processing": "Slow cognitive processing",
+  "focus_working_memory": "Working memory difficulty",
+  "focus_sequencing": "Sequencing difficulty",
+  "focus_instructions": "Following instructions",
+  "focus_patterns": "Pattern recognition",
+  "focus_other": "{{area}}"
 }

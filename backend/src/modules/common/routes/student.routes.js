@@ -7,5 +7,6 @@ const { verifyToken } = require("../../../middleware/auth.middleware");
 // Routes
 router.get("/profile", verifyToken, studentController.getProfile);
 router.put("/profile", verifyToken, studentController.updateProfile);
+router.get("/learning-summary", verifyToken, studentController.getLearningSummary);
 
 module.exports = router;

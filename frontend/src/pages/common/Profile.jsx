@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getStudentProfile, updateStudentProfile } from "../../services/student/api";
 import { getCachedProfile, clearCachedProfile, toProfileFormState } from "../../utils/studentProfileCache";
 import { validateFullName, validateSchool } from "../../utils/authValidation";
+import StudentAvatar from "../../components/common/StudentAvatar";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Toast from "../../components/ui/Toast";
@@ -197,21 +198,7 @@ function Profile() {
               <div className="profile-sidebar__content absolute inset-[13%_11%_12%_11%] flex flex-col items-center text-center">
                 <div className="relative">
                   <div className="h-[84px] w-[84px] overflow-hidden rounded-full border-[3px] border-[#d4a017] bg-emerald-100 shadow-md sm:h-[92px] sm:w-[92px]">
-                    {profile.profilePhoto ? (
-                      <img
-                        src={profile.profilePhoto}
-                        alt={t("profile")}
-                        className="h-full w-full object-cover"
-                        onError={(e) => {
-                          e.target.src =
-                            "https://ui-avatars.com/api/?name=" + profile.fullName + "&background=random";
-                        }}
-                      />
-                    ) : (
-                      <span className="flex h-full w-full items-center justify-center text-3xl font-bold text-emerald-700">
-                        {profile.fullName?.charAt(0).toUpperCase()}
-                      </span>
-                    )}
+                    <StudentAvatar photo={profile.profilePhoto} alt={t("profile")} className="block h-full w-full" />
                   </div>
                   <label className="absolute -bottom-0.5 -right-0.5 grid h-8 w-8 cursor-pointer place-items-center rounded-full border-2 border-white bg-[#3d9b2f] text-white shadow-md transition-transform hover:scale-105">
                     <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

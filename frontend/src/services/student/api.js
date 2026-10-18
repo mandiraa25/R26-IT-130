@@ -15,6 +15,10 @@ export const getStudentProfile = async ({ refresh = false } = {}) => {
   return res;
 };
 
+// Current level and progress in each learning component, plus the areas the
+// latest Working Memory screening flagged (home page).
+export const getLearningSummary = () => API.get("/students/learning-summary");
+
 // Update Student Profile
 export const updateStudentProfile = async (data) => {
   const res = await API.put("/students/profile", data);

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Leaf, Trophy } from "lucide-react";
-import { getStudentProfile } from "../../services/student/api";
+import { getLearningSummary, getStudentProfile } from "../../services/student/api";
 import { getCachedProfile } from "../../utils/studentProfileCache";
 import LanguageSwitcher from "../../components/common/LanguageSwitcher";
 import ActivitySelectionModal from "../../components/common/ActivitySelectionModal";
@@ -10,11 +10,37 @@ import { WoodenMusicToggle, WoodenStarCounter } from "../../components/common/Wo
 import "./dashboard.css";
 
 const UI_ASSETS = "/images/dashboard/reference-style/";
+// Home card id -> key in GET /students/learning-summary.
+const SUMMARY_KEYS = { wm: "workingMemory", rp: "reading", pa: "phonologicalAwareness", sp: "speech" };
+// Working Memory screening weak areas (stored by the screening) -> label keys.
+const FOCUS_KEYS = {
+  "Slow cognitive processing": "focus_slow_processing",
+  "Low working memory capacity": "focus_working_memory",
+  "Sequence processing difficulty": "focus_sequencing",
+  "Instruction following difficulty": "focus_instructions",
+  "Pattern recognition difficulty": "focus_patterns",
+};
+
+// The card's progress line: current level, games done in it, and a small bar.
+function CardProgress({ id, module, t, description }) {
+  if (id === "rp") return <span className="learning-card__progress learning-card__progress--soon">{t("coming_soon")}</span>;
+  if (!module?.started) return <span className="learning-card__description">{description}</span>;
+  if (module.finished) return <span className="learning-card__progress"><strong>{t("all_levels_complete")}</strong></span>;
+  const isSpeech = id === "sp";
+  const done = isSpeech ? module.completedLevels : module.gamesCompleted;
+  const total = isSpeech ? module.totalLevels : module.gamesTotal;
+  return <span className="learning-card__progress">
+    <strong>{t("level_of", { level: module.currentLevel, total: module.totalLevels })}</strong>
+    <span>{t(isSpeech ? "levels_done" : "games_done", { done, total })}</span>
+    <i aria-hidden="true"><b style={{ width: `${Math.round((done / Math.max(total, 1)) * 100)}%` }} /></i>
+  </span>;
+}
 
 function Dashboard() {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation("common");
   const [profile, setProfile] = useState(() => getCachedProfile());
+  const [summary, setSummary] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [musicEnabled, setMusicEnabled] = useState(false);
@@ -31,6 +57,7 @@ function Dashboard() {
         console.error("Error fetching profile:", err);
       }
     })();
+    getLearningSummary().then(res => { if (!cancelled) setSummary(res.data); }).catch(() => {});
     return () => { cancelled = true; };
   }, []);
 
@@ -161,7 +188,15 @@ function Dashboard() {
             <span>{t("choose_learning_adventure")}</span>
             <Leaf aria-hidden="true" />
           </p>
-          <div className="student-home__flourish" aria-hidden="true"><span />✿<span /></div>
+          {summary?.workingMemoryAttention?.screened ? (
+            // Areas the latest Working Memory screening flagged.
+            <div className="student-home__focus" role="note" aria-label={t("focus_title")}>
+              <span className="student-home__focus-label">{t("focus_title")}</span>
+              {summary.workingMemoryAttention.areas.length
+                ? summary.workingMemoryAttention.areas.map((area, index) => <span key={area} className={`student-home__focus-chip student-home__focus-chip--${index % 3}`}>{t(FOCUS_KEYS[area] || "focus_other", { area })}</span>)
+                : <span className="student-home__focus-chip student-home__focus-chip--ok">{t("focus_none")}</span>}
+            </div>
+          ) : <div className="student-home__flourish" aria-hidden="true"><span />✿<span /></div>}
         </section>
 
         <div className="dashboard-cards">
@@ -174,7 +209,7 @@ function Dashboard() {
               <img src={`/images/dashboard/category-cards/${card.image}`} alt="" className="learning-card__image" draggable="false" />
               <span className="learning-card__text">
                 <span className="learning-card__title">{card.title}</span>
-                <span className="learning-card__description">{card.description}</span>
+                <CardProgress id={card.id} module={summary?.modules?.[SUMMARY_KEYS[card.id]]} t={t} description={card.description} />
               </span>
               <img src={`${UI_ASSETS}badge-${card.id}.png`} alt="" className="learning-card__badge" draggable="false" />
             </button>

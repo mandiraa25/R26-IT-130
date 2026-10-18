@@ -252,3 +252,38 @@
   .student-home .dashboard-achievements { gap: 4px; padding-inline: 13px; }
   .dashboard-achievements svg { width: 17px; }
 }
+
+/* ---------------------------------------------------------------------------
+   Learning journey: card progress, Working Memory focus chips, demo buttons.
+   Colours follow the screening-test answer buttons (solid pink / blue /
+   yellow with a stitched inner edge and dark matching text).
+   --------------------------------------------------------------------------- */
+.learning-card__progress { display: flex; flex-direction: column; align-items: center; gap: 1.6cqw; width: 84%; color: #2b2116; font-size: 5.2cqw; font-weight: 600; line-height: 1.2; }
+.learning-card__progress strong { font: 700 6.4cqw/1.1 'Fredoka', 'Noto Sans Sinhala', sans-serif; color: #1f2a17; }
+.learning-card__progress i { display: block; width: 100%; height: 2.6cqw; overflow: hidden; border-radius: 99px; background: #00000017; }
+.learning-card__progress i b { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #ff9a3d, #e45a00); }
+.learning-card--rp .learning-card__progress i b { background: linear-gradient(90deg, #4aa3ff, #0052f5); }
+.learning-card--pa .learning-card__progress i b { background: linear-gradient(90deg, #6fd14a, #17630b); }
+.learning-card--sp .learning-card__progress i b { background: linear-gradient(90deg, #b56cff, #7400be); }
+.learning-card__progress--soon { width: auto; padding: 1.2cqw 4cqw; border-radius: 99px; background: #0052f51a; color: #0b3a8f; font: 700 5.4cqw/1.2 'Fredoka', 'Noto Sans Sinhala', sans-serif; }
+
+.student-home__focus { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; max-width: min(92vw, 980px); margin: 10px auto 0; padding: 0 8px; }
+.student-home__focus-label { padding: 5px 12px; border-radius: 99px; background: #fffdf5e8; color: #1d5c14; font: 700 clamp(12px, 1vw, 17px)/1.2 'Fredoka', 'Noto Sans Sinhala', sans-serif; box-shadow: 0 2px 4px #173d0e30; }
+.student-home__focus-chip { position: relative; padding: 5px 14px; border: 2px solid; border-radius: 99px; font: 700 clamp(12px, 1vw, 17px)/1.2 'Fredoka', 'Noto Sans Sinhala', sans-serif; }
+.student-home__focus-chip::after { content: ''; position: absolute; inset: 3px; border: 1.5px dashed #ffffff8c; border-radius: inherit; pointer-events: none; }
+.student-home__focus-chip--0 { background: #ffa9bf; border-color: #f07c9c; color: #7a1230; box-shadow: 0 3px 0 #e5809d; }
+.student-home__focus-chip--1 { background: #7cbcff; border-color: #3d8ff0; color: #0b2a78; box-shadow: 0 3px 0 #4b8fdc; }
+.student-home__focus-chip--2 { background: #ffe066; border-color: #f0b92c; color: #5a2c00; box-shadow: 0 3px 0 #d9a52a; }
+.student-home__focus-chip--ok { background: #9be37a; border-color: #5fb23d; color: #1d4d0b; box-shadow: 0 3px 0 #5fa63f; }
+
+.dashboard-demo { position: relative; border: 2px solid; }
+.dashboard-demo::after { content: ''; position: absolute; inset: 4px; border: 1.5px dashed #ffffff8c; border-radius: 13px; pointer-events: none; }
+.dashboard-demo--wm { background: #ffa9bf; border-color: #f07c9c; color: #7a1230; box-shadow: 0 4px 0 #e5809d; }
+.dashboard-demo--pa { background: #7cbcff; border-color: #3d8ff0; color: #0b2a78; box-shadow: 0 4px 0 #4b8fdc; }
+.student-home--localized .learning-card__progress { font-size: 4.4cqw; }
+.student-home--localized .learning-card__progress strong { font-size: 5.4cqw; }
+/* Progress keeps the title's position; tighter rows keep the bar above the badge. */
+.learning-card__text:has(.learning-card__progress) { gap: 1.2cqw; }
+.learning-card__text:has(.learning-card__progress) .learning-card__progress { gap: .9cqw; font-size: 4.8cqw; }
+.learning-card__text:has(.learning-card__progress) .learning-card__progress strong { font-size: 5.8cqw; }
+.learning-card__text:has(.learning-card__progress) .learning-card__progress i { width: 70%; height: 2cqw; }
