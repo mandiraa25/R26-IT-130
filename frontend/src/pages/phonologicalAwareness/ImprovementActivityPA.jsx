@@ -9,6 +9,7 @@ import PACategory1 from "./PACategory1";
 import PACategory2 from "./PACategory2";
 import PACategory3 from "./PACategory3";
 import PACategory4 from "./PACategory4";
+import PATutorial, { PATutorialNavigation } from "./PATutorial";
 import { registerAudio, stopAllAudio } from "../../utils/phonologicalAwareness/audio";
 
 // Helper to format YouTube Embed URL with auto-loop parameter (prevents YouTube end-screen video grids)
@@ -52,6 +53,7 @@ export default function ImprovementActivityPA() {
 
   // YouTube player state & refs
   const [videoEnded, setVideoEnded] = useState(false);
+  const [videoStarted, setVideoStarted] = useState(false);
   const [useFallbackIframe, setUseFallbackIframe] = useState(false);
   const playerRef = useRef(null);
 
@@ -162,6 +164,21 @@ export default function ImprovementActivityPA() {
       playerRef.current.playVideo();
     }
   };
+
+  const handleWatchVideo = () => {
+    setVideoStarted(true);
+    setVideoEnded(false);
+    if (typeof playerRef.current?.playVideo === "function") {
+      playerRef.current.playVideo();
+    } else {
+      setUseFallbackIframe(true);
+    }
+  };
+
+  useEffect(() => {
+    if (soundEnabled) playerRef.current?.unMute?.();
+    else playerRef.current?.mute?.();
+  }, [soundEnabled, videoStarted]);
 
   const fetchProfile = async () => {
     try {
@@ -583,17 +600,19 @@ export default function ImprovementActivityPA() {
   }
 
   return (
-    <div className="relative w-full h-screen h-dvh overflow-hidden font-sans select-none flex flex-col">
+    <div className={`relative w-full h-screen h-dvh overflow-hidden font-sans select-none flex flex-col ${phase === "video" ? "pa-tutorial-screen" : ""}`}>
       {/* 🌄 Jungle Background */}
       <img
-        src="/images/phonologicalAwareness/quiz_interaction_bg2.png"
+        src={phase === "video" ? "/images/phonologicalAwareness/tutorial/jungle-background.png" : "/images/phonologicalAwareness/quiz_interaction_bg2.png"}
         alt="Jungle Background"
         className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
       />
-      <div className="absolute inset-0 bg-black/20 pointer-events-none" />
+      {phase !== "video" && <div className="absolute inset-0 bg-black/20 pointer-events-none" />}
 
       {/* 🌟 Header */}
-      <header className="relative z-10 w-full px-4 py-2 md:px-8 md:py-3 flex items-center justify-between gap-4 shrink-0">
+      {phase === "video" ? (
+        <PATutorialNavigation grade={grade} score={score} soundEnabled={soundEnabled} onToggleSound={() => setSoundEnabled(!soundEnabled)} onBack={handleBackToLevels} />
+      ) : <header className="relative z-10 w-full px-4 py-2 md:px-8 md:py-3 flex items-center justify-between gap-4 shrink-0">
         {/* Left: Back button & Title */}
         <div className="flex items-center gap-4">
           <button
@@ -625,31 +644,22 @@ export default function ImprovementActivityPA() {
             <LanguageSwitcher />
           </div>
         </div>
-      </header>
+      </header>}
 
       {/* 📺 PHASE 1: VIDEO LESSON */}
       {phase === "video" && (
-        <main className="relative z-10 flex-1 max-w-4xl mx-auto w-full px-4 py-2 md:py-4 flex flex-col items-center justify-center min-h-0 overflow-hidden animate-fadeIn">
-          <div className="bg-white/95 backdrop-blur-md rounded-[2.5rem] md:rounded-[3rem] p-4 md:p-6 shadow-2xl border-b-[8px] md:border-b-[10px] border-slate-200 w-full max-h-full flex flex-col items-center text-center justify-center overflow-hidden">
-            {/* Title & Header */}
-            {/* <div className="inline-flex items-center gap-3 bg-indigo-100 text-indigo-800 px-6 py-2 rounded-full font-black text-lg uppercase tracking-wider mb-4 border-2 border-indigo-200 shadow-sm">
-              <span>🎬</span> {t("watch_video_lesson")}
-            </div>
-            <h2 className="text-3xl md:text-4xl font-black text-slate-800 mb-2">
-              {subCatData.title}
-            </h2>
-            <p className="text-slate-600 font-bold text-lg max-w-2xl mb-6">
-              {subCatData.instruction || t("video_instruction")}
-            </p> */}
-
-            {/* Embedded YouTube / Demo Video Container */}
-            <div className="w-full max-w-4xl aspect-video rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border-4 border-indigo-100 bg-black relative mb-4 md:mb-6 shrink min-h-0 max-h-[58vh] md:max-h-[62vh]">
+        <PATutorial
+          instruction={subCatData.instruction || t("video_instruction")}
+          videoStarted={videoStarted}
+          onWatch={handleWatchVideo}
+          onSkip={startQuiz}
+        >
               {subCatData.youtubeVideoUrl ? (
                 <>
                   {useFallbackIframe ? (
                     <iframe
                       className="w-full h-full"
-                      src={formatYouTubeEmbedUrl(subCatData.youtubeVideoUrl)}
+                      src={`${formatYouTubeEmbedUrl(subCatData.youtubeVideoUrl)}${videoStarted ? "&autoplay=1" : ""}${soundEnabled ? "" : "&mute=1"}`}
                       title="Lesson Video"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
@@ -724,17 +734,7 @@ export default function ImprovementActivityPA() {
                   <p className="text-xl font-bold">Educational Demonstration Video</p>
                 </div>
               )}
-            </div>
-
-            {/* Start Practice Action */}
-            <button
-              onClick={startQuiz}
-              className="bg-emerald-500 hover:bg-emerald-600 border-b-6 md:border-b-8 border-emerald-700 text-white font-black text-xl md:text-2xl px-8 md:px-12 py-3 md:py-4 rounded-[1.5rem] md:rounded-[2rem] shadow-xl hover:scale-105 active:scale-95 transition-all transform uppercase tracking-wider flex items-center gap-3 cursor-pointer shrink-0"
-            >
-              <span>🚀</span> {t("start_practice")}
-            </button>
-          </div>
-        </main>
+        </PATutorial>
       )}
 
       {/* 🧩 PHASE 2: INTERACTIVE PRACTICE QUIZ (for other subcategories) */}
