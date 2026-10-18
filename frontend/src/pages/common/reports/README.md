@@ -12,8 +12,9 @@ order, colour, mascot, alias and destination map. `hooks/useReportProfile.js`
 shows the cached profile immediately and refreshes it without hiding the page.
 
 The six detailed Working Memory, Phonological Awareness and Speech reports keep
-their original dashboards, API requests and calculations. Reading retains its
-existing `/reading-processing` destination and Open book action.
+their original dashboards, API requests and calculations. Reading report links
+go to `/reports/rp/identification` and `/reports/rp/improvement`. Open book still
+opens `/reading-processing`.
 
 ## Artwork
 

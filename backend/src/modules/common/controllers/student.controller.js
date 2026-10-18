@@ -4,6 +4,8 @@ const { WorkingMemoryImproveProgress } = require("../../workingMemory/models/wor
 const { PhonologicalImproveAttempt, PhonologicalImproveProgress } = require("../../phonologicalAwareness/models/phonologicalImprove.model");
 const WorkingMemoryIdentify = require("../../workingMemory/models/workingMemoryIdentify.model");
 const SpeechProgress = require("../../speechProcessing/models/speechProgress.model");
+const ReadingResult = require("../../readingProcessing/models/readingResult.model");
+const { summariseReading } = require("../../readingProcessing/services/readingDashboard");
 
 // Phonological Awareness stores no stars, so they are counted the same way as
 // Working Memory awards them: 5 stars per correct answer in each saved attempt.
@@ -27,20 +29,22 @@ exports.getProfile = async (req, res) => {
       return res.status(404).json({ message: "Student not found" });
     }
 
-    const [wmProgress, paStars, speechProgress] = await Promise.all([
+    const [wmProgress, paStars, speechProgress, readingResults] = await Promise.all([
       WorkingMemoryImproveProgress.findOne({ studentId: student._id }),
       sumPhonologicalStars(student._id),
       SpeechProgress.findOne({ studentId: student._id }).select("stars"),
+      ReadingResult.find({ studentId: student._id }).select("level promoted createdAt").sort({ createdAt: 1 }).lean(),
     ]);
-    // Stars per module. Reading has no activities yet. student.totalStars is only
-    // ever added to by Working Memory, so it counts toward Working Memory here.
+    // Stars per module. student.totalStars is only ever added to by Working Memory,
+    // so it counts toward Working Memory here. Reading stars are completed sessions.
     const moduleStars = {
       workingMemory: Math.max(Number(student.totalStars) || 0, readProgressStars(wmProgress)),
       phonologicalAwareness: paStars,
       speech: Math.max(0, Number(speechProgress?.stars) || 0),
+      reading: readingResults.length,
     };
     // Total shown on the home page and profile: every module's stars added up.
-    const totalStars = moduleStars.workingMemory + moduleStars.phonologicalAwareness + moduleStars.speech;
+    const totalStars = moduleStars.workingMemory + moduleStars.phonologicalAwareness + moduleStars.speech + moduleStars.reading;
 
     res.json({ ...student.toObject(), totalStars, moduleStars });
   } catch (err) {
@@ -132,18 +136,19 @@ const summariseSpeech = (progress) => {
 exports.getLearningSummary = async (req, res) => {
   try {
     const studentId = req.user.id;
-    const [wmProgress, paProgress, speechProgress, wmScreening] = await Promise.all([
+    const [wmProgress, paProgress, speechProgress, wmScreening, readingResults] = await Promise.all([
       WorkingMemoryImproveProgress.findOne({ studentId }).lean(),
       PhonologicalImproveProgress.findOne({ studentId }).lean(),
       SpeechProgress.findOne({ studentId }).select("identificationStatus completedActivityIds").lean(),
       WorkingMemoryIdentify.findOne({ studentId }).sort({ createdAt: -1 }).select("metrics.weakAreas createdAt").lean(),
+      ReadingResult.find({ studentId }).select("level promoted createdAt").sort({ createdAt: 1 }).lean(),
     ]);
 
     res.json({
       modules: {
         workingMemory: summariseLevels(wmProgress),
         phonologicalAwareness: summariseLevels(paProgress),
-        reading: { started: false, available: false },
+        reading: summariseReading(readingResults),
         speech: summariseSpeech(speechProgress),
       },
       workingMemoryAttention: {

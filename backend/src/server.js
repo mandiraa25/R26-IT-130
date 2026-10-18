@@ -6,6 +6,8 @@ try {
 }
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const { Server } = require("socket.io");
+const { registerSocketHandlers } = require("./modules/readingProcessing/socket");
 const app = require("./app");
 
 // Load environment variables
@@ -29,9 +31,13 @@ const connectDB = async () => {
 const startServer = async () => {
   await connectDB();
 
-  app.listen(PORT, () => {
+  const server = app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
   });
+  const io = new Server(server, {
+    cors: { origin: true, credentials: true },
+  });
+  registerSocketHandlers(io);
 };
 
 // Run

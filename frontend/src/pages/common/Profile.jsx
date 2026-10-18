@@ -48,7 +48,7 @@ function Profile() {
           school: "",
           profilePhoto: "",
           totalStars: 0,
-          moduleStars: { workingMemory: 0, phonologicalAwareness: 0, speech: 0 },
+          moduleStars: { workingMemory: 0, phonologicalAwareness: 0, speech: 0, reading: 0 },
         }
   );
   const [initialProfile, setInitialProfile] = useState(() =>
@@ -245,7 +245,7 @@ function Profile() {
                 <ul className="mt-2 mb-2 grid w-full max-w-[212px] grid-cols-4 gap-1.5">
                   {[
                     { id: "wm", key: "working_memory", color: "text-[#ea580c]", stars: profile.moduleStars?.workingMemory },
-                    { id: "rp", key: "reading_processing", color: "text-[#0284c7]", stars: null },
+                    { id: "rp", key: "reading_processing", color: "text-[#0284c7]", stars: profile.moduleStars?.reading },
                     { id: "pa", key: "phonological_awareness", color: "text-[#16a34a]", stars: profile.moduleStars?.phonologicalAwareness },
                     { id: "sp", key: "speech_processing", color: "text-[#9333ea]", stars: profile.moduleStars?.speech },
                   ].map((module) => {

@@ -21,7 +21,9 @@ const ResetPassword = lazyPage(() => import("./pages/common/PasswordReset").then
 import Dashboard from "./pages/common/Dashboard";
 import Profile from "./pages/common/Profile";
 import PhonologicalAwareness from "./pages/phonologicalAwareness/sample";
-import ReadingProcessing from "./pages/readingProcessing/sample";
+import ReadingHome from "./features/readingProcessing/ReadingHome";
+import ReadingPlay from "./features/readingProcessing/ReadingPlay";
+import ReadingReport from "./features/readingProcessing/ReadingReport";
 import LeoIdentificationGame from "./pages/speechProcessing/LeoIdentificationGame";
 import LeoTrainingSafari from "./pages/speechProcessing/LeoTrainingSafari";
 import IdentificationActivitiesPA from "./pages/phonologicalAwareness/identificationActivities";
@@ -134,7 +136,8 @@ function App() {
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
 
         <Route path="/phonological-awareness" element={<ProtectedRoute><PhonologicalAwareness /></ProtectedRoute>} />
-        <Route path="/reading-processing" element={<ProtectedRoute><ReadingProcessing /></ProtectedRoute>} />
+        <Route path="/reading-processing" element={<ProtectedRoute><ReadingHome /></ProtectedRoute>} />
+        <Route path="/reading-processing/play/:mode" element={<ProtectedRoute><ReadingPlay /></ProtectedRoute>} />
         <Route path="/speech-processing" element={<Navigate to="/dashboard" replace />} />
         <Route path="/speech-processing/leo-identification" element={<ProtectedRoute><LeoIdentificationGame /></ProtectedRoute>} />
         <Route path="/speech-processing/leo-training" element={<ProtectedRoute><LeoTrainingSafari /></ProtectedRoute>} />
@@ -156,6 +159,8 @@ function App() {
         <Route path="/reports/wm/improvement" element={<ImproveWorkingMemoryReport />} />
         <Route path="/reports/sp/identification" element={<SpeechIdentificationReport />} />
         <Route path="/reports/sp/improvement" element={<SpeechImprovementReport />} />
+        <Route path="/reports/rp/identification" element={<ProtectedRoute><ReadingReport mode="identification" /></ProtectedRoute>} />
+        <Route path="/reports/rp/improvement" element={<ProtectedRoute><ReadingReport mode="improvement" /></ProtectedRoute>} />
 
         {/* Admin Routes */}
         <Route path="/admin/login" element={<AdminPublicRoute><AdminLogin /></AdminPublicRoute>} />

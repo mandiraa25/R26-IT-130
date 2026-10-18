@@ -36,10 +36,10 @@ export const toProfileFormState = (data) => ({
   school: data?.school || "",
   profilePhoto: data?.profilePhoto || "",
   totalStars: Math.max(0, Number(data?.totalStars ?? data?.totalCarrots) || 0),
-  // Stars earned in each module (from GET /students/profile); Reading has none yet.
   moduleStars: {
     workingMemory: Math.max(0, Number(data?.moduleStars?.workingMemory) || 0),
     phonologicalAwareness: Math.max(0, Number(data?.moduleStars?.phonologicalAwareness) || 0),
     speech: Math.max(0, Number(data?.moduleStars?.speech) || 0),
+    reading: Math.max(0, Number(data?.moduleStars?.reading) || 0),
   },
 });

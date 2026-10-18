@@ -1,1 +1,0 @@
-// Please check the phonological awareness component and working memory components' folder structure before creating any file or folder.

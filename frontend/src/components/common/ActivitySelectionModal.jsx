@@ -18,7 +18,6 @@ export default function ActivitySelectionModal({ category, grade, onClose, onSel
   const { t, i18n } = useTranslation("common");
   const dialogRef = useRef(null);
   const closeRef = useRef(null);
-  const isReading = category.id === "rp";
   const design = designs[category.id];
   const localized = (i18n.resolvedLanguage || i18n.language).startsWith("si");
 
@@ -53,8 +52,7 @@ export default function ActivitySelectionModal({ category, grade, onClose, onSel
   return (
     <div className="activity-popup-overlay" onClick={(event) => { if (event.target === event.currentTarget) onClose(); }}>
       <section
-        ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="activity-popup-title"
-        aria-describedby={isReading ? "activity-popup-unavailable" : undefined}
+        ref={dialogRef} role="dialog" aria-modal="true"         aria-labelledby="activity-popup-title"
         className={'activity-popup activity-popup--'+category.id+(localized ? ' activity-popup--localized' : '')}
         style={{ "--reference-ratio": design.width / design.height, "--accent": design.accent, "--accent-dark": design.dark, "--tint": design.tint, "--grade-ink": design.ink, "--card-tint": design.card }}
       >
@@ -68,7 +66,7 @@ export default function ActivitySelectionModal({ category, grade, onClose, onSel
           <img className="activity-popup__illustration" src={assetRoot+'magnifier-separated.png'} alt="" draggable="false" />
           <h3>{t("check_my_skills")}</h3>
           <p>{t("identification")}</p>
-          <button type="button" data-testid="activity-identification" disabled={isReading} onClick={() => onSelect("identification")} className="activity-popup__action" aria-label={t("begin_activity")+': '+t("identification")}>
+          <button type="button" data-testid="activity-identification" onClick={() => onSelect("identification")} className="activity-popup__action" aria-label={t("begin_activity")+': '+t("identification")}>
             <span>{t("begin_activity")}</span><svg viewBox="0 0 32 36" aria-hidden="true"><path d="M5 2 Q1 0 1 5 V31 Q1 36 5 34 L29 20 Q33 18 29 16 Z" fill="currentColor" /></svg>
           </button>
         </article>
@@ -76,11 +74,10 @@ export default function ActivitySelectionModal({ category, grade, onClose, onSel
           <img className="activity-popup__illustration" src={assetRoot+'puzzle-separated.png'} alt="" draggable="false" />
           <h3>{t("play_and_practise")}</h3>
           <p>{t("improvement")}</p>
-          <button type="button" data-testid="activity-improvement" disabled={isReading} onClick={() => onSelect("improvement")} className="activity-popup__action" aria-label={t("play_activity")+': '+t("improvement")}>
+          <button type="button" data-testid="activity-improvement" onClick={() => onSelect("improvement")} className="activity-popup__action" aria-label={t("play_activity")+': '+t("improvement")}>
             <span>{t("play_activity")}</span><svg viewBox="0 0 32 36" aria-hidden="true"><path d="M5 2 Q1 0 1 5 V31 Q1 36 5 34 L29 20 Q33 18 29 16 Z" fill="currentColor" /></svg>
           </button>
         </article>
-        {isReading && <p id="activity-popup-unavailable" className="activity-popup__availability" role="status">{t("coming_soon")}</p>}
       </section>
     </div>
   );
