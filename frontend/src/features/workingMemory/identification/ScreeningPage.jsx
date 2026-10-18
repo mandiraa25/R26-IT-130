@@ -126,7 +126,7 @@ export default function ScreeningPage() {
     answerStartTime.current = null;
   };
 
-  const speak = useCallback((text, { onEnd, onError, slow = true } = {}) => {
+  const speak = useCallback((text, { onEnd, onError, slow = true, english = false } = {}) => {
     if (!text) {
       onEnd?.();
       return;
@@ -139,9 +139,11 @@ export default function ScreeningPage() {
     }
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = i18n.language.startsWith("si") ? "si-LK" : "en-US";
+    // The English read-aloud always uses an English voice; most browsers have no Sinhala voice.
+    const speechLanguage = english ? "en" : i18n.language;
+    utterance.lang = speechLanguage.startsWith("si") ? "si-LK" : "en-US";
     const voices = window.speechSynthesis.getVoices();
-    const voice = voices.find(item => item.lang.startsWith(i18n.language)) || voices[0];
+    const voice = voices.find(item => item.lang.startsWith(speechLanguage)) || voices[0];
     if (voice) utterance.voice = voice;
     utterance.rate = slow ? 0.7 : 0.8;
     utterance.pitch = 1.3;
@@ -335,10 +337,25 @@ export default function ScreeningPage() {
       speak(heading);
     }
   };
+  // Sinhala screens also offer an English read-aloud of the same question
+  // (the English bank has the same questions in the same order: wm-g4-si-8 <-> wm-g4-8).
+  const englishQuestion = i18n.language?.startsWith("si")
+    ? QUIZ_DATA[grade]?.en?.find(item => item.id === question.id.replace("-si-", "-"))
+    : null;
+  const listenInEnglish = englishQuestion ? () => {
+    const en = i18n.getFixedT("en", ["wm", "common"]);
+    if (isInstruction && questionPhase === "audio") {
+      speak(englishQuestion.text, { english: true, onError: () => {}, onEnd: () => { answerStartTime.current = Date.now(); setPhase("answer"); } });
+      return;
+    }
+    const englishHeading = questionPhase === "answer" ? (question.category === "Picture Memory" ? en("screen_picture_recall") : question.category === "Number Memory" ? en("screen_number_recall") : englishQuestion.instruction)
+      : isInstruction ? en("screen_remember_steps") : getCategoryPrefix(question.category, en);
+    speak(englishHeading, { english: true });
+  } : undefined;
   return <ScreeningQuestionScreen
     key={question.id} question={question} current={current} total={quizData.length}
     phase={questionPhase} t={t} heading={heading} responses={results} audioState={audioState} renderPictures={sequence => <PictureSequence sequence={sequence} />}
-    onAnswer={handleSubmit} onListen={listenToQuestion}
+    onAnswer={handleSubmit} onListen={listenToQuestion} onListenEnglish={listenInEnglish}
     onAudioFallback={() => { answerStartTime.current = Date.now(); setPhase("answer"); }}
   />;
 }

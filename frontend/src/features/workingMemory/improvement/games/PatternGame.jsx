@@ -25,6 +25,8 @@ function PatternQuestion({ p, si }) {
   const q = p.currentQuestion;
   const answered = p.phase === "feedback";
   const levelOne = [1, 2, 3, 4].includes(Number(p.levelNumber));
+  // Read aloud exactly the question shown in the heading, nothing else.
+  const heading = (q?.prompt && (si ? q.prompt.si : q.prompt.en)) || q?.questionText || (si ? "ඊළඟට පැමිණෙන්නේ කුමක්ද?" : "Which picture comes next?");
   const checkAnswer = () => {
     if (selectedAnswer === null || answered || checked.current) return;
     checked.current = true;
@@ -34,7 +36,7 @@ function PatternQuestion({ p, si }) {
     <MemoryTracker current={p.currentIdx + 1} total={p.questions.length} responses={p.results} questionIds={p.questions.map(question => question.id)} />
     <MemoryBunny message={getImprovementBunnyMessage({ game: "pattern", phase: p.phase, correct: p.isCurrentCorrect, si })} />
     <MemoryBoard className={`lx-pattern-question${q?.layout === "grid" ? " lx-pattern-question--grid" : ""}`} data-question-id={q?.id}>
-      <MemoryHeading onListen={() => p.speakText(q.instruction)}>{(q.prompt && (si ? q.prompt.si : q.prompt.en)) || q.questionText || (si ? "ඊළඟට පැමිණෙන්නේ කුමක්ද?" : "Which picture comes next?")}</MemoryHeading>
+      <MemoryHeading onListen={() => p.speakText(heading)}>{heading}</MemoryHeading>
       {/* A grid question shows one picture (the 2x2 squares with the gap) instead of a row. */}
       <div className={`lx-pattern-sequence${q?.layout === "grid" ? " lx-pattern-sequence--grid" : ""}`} aria-label={si ? "සම්පූර්ණ කළ යුතු රටාව" : "Pattern to complete"}>{q.showItems.map((item, i) => <div key={i} className={`lx-pattern-tile ${item === "?" ? "is-missing" : ""}`}>{item === "?" ? "?" : <PatternSymbol value={item} />}</div>)}</div>
       <div className="lx-pattern-options">{p.dragPool.map((option, i) => {

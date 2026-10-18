@@ -99,22 +99,22 @@ async function loadFeedbackAudio({ muted = false, supported = true, suspended = 
   vi.stubGlobal("localStorage", { getItem: () => String(muted), setItem: setPreference });
   vi.stubGlobal("Audio", vi.fn(function () { this.play = musicPlay; this.pause = vi.fn(); }));
   vi.stubGlobal("window", { AudioContext: supported ? TestAudioContext : undefined, setTimeout: closeTimer });
-  const { playMemoryFeedbackSound } = await import("../../src/features/workingMemory/logic/audio");
-  return { playMemoryFeedbackSound, contexts, closeTimer, setPreference, musicPlay };
+  const { playMemoryFeedbackSound, playKeypadTone } = await import("../../src/features/workingMemory/logic/audio");
+  return { playMemoryFeedbackSound, playKeypadTone, contexts, closeTimer, setPreference, musicPlay };
 }
 
 describe("Improvement answer sounds", () => {
-  it("starts the happy chime immediately and closes its audio context after the short sound", async () => {
-    const { playMemoryFeedbackSound, contexts, closeTimer } = await loadFeedbackAudio();
+  it("starts the happy chime immediately on one shared audio context that stays open", async () => {
+    const { playMemoryFeedbackSound, contexts } = await loadFeedbackAudio();
     playMemoryFeedbackSound(true);
     const context = contexts[0];
     expect(context.notes).toHaveLength(4);
     expect(context.notes[0].start).toHaveBeenCalledWith(context.currentTime);
     expect(context.notes.every(note => note.type === "triangle")).toBe(true);
-    const [close, delay] = closeTimer.mock.calls[0];
-    expect(delay).toBeLessThan(1000);
-    close();
-    expect(context.close).toHaveBeenCalledOnce();
+    // Reusing one context avoids the per-sound start-up delay and the browser's context limit.
+    playMemoryFeedbackSound(true);
+    expect(contexts).toHaveLength(1);
+    expect(context.close).not.toHaveBeenCalled();
   });
 
   it("matches the Phonological Awareness incorrect-answer tone and envelope", async () => {
@@ -137,7 +137,8 @@ describe("Improvement answer sounds", () => {
     const { playMemoryFeedbackSound, contexts, musicPlay, setPreference } = await loadFeedbackAudio({ muted: true });
     playMemoryFeedbackSound(true);
     playMemoryFeedbackSound(false);
-    expect(contexts.map(context => context.notes.length)).toEqual([4, 2]);
+    expect(contexts).toHaveLength(1);
+    expect(contexts[0].notes.map(note => note.type)).toEqual(["triangle", "triangle", "triangle", "triangle", "sine", "sine"]);
     expect(musicPlay).not.toHaveBeenCalled();
     expect(setPreference).not.toHaveBeenCalled();
   });
@@ -152,5 +153,17 @@ describe("Improvement answer sounds", () => {
     const unsupportedAudio = await loadFeedbackAudio({ supported: false });
     expect(() => unsupportedAudio.playMemoryFeedbackSound(false)).not.toThrow();
     expect(unsupportedAudio.contexts).toHaveLength(0);
+  });
+
+  it("plays a short square-wave keypad tone with a different pitch per digit", async () => {
+    const { playKeypadTone, contexts } = await loadFeedbackAudio();
+    playKeypadTone(1);
+    playKeypadTone(9);
+    const [context] = contexts;
+    expect(contexts).toHaveLength(1);
+    expect(context.notes).toHaveLength(4);
+    expect(context.notes.every(note => note.type === "square")).toBe(true);
+    const pitch = index => context.notes[index].frequency.setValueAtTime.mock.calls[0][0];
+    expect(pitch(2)).toBeGreaterThan(pitch(0));
   });
 });

@@ -368,9 +368,8 @@
 }
 .wm-screen.lx-screening .lx-board .wm-screen__number-sequence--study { padding:16px 24px; }
 
-/* Answer buttons: pink / blue / yellow with a stitched inner edge and a soft
-   bottom shadow. Word and number answers are solid; picture and pattern
-   answers use lighter tints so the pictures stay easy to see. */
+/* Answer buttons: solid pink / blue / yellow with a stitched inner edge and a
+   soft bottom shadow - the same colours for every question type. */
 .wm-screen.lx-screening .lx-board .wm-screen__option {
   position:relative; border:2px solid; border-radius:20px;
   font:700 28px/1.3 'Fredoka','Noto Sans Sinhala',sans-serif;
@@ -382,12 +381,6 @@
 .wm-screen.lx-screening .lx-board .wm-screen__option--0 { background:#ffa9bf; border-color:#f07c9c; color:#7a1230; box-shadow:0 4px 0 #e5809d; }
 .wm-screen.lx-screening .lx-board .wm-screen__option--1 { background:#7cbcff; border-color:#3d8ff0; color:#0b2a78; box-shadow:0 4px 0 #4b8fdc; }
 .wm-screen.lx-screening .lx-board .wm-screen__option--2 { background:#ffe066; border-color:#f0b92c; color:#5a2c00; box-shadow:0 4px 0 #d9a52a; }
-.wm-screen.lx-screening .lx-board :is(.wm-screen__options--pattern, .wm-screen__options--orders) .wm-screen__option--pictures.wm-screen__option--0,
-.wm-screen.lx-screening .lx-board .wm-screen__options--pattern .wm-screen__option--0 { background:#ffdbe5; }
-.wm-screen.lx-screening .lx-board :is(.wm-screen__options--pattern, .wm-screen__options--orders) .wm-screen__option--pictures.wm-screen__option--1,
-.wm-screen.lx-screening .lx-board .wm-screen__options--pattern .wm-screen__option--1 { background:#d5e9ff; }
-.wm-screen.lx-screening .lx-board :is(.wm-screen__options--pattern, .wm-screen__options--orders) .wm-screen__option--pictures.wm-screen__option--2,
-.wm-screen.lx-screening .lx-board .wm-screen__options--pattern .wm-screen__option--2 { background:#fff2b8; }
 .wm-screen.lx-screening .lx-board .wm-screen__options--orders .wm-screen__option { border-style:solid; }
 .wm-screen.lx-screening .lx-board .wm-screen__options--orders .wm-screen__option--numbers { font-size:36px; letter-spacing:2px; }
 .wm-screen.lx-screening .lx-board .wm-screen__option:hover:not(:disabled) { transform:translateY(-2px); filter:brightness(1.03); }
@@ -437,3 +430,10 @@
   position:relative; margin:22px 0 0; color:#8a4a22; text-align:center;
   font:600 21px/1.4 'Fredoka','Noto Sans Sinhala',sans-serif;
 }
+
+/* Listen + optional English read-aloud (Sinhala screens), kept in the title row's right column. */
+.wm-screen.lx-screening .lx-board .wm-screen__listen-group { grid-column:3; display:flex; align-items:center; justify-content:flex-end; gap:8px; min-width:0; }
+.wm-screen.lx-screening .lx-board .wm-screen__listen-group .wm-screen__listen { grid-column:auto; }
+.wm-screen.lx-screening .lx-board .wm-screen__listen-group:has(.wm-screen__listen--english) .wm-screen__listen:not(.wm-screen__listen--english) { width:auto; padding:6px 12px 6px 6px; }
+.wm-screen.lx-screening .lx-board .wm-screen__listen--english { width:auto; min-width:58px; padding:6px 12px; background:#e3efff; color:#0b2a78; font:700 19px/1 'Fredoka',sans-serif; letter-spacing:.04em; }
+.wm-screen.lx-screening:lang(si) .lx-board .wm-screen__title-row { grid-template-columns:200px minmax(0,1fr) 200px; }

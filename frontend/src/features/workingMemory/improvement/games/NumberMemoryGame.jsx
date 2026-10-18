@@ -1,5 +1,6 @@
 import { MemoryHeading, MemoryNumber, MemoryTimer, MemoryButton } from "../../shared/GameLayout";
 import { numberStageInstruction } from "../../config/gameConfig";
+import { playKeypadTone } from "../../logic/audio";
 
 export default function NumberMemoryGame(p) {
   const { phase, currentQuestion: q, slots = [] } = p;
@@ -19,8 +20,8 @@ export default function NumberMemoryGame(p) {
       <div className="lx-row lx-number-concealed" aria-hidden="true">
         {q.showItems.map((_, index) => <MemoryNumber key={index} className="lx-number-blank" disabled tabIndex={-1} />)}
       </div>
-      <p className="lx-note">{text(`Tap Ready. Watch for ${p.numberMemorySeconds} seconds.`, `සූදානම් ඔබන්න. තත්පර ${p.numberMemorySeconds} ක් බලන්න.`)}</p>
-      <MemoryButton onClick={p.handleNumbersReady}>{text("Ready", "සූදානම්")}</MemoryButton>
+      {/* Same reminder as Picture Memory, with this level's display time. */}
+      <div className="lx-reminder"><p>{text(`You have ${p.numberMemorySeconds} seconds to remember these numbers. Tap Ready when you are ready!`, `මෙම අංක මතක තබා ගැනීමට ඔබට තත්පර ${p.numberMemorySeconds} ක් ඇත. සූදානම් වූ විට සූදානම් ඔබන්න!`)}</p><MemoryButton variant="play" onClick={p.handleNumbersReady}>{text("Ready", "සූදානම්")}</MemoryButton></div>
     </div>}
     {revealing && <>
       <div className="lx-row lx-numbers-show" data-number-stage="reveal">
@@ -33,7 +34,7 @@ export default function NumberMemoryGame(p) {
         {slots.map((number, index) => <span className={`lx-number-slot ${number === "" ? "is-empty" : ""}`} key={index} aria-label={`Position ${index + 1}: ${number === "" ? "empty" : number}`}>{number}</span>)}
       </div>
       <div className="lx-keypad">
-        {Array.from({ length: 10 }, (_, digit) => <MemoryNumber key={digit} aria-label={`Digit ${digit}`} onClick={() => p.handleTileClick(String(digit))} disabled={phase !== "answer" || !hasEmptySlot}>{digit}</MemoryNumber>)}
+        {Array.from({ length: 10 }, (_, digit) => <MemoryNumber key={digit} aria-label={`Digit ${digit}`} onClick={() => { playKeypadTone(digit); p.handleTileClick(String(digit)); }} disabled={phase !== "answer" || !hasEmptySlot}>{digit}</MemoryNumber>)}
       </div>
       <div className="lx-actions">
         <MemoryButton variant="secondary" onClick={p.handleUndo} disabled={phase !== "answer" || slots.every(value => value === "")}>{text("Undo", "ආපසු")}</MemoryButton>

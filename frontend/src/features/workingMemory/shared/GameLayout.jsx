@@ -58,10 +58,11 @@ export function MemoryTracker({ current = 1, total = 5, responses = [], question
     {Array.from({ length: total }, (_, i) => {
       const response = questionIds[i] === undefined ? responses[i] : responses.find(answer => answer.questionId === questionIds[i]);
       const done = Boolean(response);
+      const result = done ? response.isCorrect === false ? "is-incorrect" : "is-correct" : "";
       const isCurrent = i === activeIndex;
-      const state = [isCurrent && "is-current", done && "is-done", !done && !isCurrent && "is-upcoming"].filter(Boolean).join(" ");
-      return <li key={questionIds[i] ?? i} className={`lx-step ${state}`} style={{ "--step-index": i }} data-question-id={questionIds[i]} aria-current={isCurrent ? "step" : undefined} aria-label={`Question ${i + 1}${done ? ": completed" : isCurrent ? ": current" : ": upcoming"}`}>
-        {total > 5 && <><img src={`${UI}/buttons/btn-orange.png`} alt="" /><span>{i + 1}</span></>}{done && <b aria-hidden="true">✓</b>}
+      const state = [isCurrent && "is-current", done && "is-done", result, !done && !isCurrent && "is-upcoming"].filter(Boolean).join(" ");
+      return <li key={questionIds[i] ?? i} className={`lx-step ${state}`} style={{ "--step-index": i }} data-question-id={questionIds[i]} aria-current={isCurrent ? "step" : undefined} aria-label={`Question ${i + 1}${done ? `: completed, ${result === "is-correct" ? "correct" : "incorrect"}` : isCurrent ? ": current" : ": upcoming"}`}>
+        {total > 5 && <><img src={`${UI}/buttons/btn-orange.png`} alt="" /><span>{i + 1}</span></>}{done && <b aria-hidden="true">{result === "is-correct" ? "✓" : "✗"}</b>}
       </li>;
     })}
   </ol>;

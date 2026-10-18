@@ -64,7 +64,7 @@ function PatternToken({ token }) {
   return <PatternArtwork value={token}><span className="wm-screen__pattern-token">{token}</span></PatternArtwork>;
 }
 
-export function ScreeningQuestionScreen({ question, current, total, phase, t, heading, renderPictures, responses, audioState, onAnswer, onListen, onAudioFallback }) {
+export function ScreeningQuestionScreen({ question, current, total, phase, t, heading, renderPictures, responses, audioState, onAnswer, onListen, onListenEnglish, onAudioFallback }) {
   const headingRef = useRef(null);
   const isPattern = question.category === "Pattern";
   const isPicture = question.category === "Picture Memory";
@@ -93,7 +93,10 @@ export function ScreeningQuestionScreen({ question, current, total, phase, t, he
         </span>
         <div className="wm-screen__title-row">
           <h1 ref={headingRef} tabIndex={-1} className="wm-screen__question-title" id="wm-screen-title">{heading}</h1>
-          <button type="button" onClick={onListen} className="wm-screen__listen" aria-label={t("identify_listen_briefing")} aria-pressed={audioState === "playing"}><img src="/images/workingMemory/shared/icons/wm-speaker.png" alt="" /><span>{t("identify_listen_briefing")}</span></button>
+          <div className="wm-screen__listen-group">
+            <button type="button" onClick={onListen} className="wm-screen__listen" aria-label={t("identify_listen_briefing")} aria-pressed={audioState === "playing"}><img src="/images/workingMemory/shared/icons/wm-speaker.png" alt="" /><span>{t("identify_listen_briefing")}</span></button>
+            {onListenEnglish && <button type="button" onClick={onListenEnglish} className="wm-screen__listen wm-screen__listen--english" aria-label="Listen in English" title="Listen in English">EN</button>}
+          </div>
         </div>
       </header>
       <div className={`wm-screen__question-content${isPattern ? " wm-screen__question-content--pattern" : ""}${isInstruction ? " wm-screen__question-content--steps" : ""}${isPicture ? " wm-screen__question-content--pictures" : ""}${isNumber ? " wm-screen__question-content--numbers" : ""}`}>

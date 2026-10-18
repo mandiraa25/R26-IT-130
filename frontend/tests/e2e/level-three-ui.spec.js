@@ -87,10 +87,18 @@ async function setup(page, options = {}) {
       const record = recordMedia(this); record.paused = true; record.pauseCalls++;
     };
     window.__uiSounds = [];
+    // Game sounds share one AudioContext; notes scheduled in the same task form
+    // one sound. Keypad tones (square waves) are not answer feedback.
+    let soundNotes = null;
     window.AudioContext = class {
-      constructor() { this.currentTime = 0; this.state = "running"; this.destination = {}; this.notes = []; window.__uiSounds.push(this.notes); }
+      constructor() { this.currentTime = 0; this.state = "running"; this.destination = {}; }
       createOscillator() {
-        return { frequency: { setValueAtTime: frequency => this.notes.push(frequency) }, connect() {}, disconnect() {}, start() {}, stop() {} };
+        const oscillator = { frequency: { setValueAtTime: frequency => {
+          if (oscillator.type === "square") return;
+          if (!soundNotes) { soundNotes = []; window.__uiSounds.push(soundNotes); queueMicrotask(() => { soundNotes = null; }); }
+          soundNotes.push(frequency);
+        } }, connect() {}, disconnect() {}, start() {}, stop() {} };
+        return oscillator;
       }
       createGain() { return { gain: { setValueAtTime() {}, linearRampToValueAtTime() {}, exponentialRampToValueAtTime() {} }, connect() {}, disconnect() {} }; }
       resume() { return Promise.resolve(); }
