@@ -7,6 +7,8 @@ import { useEyeWatchdog } from "../hooks/useEyeWatchdog";
 import { connectSocket } from "../api/socket";
 import { playAttentionChime, releaseReadingAudio, speakIfQuiet } from "../api/chime";
 import { endReadingSession, startReadingSession } from "../../../services/readingProcessing/identifyApi";
+import { MemoryStage, MemoryNav, MemoryBoard, MemoryButton, MemoryBunny } from "../../workingMemory/shared/GameLayout";
+import { SCREENING_ART } from "../../workingMemory/config/levelThemes";
 
 const TARGET_TIME_MS = 12_000;
 const ROUND_COUNT = 6;
@@ -71,7 +73,7 @@ export default function GameScreen({ mode, level, difficulty, targets, onFinish 
   const { status: trackerStatus, source: trackerSource, detail: trackerDetail } = useGazeTracking({
     enabled: phase !== "calibrate" && phase !== "idle" && phase !== "instructions",
     onSample: (sample) => {
-      setGaze({ x: sample.x, y: sample.y });
+      setGaze((prev) => (prev.x === sample.x && prev.y === sample.y ? prev : { x: sample.x, y: sample.y }));
       lastGazeAtRef.current = Date.now();
       const inTarget = isInside(targetRef.current, sample.x, sample.y);
       if (inTarget && firstFixationAtRef.current == null) firstFixationAtRef.current = sample.t;
@@ -212,18 +214,21 @@ export default function GameScreen({ mode, level, difficulty, targets, onFinish 
 
   if (phase === "calibrate") {
     return (
-      <div className="container stack">
-        <div className="card stack">
-          <h1>Eye Tracking Setup</h1>
-          <p>Before we start, the camera needs to learn where your eyes are. Look at each yellow dot and tap it — this only takes about 30 seconds.</p>
-          <p className="note">Your calibration is saved on this device, so you will not need to redo it next time.</p>
-          <p className="note">No video is stored — only gaze coordinates.</p>
-          <div className="row">
-            <button onClick={() => setPhase("calibrating")}>Start calibration</button>
-            <button className="ghost" onClick={() => setPhase("instructions")}>Skip — play without eye tracking</button>
+      <MemoryStage level={1} background={SCREENING_ART.background}>
+        <MemoryNav title="Eye tracking" onBack={() => onFinishRef.current?.(null)} controls={false} />
+        <MemoryBoard>
+          <div className="rf-eye-copy">
+            <h1>Eye tracking</h1>
+            <p>Look at each yellow dot and tap it. The camera learns where your eyes are. This takes about half a minute.</p>
+            <p>Nothing is recorded except where you look. You can skip this and still play.</p>
+            <div className="rf-eye-actions">
+              <MemoryButton onClick={() => setPhase("calibrating")}>Start</MemoryButton>
+              <MemoryButton onClick={() => setPhase("instructions")}>Skip</MemoryButton>
+            </div>
           </div>
-        </div>
-      </div>
+        </MemoryBoard>
+        <MemoryBunny message="Look at the dots!" />
+      </MemoryStage>
     );
   }
 
@@ -234,79 +239,82 @@ export default function GameScreen({ mode, level, difficulty, targets, onFinish 
         source={trackerSource}
         detail={trackerDetail}
         onDone={() => setPhase("instructions")}
+        onCancel={() => setPhase("calibrate")}
       />
     );
   }
 
   if (phase === "instructions") {
     return (
-      <div className="container stack">
-        <div className="card stack" style={{ alignItems: "center", textAlign: "center" }}>
-          <h1>How to Play</h1>
-          <p style={{ fontSize: "1.2rem", maxWidth: 500 }}>
-            {level === "shapes" && "I'll show you a shape name. Find and tap the matching shape from the choices below!"}
-            {level === "letters" && "I'll show you a letter. Find and tap the same letter from the choices below!"}
-            {level === "words" && "I'll show you a word. Find and tap the matching word from the choices below!"}
-            {level === "sentences" && "I'll show you a sentence. Find and tap the matching sentence from the choices below!"}
-          </p>
-          <p className="muted">Listen to the audio instructions for help.</p>
-          <div className="row" style={{ justifyContent: "center" }}>
-            <button onClick={playInstruction}>Replay instructions</button>
-            <button onClick={() => setPhase("starting")}>Start game</button>
+      <MemoryStage level={1} background={SCREENING_ART.background}>
+        <MemoryNav title="How to play" onBack={() => setPhase("calibrate")} controls={false} />
+        <MemoryBoard>
+          <div className="rf-eye-copy">
+            <h1>How to play</h1>
+            <p>
+              {level === "shapes" && "I'll show you a shape name. Find and tap the matching shape."}
+              {level === "letters" && "I'll show you a letter. Find and tap the same letter."}
+              {level === "words" && "I'll show you a word. Find and tap the matching word."}
+              {level === "sentences" && "I'll show you a sentence. Find and tap the matching sentence."}
+            </p>
+            <p>Listen to the instructions, then tap your answer.</p>
+            <div className="rf-eye-actions">
+              <MemoryButton onClick={playInstruction}>Replay</MemoryButton>
+              <MemoryButton onClick={() => setPhase("starting")}>Start game</MemoryButton>
+            </div>
           </div>
-        </div>
-      </div>
+        </MemoryBoard>
+        <MemoryBunny message="Listen, then tap!" />
+      </MemoryStage>
     );
   }
 
   if (phase === "starting" || phase === "ending") {
-    return <div className="container"><div className="card">Getting things ready…</div></div>;
+    return (
+      <MemoryStage level={1} background={SCREENING_ART.background}>
+        <MemoryNav title="Reading" onBack={() => onFinishRef.current?.(null)} controls={false} />
+        <MemoryBoard>
+          <div className="rf-eye-copy"><h1>Getting ready</h1><p>One moment.</p></div>
+        </MemoryBoard>
+      </MemoryStage>
+    );
   }
 
+  const feedbackText = showFeedback === "good"
+    ? "Great!"
+    : showFeedback === "time"
+      ? "Let's try the next one"
+      : showFeedback
+        ? "Almost — try again next round"
+        : "";
+
   return (
-    <div className="container stack">
-      <div className="row">
-        <span className="badge">{mode === "improvement" ? "Practice" : "Screening"}</span>
-        <span className="badge">Level: {level}</span>
-        <span className="badge">Round {Math.min(round + 1, order.length)} / {order.length}</span>
-        <span className="spacer" />
-        <span className="badge good">{correct}</span>
-      </div>
-
-      <div className="card stack" style={{ alignItems: "center" }}>
-        <div className="row" style={{ justifyContent: "center", gap: "1rem" }}>
-          <p style={{ margin: 0, fontSize: "1.3rem" }}>Find: <strong style={{ fontSize: "1.6rem" }}>{target}</strong></p>
-          <button className="ghost" onClick={replayTargetAudio} style={{ padding: "0.4rem 0.8rem", fontSize: "0.9rem" }}>Replay</button>
-        </div>
-        <div ref={targetRef} style={{ width: "100%" }}>
-          <AdaptiveRenderer target={target} action={adaptAction} />
-        </div>
-        <div className="choices">
-          {choices.map((choice) => (
-            <button key={choice} onClick={() => answer(choice)} disabled={waitingForAudio}>{choice}</button>
-          ))}
-        </div>
-        {waitingForAudio && <p className="muted">Listen…</p>}
-        {showFeedback && (
-          <div className={`badge ${showFeedback === "good" ? "good" : "bad"}`}>
-            {showFeedback === "good" ? "Great!" : showFeedback === "time" ? "Let's try the next one" : "Almost — try again next round"}
+    <>
+      <MemoryStage level={1} background={SCREENING_ART.background}>
+        <MemoryNav title={`${mode === "improvement" ? "Practice" : "Screening"} · ${Math.min(round + 1, order.length)}/${order.length}`} onBack={() => onFinishRef.current?.(null)} controls={false} />
+        <MemoryBoard>
+          <div className="rf-eye-copy">
+            <p className="rf-eye-round">Find: <strong>{target}</strong></p>
+            <div ref={targetRef} className="rf-eye-target">
+              <AdaptiveRenderer target={target} action={adaptAction} />
+            </div>
+            <div className="rf-eye-choices">
+              {choices.map((choice) => (
+                <MemoryButton key={choice} onClick={() => answer(choice)} disabled={waitingForAudio}>{choice}</MemoryButton>
+              ))}
+            </div>
+            <div className="rf-eye-actions">
+              <MemoryButton onClick={replayTargetAudio} disabled={!target}>Replay</MemoryButton>
+            </div>
+            {waitingForAudio && <p>Listen…</p>}
+            {feedbackText && <p>{feedbackText}</p>}
+            <p>{correct} correct</p>
           </div>
-        )}
-      </div>
-
-      {eyesLost && (
-        <div role="status" aria-live="polite" className="eye-alert" style={{
-          position: "fixed", top: 16, left: "50%", transform: "translateX(-50%)", zIndex: 40,
-          display: "flex", alignItems: "center", gap: ".6rem", padding: ".7rem 1.2rem", borderRadius: 999,
-          background: "rgba(255,216,77,0.95)", color: "#1b1400", fontSize: "1.05rem", fontWeight: 600,
-          boxShadow: "0 6px 24px rgba(0,0,0,0.35)",
-        }}>
-          I can&apos;t see your eyes — look at the screen
-        </div>
-      )}
-
-      <GazeDot x={gaze.x} y={gaze.y} />
-    </div>
+        </MemoryBoard>
+        <MemoryBunny message={eyesLost ? "Look at the screen" : undefined} />
+      </MemoryStage>
+      <GazeDot x={gaze.x} y={gaze.y} visible={gaze.x != null && gaze.y != null} />
+    </>
   );
 }
 

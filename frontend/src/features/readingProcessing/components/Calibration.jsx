@@ -1,5 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { gazeClient } from "../api/gazeClient";
+import { recordWebGazerClick } from "../hooks/useGazeTracking";
+import { MemoryStage, MemoryNav, MemoryBoard, MemoryButton, MemoryBunny } from "../../workingMemory/shared/GameLayout";
+import { SCREENING_ART } from "../../workingMemory/config/levelThemes";
 
 const POINTS = [
   [10, 10], [50, 10], [90, 10],
@@ -115,6 +118,9 @@ export default function Calibration({ onDone, trackerStatus, source = "webgazer"
       gazeClient.calibrationPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
       return;
     }
+    if (!dotRef.current) return;
+    const rect = dotRef.current.getBoundingClientRect();
+    recordWebGazerClick(rect.left + rect.width / 2, rect.top + rect.height / 2);
     const next = clicks + 1;
     if (next >= CLICKS_PER_POINT) {
       setClicks(0);
@@ -146,79 +152,68 @@ export default function Calibration({ onDone, trackerStatus, source = "webgazer"
 
   const fill = isPython ? progress : clicks / CLICKS_PER_POINT;
   const [px, py] = POINTS[Math.min(idx, POINTS.length - 1)];
-  const panelSide = py > 50 ? { top: 24 } : { bottom: 24 };
+  const captionAtTop = py > 50;
+  const prompt = !ready
+    ? "Starting the camera. Please wait."
+    : isPython
+      ? `Tap the yellow dot, then keep looking at it until it fills. ${idx + 1} of ${POINTS.length}`
+      : `Look at the yellow dot and tap it ${CLICKS_PER_POINT} times. ${idx + 1} of ${POINTS.length}`;
 
   return (
-    <div style={{ position: "fixed", inset: 0, background: "rgba(11,16,32,0.97)", zIndex: 50, color: "white" }}>
-      {!done && (
-        <div style={{ position: "absolute", ...panelSide, left: "50%", transform: "translateX(-50%)", width: "min(560px, 90vw)", textAlign: "center", pointerEvents: "none" }}>
-          <h2 style={{ margin: "0 0 .25rem" }}>Look &amp; tap</h2>
-          {!ready && <p className="muted">Starting camera… please wait.</p>}
-          {ready && (
-            <p className="muted" style={{ margin: 0 }}>
-              {isPython
-                ? `Tap the yellow dot, then keep looking at it until it fills. (${idx + 1}/${POINTS.length})`
-                : `Look at the yellow dot and tap it ${CLICKS_PER_POINT} times. (${idx + 1}/${POINTS.length})`}
-            </p>
-          )}
-          {stallReason && (
-            <p className="badge bad" style={{ marginTop: ".75rem", display: "inline-block" }}>
-              {REASON_TEXT[stallReason] || "Not getting a clear view of your eyes."}
-            </p>
-          )}
-          {isPython && !stallReason && <p className="note" style={{ opacity: 0.6, marginTop: ".5rem" }}>Using the local eye-tracking service.</p>}
+    <>
+      <MemoryStage level={1} background={SCREENING_ART.background}>
+        <MemoryNav title="Eye tracking" onBack={onCancel} controls={false} />
+        {(fitting || errorPx != null || failure || !ready) && (
+          <MemoryBoard>
+            <div className="rf-eye-copy">
+              {fitting && <h1>One moment</h1>}
+              {fitting && <p>Working out where your eyes are looking.</p>}
+              {errorPx != null && <h1>All set</h1>}
+              {errorPx != null && <p>The camera is ready. Typical accuracy is about {Math.round(errorPx)} pixels.</p>}
+              {failure && <h1>Let&apos;s try again</h1>}
+              {failure && <p>{failure}</p>}
+              {!ready && !fitting && errorPx == null && !failure && <h1>Look and tap</h1>}
+              {!ready && !fitting && errorPx == null && !failure && <p>Starting the camera. Please wait.</p>}
+              {failure && (
+                <div className="rf-eye-actions">
+                  <MemoryButton onClick={retry}>Try again</MemoryButton>
+                  <MemoryButton onClick={() => onDoneRef.current?.()}>Skip for now</MemoryButton>
+                </div>
+              )}
+            </div>
+          </MemoryBoard>
+        )}
+        {(!ready || done) && <MemoryBunny message="Look at the yellow dot" />}
+      </MemoryStage>
+
+      {ready && !done && (
+        <div className={`rf-eye-caption ${captionAtTop ? "is-top" : "is-bottom"}`}>
+          <p>{prompt}</p>
+          {stallReason && <p>{REASON_TEXT[stallReason] || "Not getting a clear view of your eyes."}</p>}
         </div>
       )}
 
       {ready && !done && (
         <button
           ref={dotRef}
+          type="button"
+          className="rf-cal-dot"
           onClick={click}
           disabled={collecting}
           aria-label={`Calibration point ${idx + 1} of ${POINTS.length}`}
           style={{
-            position: "absolute",
             left: `${px}%`,
             top: `${py}%`,
-            transform: "translate(-50%, -50%)",
-            width: 64,
-            height: 64,
-            borderRadius: "50%",
-            padding: 0,
-            border: "none",
-            zIndex: 2,
-            background: `conic-gradient(var(--rf-accent) ${fill * 360}deg, rgba(255,255,255,0.18) 0)`,
-            boxShadow: collecting ? "0 0 46px rgba(255,216,77,0.95)" : "0 0 30px rgba(255,216,77,0.5)",
-            cursor: collecting ? "default" : "pointer",
+            background: `conic-gradient(#ffb000 ${fill * 360}deg, rgba(255,255,255,0.35) 0)`,
           }}
         />
       )}
 
       {stallReason && collecting && (
-        <div style={{ position: "absolute", bottom: py > 50 ? "auto" : 96, top: py > 50 ? 96 : "auto", left: "50%", transform: "translateX(-50%)" }}>
-          <button className="ghost" onClick={cancelPoint}>Start over</button>
+        <div className={`rf-eye-caption-action ${captionAtTop ? "is-top" : "is-bottom"}`}>
+          <MemoryButton onClick={cancelPoint}>Start over</MemoryButton>
         </div>
       )}
-
-      {fitting && <div className="card" style={{ position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}>Working out your calibration…</div>}
-
-      {errorPx != null && (
-        <div className="card stack" style={{ position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)", textAlign: "center" }}>
-          <h3 style={{ margin: 0 }}>Calibration saved</h3>
-          <p className="muted">Typical accuracy: about {Math.round(errorPx)} pixels.</p>
-        </div>
-      )}
-
-      {failure && (
-        <div className="card stack" style={{ position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)", textAlign: "center", maxWidth: 420 }}>
-          <h3 style={{ margin: 0 }}>Calibration didn&apos;t work</h3>
-          <p className="muted">{failure}</p>
-          <div className="row" style={{ justifyContent: "center" }}>
-            <button onClick={retry}>Try again</button>
-            <button className="ghost" onClick={() => onDoneRef.current?.()}>Skip for now</button>
-          </div>
-        </div>
-      )}
-    </div>
+    </>
   );
 }

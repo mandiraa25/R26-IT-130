@@ -15,17 +15,105 @@ const ACTION_LABELS = {
   DIFFICULTY_UP: "Raised difficulty",
 };
 
-export default function ReadingDashboard({ data }) {
+export default function ReadingDashboard({ data, tone = "dark" }) {
   const trend = (data.brainSpeedTrend || []).map((point) => ({
     at: new Date(point.at).toLocaleDateString(),
     speed: SPEED_NUM[point.brainSpeed] || 0,
     level: point.level,
   }));
+  const journal = tone === "journal";
+  const axis = journal ? "#745747" : "#c0c8e8";
+  const grid = journal ? "#e7c59a" : "#2c3666";
+  const line = journal ? "#e07b1f" : "#ffd84d";
+  const tipStyle = journal
+    ? { background: "#fff8ee", border: "2px solid #e7c59a", borderRadius: 12, color: "#4a2410" }
+    : { background: "#1a2347", border: 0, borderRadius: 12, color: "#f5f7ff" };
   const latestResult = data.results?.[0];
   const totalSessions = data.results?.length || 0;
   const avgScore = totalSessions
     ? Math.round(data.results.reduce((sum, result) => sum + (result.total ? result.correct / result.total : 0), 0) / totalSessions * 100)
     : 0;
+
+  if (journal) {
+    return (
+      <div className="rf-journal">
+        <div className="rf-journal-stats">
+          <article><span>Sessions played</span><strong>{totalSessions}</strong></article>
+          <article><span>Average accuracy</span><strong>{avgScore}%</strong></article>
+          <article><span>Latest speed</span><strong>{latestResult?.brainSpeed ? SPEED_LABEL[latestResult.brainSpeed] : "—"}</strong></article>
+        </div>
+
+        <section className="rf-journal-block">
+          <h2>Processing speed</h2>
+          <p>Faster sits higher on the chart.</p>
+          {trend.length ? (
+            <ResponsiveContainer width="100%" height={180}>
+              <LineChart data={trend}>
+                <CartesianGrid stroke={grid} strokeDasharray="3 3" />
+                <XAxis dataKey="at" stroke={axis} fontSize={11} />
+                <YAxis domain={[0, 3]} ticks={[1, 2, 3]} stroke={axis} tickFormatter={(value) => ({ 1: "Slow", 2: "Mid", 3: "Fast" }[value] || "")} />
+                <Tooltip contentStyle={tipStyle} formatter={(value) => [{ 1: "Slow", 2: "Moderate", 3: "Fast" }[value] || "—", "Speed"]} />
+                <Line type="monotone" dataKey="speed" stroke={line} strokeWidth={3} dot />
+              </LineChart>
+            </ResponsiveContainer>
+          ) : <p>Play a session to see the trend.</p>}
+        </section>
+
+        <section className="rf-journal-block">
+          <h2>Help given</h2>
+          {data.actionDensity?.length ? (
+            <div className="rf-journal-help">
+              {data.actionDensity.map((action) => (
+                <div key={action.action}><span>{ACTION_LABELS[action.action] || action.action}</span><strong>{action.count}</strong></div>
+              ))}
+            </div>
+          ) : <p>No extra help was needed.</p>}
+        </section>
+
+        <section className="rf-journal-block">
+          <h2>Eye tracking heatmap</h2>
+          <p>Bright spots are where the student looked.</p>
+          <Heatmap points={data.heatmap || []} />
+        </section>
+
+        <section className="rf-journal-block">
+          <h2>Challenging areas</h2>
+          {data.difficultyZones?.length ? (
+            <div className="rf-journal-zones">
+              {data.difficultyZones.map((zone, index) => (
+                <article key={index}>
+                  <strong>{zone.target || "—"}</strong>
+                  <span>{zone.type === "CONFUSION" ? "Got confused" : "Decoding issue"} · {zone.count}</span>
+                </article>
+              ))}
+            </div>
+          ) : <p>No struggles recorded.</p>}
+        </section>
+
+        <section className="rf-journal-block">
+          <h2>Session history</h2>
+          {data.results?.length ? (
+            <table>
+              <thead>
+                <tr><th>Date</th><th>Level</th><th>Score</th><th>Speed</th><th>Leveled up</th></tr>
+              </thead>
+              <tbody>
+                {data.results.map((result) => (
+                  <tr key={result._id}>
+                    <td>{new Date(result.createdAt).toLocaleDateString()}</td>
+                    <td>{result.level}</td>
+                    <td>{result.correct}/{result.total}</td>
+                    <td>{SPEED_LABEL[result.brainSpeed] || "—"}</td>
+                    <td>{result.promoted ? "Yes" : "—"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : <p>No sessions yet.</p>}
+        </section>
+      </div>
+    );
+  }
 
   return (
     <div className="container stack">
@@ -53,14 +141,14 @@ export default function ReadingDashboard({ data }) {
           {trend.length ? (
             <ResponsiveContainer width="100%" height={200}>
               <LineChart data={trend}>
-                <CartesianGrid stroke="#2c3666" strokeDasharray="3 3" />
-                <XAxis dataKey="at" stroke="#c0c8e8" fontSize={11} />
-                <YAxis domain={[0, 3]} ticks={[1, 2, 3]} stroke="#c0c8e8" tickFormatter={(value) => ({ 1: "Slow", 2: "Mid", 3: "Fast" }[value] || "")} />
+                <CartesianGrid stroke={grid} strokeDasharray="3 3" />
+                <XAxis dataKey="at" stroke={axis} fontSize={11} />
+                <YAxis domain={[0, 3]} ticks={[1, 2, 3]} stroke={axis} tickFormatter={(value) => ({ 1: "Slow", 2: "Mid", 3: "Fast" }[value] || "")} />
                 <Tooltip
-                  contentStyle={{ background: "#1a2347", border: 0, borderRadius: 12, color: "#f5f7ff" }}
+                  contentStyle={tipStyle}
                   formatter={(value) => [{ 1: "Slow", 2: "Moderate", 3: "Fast" }[value] || "—", "Speed"]}
                 />
-                <Line type="monotone" dataKey="speed" stroke="#ffd84d" strokeWidth={3} dot />
+                <Line type="monotone" dataKey="speed" stroke={line} strokeWidth={3} dot />
               </LineChart>
             </ResponsiveContainer>
           ) : <div className="muted" style={{ padding: "2rem", textAlign: "center" }}>Play a session to see the trend.</div>}

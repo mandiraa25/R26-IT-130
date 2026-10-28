@@ -1,14 +1,17 @@
 import { useState } from "react";
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { getReadingPlan } from "../../services/readingProcessing/identifyApi";
 import GameScreen from "./components/GameScreen";
+import { MemoryStage, MemoryNav, MemoryBoard, MemoryButton, MemoryBunny } from "../workingMemory/shared/GameLayout";
+import { SCREENING_ART } from "../workingMemory/config/levelThemes";
+import "../workingMemory/styles/popupMap.css";
 import "./reading.css";
 
 const LEVELS = [
-  { id: "shapes", label: "Shapes", desc: "Identify basic shapes" },
-  { id: "letters", label: "Letters", desc: "Recognise individual letters" },
-  { id: "words", label: "Words", desc: "Read simple words" },
-  { id: "sentences", label: "Sentences", desc: "Read full sentences" },
+  { id: "shapes", label: "Shapes", desc: "Find the matching shape", accent: "#E07B1F", dark: "#B5560B" },
+  { id: "letters", label: "Letters", desc: "Find the same letter", accent: "#5BA35A", dark: "#3A7A39" },
+  { id: "words", label: "Words", desc: "Read a simple word", accent: "#E77FA6", dark: "#B23C6C" },
+  { id: "sentences", label: "Sentences", desc: "Read a full sentence", accent: "#8A6BC9", dark: "#5E3FA3" },
 ];
 
 export default function ReadingPlay() {
@@ -25,6 +28,7 @@ export default function ReadingPlay() {
 
   const reportPath = mode === "improvement" ? "/reports/rp/improvement" : "/reports/rp/identification";
   const title = mode === "improvement" ? "Practice" : "Screening";
+  const mapTitle = mode === "improvement" ? "READING PRACTICE" : "READING SCREENING";
 
   function loadLevel(level, difficulty = 1) {
     setPicking(false);
@@ -38,51 +42,72 @@ export default function ReadingPlay() {
   let body;
   if (error) {
     body = (
-      <div className="container stack">
-        <div className="card error">{error}</div>
-        <button onClick={() => { setError(""); setPicking(true); }}>Back to levels</button>
-      </div>
+      <MemoryStage level={1} background={SCREENING_ART.background}>
+        <MemoryNav title={title} onBack={() => { setError(""); setPicking(true); }} controls={false} />
+        <MemoryBoard className="rf-pick-board">
+          <div className="rf-eye-copy">
+            <h1>Could not start</h1>
+            <p>{error}</p>
+            <MemoryButton onClick={() => { setError(""); setPicking(true); }}>Back to levels</MemoryButton>
+          </div>
+        </MemoryBoard>
+      </MemoryStage>
     );
   } else if (picking) {
     body = (
-      <div className="container stack">
-        <div className="card stack">
-          <h1>{title}</h1>
-          <p className="muted">
-            {mode === "improvement"
-              ? "Continue from your last practice level, or pick one yourself."
-              : "Start a screening session. Pick a level, or continue where this screening left off."}
-          </p>
-        </div>
-        <div className="grid cols-2">
+      <MemoryStage level={2} className="lx-map lx-adventure-map rf-level-map" background="/images/workingMemory/shared/backgrounds/level-map/map-background.webp">
+        <MemoryNav title={title} onBack={() => nav("/dashboard")} map controls={false} />
+        <h1 className="lx-adventure-heading">{mapTitle}</h1>
+        <h2 className="lx-adventure-subtitle">Choose a level</h2>
+        <div className="lx-level-cards">
           {LEVELS.map((level) => (
-            <button key={level.id} className="card stack" onClick={() => loadLevel(level.id)} style={{ cursor: "pointer", textAlign: "left" }}>
-              <h2 style={{ margin: 0 }}>{level.label}</h2>
-              <span className="muted">{level.desc}</span>
+            <button
+              key={level.id}
+              type="button"
+              className="lx-level-card"
+              style={{ "--card-accent": level.accent, "--card-dark": level.dark }}
+              onClick={() => loadLevel(level.id)}
+            >
+              <h2>{level.label}</h2>
+              <p>{level.desc}</p>
+              <span className="lx-level-cta">Play</span>
             </button>
           ))}
         </div>
-        <button className="ghost" onClick={() => loadLevel()}>Continue where I left off</button>
-      </div>
+        <div className="lx-map-notice">
+          <MemoryButton onClick={() => loadLevel()}>Continue</MemoryButton>
+        </div>
+      </MemoryStage>
     );
   } else if (!plan) {
-    body = <div className="container"><div className="card">Loading level…</div></div>;
+    body = (
+      <MemoryStage level={1} background={SCREENING_ART.background}>
+        <MemoryNav title={title} onBack={() => setPicking(true)} controls={false} />
+        <MemoryBoard className="rf-pick-board">
+          <div className="rf-eye-copy"><h1>Loading</h1><p>Getting your level ready.</p></div>
+        </MemoryBoard>
+      </MemoryStage>
+    );
   } else if (result) {
     const score = result.result;
     body = (
-      <div className="container stack">
-        <div className="card stack">
-          <h1>Nice work</h1>
-          <p>You got <strong>{score.correct}</strong> out of <strong>{score.total}</strong> right.</p>
-          {score.brainSpeed && <p>Brain speed: <span className="badge">{score.brainSpeed}</span></p>}
-          {score.promoted && <p className="badge good">Level up. Next: {result.next.level}</p>}
-          <div className="row">
-            <button onClick={() => { setResult(null); setPlan(null); setPicking(true); }}>Play again</button>
-            <Link to={reportPath}><button className="ghost">See report</button></Link>
-            <button className="ghost" onClick={() => nav("/dashboard")}>Home</button>
+      <MemoryStage level={1} background={SCREENING_ART.background}>
+        <MemoryNav title={title} onBack={() => nav("/dashboard")} controls={false} />
+        <MemoryBoard className="rf-pick-board">
+          <div className="rf-eye-copy">
+            <h1>Nice work</h1>
+            <p>You got {score.correct} out of {score.total} right.</p>
+            {score.brainSpeed && <p>Brain speed: {score.brainSpeed}</p>}
+            {score.promoted && <p>Level up. Next: {result.next.level}</p>}
+            <div className="rf-eye-actions">
+              <MemoryButton onClick={() => { setResult(null); setPlan(null); setPicking(true); }}>Play again</MemoryButton>
+              <MemoryButton onClick={() => nav(reportPath)}>See report</MemoryButton>
+              <MemoryButton onClick={() => nav("/dashboard")}>Home</MemoryButton>
+            </div>
           </div>
-        </div>
-      </div>
+        </MemoryBoard>
+        <MemoryBunny message="Great job!" />
+      </MemoryStage>
     );
   } else {
     body = (

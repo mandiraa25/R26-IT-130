@@ -1,8 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { gazeClient } from "../api/gazeClient";
+import { createGazeStabilizer } from "./gazeSmooth";
 
 const CONFIGURED_SOURCE = import.meta.env.VITE_GAZE_SOURCE || "auto";
 const MIN_CONFIDENCE = 0.4;
+
+let activeWebGazer = null;
+
+export function recordWebGazerClick(x, y) {
+  activeWebGazer?.recordScreenPosition?.(x, y, "click");
+}
 
 let webgazerPromise;
 
@@ -71,12 +78,15 @@ export function useGazeTracking({ onSample, throttleMs = 33, enabled = true } = 
     let cancelled = false;
     const cleanups = [];
     let webgazer;
+    const stabilizer = createGazeStabilizer();
 
     function emitSample(sample) {
+      const steady = stabilizer.push(sample);
+      if (!steady) return;
       const now = performance.now();
       if (now - lastEmitRef.current < throttleMs) return;
       lastEmitRef.current = now;
-      onSampleRef.current?.(sample);
+      onSampleRef.current?.(steady);
     }
 
     function startPython() {
@@ -105,24 +115,31 @@ export function useGazeTracking({ onSample, throttleMs = 33, enabled = true } = 
         setStatus("loading");
         webgazer = await getWebGazer();
         if (cancelled) return;
+        activeWebGazer = webgazer;
         let firstData = false;
+        // Mouse movement must not train the model. WebGazer treats recent
+        // cursor motion as "where the eyes were", which throws the yellow dot
+        // around the screen. Only the calibration taps are recorded.
+        webgazer.saveDataAcrossSessions(false);
+        try { await webgazer.clearData(); } catch { /* nothing stored yet */ }
         webgazer
           .setRegression("ridge")
           .setGazeListener((data) => {
-            if (!data || cancelled) return;
+            if (!data || cancelled || !Number.isFinite(data.x) || !Number.isFinite(data.y)) return;
             if (!firstData) {
               firstData = true;
               setStatus("running");
             }
             emitSample({ x: data.x, y: data.y, t: Date.now() });
           })
-          .saveDataAcrossSessions(true);
+          .applyKalmanFilter(false);
         await webgazer.begin();
         if (cancelled) {
           teardown();
           return;
         }
-        webgazer.showVideoPreview(false).showPredictionPoints(false).showFaceOverlay(false);
+        webgazer.removeMouseEventListeners();
+        webgazer.showVideoPreview(false).showPredictionPoints(false).showFaceOverlay(false).showFaceFeedbackBox(false);
         if (!firstData) setStatus("running");
       } catch (err) {
         teardown();
@@ -155,6 +172,7 @@ export function useGazeTracking({ onSample, throttleMs = 33, enabled = true } = 
 
     return () => {
       cancelled = true;
+      if (activeWebGazer === webgazer) activeWebGazer = null;
       for (const fn of cleanups) fn();
       releaseWebGazerCamera(webgazer);
     };
