@@ -3,7 +3,7 @@ export const NUMBER_BANKS = {
   "2": {
     en: {
       level1: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/QvootIfM0Gg",
       title: "Game 4 — Numbers",
       instruction: "Remember these numbers in order.",
       questions: [
@@ -15,7 +15,7 @@ export const NUMBER_BANKS = {
       ]
     },
       level2: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/QvootIfM0Gg",
       title: "Game 4 — Numbers",
       instruction: "Remember these numbers in order.",
       questions: [
@@ -27,7 +27,7 @@ export const NUMBER_BANKS = {
       ]
     },
       level3: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/QvootIfM0Gg",
       title: "Game 4 — Numbers",
       instruction: "Remember these numbers in forward or backward order.",
       questions: [
@@ -39,7 +39,7 @@ export const NUMBER_BANKS = {
       ]
     },
       level4: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/QvootIfM0Gg",
       title: "Game 4 — Numbers",
       instruction: "Remember these numbers in forward or backward order.",
       questions: [
@@ -53,7 +53,7 @@ export const NUMBER_BANKS = {
     },
     si: {
       level1: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/QvootIfM0Gg",
       title: "Game 4 — Numbers (ඉලක්කම්)",
       instruction: "පිළිවෙලින් ඉලක්කම් මතක තබා ගන්න.",
       questions: [
@@ -65,7 +65,7 @@ export const NUMBER_BANKS = {
       ]
     },
       level2: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/QvootIfM0Gg",
       title: "Game 4 — Numbers (ඉලක්කම්)",
       instruction: "පිළිවෙලින් ඉලක්කම් මතක තබා ගන්න.",
       questions: [
@@ -77,7 +77,7 @@ export const NUMBER_BANKS = {
       ]
     },
       level3: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/QvootIfM0Gg",
       title: "Game 4 — Numbers (ඉලක්කම්)",
       instruction: "ඉලක්කම් ඉදිරියට හෝ පසුපසට මතක තබා ගන්න.",
       questions: [
@@ -89,7 +89,7 @@ export const NUMBER_BANKS = {
       ]
     },
       level4: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/QvootIfM0Gg",
       title: "Game 4 — Numbers (ඉලක්කම්)",
       instruction: "ඉලක්කම් ඉදිරියට හෝ පසුපසට මතක තබා ගන්න.",
       questions: [
@@ -105,7 +105,7 @@ export const NUMBER_BANKS = {
   "3": {
     en: {
       level1: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/QvootIfM0Gg",
       title: "Game 4 — Numbers",
       instruction: "Remember these numbers in order.",
       questions: [
@@ -117,7 +117,7 @@ export const NUMBER_BANKS = {
       ]
     },
       level2: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/QvootIfM0Gg",
       title: "Game 4 — Numbers",
       instruction: "Remember these numbers in order.",
       questions: [
@@ -129,7 +129,7 @@ export const NUMBER_BANKS = {
       ]
     },
       level3: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/QvootIfM0Gg",
       title: "Game 4 — Numbers",
       instruction: "Remember these numbers in forward or backward order.",
       questions: [
@@ -141,7 +141,7 @@ export const NUMBER_BANKS = {
       ]
     },
       level4: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/QvootIfM0Gg",
       title: "Game 4 — Numbers",
       instruction: "Remember these numbers in forward or backward order.",
       questions: [
@@ -155,7 +155,7 @@ export const NUMBER_BANKS = {
     },
     si: {
       level1: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/QvootIfM0Gg",
       title: "Game 4 — Numbers (ඉලක්කම්)",
       instruction: "පිළිවෙලින් ඉලක්කම් මතක තබා ගන්න.",
       questions: [
@@ -167,7 +167,7 @@ export const NUMBER_BANKS = {
       ]
     },
       level2: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/QvootIfM0Gg",
       title: "Game 4 — Numbers (ඉලක්කම්)",
       instruction: "පිළිවෙලින් ඉලක්කම් මතක තබා ගන්න.",
       questions: [
@@ -179,7 +179,7 @@ export const NUMBER_BANKS = {
       ]
     },
       level3: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/QvootIfM0Gg",
       title: "Game 4 — Numbers (ඉලක්කම්)",
       instruction: "ඉලක්කම් ඉදිරියට හෝ පසුපසට මතක තබා ගන්න.",
       questions: [
@@ -191,7 +191,7 @@ export const NUMBER_BANKS = {
       ]
     },
       level4: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/QvootIfM0Gg",
       title: "Game 4 — Numbers (ඉලක්කම්)",
       instruction: "ඉලක්කම් ඉදිරියට හෝ පසුපසට මතක තබා ගන්න.",
       questions: [
@@ -207,7 +207,7 @@ export const NUMBER_BANKS = {
   "4": {
     en: {
       level1: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/QvootIfM0Gg",
       title: "Game 4 — Numbers",
       instruction: "Remember these numbers in order.",
       questions: [
@@ -219,7 +219,7 @@ export const NUMBER_BANKS = {
       ]
     },
       level2: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/QvootIfM0Gg",
       title: "Game 4 — Numbers",
       instruction: "Remember these numbers in order.",
       questions: [
@@ -231,7 +231,7 @@ export const NUMBER_BANKS = {
       ]
     },
       level3: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/QvootIfM0Gg",
       title: "Game 4 — Numbers",
       instruction: "Remember these numbers in forward or backward order.",
       questions: [
@@ -243,7 +243,7 @@ export const NUMBER_BANKS = {
       ]
     },
       level4: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/QvootIfM0Gg",
       title: "Game 4 — Numbers",
       instruction: "Remember these numbers in forward or backward order.",
       questions: [
@@ -257,7 +257,7 @@ export const NUMBER_BANKS = {
     },
     si: {
       level1: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/QvootIfM0Gg",
       title: "Game 4 — Numbers (ඉලක්කම්)",
       instruction: "පිළිවෙලින් ඉලක්කම් මතක තබා ගන්න.",
       questions: [
@@ -269,7 +269,7 @@ export const NUMBER_BANKS = {
       ]
     },
       level2: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/QvootIfM0Gg",
       title: "Game 4 — Numbers (ඉලක්කම්)",
       instruction: "පිළිවෙලින් ඉලක්කම් මතක තබා ගන්න.",
       questions: [
@@ -281,7 +281,7 @@ export const NUMBER_BANKS = {
       ]
     },
       level3: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/QvootIfM0Gg",
       title: "Game 4 — Numbers (ඉලක්කම්)",
       instruction: "ඉලක්කම් ඉදිරියට හෝ පසුපසට මතක තබා ගන්න.",
       questions: [
@@ -293,7 +293,7 @@ export const NUMBER_BANKS = {
       ]
     },
       level4: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/QvootIfM0Gg",
       title: "Game 4 — Numbers (ඉලක්කම්)",
       instruction: "ඉලක්කම් ඉදිරියට හෝ පසුපසට මතක තබා ගන්න.",
       questions: [

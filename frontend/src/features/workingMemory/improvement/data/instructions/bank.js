@@ -3,7 +3,7 @@ export const INSTRUCTION_BANKS = {
   "2": {
     en: {
       level1: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/-2JYq8pkrvg",
       title: "Game 3 — Instructions",
       instruction: "Listen carefully to the instructions and select the correct answer.",
       questions: [
@@ -50,7 +50,7 @@ export const INSTRUCTION_BANKS = {
       ]
     },
       level2: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/-2JYq8pkrvg",
       title: "Game 3 — Instructions",
       instruction: "Listen carefully to the instructions and select the correct answer.",
       questions: [
@@ -97,7 +97,7 @@ export const INSTRUCTION_BANKS = {
       ]
     },
       level3: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/-2JYq8pkrvg",
       title: "Game 3 — Instructions",
       instruction: "Listen carefully to the instructions and select the correct answer.",
       questions: [
@@ -144,7 +144,7 @@ export const INSTRUCTION_BANKS = {
       ]
     },
       level4: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/-2JYq8pkrvg",
       title: "Game 3 — Instructions",
       instruction: "Listen carefully to the instructions and select the correct answer.",
       questions: [
@@ -197,7 +197,7 @@ export const INSTRUCTION_BANKS = {
     /*
     si: {
       level1: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/Yjtdwx3T-Do",
       title: "Game 3 — Instructions (උපදෙස්)",
       instruction: "උපදෙස් වලට හොඳින් සවන් දී නිවැරදි පිළිතුර තෝරන්න.",
       questions: [
@@ -244,7 +244,7 @@ export const INSTRUCTION_BANKS = {
       ]
     },
       level2: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/Yjtdwx3T-Do",
       title: "Game 3 — Instructions (උපදෙස්)",
       instruction: "උපදෙස් වලට හොඳින් සවන් දී නිවැරදි පිළිතුර තෝරන්න.",
       questions: [
@@ -291,7 +291,7 @@ export const INSTRUCTION_BANKS = {
       ]
     },
       level3: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/Yjtdwx3T-Do",
       title: "Game 3 — Instructions (උපදෙස්)",
       instruction: "උපදෙස් වලට හොඳින් සවන් දී නිවැරදි පිළිතුර තෝරන්න.",
       questions: [
@@ -338,7 +338,7 @@ export const INSTRUCTION_BANKS = {
       ]
     },
       level4: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/Yjtdwx3T-Do",
       title: "Game 3 — Instructions (උපදෙස්)",
       instruction: "උපදෙස් වලට හොඳින් සවන් දී නිවැරදි පිළිතුර තෝරන්න.",
       questions: [
@@ -390,7 +390,7 @@ export const INSTRUCTION_BANKS = {
   "3": {
     en: {
       level1: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/-2JYq8pkrvg",
       title: "Game 3 — Instructions",
       instruction: "Listen carefully to the instructions and select the correct answer.",
       questions: [
@@ -437,7 +437,7 @@ export const INSTRUCTION_BANKS = {
       ]
     },
       level2: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/-2JYq8pkrvg",
       title: "Game 3 — Instructions",
       instruction: "Listen carefully to the instructions and select the correct answer.",
       questions: [
@@ -484,7 +484,7 @@ export const INSTRUCTION_BANKS = {
       ]
     },
       level3: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/-2JYq8pkrvg",
       title: "Game 3 — Instructions",
       instruction: "Listen carefully to the instructions and select the correct answer.",
       questions: [
@@ -531,7 +531,7 @@ export const INSTRUCTION_BANKS = {
       ]
     },
       level4: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/-2JYq8pkrvg",
       title: "Game 3 — Instructions",
       instruction: "Listen carefully to the instructions and select the correct answer.",
       questions: [
@@ -580,7 +580,7 @@ export const INSTRUCTION_BANKS = {
     },
     si: {
       level1: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/Yjtdwx3T-Do",
       title: "Game 3 — Instructions (උපදෙස්)",
       instruction: "උපදෙස් වලට හොඳින් සවන් දී නිවැරදි පිළිතුර තෝරන්න.",
       questions: [
@@ -627,7 +627,7 @@ export const INSTRUCTION_BANKS = {
       ]
     },
       level2: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/Yjtdwx3T-Do",
       title: "Game 3 — Instructions (උපදෙස්)",
       instruction: "උපදෙස් වලට හොඳින් සවන් දී නිවැරදි පිළිතුර තෝරන්න.",
       questions: [
@@ -674,7 +674,7 @@ export const INSTRUCTION_BANKS = {
       ]
     },
       level3: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/Yjtdwx3T-Do",
       title: "Game 3 — Instructions (උපදෙස්)",
       instruction: "උපදෙස් වලට හොඳින් සවන් දී නිවැරදි පිළිතුර තෝරන්න.",
       questions: [
@@ -721,7 +721,7 @@ export const INSTRUCTION_BANKS = {
       ]
     },
       level4: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/Yjtdwx3T-Do",
       title: "Game 3 — Instructions (උපදෙස්)",
       instruction: "උපදෙස් වලට හොඳින් සවන් දී නිවැරදි පිළිතුර තෝරන්න.",
       questions: [
@@ -772,7 +772,7 @@ export const INSTRUCTION_BANKS = {
   "4": {
     en: {
       level1: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/-2JYq8pkrvg",
       title: "Game 3 — Instructions",
       instruction: "Listen carefully to the instructions and select the correct answer.",
       questions: [
@@ -819,7 +819,7 @@ export const INSTRUCTION_BANKS = {
       ]
     },
       level2: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/-2JYq8pkrvg",
       title: "Game 3 — Instructions",
       instruction: "Listen carefully to the instructions and select the correct answer.",
       questions: [
@@ -866,7 +866,7 @@ export const INSTRUCTION_BANKS = {
       ]
     },
       level3: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/-2JYq8pkrvg",
       title: "Game 3 — Instructions",
       instruction: "Listen carefully to the instructions and select the correct answer.",
       questions: [
@@ -913,7 +913,7 @@ export const INSTRUCTION_BANKS = {
       ]
     },
       level4: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/-2JYq8pkrvg",
       title: "Game 3 — Instructions",
       instruction: "Listen carefully to the instructions and select the correct answer.",
       questions: [
@@ -966,7 +966,7 @@ export const INSTRUCTION_BANKS = {
     /*
     si: {
       level1: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/Yjtdwx3T-Do",
       title: "Game 3 — Instructions (උපදෙස්)",
       instruction: "උපදෙස් වලට හොඳින් සවන් දී නිවැරදි පිළිතුර තෝරන්න.",
       questions: [
@@ -1013,7 +1013,7 @@ export const INSTRUCTION_BANKS = {
       ]
     },
       level2: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/Yjtdwx3T-Do",
       title: "Game 3 — Instructions (උපදෙස්)",
       instruction: "උපදෙස් වලට හොඳින් සවන් දී නිවැරදි පිළිතුර තෝරන්න.",
       questions: [
@@ -1060,7 +1060,7 @@ export const INSTRUCTION_BANKS = {
       ]
     },
       level3: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/Yjtdwx3T-Do",
       title: "Game 3 — Instructions (උපදෙස්)",
       instruction: "උපදෙස් වලට හොඳින් සවන් දී නිවැරදි පිළිතුර තෝරන්න.",
       questions: [
@@ -1107,7 +1107,7 @@ export const INSTRUCTION_BANKS = {
       ]
     },
       level4: {
-      youtubeVideoUrl: "https://www.youtube.com/embed/R3x8uEJjjA4",
+      youtubeVideoUrl: "https://youtu.be/Yjtdwx3T-Do",
       title: "Game 3 — Instructions (උපදෙස්)",
       instruction: "උපදෙස් වලට හොඳින් සවන් දී නිවැරදි පිළිතුර තෝරන්න.",
       questions: [
