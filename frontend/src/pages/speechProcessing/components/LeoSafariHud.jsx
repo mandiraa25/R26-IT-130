@@ -1,3 +1,4 @@
+// VIVA: Safari header: back action, title, stars, EN/Sinhala controls, unique completion count and checkpoint progress.
 import { ArrowLeft, Check, FlagTriangleRight, Languages, Star } from "lucide-react";
 import { useTranslation } from "react-i18next";
 

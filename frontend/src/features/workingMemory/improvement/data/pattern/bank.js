@@ -1,3 +1,17 @@
+/*
+ * FILE PURPOSE
+ * Pattern game metadata for each grade, language and level.
+ *
+ * HOW IT CONNECTS
+ * improvement/data/index.js assembles PATTERN_BANKS and replaces its empty questions arrays using
+ * pattern/questions.js.
+ * Direct source importers: ../index.js.
+ *
+ * THINGS TO REMEMBER
+ * Empty arrays here do not mean the current Pattern game has no questions. This bank still provides
+ * tutorial/title/instruction metadata. Do not confuse bank metadata with the active question source.
+ */
+
 // Existing grade/language questions and metadata, grouped by game.
 export const PATTERN_BANKS = {
   "2": {

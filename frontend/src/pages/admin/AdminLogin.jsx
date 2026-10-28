@@ -1,3 +1,4 @@
+// VIVA: OVERVIEW - Admin login form: submits credentials, stores the admin session and opens the dashboard.
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
@@ -6,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
+  // VIVA: Controlled inputs keep the submitted credentials in React state.
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -17,6 +19,7 @@ const AdminLogin = () => {
   };
 
   const handleSubmit = async (e) => {
+    // VIVA: Prevent a browser form reload while the API validates the credentials.
     e.preventDefault();
     setIsLoading(true);
 
@@ -24,6 +27,7 @@ const AdminLogin = () => {
       const response = await axios.post("http://localhost:5000/api/admin/login", formData);
       
       if (response.data.success) {
+        // VIVA: Admin pages use this separate session; protected APIs verify adminToken.
         localStorage.setItem("adminToken", response.data.token);
         localStorage.setItem("adminUser", JSON.stringify(response.data.admin));
         toast.success("Login successful!");
@@ -54,6 +58,7 @@ const AdminLogin = () => {
         </div>
 
         <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-[2.5rem] shadow-2xl">
+          {/* VIVA: Form fields submit through the existing page handler. */}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Email Address</label>

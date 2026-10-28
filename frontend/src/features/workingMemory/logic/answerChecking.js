@@ -1,9 +1,33 @@
+/*
+ * FILE PURPOSE
+ * Pure answer checkers shared by screening and improvement controllers.
+ *
+ * HOW IT CONNECTS
+ * ScreeningPage uses evaluateIdentifyAnswer; ImprovementPage uses evaluateDragAnswer and
+ * evaluatePatternAnswer. scoring.js later consumes screening errorType values.
+ * Direct source importers: ../identification/ScreeningPage.jsx, ../improvement/ImprovementPage.jsx.
+ *
+ * THINGS TO REMEMBER
+ * Pure means the same input produces the same result without changing React state or saving data.
+ * Screening distinguishes question types/categories. Improvement compares picture IDs and ordered
+ * string digits. analyzeSequenceError checks partial positional matches before its wrong-order branch.
+ */
+
 /**
  * Pure scoring logic for one Identify quiz question, extracted from
  * Identify.jsx's handleSubmit so it can be unit tested against every
  * question in QUIZ_DATA without rendering the UI.
  */
+/*
+ * FUNCTION: evaluateIdentifyAnswer
+ * Check one screening response and classify its error.
+ * WHEN: ScreeningPage handleSubmit calls this.
+ * HOW / RESULT: Uses type/category and authored correct/words/sequence fields; returns isCorrect and
+ * errorType without state or API work.
+ */
 export const evaluateIdentifyAnswer = (q, userAnswer) => {
+  // VIVA: A pure function returns correctness/error type from bank data. It has
+  // no React state or API calls, so screening can reuse and test it independently.
   let isCorrect = false;
   let errorType = "incorrect";
 
@@ -57,7 +81,16 @@ const normalizeNumberSequence = (sequence) =>
   (Array.isArray(sequence) ? sequence : [sequence]).map((value) => String(value));
 
 // subCategoryKey: "words" | "instructions" | "numbers" (drag-and-drop games)
+/*
+ * FUNCTION: evaluateDragAnswer
+ * Check a Picture/Number recall sequence or retained instruction slot answer.
+ * WHEN: ImprovementPage handleDragSubmit calls this.
+ * HOW / RESULT: Numbers normalizes digits to strings; Pictures compares stable IDs in order and
+ * rejects duplicate/missing IDs.
+ */
 export const evaluateDragAnswer = (subCategoryKey, slots, question) => {
+  // VIVA: Number values normalize to strings; picture sequences compare stable
+  // IDs in order and reject duplicates. Localized labels do not decide matches.
   if (subCategoryKey === "instructions") {
     return slots[0] === question.correct;
   }
@@ -73,11 +106,24 @@ export const evaluateDragAnswer = (subCategoryKey, slots, question) => {
 };
 
 // subCategoryKey: "pattern" (single-tap game)
+/*
+ * FUNCTION: evaluatePatternAnswer
+ * Compare the selected Pattern token with missingAnswer.
+ * WHEN: ImprovementPage handlePatternAnswer calls this.
+ * HOW / RESULT: Returns a boolean; the common evaluateAnswer handles timing, reward and feedback.
+ */
 export const evaluatePatternAnswer = (question, tappedValue) => tappedValue === question.missingAnswer;
 
 // ---------------------------------------------------------------------------
 // Sequence error type (correct / partial_recall / wrong_order / skipped / incorrect)
 // ---------------------------------------------------------------------------
+/*
+ * FUNCTION: analyzeSequenceError
+ * Classify an entered number sequence.
+ * WHEN: The non-option screening number-answer path calls this.
+ * HOW / RESULT: Checks exact recall, partial same-position matches, reordered digits, short input and
+ * other errors in that order. Current option questions often use their simpler choice comparison.
+ */
 export const analyzeSequenceError = (correctSeq, userInput) => {
   const correct = correctSeq.join("");
   

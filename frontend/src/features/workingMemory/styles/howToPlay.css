@@ -1,22 +1,134 @@
-﻿/* One invariant tutorial layout; level colours never restyle its board/buttons. */
+﻿/*
+ * FILE PURPOSE
+ * Style file: Tutorial board, bunny, video frame, poster and playback/start buttons.
+ *
+ * HOW IT CONNECTS
+ * HowToPlay.jsx imports this. Its fixed positions live inside the MemoryStage design board.
+ * Direct source importers: ../shared/HowToPlay.jsx.
+ *
+ * THINGS TO REMEMBER
+ * Selectors match JSX className values. width/height control size; left/top/inset position absolute
+ * elements inside a positioned parent. padding is inside space; margin is outside space; gap separates
+ * flex/grid children. Later matching rules and more specific selectors can override earlier ones.
+ * These comments preserve every existing declaration.
+ */
+
+/* One invariant tutorial layout; level colours never restyle its board/buttons. */
+
+/* SECTION 1: HOW TO PLAY VIDEO BOARD
+   HowToPlay.jsx imports this. Its fixed positions live inside the MemoryStage design board. */
+/*
+   SELECTOR: .lx-howto-board.lx-video-howto Find the matching className in the related JSX named in this
+   file guide. the URL selects artwork; background-size or object-fit determines how it fits;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-howto-board.lx-video-howto{left:255px;top:98px;width:1120px;height:755px;padding:0;display:block;background-image:url('/images/workingMemory/shared/boards/how-to-play/wm-level1-how-to-board.png');background-size:100% 100%;background-repeat:no-repeat}
+/*
+   SELECTOR: .lx-video-howto .lx-howto-title Find the matching className in the related JSX named in this
+   file guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-video-howto .lx-howto-title{top:45px;left:170px;right:170px;height:75px;display:flex;align-items:center;justify-content:center;margin:0;color:#863900;font:700 48px/1.15 Fredoka,'Noto Sans Sinhala',sans-serif;-webkit-text-stroke:4px white;paint-order:stroke fill;text-shadow:0 3px 0 #9d5a2480}
+/*
+   SELECTOR: .lx-video-howto .lx-howto-text Find the matching className in the related JSX named in this
+   file guide. position:absolute places this layer; left/top/right/bottom/inset move it within its
+   containing area; flex arranges children along a row/column; align-items and justify-content align
+   them, gap separates them; font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-video-howto .lx-howto-text{position:absolute;left:125px;right:125px;top:151px;height:60px;max-width:none;margin:0;display:flex;align-items:center;justify-content:center;text-align:center;color:#71330c;font:600 20px/1.45 Fredoka,'Noto Sans Sinhala',sans-serif}
+/*
+   SELECTOR: .lx-howto-video-frame Find the matching className in the related JSX named in this file
+   guide. position:absolute places this layer; left/top/right/bottom/inset move it within its containing
+   area; width/height/max-width control this element size.
+ */
 .lx-howto-video-frame{position:absolute;left:123px;right:112px;top:217px;height:366px;border:7px solid #ff9c21;border-radius:29px;overflow:hidden;background:#153e22;box-shadow:0 0 0 2px #d66a0c,inset 0 0 0 3px #ffe68b;isolation:isolate}
+/*
+   SELECTOR: .lx-howto-poster Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   width/height/max-width control this element size.
+ */
 .lx-howto-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .lx-howto-video-frame iframe,.lx-howto-video-frame video{display:block;width:100%;height:100%;border:0;background:#10251b;object-fit:contain}
+/*
+   SELECTOR: .lx-howto-poster-play Find the matching className in the related JSX named in this file
+   guide. position:absolute places this layer; left/top/right/bottom/inset move it within its containing
+   area; grid arranges children into defined rows/columns; grid-template values set their sizes;
+   transform/scale moves, rotates or resizes the drawn element without changing its normal layout space;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-howto-poster-play{position:absolute;left:50%;top:58%;transform:translate(-50%,-50%);width:145px;height:145px;border:8px solid white;border-radius:50%;background:linear-gradient(#ffb000,#ff6400);box-shadow:inset 0 5px 0 #ffe17b,0 0 0 3px #ffb445,0 8px 14px #6b501044;display:grid;place-items:center;padding:0;cursor:pointer}
 .lx-howto-poster-play svg{width:66px;height:66px;margin-left:9px;color:white;stroke-width:1.5;filter:drop-shadow(0 3px 0 #d05812)}
+/*
+   SELECTOR: .lx-howto-reference-actions Find the matching className in the related JSX named in this
+   file guide. position:absolute places this layer; left/top/right/bottom/inset move it within its
+   containing area; grid arranges children into defined rows/columns; grid-template values set their
+   sizes; padding is inside space, margin is outside space and gap separates children.
+ */
 .lx-howto-reference-actions{position:absolute;left:179px;right:150px;top:612px;display:grid;grid-template-columns:1fr 1fr;gap:34px}
+/*
+   SELECTOR: .lx-howto-reference-actions button Find the matching className in the related JSX named in
+   this file guide. position:relative makes this element an anchor for absolutely positioned children;
+   flex arranges children along a row/column; align-items and justify-content align them, gap separates
+   them; font/font-size and line-height change text size and readable line spacing; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .lx-howto-reference-actions button{position:relative;min-height:88px;padding:10px 18px;border:3px solid #ffbd59;border-radius:32px;display:flex;align-items:center;justify-content:center;gap:18px;font:700 29px/1.2 Fredoka,'Noto Sans Sinhala',sans-serif;box-shadow:inset 0 4px 2px #fff5,0 5px 0 #b45c15,0 9px 5px #8b511b33;transition:filter .15s,translate .15s}
 .lx-howto-watch{background:linear-gradient(#ffad00,#ff6800);color:white;text-shadow:0 2px 0 #dc6406}.lx-howto-watch svg{width:31px;height:36px;flex-shrink:0}
 .lx-howto-reference-actions .lx-howto-skip{background:linear-gradient(#fff3c9,#ffd889);color:#b44807;box-shadow:inset 0 3px 1px #fff9,0 5px 0 #ed9c42,0 9px 5px #8b511b33}
 .lx-howto-skip::after{content:'';position:absolute;inset:5px;border:2px dashed #ee994b;border-radius:25px;pointer-events:none}
 .lx-howto-skip svg{width:34px;height:34px;stroke-width:3;flex-shrink:0}
-.lx-howto-reference-actions button:hover:not(:disabled){filter:brightness(1.06);translate:0 -2px}.lx-howto-reference-actions button:active:not(:disabled){translate:0 3px}
+/*
+   SELECTOR: .lx-howto-reference-actions button:hover:not(:disabled) Find the matching className in the
+   related JSX named in this file guide. :hover applies while the pointer is over the element;
+   disabled/locked styling explains availability; actual click guards and unlock rules live in
+   JS/backend.
+ */
+.lx-howto-reference-actions button:hover:not(:disabled){filter:brightness(1.06);translate:0 -2px}/*
+   SELECTOR: .lx-howto-reference-actions button:active:not(:disabled) Find the matching className in the
+   related JSX named in this file guide. disabled/locked styling explains availability; actual click
+   guards and unlock rules live in JS/backend.
+ */
+.lx-howto-reference-actions button:active:not(:disabled){translate:0 3px}
+/*
+   SELECTOR: .lx-tutorial-bunny Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   z-index controls which overlapping layer appears in front; transform/scale moves, rotates or resizes
+   the drawn element without changing its normal layout space; width/height/max-width control this
+   element size.
+ */
 .lx-tutorial-bunny{position:absolute;left:24px;bottom:36px;width:275px;height:440px;object-fit:contain;transform:rotate(3deg);z-index:3;pointer-events:none}
-.lx-video-howto:lang(si) .lx-howto-title{font-size:35px;-webkit-text-stroke:2px white}.lx-video-howto:lang(si) .lx-howto-text{font-size:18px;line-height:1.6}.lx-video-howto:lang(si) .lx-howto-reference-actions button{font-size:22px;gap:10px}
+/*
+   SELECTOR: .lx-video-howto:lang(si) .lx-howto-title Find the matching className in the related JSX
+   named in this file guide. this matching language/state selector adjusts Sinhala presentation;
+   font/font-size and line-height change text size and readable line spacing.
+ */
+.lx-video-howto:lang(si) .lx-howto-title{font-size:35px;-webkit-text-stroke:2px white}/*
+   SELECTOR: .lx-video-howto:lang(si) .lx-howto-text Find the matching className in the related JSX named
+   in this file guide. this matching language/state selector adjusts Sinhala presentation; font/font-size
+   and line-height change text size and readable line spacing.
+ */
+.lx-video-howto:lang(si) .lx-howto-text{font-size:18px;line-height:1.6}/*
+   SELECTOR: .lx-video-howto:lang(si) .lx-howto-reference-actions button Find the matching className in
+   the related JSX named in this file guide. this matching language/state selector adjusts Sinhala
+   presentation; font/font-size and line-height change text size and readable line spacing; padding is
+   inside space, margin is outside space and gap separates children.
+ */
+.lx-video-howto:lang(si) .lx-howto-reference-actions button{font-size:22px;gap:10px}
+/*
+   SELECTOR: .lx-howto-video-status Find the matching className in the related JSX named in this file
+   guide. position:absolute places this layer; left/top/right/bottom/inset move it within its containing
+   area; font/font-size and line-height change text size and readable line spacing; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .lx-howto-video-status{position:absolute;top:703px;left:140px;right:140px;text-align:center;margin:0;font-size:16px;color:#71330c}
+
+/* MEDIA QUERY: (prefers-reduced-motion:reduce). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media(prefers-reduced-motion:reduce){.lx-howto-reference-actions button{transition:none}}
 
 /* Board: slightly smaller and centred on the 1600px stage. No text sits

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const schoolSchema = new mongoose.Schema(
+  // VIVA: Store each school's chosen grades, billing plan and calculated total cost.
   {
     name: {
       type: String,

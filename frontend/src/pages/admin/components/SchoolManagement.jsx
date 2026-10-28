@@ -1,3 +1,4 @@
+// VIVA: OVERVIEW - Super-admin school directory and registration form with a per-student cost preview.
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -16,6 +17,7 @@ const QuickStat = ({ label, value, icon, color }) => (
 );
 
 export default function SchoolManagement() {
+  // VIVA: Persisted schools populate the directory; formData is the unsaved modal draft.
   const [schools, setSchools] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -84,6 +86,7 @@ export default function SchoolManagement() {
   };
 
   const calculateCost = (count, planType) => {
+    // VIVA: Preview the same per-student pricing that the server recalculates when saving.
     const costPerStudent = planType === "monthly" ? 500 : 4800;
     return count * costPerStudent;
   };
@@ -91,6 +94,7 @@ export default function SchoolManagement() {
   const currentCost = calculateCost(formData.studentCount, formData.plan);
 
   const handleSubmit = async (e) => {
+    // VIVA: Validate the draft before posting; successful creation refreshes the directory.
     e.preventDefault();
     if (!formData.name || !formData.location || formData.studentCount <= 0 || formData.grades.length === 0) {
       toast.warn("Please fill all fields and select at least one grade / student count");
@@ -125,6 +129,7 @@ export default function SchoolManagement() {
 
   return (
     <div className="space-y-10">
+      {/* VIVA: Summary cards for the current directory or result view. */}
       {/* Quick Statistics Widgets */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <QuickStat label="Registered Schools" value={totalSchools} icon="🏫" color="bg-indigo-50 text-indigo-600" />
@@ -132,6 +137,7 @@ export default function SchoolManagement() {
         <QuickStat label="Total Accumulated cost" value={`LKR ${totalAnnualCost.toLocaleString()}`} icon="💰" color="bg-amber-50 text-amber-600" />
       </div>
 
+      {/* VIVA: Directory table and its available record actions. */}
       {/* Main List Section */}
       <div className="bg-white rounded-[3rem] p-8 border border-slate-100 shadow-sm">
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
@@ -153,6 +159,7 @@ export default function SchoolManagement() {
           <div className="text-center py-12 text-slate-400 font-bold">No schools registered yet. Click button to register first.</div>
         ) : (
           <div className="overflow-x-auto">
+            {/* VIVA: Tabular records with row-level details or actions. */}
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b-2 border-slate-100 text-slate-400 text-[10px] uppercase font-black tracking-widest pb-4">
@@ -193,6 +200,7 @@ export default function SchoolManagement() {
         )}
       </div>
 
+      {/* VIVA: School details, grade choices and billing-plan form. */}
       {/* Add School Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex items-center justify-center p-4">
@@ -210,6 +218,7 @@ export default function SchoolManagement() {
               </button>
             </div>
 
+            {/* VIVA: Form fields submit through the existing page handler. */}
             <form onSubmit={handleSubmit} className="p-10 space-y-6 max-h-[70vh] overflow-y-auto">
               <div>
                 <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">School Name</label>

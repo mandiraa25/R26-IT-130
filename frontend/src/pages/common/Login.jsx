@@ -1,12 +1,15 @@
+// VIVA: React holds form feedback; services call the backend; the router opens the next page.
 import { useState } from "react";
 import { login } from "../../services/auth/api";
 import { getStudentProfile } from "../../services/student/api";
 import { useNavigate, Link } from "react-router-dom";
 import { validateLoginForm } from "../../utils/authValidation";
 
+// VIVA: FILE CONTENTS - sign-in background/board, email/password form, validation messages and account links.
 function Login() {
   const navigate = useNavigate();
 
+  // VIVA: Inputs update form; field errors, server errors and the pending request have separate state.
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -15,11 +18,13 @@ function Login() {
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState("");
 
+  // VIVA: Input names select the property to update, so both inputs share one handler.
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     if (errors[e.target.name]) setErrors(current => ({ ...current, [e.target.name]: "" }));
   };
 
+  // VIVA: Stop browser submission, validate locally, then ask the server to verify credentials.
   const handleSubmit = async (e) => {
     e.preventDefault();
     const found = validateLoginForm(form);
@@ -31,10 +36,12 @@ function Login() {
     try {
       const res = await login({ email: form.email.trim().toLowerCase(), password: form.password });
 
+      // VIVA: The shared API client reads this JWT for later authenticated requests.
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("role", res.data.role);
       localStorage.setItem("studentId", res.data.userId);
 
+      // VIVA: Warm the profile cache without making dashboard navigation wait for another request.
       void getStudentProfile({ refresh: true }).catch(() => {});
 
       navigate("/dashboard");
@@ -45,6 +52,7 @@ function Login() {
     }
   };
 
+  // VIVA: The background and vine board are static public assets; the HTML form sits over them.
   return (
     <div
       className="relative flex h-dvh items-start justify-center overflow-hidden bg-center bg-no-repeat px-4 pt-[min(26vh,210px)]"
@@ -54,6 +62,7 @@ function Login() {
       }}
     >
       <div className="relative aspect-[3/2] w-[min(59vw,720px)] max-w-full scale-75">
+        {/* VIVA: SIGN-IN BOARD - decorative artwork behind the live form. */}
         <img
           src="/images/auth/signin-vine-board.webp"
           alt=""
@@ -66,7 +75,9 @@ function Login() {
             <h2 className="text-xl font-extrabold text-[#25364a] sm:text-2xl">Welcome Back</h2>
           </header>
 
+          {/* VIVA: SIGN-IN FORM - submitting calls handleSubmit to validate and request login. */}
           <form onSubmit={handleSubmit} noValidate className="mx-auto w-full max-w-md space-y-3">
+              {/* VIVA: EMAIL FIELD - onChange records the email; field errors appear underneath. */}
               <div>
                 <label className="mb-1 block text-sm font-bold text-[#49351f]">
                   Email Address
@@ -85,6 +96,7 @@ function Login() {
 
               <div>
                 <div className="mb-1 flex justify-between">
+                  {/* VIVA: PASSWORD FIELD AND RECOVERY LINK - password input is directly below this row. */}
                   <label className="text-sm font-bold text-[#49351f]">
                     Password
                   </label>
@@ -104,8 +116,10 @@ function Login() {
                 {errors.password && <p className="mt-1 text-xs font-semibold text-red-600">{errors.password}</p>}
               </div>
 
+              {/* VIVA: SERVER FEEDBACK - display login errors returned by the request. */}
               {serverError && <p role="alert" className="rounded-xl bg-red-50 px-3 py-2 text-center text-sm font-semibold text-red-700">{serverError}</p>}
 
+              {/* VIVA: SIGN-IN BUTTON - submits the form and is disabled while the request is pending. */}
               <button
                 type="submit"
                 disabled={loading}
@@ -119,6 +133,7 @@ function Login() {
               </button>
           </form>
 
+          {/* VIVA: SIGN-UP LINK - opens the separate registration screen. */}
           <div className="mt-3 text-center">
               <p className="text-sm font-medium text-[#59452f]">
                 Don't have an account?{" "}

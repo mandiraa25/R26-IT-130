@@ -1,3 +1,4 @@
+// VIVA: Training entry: five illustrated level cards, stars, locked notices, active activity player and completion reward modal.
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ArrowLeft, LockKeyhole, Star, User } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";

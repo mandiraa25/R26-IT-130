@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 
+// VIVA: FILE CONTENTS - temporary success/error message, status icon and close button with auto-dismiss.
 const Toast = ({ message, type = "success", onClose, duration = 3000 }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -26,6 +27,7 @@ const Toast = ({ message, type = "success", onClose, duration = 3000 }) => {
         <div className="bg-white/20 p-1 rounded-full">
           {icon}
         </div>
+        {/* VIVA: TOAST CONTENT - supplied message and the button that calls onClose. */}
         <span>{message}</span>
         <button 
           onClick={onClose}

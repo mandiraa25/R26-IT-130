@@ -1,4 +1,27 @@
+/*
+ * FILE PURPOSE
+ * Style file: Base screening question, answer, completion and recommendation appearance.
+ *
+ * HOW IT CONNECTS
+ * Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout.
+ * Direct source importers: ../identification/ScreeningQuestions.jsx.
+ *
+ * THINGS TO REMEMBER
+ * Selectors match JSX className values. width/height control size; left/top/inset position absolute
+ * elements inside a positioned parent. padding is inside space; margin is outside space; gap separates
+ * flex/grid children. Later matching rules and more specific selectors can override earlier ones.
+ * These comments preserve every existing declaration.
+ */
 
+
+
+/* SECTION 1: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .wm-screen Find the matching className in the related JSX named in this file guide. grid
+   arranges children into defined rows/columns; grid-template values set their sizes; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .wm-screen {
   --wm-ink:#243e20; --wm-cream:#fffaf0; --wm-pink:#ffedf1; --wm-blue:#e6f2ff; --wm-yellow:#fff3cd;
   --wm-space:12px; --wm-radius:18px; --wm-border:#edacbc;
@@ -6,100 +29,405 @@
   color:var(--wm-ink); font-family:'Nunito',sans-serif;
 }
 .wm-screen__wrap { width:min(1240px,100%,calc((100dvh - 145px) * 2.24)); min-width:0; }
+
+/* SECTION 2: VINE BOARD AND ITS CONTENT
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
 .wm-screen__board-content > *, .wm-screen__question-content > * { min-width:0; }
+
+/* SECTION 3: QUESTION PROGRESS TRACKER
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .wm-screen__tracking Find the matching className in the related JSX named in this file
+   guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen__tracking { display:flex; align-items:center; gap:16px; margin:0 2% 18px 22%; }
 .wm-screen__trackers { flex:1; min-width:0; }
+/*
+   SELECTOR: .wm-screen__stars Find the matching className in the related JSX named in this file guide.
+   flex arranges children along a row/column; align-items and justify-content align them, gap separates
+   them; padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen__stars { display:flex; justify-content:space-between; gap:4px; list-style:none; margin:0; padding:12px 18px; border-radius:999px; background:var(--wm-cream); box-shadow:0 2px 5px #70401622; }
 .wm-screen__stars li { display:grid; place-items:center; min-width:0; }
 .wm-screen__stars svg { width:clamp(13px,1.9vw,26px); height:clamp(13px,1.9vw,26px); stroke:#a5997c; stroke-width:1.8; fill:transparent; }
 .wm-screen__stars .is-done svg { stroke:#b58314; fill:#ffd458; }
 .wm-screen__stars .is-current svg { stroke:#ce3465; stroke-width:3; background:#ffdfeb; border-radius:50%; outline:2px dotted #ce3465; outline-offset:3px; }
+/*
+   SELECTOR: .wm-screen__count Find the matching className in the related JSX named in this file guide.
+   font/font-size and line-height change text size and readable line spacing; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .wm-screen__count { flex-shrink:0; margin:0; padding:12px 17px; border:1.5px dashed #df7898; border-radius:999px; background:var(--wm-cream); color:#922d4d; font-size:clamp(14px,1.35vw,19px); font-weight:800; }
+
+/* SECTION 4: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
 .wm-screen__stage { position:relative; }
+
+/* SECTION 5: VINE BOARD AND ITS CONTENT
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .wm-screen__board Find the matching className in the related JSX named in this file guide.
+   position:relative makes this element an anchor for absolutely positioned children; the URL selects
+   artwork; background-size or object-fit determines how it fits.
+ */
 .wm-screen__board { position:relative; min-width:0; margin-left:22%; container-type:inline-size; border:25px solid transparent; border-image:url('/images/workingMemory/shared/boards/screening/vine-board.png') 130 fill /25px /6px stretch; }
+/*
+   SELECTOR: .wm-screen__board-content Find the matching className in the related JSX named in this file
+   guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen__board-content { min-height:clamp(360px,29vw,480px); padding:clamp(18px,2.4vw,34px); display:flex; flex-direction:column; gap:var(--wm-space); }
+
+/* SECTION 6: QUESTION CONTENT AND ACTIONS
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .wm-screen__question-header Find the matching className in the related JSX named in this
+   file guide. grid arranges children into defined rows/columns; grid-template values set their sizes;
+   padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen__question-header { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:12px; align-items:center; }
+
+/* SECTION 7: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .wm-screen__category Find the matching className in the related JSX named in this file
+   guide. font/font-size and line-height change text size and readable line spacing; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .wm-screen__category { align-self:flex-start; justify-self:start; border:1px dashed #df7898; border-radius:999px; background:var(--wm-cream); padding:7px 14px; font-size:clamp(14px,1.85cqw,19px); font-weight:800; color:#a93154; }
+
+/* SECTION 8: LISTENING AND INSTRUCTION ANSWERS
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .wm-screen__listen Find the matching className in the related JSX named in this file guide.
+   flex arranges children along a row/column; align-items and justify-content align them, gap separates
+   them; font/font-size and line-height change text size and readable line spacing; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .wm-screen__listen { display:flex; align-items:center; gap:7px; padding:0 14px 0 0; min-height:48px; border:0; border-radius:999px; background:#ffebcf; color:#593719; font:700 16px/1.2 'Nunito',sans-serif; cursor:pointer; }
 .wm-screen__listen img { width:48px; height:48px; object-fit:contain; }
 .wm-screen__listen[aria-pressed=true] { outline:2px solid #ac6c24; }
+
+/* SECTION 9: QUESTION CONTENT AND ACTIONS
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .wm-screen__question-title Find the matching className in the related JSX named in this file
+   guide. font/font-size and line-height change text size and readable line spacing; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .wm-screen__question-title { grid-column:1/-1; margin:0; text-align:center; font-size:clamp(22px,3.05cqw,32px); font-weight:800; line-height:1.3; }
 .wm-screen__question-title:focus { outline:none; }
+/*
+   SELECTOR: .wm-screen__question-content Find the matching className in the related JSX named in this
+   file guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen__question-content { display:flex; flex-direction:column; align-items:center; gap:18px; padding:12px 0; flex:1; justify-content:flex-start; }
+
+/* SECTION 10: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .wm-screen__memory-panel Find the matching className in the related JSX named in this file
+   guide. width/height/max-width control this element size; padding is inside space, margin is outside
+   space and gap separates children.
+ */
 .wm-screen__memory-panel { max-width:100%; align-self:center; border:1.5px solid var(--wm-border); border-radius:var(--wm-radius); background:var(--wm-pink); padding:18px 24px; text-align:center; }
+
+/* SECTION 11: NUMBER STUDY AND KEYPAD
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .wm-screen__number-sequence Find the matching className in the related JSX named in this
+   file guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen__number-sequence { display:flex; justify-content:center; align-items:center; gap:10px; flex-wrap:wrap; }
+/*
+   SELECTOR: .wm-screen__number-sequence > span Find the matching className in the related JSX named in
+   this file guide. grid arranges children into defined rows/columns; grid-template values set their
+   sizes; font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size.
+ */
 .wm-screen__number-sequence > span { display:grid; place-items:center; width:clamp(40px,5.2cqw,58px); height:clamp(48px,6.2cqw,66px); border:0; border-radius:12px; background:var(--wm-pink); font-size:clamp(28px,4cqw,42px); font-weight:800; line-height:1; }
 .wm-screen__number-sequence > span:nth-child(3n+2) { background:var(--wm-blue); }
 .wm-screen__number-sequence > span:nth-child(3n+3) { background:var(--wm-yellow); }
+
+/* SECTION 12: PICTURE STUDY AND RECALL
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .wm-screen__picture-strip Find the matching className in the related JSX named in this file
+   guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen__picture-strip { display:flex; justify-content:center; align-items:center; gap:14px; flex-wrap:wrap; }
 .wm-screen__picture-item { display:flex; justify-content:center; min-width:0; }
+/*
+   SELECTOR: .wm-screen__picture-figure Find the matching className in the related JSX named in this file
+   guide. position:relative makes this element an anchor for absolutely positioned children;
+   width/height/max-width control this element size.
+ */
 .wm-screen__picture-figure { position:relative; display:block; width:clamp(70px,11cqw,112px); height:clamp(70px,11cqw,112px); overflow:hidden; }
+/*
+   SELECTOR: .wm-screen__picture-figure img Find the matching className in the related JSX named in this
+   file guide. position:absolute places this layer; left/top/right/bottom/inset move it within its
+   containing area; width/height/max-width control this element size.
+ */
 .wm-screen__picture-figure img { position:absolute; width:100%; height:100%; max-width:none; object-fit:contain; }
+
+/* SECTION 13: QUESTION CONTENT AND ACTIONS
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .wm-screen__options Find the matching className in the related JSX named in this file guide.
+   grid arranges children into defined rows/columns; grid-template values set their sizes;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .wm-screen__options { display:grid; grid-template-columns:minmax(0,1fr); gap:10px; width:100%; max-width:640px; min-width:0; }
+/*
+   SELECTOR: .wm-screen__option Find the matching className in the related JSX named in this file guide.
+   flex arranges children along a row/column; align-items and justify-content align them, gap separates
+   them; font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .wm-screen__option { display:flex; justify-content:center; align-items:center; gap:10px; min-height:58px; width:100%; padding:12px 16px; border:1.5px solid; border-radius:var(--wm-radius); font:700 clamp(18px,2.4cqw,25px)/1.35 'Nunito',sans-serif; color:var(--wm-ink); cursor:pointer; box-shadow:0 2px 0 #97604715; }
 .wm-screen__option--0 { border-color:#e9a0b7; background:var(--wm-pink); }
 .wm-screen__option--1 { border-color:#8bbcf0; background:var(--wm-blue); }
 .wm-screen__option--2 { border-color:#e7c364; background:var(--wm-yellow); }
+
+/* SECTION 14: PICTURE STUDY AND RECALL
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
 .wm-screen__option--pictures { padding:8px 14px; }
 .wm-screen__option--pictures .wm-screen__picture-figure { width:clamp(64px,9.3cqw,92px); height:clamp(64px,9.3cqw,92px); }
+
+/* SECTION 15: NUMBER STUDY AND KEYPAD
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
 .wm-screen__option--numbers { background:var(--wm-cream); }
+
+/* SECTION 16: QUESTION CONTENT AND ACTIONS
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .wm-screen__option:hover:not(:disabled) Find the matching className in the related JSX named
+   in this file guide. :hover applies while the pointer is over the element; disabled/locked styling
+   explains availability; actual click guards and unlock rules live in JS/backend.
+ */
 .wm-screen__option:hover:not(:disabled) { border-color:#3a773d; filter:brightness(.98); }
 .wm-screen__option[aria-pressed=true] { outline:3px solid #38723b; outline-offset:2px; }
+/*
+   SELECTOR: .wm-screen button:disabled Find the matching className in the related JSX named in this file
+   guide. disabled/locked styling explains availability; actual click guards and unlock rules live in
+   JS/backend.
+ */
 .wm-screen button:disabled { cursor:default; opacity:.65; }
+
+/* SECTION 17: RESULTS, REWARDS AND COMPLETION
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .wm-screen button:focus-visible,.wm-recommendations button:focus-visible Find the matching
+   className in the related JSX named in this file guide. focus-visible provides a visible keyboard focus
+   indicator.
+ */
 .wm-screen button:focus-visible,.wm-recommendations button:focus-visible { outline:3px solid #316c37; outline-offset:3px; }
+
+/* SECTION 18: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .wm-screen__primary Find the matching className in the related JSX named in this file guide.
+   flex arranges children along a row/column; align-items and justify-content align them, gap separates
+   them; font/font-size and line-height change text size and readable line spacing; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .wm-screen__primary { display:flex; align-items:center; justify-content:center; gap:10px; min-height:48px; padding:10px 20px; border:1px solid #d38421; border-radius:999px; background:#ffdf93; color:#492809; font:700 17px/1.3 'Nunito',sans-serif; cursor:pointer; }
+
+/* SECTION 19: PATTERN QUESTION AND ARTWORK
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
 .wm-screen__pattern { font-size:clamp(32px,4.6cqw,46px); font-weight:800; line-height:1.4; letter-spacing:.075em; overflow-wrap:anywhere; }
+
+/* SECTION 20: LISTENING AND INSTRUCTION ANSWERS
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
 .wm-screen__instruction-area { width:min(100%,580px); text-align:center; }
+/*
+   SELECTOR: .wm-screen__instruction-steps Find the matching className in the related JSX named in this
+   file guide. grid arranges children into defined rows/columns; grid-template values set their sizes;
+   padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen__instruction-steps { list-style:none; margin:0; padding:0; display:grid; gap:10px; }
+/*
+   SELECTOR: .wm-screen__instruction-steps li Find the matching className in the related JSX named in
+   this file guide. flex arranges children along a row/column; align-items and justify-content align
+   them, gap separates them; padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen__instruction-steps li { display:flex; align-items:center; gap:12px; border:1px solid #e9a0b7; border-radius:14px; padding:10px 14px; background:var(--wm-pink); text-align:left; }
 .wm-screen__instruction-steps li:nth-child(3n+2) { background:var(--wm-blue); border-color:#8bbcf0; }
 .wm-screen__instruction-steps li:nth-child(3n+3) { background:var(--wm-yellow); border-color:#e7c364; }
+/*
+   SELECTOR: .wm-screen__instruction-steps li > span Find the matching className in the related JSX named
+   in this file guide. grid arranges children into defined rows/columns; grid-template values set their
+   sizes; font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size.
+ */
 .wm-screen__instruction-steps li > span { display:grid; place-items:center; width:30px; height:30px; flex-shrink:0; border-radius:50%; background:var(--wm-cream); font-size:18px; font-weight:800; }
+/*
+   SELECTOR: .wm-screen__instruction-steps p Find the matching className in the related JSX named in this
+   file guide. font/font-size and line-height change text size and readable line spacing; padding is
+   inside space, margin is outside space and gap separates children.
+ */
 .wm-screen__instruction-steps p { margin:0; font-size:clamp(18px,2.3cqw,24px); font-weight:700; line-height:1.35; }
+
+/* SECTION 21: QUESTION CONTENT AND ACTIONS
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .wm-screen__question-footer p Find the matching className in the related JSX named in this
+   file guide. font/font-size and line-height change text size and readable line spacing; padding is
+   inside space, margin is outside space and gap separates children.
+ */
 .wm-screen__question-footer p { margin:0; text-align:center; color:#6f5138; font-size:16px; line-height:1.4; }
+
+/* SECTION 22: RESULTS, REWARDS AND COMPLETION
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .wm-screen__complete Find the matching className in the related JSX named in this file
+   guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen__complete { display:flex; flex-direction:column; gap:18px; }
 .wm-screen__complete header { text-align:center; }
+/*
+   SELECTOR: .wm-screen__complete h1 Find the matching className in the related JSX named in this file
+   guide. font/font-size and line-height change text size and readable line spacing; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .wm-screen__complete h1 { margin:0 0 6px; font-size:clamp(23px,3.4cqw,36px); font-weight:800; line-height:1.25; }
+/*
+   SELECTOR: .wm-screen__complete header > p Find the matching className in the related JSX named in this
+   file guide. font/font-size and line-height change text size and readable line spacing; padding is
+   inside space, margin is outside space and gap separates children.
+ */
 .wm-screen__complete header > p { margin:0; font-size:18px; color:#6f5138; }
+/*
+   SELECTOR: .wm-screen__results Find the matching className in the related JSX named in this file guide.
+   grid arranges children into defined rows/columns; grid-template values set their sizes; padding is
+   inside space, margin is outside space and gap separates children.
+ */
 .wm-screen__results { display:grid; grid-template-columns:.95fr 1.05fr; gap:14px; align-items:stretch; }
 .wm-screen__score,.wm-recommendations { padding:16px; border:1px solid #e4c563; border-radius:var(--wm-radius,18px); background:#fff3cd; text-align:center; color:#243e20; font-family:'Nunito',sans-serif; }
+/*
+   SELECTOR: .wm-screen__score Find the matching className in the related JSX named in this file guide.
+   flex arranges children along a row/column; align-items and justify-content align them, gap separates
+   them; padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen__score { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; }
 .wm-recommendations { background:#f1f7e9; border-color:#b2cd9d; }
+/*
+   SELECTOR: .wm-screen__results h2,.wm-recommendations h2 Find the matching className in the related JSX
+   named in this file guide. font/font-size and line-height change text size and readable line spacing;
+   padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen__results h2,.wm-recommendations h2 { margin:0 0 8px; font-size:20px; font-weight:800; line-height:1.3; }
 .wm-screen__score strong { font-size:clamp(40px,6cqw,62px); font-weight:800; line-height:1.1; }
 .wm-screen__score small { font-size:15px; }
+/*
+   SELECTOR: .wm-screen__score p,.wm-recommendations p Find the matching className in the related JSX
+   named in this file guide. font/font-size and line-height change text size and readable line spacing;
+   padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen__score p,.wm-recommendations p { margin:0 0 10px; font-size:15px; line-height:1.45; }
+/*
+   SELECTOR: .wm-recommendations ul Find the matching className in the related JSX named in this file
+   guide. grid arranges children into defined rows/columns; grid-template values set their sizes; padding
+   is inside space, margin is outside space and gap separates children.
+ */
 .wm-recommendations ul { list-style:none; display:grid; gap:8px; padding:0; margin:0; }
+/*
+   SELECTOR: .wm-recommendations button Find the matching className in the related JSX named in this file
+   guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .wm-recommendations button { display:flex; align-items:center; gap:8px; width:100%; min-height:48px; padding:8px; border:1px solid #b2cd9d; background:#fffdf5; border-radius:12px; color:#243e20; font:700 15px/1.3 'Nunito',sans-serif; text-align:left; cursor:pointer; }
+/*
+   SELECTOR: .wm-recommendations button:disabled Find the matching className in the related JSX named in
+   this file guide. disabled/locked styling explains availability; actual click guards and unlock rules
+   live in JS/backend.
+ */
 .wm-recommendations button:disabled { opacity:.65; cursor:default; }
 .wm-recommendations img { width:38px; height:38px; object-fit:contain; }
+/*
+   SELECTOR: .wm-screen__result-actions Find the matching className in the related JSX named in this file
+   guide. grid arranges children into defined rows/columns; grid-template values set their sizes; padding
+   is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen__result-actions { display:grid; grid-template-columns:.8fr 1.2fr; gap:14px; }
+
+/* MEDIA QUERY: (max-width:1100px). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media(max-width:1100px) { .wm-screen__results { grid-template-columns:1fr 1fr; }  }
+
+/* MEDIA QUERY: (max-width:900px). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media(max-width:900px) { .wm-screen { padding:18px 14px; } .wm-screen__board-content { padding:20px 15px; min-height:420px; } .wm-screen__tracking { margin-left:0; } }
+
+/* MEDIA QUERY: (max-width:600px). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media(max-width:600px) {
  .wm-screen__tracking { flex-wrap:wrap; justify-content:center; gap:12px; } .wm-screen__trackers { flex-basis:100%; } .wm-screen__stars { padding:10px 12px; } .wm-screen__stars svg { width:15px; height:15px; } .wm-screen__board { margin:85px 0 0; border-width:20px; border-image-width:20px; }
  .wm-screen__board-content { padding:22px 5px; } .wm-screen__question-header { gap:12px 6px; } .wm-screen__category { font-size:13px; padding:6px 9px; } .wm-screen__listen { font-size:14px; padding-right:8px; } .wm-screen__listen img { width:40px; height:40px; }
  .wm-screen__picture-strip { gap:6px; } .wm-screen__picture-figure { width:66px; height:66px; } .wm-screen__option--pictures .wm-screen__picture-figure { width:58px; height:58px; } .wm-screen__memory-panel { padding:14px 8px; } .wm-screen__results,.wm-screen__result-actions { grid-template-columns:1fr; } .wm-screen__results .wm-recommendations ul { grid-template-columns:1fr; }
  .wm-screen__number-sequence { gap:8px; } .wm-screen__number-sequence > span { width:40px; height:48px; font-size:30px; }
 }
+
+/* MEDIA QUERY: (prefers-reduced-motion:reduce). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media(prefers-reduced-motion:reduce) { .wm-screen * { scroll-behavior:auto; transition:none; } }
 
+
+/* SECTION 23: PATTERN QUESTION AND ARTWORK
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
 .wm-screen__pattern + .wm-screen__options .wm-screen__option { font-size:clamp(30px,4cqw,42px); }
+
+/* SECTION 24: NUMBER STUDY AND KEYPAD
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
 .wm-screen__options:has(.wm-screen__option--numbers) { max-width:480px; }
+
+/* SECTION 25: PICTURE STUDY AND RECALL
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
 .wm-screen__picture-strip { flex-wrap:nowrap; max-width:100%; min-width:0; }
 .wm-screen__picture-item { flex:0 1 112px; }
 .wm-screen__picture-figure { max-width:100%; aspect-ratio:1; height:auto; }
 .wm-screen__option--pictures .wm-screen__picture-figure { height:auto; }
+
+/* SECTION 26: LISTENING AND INSTRUCTION ANSWERS
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
 .wm-screen__instruction-area .wm-screen__primary { margin:12px auto 0; }
 
 /* The results reference uses full-size illustrations on soft cream cards. */
+
+/* SECTION 27: RESULTS, REWARDS AND COMPLETION
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .wm-screen .wm-screen__results .wm-recommendations--illustrated Find the matching className
+   in the related JSX named in this file guide. flex arranges children along a row/column; align-items
+   and justify-content align them, gap separates them; padding is inside space, margin is outside space
+   and gap separates children.
+ */
 .wm-screen .wm-screen__results .wm-recommendations--illustrated { display:flex; flex-direction:column; justify-content:center; gap:10px; }
 .wm-screen .wm-screen__results .wm-recommendations--illustrated h2 { margin:0 0 4px; color:#163e16; }
 .wm-screen .wm-screen__results .wm-recommendations--illustrated ul { gap:10px; }
+/*
+   SELECTOR: .wm-screen .wm-screen__results .wm-recommendations--illustrated button Find the matching
+   className in the related JSX named in this file guide. font/font-size and line-height change text size
+   and readable line spacing; padding is inside space, margin is outside space and gap separates
+   children.
+ */
 .wm-screen .wm-screen__results .wm-recommendations--illustrated button { min-height:78px; gap:12px; padding:5px 10px; border:1.5px solid #bde4a8; border-radius:20px; background:#fffef8; color:#143f16; font-size:clamp(16px,2cqw,22px); font-weight:900; }
 .wm-screen .wm-screen__results .wm-recommendations--illustrated img { width:64px; height:64px; flex-shrink:0; object-fit:contain; }
+/*
+   SELECTOR: .wm-screen .wm-screen__results .wm-recommendations--illustrated button:hover:not(:disabled)
+   Find the matching className in the related JSX named in this file guide. :hover applies while the
+   pointer is over the element; disabled/locked styling explains availability; actual click guards and
+   unlock rules live in JS/backend.
+ */
 .wm-screen .wm-screen__results .wm-recommendations--illustrated button:hover:not(:disabled) { background:#f5fce9; border-color:#719c52; }
 .wm-screen .wm-screen__results .wm-recommendations--illustrated p { margin:0; }
+
+/* MEDIA QUERY: (min-width:901px). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media(min-width:901px) {
  .wm-screen__memory-panel .wm-screen__number-sequence > span { width:78px; height:86px; font-size:60px; }
  .wm-screen__instruction-steps li { padding:11px 16px; }
@@ -107,18 +435,56 @@
  .wm-screen__instruction-steps li:nth-child(3n+2) > span { background:#c4e2ff; }
  .wm-screen__instruction-steps li:nth-child(3n+3) > span { background:#ffe293; }
 }
+
+/* MEDIA QUERY: (max-width:600px). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media(max-width:600px) {
  .wm-screen .wm-screen__results .wm-recommendations--illustrated button { font-size:17px; gap:8px; }
  .wm-screen .wm-screen__results .wm-recommendations--illustrated img { width:56px; height:56px; }
 }
+/*
+   SELECTOR: .wm-screen__demo-complete Find the matching className in the related JSX named in this file
+   guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; width/height/max-width control this element size; padding is inside space, margin is
+   outside space and gap separates children.
+ */
 .wm-screen__demo-complete { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; gap:14px; text-align:center; }
 .wm-screen__demo-complete > img { width:110px; height:90px; object-fit:contain; }
+/*
+   SELECTOR: .wm-screen__demo-complete h1 Find the matching className in the related JSX named in this
+   file guide. font/font-size and line-height change text size and readable line spacing; padding is
+   inside space, margin is outside space and gap separates children.
+ */
 .wm-screen__demo-complete h1 { margin:0; font-size:clamp(24px,3.5cqw,36px); font-weight:900; }
+/*
+   SELECTOR: .wm-screen__demo-complete p Find the matching className in the related JSX named in this
+   file guide. font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .wm-screen__demo-complete p { margin:0; max-width:560px; font-size:18px; line-height:1.45; }
 .wm-screen__demo-complete .wm-screen__result-actions { width:min(100%,620px); }
 .wm-screen__demo-complete .wm-screen__primary { min-height:52px; background:#ffdf93; }
+
+/* SECTION 28: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .wm-screen__save-notice Find the matching className in the related JSX named in this file
+   guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; font/font-size and line-height change text size and readable line spacing; padding is
+   inside space, margin is outside space and gap separates children.
+ */
 .wm-screen__save-notice { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:8px; flex-shrink:0; border:1px solid #e9c05a; border-radius:12px; padding:5px 10px; background:#fff8de; color:#5c3618; font-size:14px; line-height:1.35; text-align:center; }
+
+/* SECTION 29: QUESTION CONTENT AND ACTIONS
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .wm-screen__save-notice button Find the matching className in the related JSX named in this
+   file guide. font/font-size and line-height change text size and readable line spacing; padding is
+   inside space, margin is outside space and gap separates children.
+ */
 .wm-screen__save-notice button { min-height:48px; padding:6px 12px; border:1px solid #bf8e35; border-radius:10px; background:#ffe49c; font:800 15px/1.3 'Nunito',sans-serif; cursor:pointer; }
+
+/* MEDIA QUERY: (min-width:901px) and (min-height:651px). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media(min-width:901px) and (min-height:651px) {
  .wm-screen__complete--notice .wm-screen__score { padding:10px; gap:4px; }
  .wm-screen__complete--notice .wm-screen__score strong { font-size:48px; }
@@ -128,9 +494,13 @@
  .wm-screen__complete--notice .wm-screen__results .wm-recommendations img { width:40px; height:40px; }
  .wm-screen__complete--notice .wm-screen__results .wm-recommendations h2 { font-size:18px; }
 }
+
+/* MEDIA QUERY: (max-width:600px). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media(max-width:600px) { .wm-screen__demo-complete { gap:18px; } .wm-screen__demo-complete .wm-screen__result-actions { grid-template-columns:1fr; } }
 
 /* Preserve the supplied board silhouette and generous leaf corners on desktop. */
+
+/* MEDIA QUERY: (min-width:901px) and (min-height:651px). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media(min-width:901px) and (min-height:651px) {
  .wm-screen__board { border:0; aspect-ratio:1654/938; }
  .wm-screen__board-content { position:absolute; inset:8% 6.5% 10% 6%; min-height:0; padding:0; gap:10px; }
@@ -151,6 +521,9 @@
  .wm-screen__results h2 { font-size:21px; margin-bottom:6px; }
  .wm-screen__result-actions .wm-screen__option { min-height:54px; padding:9px 12px; font-size:clamp(16px,2.1cqw,21px); }
 }
+
+/* SECTION 30: RESULTS, REWARDS AND COMPLETION
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
 .wm-screen__score,.wm-screen__results > .wm-recommendations { outline:1px dashed #e9c970; outline-offset:-7px; border-radius:24px; box-shadow:0 3px 3px #84672215; }
 .wm-screen__results > .wm-recommendations { outline-color:#b5d69d; background:#eef8df; }
 .wm-screen__score { background:linear-gradient(120deg,#fff5ce,#ffefac); }
@@ -158,12 +531,16 @@
 .wm-screen__result-actions .wm-screen__option { position:relative; border-radius:22px; }
 .wm-screen__result-actions .wm-screen__option::after { content:''; position:absolute; inset:5px; border:1px dashed currentColor; opacity:.2; border-radius:16px; pointer-events:none; }
 .wm-screen__result-actions svg { flex-shrink:0; width:23px; height:23px; }
+
+/* MEDIA QUERY: (max-width:900px), (max-height:650px). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media(max-width:900px), (max-height:650px) {
  .wm-screen__wrap { width:min(100%,1180px); }
  .wm-screen__board-content { min-height:380px; }
  .wm-screen__complete { gap:14px; }
  .wm-screen__result-actions .wm-screen__option { font-size:18px; }
 }
+
+/* MEDIA QUERY: (max-width:600px). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media(max-width:600px) {
  .wm-screen__board { width:100%; }
  .wm-screen__board-content { padding:16px 3px; }
@@ -175,64 +552,237 @@
 }
 
 /* Supplied clean vine art; screening retains its independent fifteen-step tracker. */
+
+/* SECTION 31: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
 .wm-screen { --wm-ink:#542f1b; --wm-border:#dbc49c; }
 .wm-screen .wm-screen__category { border-style:solid; border-color:#e5c69c; color:#713d18; background:#fff3df; }
+
+/* SECTION 32: QUESTION PROGRESS TRACKER
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
 .wm-screen .wm-screen__count { border-style:solid; border-color:#e5c69c; color:#713d18; }
 .wm-screen .wm-screen__stars { border:1px solid #e5c69c; }
+
+/* SECTION 33: QUESTION CONTENT AND ACTIONS
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
 .wm-screen .wm-screen__question-title { line-height:1.4; letter-spacing:.01em; }
 
 /* Screening question layouts matched to the reference boards. Improvement screens do not use these classes. */
+
+/* SECTION 34: QUESTION PROGRESS TRACKER
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .lx-screening .wm-screen__tracking Find the matching className in the related JSX named in
+   this file guide. width/height/max-width control this element size; padding is inside space, margin is
+   outside space and gap separates children.
+ */
 .lx-screening .wm-screen__tracking { left:500px; right:36px; top:28px; width:auto; height:64px; margin:0; justify-content:flex-end; gap:18px; }
 .lx-screening .wm-screen__trackers { flex:0 1 auto; }
+/*
+   SELECTOR: .lx-screening .wm-screen__stars Find the matching className in the related JSX named in this
+   file guide. width/height/max-width control this element size; padding is inside space, margin is
+   outside space and gap separates children.
+ */
 .lx-screening .wm-screen__stars { width:auto; justify-content:center; gap:8px; padding:12px 18px; border:2px solid #f0d7b4; border-radius:999px; background:#fff8ee; box-shadow:0 2px 0 #e7c9a4; }
 .lx-screening .wm-screen__stars li { width:16px; height:16px; }
 .lx-screening .wm-screen__pip { display:block; width:16px; height:16px; border-radius:50%; background:#f3e2cc; }
 .lx-screening .wm-screen__stars .is-current .wm-screen__pip,
 .lx-screening .wm-screen__stars .is-done .wm-screen__pip { background:#f25b86; }
+/*
+   SELECTOR: .lx-screening .wm-screen__count Find the matching className in the related JSX named in this
+   file guide. font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-screening .wm-screen__count { position:static; width:auto; margin:0; padding:10px 18px; border:2px dashed #e07a9a; border-radius:999px; background:#fff; color:#c23b66; font-size:20px; font-weight:800; white-space:nowrap; text-align:center; }
+
+/* SECTION 35: VINE BOARD AND ITS CONTENT
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
 .lx-screening .lx-board-content { padding:46px 72px 58px; justify-content:stretch; gap:8px; }
 .lx-screening .wm-screen__board-content { justify-content:space-between; gap:10px; }
+
+/* SECTION 36: QUESTION CONTENT AND ACTIONS
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .lx-screening .wm-screen__question-header Find the matching className in the related JSX
+   named in this file guide. flex arranges children along a row/column; align-items and justify-content
+   align them, gap separates them; width/height/max-width control this element size; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .lx-screening .wm-screen__question-header { display:flex; flex-direction:column; align-items:stretch; gap:6px; width:100%; }
+
+/* SECTION 37: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
 .lx-screening .wm-screen__category { border:1.5px dashed #e7a0b4; color:#d23b6c; background:#fff; }
+/*
+   SELECTOR: .lx-screening .wm-screen__title-row Find the matching className in the related JSX named in
+   this file guide. flex arranges children along a row/column; align-items and justify-content align
+   them, gap separates them; width/height/max-width control this element size; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .lx-screening .wm-screen__title-row { display:flex; align-items:center; justify-content:center; gap:14px; width:100%; min-width:0; }
+
+/* SECTION 38: QUESTION CONTENT AND ACTIONS
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .lx-screening .wm-screen__question-title Find the matching className in the related JSX
+   named in this file guide. font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size.
+ */
 .lx-screening .wm-screen__question-title { grid-column:auto; max-width:680px; font-size:30px; line-height:1.25; }
+
+/* SECTION 39: LISTENING AND INSTRUCTION ANSWERS
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
 .lx-screening .wm-screen__listen { flex-shrink:0; gap:8px; min-height:52px; padding:0 16px 0 4px; background:#f6e2c4; color:#6a3d16; }
 .lx-screening .wm-screen__listen img { width:46px; height:46px; }
+
+/* SECTION 40: QUESTION CONTENT AND ACTIONS
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .lx-screening .wm-screen__question-content Find the matching className in the related JSX
+   named in this file guide. width/height/max-width control this element size; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .lx-screening .wm-screen__question-content { width:100%; flex:1; justify-content:center; gap:16px; padding:0; }
 .lx-screening .wm-screen__question-footer p { font-size:20px; font-weight:700; color:#6f5138; }
+
+/* SECTION 41: PATTERN QUESTION AND ARTWORK
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .lx-screening .wm-screen__pattern Find the matching className in the related JSX named in
+   this file guide. flex arranges children along a row/column; align-items and justify-content align
+   them, gap separates them; font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-screening .wm-screen__pattern { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:14px; width:min(100%,860px); min-height:108px; margin:0; padding:16px 22px; border:2px dashed #f3b7c8; border-radius:22px; background:#fff7f8; letter-spacing:0; font-size:inherit; line-height:1; }
+
+/* SECTION 42: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .lx-screening .wm-screen__missing Find the matching className in the related JSX named in
+   this file guide. grid arranges children into defined rows/columns; grid-template values set their
+   sizes; font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size.
+ */
 .lx-screening .wm-screen__missing { width:52px; height:52px; display:grid; place-items:center; border:3px dashed #c9a27a; border-radius:50%; color:#8a6238; font-size:32px; font-weight:800; }
+
+/* SECTION 43: PATTERN QUESTION AND ARTWORK
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
 .lx-screening .wm-screen__pattern-token { min-width:48px; font-size:40px; font-weight:800; color:#2e1c0e; text-align:center; }
+/*
+   SELECTOR: .lx-screening .wm-screen__options--pattern Find the matching className in the related JSX
+   named in this file guide. grid arranges children into defined rows/columns; grid-template values set
+   their sizes; width/height/max-width control this element size; padding is inside space, margin is
+   outside space and gap separates children.
+ */
 .lx-screening .wm-screen__options--pattern { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; width:min(100%,860px); max-width:none; }
 .lx-screening .wm-screen__options--pattern .wm-screen__option { position:relative; min-height:92px; border-width:0; border-radius:18px; box-shadow:0 4px 0 #00000010; }
 .lx-screening .wm-screen__options--pattern .wm-screen__missing { width:46px; height:46px; }
 .lx-screening .wm-screen__options--pattern .wm-screen__pattern-token { font-size:36px; }
+
+/* SECTION 44: QUESTION CONTENT AND ACTIONS
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .lx-screening .wm-screen__option-value Find the matching className in the related JSX named
+   in this file guide. position:absolute places this layer; left/top/right/bottom/inset move it within
+   its containing area; width/height/max-width control this element size.
+ */
 .lx-screening .wm-screen__option-value { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+
+/* SECTION 45: PICTURE STUDY AND RECALL
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .lx-screening .wm-screen__memory-panel--pictures Find the matching className in the related
+   JSX named in this file guide. width/height/max-width control this element size; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .lx-screening .wm-screen__memory-panel--pictures { width:min(100%,820px); border:2px dashed #f3b7c8; border-radius:24px; background:#fff5f7; padding:28px 24px; }
+
+/* SECTION 46: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .lx-screening .wm-screen__memory-panel--plain Find the matching className in the related JSX
+   named in this file guide. width/height/max-width control this element size; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .lx-screening .wm-screen__memory-panel--plain { width:100%; border:0; background:transparent; padding:8px 0; box-shadow:none; }
+
+/* SECTION 47: PICTURE STUDY AND RECALL
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .lx-screening .wm-screen__picture-strip Find the matching className in the related JSX named
+   in this file guide. width/height/max-width control this element size; padding is inside space, margin
+   is outside space and gap separates children.
+ */
 .lx-screening .wm-screen__picture-strip { width:auto; max-width:100%; justify-content:center; gap:28px; }
 .lx-screening .wm-screen__picture-item { flex:0 0 auto; }
 .lx-screening .wm-screen__memory-panel--pictures .wm-screen__picture-figure { width:148px; height:148px; }
+
+/* SECTION 48: QUESTION CONTENT AND ACTIONS
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .lx-screening .wm-screen__options--orders Find the matching className in the related JSX
+   named in this file guide. width/height/max-width control this element size; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .lx-screening .wm-screen__options--orders { width:min(100%,860px); max-width:none; gap:14px; }
 .lx-screening .wm-screen__options--orders .wm-screen__option { min-height:82px; border-style:dashed; border-width:2px; border-radius:18px; font-size:32px; font-weight:800; }
+
+/* SECTION 49: NUMBER STUDY AND KEYPAD
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
 .lx-screening .wm-screen__option--numbers.wm-screen__option--0 { background:var(--wm-pink); }
 .lx-screening .wm-screen__option--numbers.wm-screen__option--1 { background:var(--wm-blue); }
 .lx-screening .wm-screen__option--numbers.wm-screen__option--2 { background:var(--wm-yellow); }
+
+/* SECTION 50: PICTURE STUDY AND RECALL
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
 .lx-screening .wm-screen__option--pictures { min-height:96px; border-style:dashed; border-width:2px; border-radius:18px; gap:18px; }
 .lx-screening .wm-screen__option--pictures .wm-screen__picture-strip { gap:18px; }
 .lx-screening .wm-screen__option--pictures .wm-screen__picture-figure { width:72px; height:72px; }
+
+/* SECTION 51: NUMBER STUDY AND KEYPAD
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
 .lx-screening .wm-screen__number-sequence--study { gap:22px; }
+/*
+   SELECTOR: .lx-screening .wm-screen__number-sequence--study > span Find the matching className in the
+   related JSX named in this file guide. font/font-size and line-height change text size and readable
+   line spacing; width/height/max-width control this element size.
+ */
 .lx-screening .wm-screen__number-sequence--study > span { width:128px; height:138px; border:2px solid #f3d7c4; border-radius:18px; background:#fff8f4; color:#2e1c0e; font-size:64px; box-shadow:none; }
 .lx-screening .wm-screen__number-sequence--study > span:nth-child(n) { background:#fff8f4; }
+/*
+   SELECTOR: .lx-screening .wm-screen__number-sequence--4 > span, .lx-screening
+   .wm-screen__number-sequence--study.wm-screen__number-sequence--4 > span Find the matching className in
+   the related JSX named in this file guide. font/font-size and line-height change text size and readable
+   line spacing; width/height/max-width control this element size.
+ */
 .lx-screening .wm-screen__number-sequence--4 > span,
 .lx-screening .wm-screen__number-sequence--study.wm-screen__number-sequence--4 > span { width:104px; height:118px; font-size:52px; }
 .lx-screening .wm-screen__number-sequence--2 > span { width:148px; height:148px; }
+
+/* SECTION 52: LISTENING AND INSTRUCTION ANSWERS
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
 .lx-screening .wm-screen__instruction-area { width:min(100%,860px); }
 .lx-screening .wm-screen__instruction-steps { gap:12px; }
 .lx-screening .wm-screen__instruction-steps li { min-height:72px; border-width:0; border-radius:16px; padding:8px 18px; box-shadow:0 3px 0 #0000000d; }
+/*
+   SELECTOR: .lx-screening .wm-screen__instruction-steps li > span Find the matching className in the
+   related JSX named in this file guide. font/font-size and line-height change text size and readable
+   line spacing; width/height/max-width control this element size.
+ */
 .lx-screening .wm-screen__instruction-steps li > span { width:42px; height:42px; border-radius:50%; background:#ffd0dd; color:#2e1c0e; font-size:20px; }
 .lx-screening .wm-screen__instruction-steps li:nth-child(3n+2) > span { background:#c4e2ff; }
 .lx-screening .wm-screen__instruction-steps li:nth-child(3n+3) > span { background:#ffe293; }
 .lx-screening .wm-screen__instruction-steps p { font-size:26px; }
+
+/* SECTION 53: QUESTION CONTENT AND ACTIONS
+   Imported by ScreeningQuestions.jsx; identificationScreens.css adds the current shared-stage layout. */
+/*
+   SELECTOR: .lx-screening .wm-screen__options--actions Find the matching className in the related JSX
+   named in this file guide. grid arranges children into defined rows/columns; grid-template values set
+   their sizes; width/height/max-width control this element size; padding is inside space, margin is
+   outside space and gap separates children.
+ */
 .lx-screening .wm-screen__options--actions { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:16px; width:min(100%,860px); max-width:none; }
 .lx-screening .wm-screen__options--actions .wm-screen__option { min-height:78px; border-width:0; border-radius:18px; font-size:24px; box-shadow:0 4px 0 #00000010; }

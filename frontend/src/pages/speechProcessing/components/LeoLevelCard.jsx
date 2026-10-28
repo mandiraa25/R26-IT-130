@@ -1,3 +1,4 @@
+// VIVA: Illustrated level card with title, three-star rating and PLAY/Opening... or Locked action.
 import { LockKeyhole, Play } from "lucide-react";
 
 function StarIcon({ filled }) {

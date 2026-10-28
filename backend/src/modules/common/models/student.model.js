@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// VIVA: Mongoose maps this schema to student documents; controllers hash passwords before saving.
 const studentSchema = new mongoose.Schema(
   {
     fullName: {
@@ -34,11 +35,13 @@ const studentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    // VIVA: All documents in this collection are students; admin accounts use a separate model.
     role: {
       type: String,
       enum: ["student"],
       default: "student",
     },
+    // VIVA: The profile form sends an image data URL, represented here as a string.
     profilePhoto: {
       type: String,
     },
@@ -60,6 +63,7 @@ const studentSchema = new mongoose.Schema(
     resetPasswordTokenHash: { type: String, select: false },
     resetPasswordExpires: { type: Date, select: false },
   },
+  // VIVA: Mongoose maintains createdAt and updatedAt automatically.
   { timestamps: true }
 );
 

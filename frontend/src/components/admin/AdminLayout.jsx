@@ -1,3 +1,4 @@
+// VIVA: OVERVIEW - Shared admin sidebar, page title and logout controls; role controls which menu links appear.
 import React from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -34,6 +35,7 @@ const AdminLayout = ({ children }) => {
   const user = JSON.parse(localStorage.getItem("adminUser") || "{}");
 
   const handleLogout = () => {
+    // VIVA: Remove the browser's admin session and return to its login screen.
     localStorage.removeItem("adminToken");
     localStorage.removeItem("adminUser");
     navigate("/admin/login");
@@ -77,6 +79,7 @@ const AdminLayout = ({ children }) => {
   ];
 
   const menuSections = [];
+  // VIVA: Hiding these links controls navigation; backend middleware enforces permissions.
   if (user.role === "super admin") {
     menuSections.push({
       title: "System Management",
@@ -89,6 +92,7 @@ const AdminLayout = ({ children }) => {
   menuSections.push(...baseMenuSections);
 
   const getPageTitle = () => {
+    // VIVA: Match the current URL to the same menu data used to render sidebar links.
     for (const section of menuSections) {
       for (const item of section.items) {
         if (location.pathname.includes(item.path)) {
@@ -103,6 +107,7 @@ const AdminLayout = ({ children }) => {
     <div className="flex h-screen bg-slate-50 font-sans antialiased text-slate-900">
       <ToastContainer position="top-right" autoClose={3000} />
 
+      {/* VIVA: Navigation links and admin session controls. */}
       {/* Sidebar */}
       <aside className="w-80 bg-slate-900 flex flex-col transition-all duration-300 border-r border-slate-800">
         <div className="p-8">
@@ -159,6 +164,7 @@ const AdminLayout = ({ children }) => {
         </div>
       </aside>
 
+      {/* VIVA: Shared page header and the selected admin screen. */}
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         <header className="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-8 z-10">

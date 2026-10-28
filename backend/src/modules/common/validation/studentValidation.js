@@ -80,6 +80,7 @@ const validateRegistration = (body = {}) => collect({
   password: validatePassword(body.password),
 });
 
+// VIVA: Sign-in accepts an existing password; the stronger password rule applies on creation/reset.
 const validateLogin = (body = {}) => collect({
   email: validateEmail(body.email),
   password: typeof body.password === "string" && body.password ? "" : "Password is required.",

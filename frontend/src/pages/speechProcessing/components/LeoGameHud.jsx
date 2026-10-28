@@ -1,3 +1,4 @@
+// VIVA: Game header: Back to Safari action, Leo's Sound Safari title, collected rewards and Level X of Y.
 function LeoGameHud({
   title,
   onBack,

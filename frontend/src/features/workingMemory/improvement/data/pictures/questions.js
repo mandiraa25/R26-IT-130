@@ -1,3 +1,19 @@
+/*
+ * FILE PURPOSE
+ * Current bilingual Picture Memory image-object questions built from authored rows.
+ *
+ * HOW IT CONNECTS
+ * getSubCategoryData returns these questions instead of the older pictures/bank questions.
+ * pictureImageSrc builds each asset URL; PictureMemoryGame and MemoryPicture display the result.
+ * Direct source importers: ../index.js.
+ *
+ * THINGS TO REMEMBER
+ * BANK contains picture names per grade/level. A | separates the remembered sequence from extra
+ * distractors. createBank creates stable id/image/translated alt objects for en/si. Correctness
+ * compares stable IDs, not translated labels. The controller currently shuffles only correct pictures
+ * into the playable pool.
+ */
+
 const SI = { Cat:"පූසා", Ball:"බෝලය", Sun:"ඉර", Shoe:"සපත්තුව", Apple:"ඇපල්", Car:"කාර් රථය", Book:"පොත", Bird:"කුරුල්ලා", Moon:"හඳ", Bear:"වලහා", Dog:"බල්ලා", Star:"තරුව", Orange:"දොඩම්", Bus:"බස් රථය", Flower:"මල", Spoon:"හැන්ද", Duck:"තාරාවා", Key:"යතුර", Grapes:"මිදි", Cloud:"වලාකුළ", Sock:"මේස්", Banana:"කෙසෙල්", Rabbit:"හාවා", Pencil:"පැන්සල", Bicycle:"බයිසිකලය", Fish:"මාළුවා", Hat:"තොප්පිය", Strawberry:"ස්ට්‍රෝබෙරි", Frog:"ගෙම්බා", Tree:"ගස", Cup:"කෝප්පය", Balloon:"බැලුනය", Glove:"අත්ආවරණය", Airplane:"ගුවන් යානය", Crown:"ඔටුන්න", Bag:"බෑගය", House:"ගෙදර", Turtle:"ඉබ්බා", Mushroom:"බිම්මල්", Butterfly:"සමනලයා", Pen:"පෑන", Tortoise:"කැස්බෑවා", Elephant:"අලියා", School:"පාසල", YoYo:"යෝ-යෝ", Bike:"බයිසිකලය" };
 
 // One PNG per picture, organised like the Pattern images:

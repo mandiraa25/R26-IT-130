@@ -1,4 +1,23 @@
+/*
+ * FILE PURPOSE
+ * Style file: Illustrated level-card sizing and the text laid over each PNG.
+ *
+ * HOW IT CONNECTS
+ * LevelMapCard.jsx imports this; LevelSelection supplies lx-adventure-map/lx-level-cards ancestors.
+ * PNGs contain decoration; title/progress/PLAY remain real text.
+ * Direct source importers: ../improvement/LevelMapCard.jsx.
+ *
+ * THINGS TO REMEMBER
+ * Selectors match JSX className values. width/height control size; left/top/inset position absolute
+ * elements inside a positioned parent. padding is inside space; margin is outside space; gap separates
+ * flex/grid children. Later matching rules and more specific selectors can override earlier ones.
+ * These comments preserve every existing declaration.
+ */
+
 /* The PNG supplies the illustrated frame and blank controls. Labels remain live. */
+
+/* SECTION 1: LEVEL MAP AND ILLUSTRATED CARDS
+   LevelMapCard.jsx imports this; LevelSelection supplies lx-adventure-map/lx-level-cards ancestors. PNGs contain decoration; title/progress/PLAY remain real text. */
 .lx-adventure-map .lx-level-cards {
   left: 52px;
   right: 52px;
@@ -6,6 +25,13 @@
   gap: 24px;
 }
 
+/*
+   SELECTOR: .lx-adventure-map .wm-level-card Find the matching className in the related JSX named in
+   this file guide. position:relative makes this element an anchor for absolutely positioned children;
+   transform/scale moves, rotates or resizes the drawn element without changing its normal layout space;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-adventure-map .wm-level-card {
   position: relative;
   isolation: isolate;
@@ -35,6 +61,14 @@
   filter: drop-shadow(0 6px 5px #402b1930);
 }
 
+/*
+   SELECTOR: .lx-adventure-map .wm-level-card h2.wm-level-card__title Find the matching className in the
+   related JSX named in this file guide. position:absolute places this layer; left/top/right/bottom/inset
+   move it within its containing area; grid arranges children into defined rows/columns; grid-template
+   values set their sizes; font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-adventure-map .wm-level-card h2.wm-level-card__title {
   position: absolute;
   inset: 8.5% 20% auto;
@@ -50,6 +84,14 @@
   text-shadow: 0 3px 2px #49200a80;
 }
 
+/*
+   SELECTOR: .wm-level-card__progress Find the matching className in the related JSX named in this file
+   guide. position:absolute places this layer; left/top/right/bottom/inset move it within its containing
+   area; flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .wm-level-card__progress {
   position: absolute;
   inset: 73.5% 9% auto;
@@ -64,6 +106,14 @@
 }
 
 .wm-level-card__progress > img { width: 32px; height: 32px; object-fit: contain; }
+/*
+   SELECTOR: .wm-level-card__cta Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   flex arranges children along a row/column; align-items and justify-content align them, gap separates
+   them; font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .wm-level-card__cta {
   position: absolute;
   inset: 82.5% 9% auto;
@@ -80,14 +130,52 @@
 
 .wm-level-card__cta > svg { width: 31px; height: 31px; filter: drop-shadow(0 2px 1px #49200a55); }
 .wm-level-card.is-locked { cursor: not-allowed; }
+/*
+   SELECTOR: .wm-level-card.is-locked .wm-level-card__cta Find the matching className in the related JSX
+   named in this file guide. disabled/locked styling explains availability; actual click guards and
+   unlock rules live in JS/backend; font/font-size and line-height change text size and readable line
+   spacing; padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-level-card.is-locked .wm-level-card__cta { background: #30162a40; font-size: 30px; gap: 10px; }
+/*
+   SELECTOR: .wm-level-card:disabled Find the matching className in the related JSX named in this file
+   guide. disabled/locked styling explains availability; actual click guards and unlock rules live in
+   JS/backend.
+ */
 .wm-level-card:disabled { cursor: wait; }
+/*
+   SELECTOR: .wm-level-card:focus-visible Find the matching className in the related JSX named in this
+   file guide. focus-visible provides a visible keyboard focus indicator.
+ */
 .wm-level-card:focus-visible { outline: 4px solid #fff7d1; outline-offset: 5px; }
+/*
+   SELECTOR: .lx-adventure-map:lang(si) .wm-level-card h2.wm-level-card__title Find the matching
+   className in the related JSX named in this file guide. this matching language/state selector adjusts
+   Sinhala presentation; font/font-size and line-height change text size and readable line spacing.
+ */
 .lx-adventure-map:lang(si) .wm-level-card h2.wm-level-card__title { font-size: 26px; }
+/*
+   SELECTOR: .lx-adventure-map:lang(si) .wm-level-card__progress Find the matching className in the
+   related JSX named in this file guide. this matching language/state selector adjusts Sinhala
+   presentation; font/font-size and line-height change text size and readable line spacing.
+ */
 .lx-adventure-map:lang(si) .wm-level-card__progress { font-size: 22px; }
+/*
+   SELECTOR: .lx-adventure-map:lang(si) .wm-level-card__cta Find the matching className in the related
+   JSX named in this file guide. this matching language/state selector adjusts Sinhala presentation;
+   font/font-size and line-height change text size and readable line spacing.
+ */
 .lx-adventure-map:lang(si) .wm-level-card__cta { font-size: 29px; }
+/*
+   SELECTOR: .lx-adventure-map:lang(si) .wm-level-card.is-locked .wm-level-card__cta Find the matching
+   className in the related JSX named in this file guide. disabled/locked styling explains availability;
+   actual click guards and unlock rules live in JS/backend; this matching language/state selector adjusts
+   Sinhala presentation; font/font-size and line-height change text size and readable line spacing.
+ */
 .lx-adventure-map:lang(si) .wm-level-card.is-locked .wm-level-card__cta { font-size: 23px; }
 
+
+/* MEDIA QUERY: (prefers-reduced-motion: reduce). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media (prefers-reduced-motion: reduce) {
   .lx-adventure-map .wm-level-card { transition: none; }
 }

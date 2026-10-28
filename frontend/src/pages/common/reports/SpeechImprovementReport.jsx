@@ -16,6 +16,7 @@ import {
   getChildSpeechProgress,
 } from "../../../services/speechProcessing/api";
 
+// VIVA: FILE CONTENTS - speech practice stars, completed zones, score trend, session history and guidance tabs.
 export default function SpeechImprovementReport() {
   const navigate = useNavigate();
   const { t } = useTranslation(["sp", "common"]);
@@ -320,7 +321,7 @@ export default function SpeechImprovementReport() {
           </div>
         </div>
 
-        {/* Highlights Metrics Grid */}
+        {/* VIVA: PRACTICE SUMMARY CARDS - stars, completed zones, current focus and next challenge. */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {/* Metric 1: Safari Stars */}
           <div className="bg-white/90 rounded-[2.5rem] p-6 shadow-xl border-4 border-amber-300 flex flex-col justify-between transition-transform hover:-translate-y-1">
@@ -482,7 +483,7 @@ export default function SpeechImprovementReport() {
           </div>
         )}
 
-        {/* Tab Navigation for Detailed Reports */}
+        {/* VIVA: REPORT TABS - switch between session history, word practice and parent/teacher guidance. */}
         <div className="flex items-center gap-3 mb-6 bg-white/70 backdrop-blur-md p-2 rounded-2xl border border-white/60 w-fit">
           <button
             onClick={() => setActiveTab("sessions")}
@@ -805,7 +806,7 @@ export default function SpeechImprovementReport() {
           </div>
         )}
 
-        {/* Safari Zones Map Grid */}
+        {/* VIVA: SAFARI PROGRESS - zone cards summarize the saved practice journey. */}
         <div className="bg-white/90 backdrop-blur-sm rounded-[3rem] p-6 sm:p-8 shadow-xl border-4 border-white mb-8">
           <h2 className="text-2xl font-black text-slate-800 mb-6 flex items-center gap-3">
             <span>🗺️</span>

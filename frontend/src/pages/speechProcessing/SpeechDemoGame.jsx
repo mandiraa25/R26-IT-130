@@ -1,3 +1,4 @@
+// VIVA: Demo/assignment session: current word prompt, Start/Stop Recording, submit/next/complete controls and result feedback.
 import { useEffect, useMemo, useRef, useState } from "react";
 import { getStudentProfile } from "../../services/student/api";
 import {

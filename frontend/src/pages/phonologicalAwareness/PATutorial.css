@@ -1,9 +1,11 @@
 @import url('/fonts/workingMemory/fonts.css');
 
+/* VIVA: Shared tutorial colors and typography. */
 .pa-tutorial-screen {
   color: #71330c;
   font: 600 22px/1.45 'Fredoka', 'Noto Sans Sinhala', sans-serif;
 }
+/* VIVA: Fixed-size stage centered for JavaScript viewport scaling. */
 .pa-tutorial-stage {
   position: absolute;
   left: 50%;
@@ -13,6 +15,7 @@
   transform-origin: center;
 }
 .pa-tutorial-stage * { box-sizing: border-box; }
+/* VIVA: Back, level, star and sound-control layout. */
 .pa-tutorial-nav {
   position: absolute;
   top: 20px;
@@ -59,6 +62,7 @@
   line-height: 1.25;
   text-align: center;
 }
+/* VIVA: Tutorial board artwork, heading and instruction placement. */
 .pa-tutorial-board {
   position: absolute;
   left: 330px;
@@ -100,6 +104,7 @@
   line-height: 1.3;
   font-weight: 600;
 }
+/* VIVA: Embedded-video frame and poster/player presentation. */
 .pa-tutorial-video {
   position: absolute;
   top: 205px;
@@ -157,6 +162,7 @@
   box-shadow: inset 0 4px 0 #ffe17b, 0 5px 8px #57300040;
 }
 .pa-tutorial-play svg { width: 57px; height: 57px; margin-left: 7px; stroke-width: 1.5; }
+/* VIVA: Watch/skip button row and button appearance. */
 .pa-tutorial-actions {
   position: absolute;
   top: 495px;
@@ -181,11 +187,14 @@
 .pa-tutorial-watch { background: linear-gradient(#ffad00, #ff7900); color: white; text-shadow: 0 2px 0 #dc6406; }
 .pa-tutorial-actions .pa-tutorial-skip { background: linear-gradient(#fff3c9, #ffdc96); color: #a34509; box-shadow: inset 0 3px 1px #fff9, 0 5px 0 #ed9c42, 0 8px 5px #8b511b33; }
 .pa-tutorial-actions svg { width: 30px; height: 30px; flex: none; stroke-width: 3; }
+/* VIVA: Hover, pressed and keyboard-focus states. */
 .pa-tutorial-screen button { cursor: pointer; transition: filter .15s, translate .15s; }
 .pa-tutorial-screen button:hover:not(:disabled) { filter: brightness(1.06); }
 .pa-tutorial-screen button:active:not(:disabled) { translate: 0 2px; }
 .pa-tutorial-screen button:focus-visible { outline: 3px solid #7133ef; outline-offset: 3px; }
+/* VIVA: Sinhala typography and spacing adjustments. */
 .pa-tutorial-main:lang(si) h1 { font-size: 34px; -webkit-text-stroke-width: 2px; }
 .pa-tutorial-main:lang(si) .pa-tutorial-instruction { font-size: 20px; line-height: 1.5; }
 .pa-tutorial-main:lang(si) .pa-tutorial-actions button { font-size: 21px; gap: 8px; }
+/* VIVA: Reduced-motion preference disables button transitions. */
 @media (prefers-reduced-motion: reduce) { .pa-tutorial-screen button { transition: none; } }

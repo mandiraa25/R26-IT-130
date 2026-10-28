@@ -1,3 +1,4 @@
+// VIVA: Completed-activity replay strip: translated heading, activity cards, earned stars, replay buttons and empty state.
 import { RotateCcw, Star } from "lucide-react";
 import { useTranslation } from "react-i18next";
 

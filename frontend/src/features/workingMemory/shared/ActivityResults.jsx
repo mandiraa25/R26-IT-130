@@ -1,3 +1,22 @@
+/*
+ * FILE PURPOSE
+ * Shared per-game result dashboard for all supported improvement levels, plus a retained legacy view.
+ *
+ * HOW IT CONNECTS
+ * ActivityScreen passes controller props, game title and language flag. GameLayout supplies
+ * board/buttons/result bunny. progression reads the saved level; gameConfig supplies messages.
+ * Direct source importers: ../improvement/ActivityScreen.jsx.
+ * Local feature/style dependencies: ../config/levelThemes.js, GameLayout.jsx, ../config/gameConfig.js,
+ * ../logic/progression.js, ../styles/patternReference.css, ../styles/levelOneDashboard.css.
+ *
+ * THINGS TO REMEMBER
+ * Current attempt score, earned stars, lifetime progress and recorded-history stars are separate
+ * values. Continue needs a current pass and saved result. A failed refresh is distinct from a failed
+ * save. levelOneDashboard.css, patternReference.css and improvementLayout.css control the result
+ * layout.
+ */
+
+// VIVA: Per-game result board with score, rewards, save status and continuation.
 import { UI } from "../config/levelThemes";
 import { ArrowRight, Check, RotateCcw, X } from "lucide-react";
 import { MemoryBoard, MemoryButton, DashboardBunny } from "./GameLayout";
@@ -7,7 +26,18 @@ import "../styles/patternReference.css";
 import "../styles/levelOneDashboard.css";
 const ART = "/images/workingMemory/shared";
 
+/*
+ * FUNCTION / COMPONENT: ActivityResults
+ * React renders this component when its parent uses <ActivityResults /> or when its state/props
+ * change.
+ * INPUT PROPS: { p, title, si = false }. These values/callbacks come from the parent; defaults apply
+ * when omitted.
+ * RETURN: The existing JSX below builds this part of the screen. See the file guide for its caller and
+ * CSS.
+ */
 export default function ActivityResults({ p, title, si = false }) {
+  // VIVA: Combine this attempt's score with saved progress. A prior completion
+  // stays recorded even when the current replay scores below the pass mark.
   const level = Number(p.levelNumber);
   const isFinal = level === 4;
   const messages = DASHBOARD_CONTENT[level];
@@ -24,6 +54,8 @@ export default function ActivityResults({ p, title, si = false }) {
   const isLastGame = p.subCategoryKey === "numbers";
   const earnedStars = p.submitResult?.starsEarned ?? p.submitResult?.carrotsEarned ?? p.earnedStars;
   const recordsAvailable = Array.isArray(p.levelHistory) && !p.historyLoading && !p.historyError;
+  // VIVA: Recorded stars sum saved attempts, while earnedStars describes just
+  // this attempt. A refresh failure is separate from a failed attempt POST.
   const categoryStars = recordsAvailable ? p.levelHistory.filter(attempt => Number(attempt.levelNumber) === level && attempt.subCategoryKey === p.subCategoryKey).reduce((total, attempt) => { const stars = Number(attempt.starsEarned ?? attempt.carrotsEarned); return total + (Number.isFinite(stars) && stars >= 0 ? stars : 0); }, 0) : null;
   const continuation = isLastGame
     ? savedLevel?.isCompleted ? text("View Level Results", "මට්ටමේ ප්‍රතිඵල බලන්න") : text("Back to games", "ක්‍රීඩා වෙත යන්න")
@@ -45,7 +77,8 @@ export default function ActivityResults({ p, title, si = false }) {
     ? text("Progress saved. The next game is unlocked!", "ප්‍රගතිය සුරැකී ඇත. ඊළඟ ක්‍රීඩාව විවෘතයි!")
     : text("You reached the 3 out of 5 pass mark. Your result is saved.", "ඔබ 5 න් 3 සමත් ලකුණ ලබා ඇත. ප්‍රතිඵල සුරැකී ඇත.");
 
-  return <>
+  return /* RETURN: This JSX is the visible UI for this branch; props/state choose its content. */ <>
+    {/* VIVA: The mascot introduces this attempt's result board. */}
     <DashboardBunny happy={happyExpression} si={si} message={text(happyExpression ? "Well done! You kept going!" : "Good effort! Keep learning.", happyExpression ? "හොඳයි! ඔබ දිගටම උත්සාහ කළා!" : "හොඳ උත්සාහයක්! ඉගෙන ගනිමු.")} />
     <MemoryBoard className={`lx-level-one-dashboard lx-pattern-reference-board lx-pattern-result ${happyExpression ? "is-celebrating" : "is-encouraging"}`} data-testid={messages.ids.results} data-game={p.subCategoryKey}>
       <header className="lx-pattern-result-heading">
@@ -53,16 +86,19 @@ export default function ActivityResults({ p, title, si = false }) {
         <div><h1>{text(happyExpression ? "Great Job!" : "Keep Going!", happyExpression ? "හොඳයි!" : "දිගටම උත්සාහ කරමු!")}</h1><p>{title} · {text(messages.level.en, messages.level.si)}</p></div>
       </header>
       <section className="lx-pattern-score" aria-label={text(`Your score: ${p.score} out of ${totalQuestions}`, `ඔබේ ලකුණු: ${totalQuestions} න් ${p.score}`)}>
+        {/* VIVA: Correct-question score and decorative earned stars are here. */}
         <div><span>{text("YOUR SCORE", "ඔබේ ලකුණු")}</span><strong data-testid={messages.ids.score}>{p.score} / {totalQuestions}</strong></div>
         <div className="lx-pattern-stars" aria-hidden="true">{Array.from({ length: totalQuestions }, (_, index) => <img key={index} className={index < p.score ? "is-earned" : ""} src={`${ART}/feedback/star.webp`} alt="" />)}</div>
       </section>
-      <div className="lx-pattern-statistics">
+      {/* VIVA: Correct, incorrect and reward totals are shown separately. */}
+      <div className="lx-pattern-statistics">{/* UI SECTION: Attempt statistics: correct count, incorrect count and five-stars-per-correct reward are separate values. */}
         <section className="is-correct"><span className="lx-pattern-stat-icon"><Check aria-hidden="true" /></span><span>{text("Correct", "නිවැරදි")}</span><strong>{p.score}</strong></section>
         <section className="is-incorrect"><span className="lx-pattern-stat-icon"><X aria-hidden="true" /></span><span>{text("Incorrect", "වැරදි")}</span><strong>{totalQuestions - p.score}</strong></section>
         <section className="is-stars"><img src={`${ART}/feedback/star.webp`} alt="" /><span>{text("Stars Earned", "ලැබුණු තරු")}</span><strong data-testid={messages.ids.earnedStars}>{earnedStars}</strong></section>
       </div>
       <p className="lx-pattern-save-status" role="status"><span>{status}</span>{isFinal && (recordsAvailable || p.historyLoading || p.historyError) && <><small className="lx-category-record">{recordsAvailable ? text(`Recorded stars in this game: ${categoryStars}`, `\u0db8\u0dd9\u0db8 \u0d9a\u0dca\u200d\u0dbb\u0dd3\u0da9\u0dcf\u0dc0\u0dda \u0dc3\u0dd4\u0dbb\u0dd0\u0d9a\u0dd2 \u0dad\u0dbb\u0dd4: ${categoryStars}`) : p.historyLoading ? text("Loading recorded stars...", "\u0dad\u0dbb\u0dd4 \u0dbd\u0db6\u0dcf \u0d9c\u0db1\u0dd2\u0db8\u0dd2\u0db1\u0dca...") : text("Recorded stars unavailable", "\u0dc3\u0dd4\u0dbb\u0dd0\u0d9a\u0dd2 \u0dad\u0dbb\u0dd4 \u0dbd\u0db6\u0dcf \u0d9c\u0dad \u0db1\u0ddc\u0dc4\u0dd0\u0d9a.")}</small>{p.historyError && <button type="button" onClick={p.handleRetryLevelHistory}>{text("Refresh recorded stars", "\u0dad\u0dbb\u0dd4 \u0db1\u0dd0\u0dc0\u0dad \u0dbd\u0db6\u0dcf \u0d9c\u0db1\u0dca\u0db1")}</button>}</>}{p.progressError && p.submitResult && !p.submissionError && <button type="button" disabled={p.progressLoading} onClick={p.handleRetryProgress}>{text("Refresh Progress", "ප්‍රගතිය නැවත ලබා ගන්න")}</button>}</p>
-      <div className="lx-pattern-result-actions">
+      {/* VIVA: Play Again, retry saving and the next-game action are here. */}
+      <div className="lx-pattern-result-actions">{/* UI SECTION: Result actions: replay resets local state; retry saves a failed POST; continue requires a saved pass. */}
         <MemoryButton variant="secondary" className="lx-pattern-retry" disabled={p.isSubmitting} onClick={p.startQuiz}><RotateCcw aria-hidden="true" />{text("Play Again", "නැවත ක්‍රීඩා කරන්න")}</MemoryButton>
         <MemoryButton className="lx-pattern-continue" disabled={p.submissionError ? p.isSubmitting : !canContinueAttempt} onClick={p.submissionError ? p.handleRetrySave : p.handleNextSubCategory}>{p.submissionError ? text("Retry Saving", "නැවත සුරකින්න") : continuation}<ArrowRight aria-hidden="true" /></MemoryButton>
       </div>
@@ -70,9 +106,18 @@ export default function ActivityResults({ p, title, si = false }) {
   </>;
 }
 
+/*
+ * FUNCTION / COMPONENT: LegacyActivityResults
+ * React renders this component when its parent uses <LegacyActivityResults /> or when its state/props
+ * change.
+ * INPUT PROPS: { p, title, si }. These values/callbacks come from the parent; defaults apply when
+ * omitted.
+ * RETURN: The existing JSX below builds this part of the screen. See the file guide for its caller and
+ * CSS.
+ */
 export function LegacyActivityResults({ p, title, si }) {
   const passed = p.score >= 3;
-  return <>
+  return /* RETURN: This JSX is the visible UI for this branch; props/state choose its content. */ <>
     <h1 className="lx-result-title">{si ? passed ? "සුබ පැතුම්!" : "හොඳ උත්සාහයක්!" : passed ? "CONGRATULATIONS!" : "NICE TRY!"}</h1><p className="lx-note">{title} · {si ? "මට්ටම" : "Level"} {p.levelNumber}</p>
     <div className="lx-score"><div><small>{si ? "ඔබේ ලකුණු" : "YOUR SCORE"}</small><strong>{p.score} / {p.questions.length}</strong></div><div className="lx-earned-stars">{Array.from({ length: 5 }, (_, i) => <img className={i < p.score ? "is-earned" : ""} key={i} src={`${UI}/icons/star.svg`} alt={i < p.score ? "Earned star" : ""} />)}</div></div>
     <div className="lx-result-stats">{[[si ? "නිවැරදි" : "Correct", p.score], [si ? "වැරදි" : "Incorrect", p.questions.length - p.score], [si ? "ලැබුණු තරු" : "Stars Earned", p.earnedStars]].map(([label, value]) => <div key={label}><small>{label}</small><strong>{value}</strong></div>)}</div>

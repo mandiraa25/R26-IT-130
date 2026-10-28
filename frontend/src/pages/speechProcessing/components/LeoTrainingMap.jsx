@@ -1,3 +1,4 @@
+// VIVA: Training map with 3D canvas or 2D fallback, activity labels/status, recommended pick and accessible selection controls.
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CheckCircle2, LockKeyhole, MapPin, RotateCcw, Star } from "lucide-react";

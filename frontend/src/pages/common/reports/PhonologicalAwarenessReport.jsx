@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { calculatePhonologicalMetrics } from "../../../utils/phonologicalAwareness/scoring.util";
 
+// VIVA: FILE CONTENTS - saved PA screening chart, result cards, score statistics and expandable details.
 function PhonologicalAwarenessReport() {
   const navigate = useNavigate();
   const { t } = useTranslation(['pa', 'common']);
@@ -166,7 +167,7 @@ function PhonologicalAwarenessReport() {
           </div>
         ) : (
           <>
-            {/* Progress Chart Section */}
+            {/* VIVA: SCREENING SCORE CHART - transform saved assessments into the displayed progress graph. */}
             <div className="bg-white/90 backdrop-blur-sm rounded-[3rem] p-8 md:p-12 shadow-2xl border-b-[12px] border-indigo-100 mb-12 transform hover:scale-[1.01] transition-transform">
               <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
                 <div>
@@ -204,7 +205,7 @@ function PhonologicalAwarenessReport() {
               </div>
             </div>
 
-            {/* Results List - 1 Card Per Row */}
+            {/* VIVA: ASSESSMENT CARDS - one saved result per row with expandable detail content. */}
             <div className="grid grid-cols-1 gap-10 max-w-5xl mx-auto">
               {[...results].reverse().map((result, idx) => (
                 <div

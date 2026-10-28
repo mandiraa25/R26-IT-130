@@ -1,11 +1,14 @@
 /* Soft page change: App.jsx replays a short fade on this wrapper. */
+/* VIVA: PAGE WRAPPER - shared screen container; App also runs the route opacity animation. */
 .lx-page-transition { display: block; min-height: 100%; }
 @keyframes lx-page-in { from { opacity: 0; } to { opacity: 1; } }
 
 /* While a page chunk is still downloading (first visit only), show a calm
    jungle-green screen instead of a white flash. */
+/* VIVA: LOADING PLACEHOLDER - appearance of the Suspense fallback while a lazy page downloads. */
 .lx-page-loading { position: fixed; inset: 0; background: radial-gradient(circle at 50% 40%, #cdeec0, #8fcf7a 70%); animation: lx-page-in 300ms ease-out both; }
 
+/* VIVA: REDUCED MOTION - remove transition/loading animation for the accessibility preference. */
 @media (prefers-reduced-motion: reduce) {
   .lx-page-loading { animation: none; }
 }

@@ -1,3 +1,4 @@
+// VIVA: Prompt-level path in vertical/adventure/default layouts, marking current, completed, retry and locked steps plus final reward.
 import { Lock } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import LeoLevelNode from "./LeoLevelNode";

@@ -1,3 +1,4 @@
+// VIVA: OVERVIEW - Student directory with local search/filters and view, edit and delete-confirmation dialogs.
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -46,6 +47,7 @@ const EditStudentModal = ({ student, onClose, onSave }) => {
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
         </div>
+        {/* VIVA: Form fields submit through the existing page handler. */}
         <form onSubmit={handleSubmit} className="p-10 space-y-8 bg-white">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="md:col-span-2">
@@ -154,6 +156,7 @@ const ViewStudentModal = ({ student, onClose }) => (
 
 // ─── Main Component ────────────────────────────────────────────────────────────
 const StudentProfiles = () => {
+  // VIVA: The list is server data; selected records open view/edit/confirmation modals.
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [viewStudent, setViewStudent] = useState(null);
@@ -168,6 +171,7 @@ const StudentProfiles = () => {
   const token = localStorage.getItem("adminToken");
 
   const fetchStudents = async () => {
+    // VIVA: Both admin roles may read students; send the admin JWT with the request.
     try {
       const res = await axios.get("http://localhost:5000/api/admin/students", {
         headers: { Authorization: `Bearer ${token}` },
@@ -188,6 +192,7 @@ const StudentProfiles = () => {
   useEffect(() => { fetchStudents(); }, []);
 
   const handleUpdate = async (id, data) => {
+    // VIVA: Reload after saving so the list reflects the persisted record.
     try {
       const res = await axios.put(`http://localhost:5000/api/admin/students/${id}`, data, {
         headers: { Authorization: `Bearer ${token}` },
@@ -203,6 +208,7 @@ const StudentProfiles = () => {
   };
 
   const handleDelete = async (id) => {
+    // VIVA: The confirmation dialog calls this; the API permits deletion only for super admins.
     try {
       const res = await axios.delete(`http://localhost:5000/api/admin/students/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -218,6 +224,7 @@ const StudentProfiles = () => {
   };
 
   const filtered = students.filter(s => {
+    // VIVA: Search and dropdowns narrow the downloaded list without modifying database records.
     const matchesSearch = 
       (s.fullName || "").toLowerCase().includes(search.toLowerCase()) ||
       (s.email || "").toLowerCase().includes(search.toLowerCase());
@@ -240,6 +247,7 @@ const StudentProfiles = () => {
 
   return (
     <div className="space-y-12 pb-24 max-w-[1600px] mx-auto">
+      {/* VIVA: Page title, search and available page actions. */}
       {/* Header Section */}
       <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-12">
         <div className="space-y-6">
@@ -300,15 +308,18 @@ const StudentProfiles = () => {
         </div>
       </div>
 
+      {/* VIVA: Summary cards for the current directory or result view. */}
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <QuickStat label="Total Profiles" value={filtered.length} icon="👥" color="bg-indigo-600 text-white" />
         <QuickStat label="Grades Available" value={availableGradesText} icon="📊" color="bg-slate-900 text-white" />
       </div>
 
+      {/* VIVA: Directory table and its available record actions. */}
       {/* Table Container */}
       <div className="bg-white rounded-[4rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.08)] border border-slate-100 overflow-hidden">
         <div className="overflow-x-auto custom-scrollbar">
+          {/* VIVA: Tabular records with row-level details or actions. */}
           <table className="min-w-full">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-100">
