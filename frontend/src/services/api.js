@@ -1,5 +1,23 @@
+/*
+ * FILE PURPOSE
+ * Shared Axios connection used by Working Memory and other feature services.
+ *
+ * HOW IT CONNECTS
+ * Working Memory identifyApi/improveApi append endpoint paths to this client. It uses the backend /api
+ * base URL and request/response interceptors.
+ * Direct source importers: ../features/workingMemory/services/identifyApi.js,
+ * ../features/workingMemory/services/improveApi.js, auth/api.js, phonologicalAwareness/improveApi.js,
+ * speechProcessing/api.js, student/api.js.
+ *
+ * THINGS TO REMEMBER
+ * The request interceptor attaches the saved token. Token-related 401 responses clear stale login
+ * state. Attaching a token does not by itself mean every backend route validates it; inspect each
+ * router.
+ */
+
 import axios from "axios";
 
+// VIVA: API CONNECTION - feature services append their endpoint paths to this backend base URL.
 const API = axios.create({
   baseURL: "http://localhost:5000/api",
 });

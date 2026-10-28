@@ -1,3 +1,4 @@
+// VIVA: Completion popup with stars, next-path message and Back to Safari Map; it can also close automatically.
 import { useEffect } from "react";
 
 function LeoRewardModal({ result, onClose, autoCloseMs = 3000 }) {

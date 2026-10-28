@@ -1,0 +1,16 @@
+{
+  "name": "lexiland-tests",
+  "private": true,
+  "type": "module",
+  "description": "Playwright test suite for LexiLand: Common parts and the Working Memory component.",
+  "scripts": {
+    "test": "playwright test",
+    "test:common": "playwright test tests/common",
+    "test:wm": "playwright test tests/working-memory",
+    "test:report": "node tests/support/run-report.mjs",
+    "report:open": "npx playwright show-report test-reports/html"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.62.1"
+  }
+}

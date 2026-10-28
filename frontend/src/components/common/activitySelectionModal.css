@@ -1,7 +1,57 @@
-﻿.activity-popup-overlay { position:fixed; inset:0; z-index:50; display:grid; place-items:center; padding:24px; background:rgb(15 26 21 / 62%); backdrop-filter:blur(5px); }
+﻿/*
+ * FILE PURPOSE
+ * Style file for the shared dashboard activity-choice dialog.
+ *
+ * HOW IT CONNECTS
+ * ActivitySelectionModal.jsx imports this; its inline CSS variables/percentage regions choose the WM
+ * version.
+ * Direct source importers: ActivitySelectionModal.jsx.
+ *
+ * THINGS TO REMEMBER
+ * Overlay z-index puts the dialog above the dashboard. Board, mascot, labels and buttons are separate
+ * layers. Shared classes also serve other modules; these comments do not change their appearance.
+ */
+
+/* VIVA: POPUP BACKDROP - center the activity dialog over a dimmed, blurred page. */
+
+/* SECTION 1: ACTIVITY OR GAME POPUP
+   ActivitySelectionModal.jsx imports this; its inline CSS variables/percentage regions choose the WM version. */
+/*
+   SELECTOR: .activity-popup-overlay Find the matching className in the component named in this file
+   guide. position:fixed places this layer; left/top/right/bottom/inset move it within its containing
+   area; grid arranges children into defined rows/columns; grid-template values set their sizes; z-index
+   controls which overlapping layer appears in front; padding is inside space, margin is outside space
+   and gap separates children.
+ */
+.activity-popup-overlay { position:fixed; inset:0; z-index:50; display:grid; place-items:center; padding:24px; background:rgb(15 26 21 / 62%); backdrop-filter:blur(5px); }
+/* VIVA: POPUP SIZE - reference aspect ratio and container units scale the live content. */
+/*
+   SELECTOR: .activity-popup Find the matching className in the component named in this file guide.
+   position:relative makes this element an anchor for absolutely positioned children;
+   width/height/max-width control this element size.
+ */
 .activity-popup { position:relative; container-type:inline-size; width:min(700px,100%,calc((100dvh - 160px) * var(--reference-ratio))); aspect-ratio:var(--reference-ratio); color:#3d1d09; font-family:'Nunito',sans-serif; animation:activity-popup-enter 180ms ease-out; }
+/*
+   SELECTOR: .activity-popup__board Find the matching className in the component named in this file
+   guide. position:absolute places this layer; left/top/right/bottom/inset move it within its containing
+   area; width/height/max-width control this element size.
+ */
 .activity-popup__board { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; pointer-events:none; user-select:none; }
+/* VIVA: ANIMAL PLACEMENT - regionStyle in ActivitySelectionModal.jsx supplies the absolute rectangle. */
+/*
+   SELECTOR: .activity-popup__mascot Find the matching className in the component named in this file
+   guide. position:absolute places this layer; left/top/right/bottom/inset move it within its containing
+   area; transform/scale moves, rotates or resizes the drawn element without changing its normal layout
+   space.
+ */
 .activity-popup__mascot { position:absolute; object-fit:contain; transform:scale(1.12); user-select:none; pointer-events:none; }
+/* VIVA: LIVE LABELS - grade, module name and subtitle are positioned over the board artwork. */
+/*
+   SELECTOR: .activity-popup__text Find the matching className in the component named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   grid arranges children into defined rows/columns; grid-template values set their sizes; padding is
+   inside space, margin is outside space and gap separates children.
+ */
 .activity-popup__text { position:absolute; display:grid; place-items:center; margin:0; text-align:center; font-weight:900; line-height:1.1; }
 .activity-popup__grade { border-radius:999px; background:var(--tint); color:var(--grade-ink); font-size:2.85cqw; }
 .activity-popup__title { font-size:5.65cqw; letter-spacing:-.12cqw; text-shadow:0 1px 0 white; }
@@ -10,27 +60,129 @@
 .activity-popup--rp .activity-popup__title { font-size:5.35cqw; }
 .activity-popup__subtitle { font-size:3.45cqw; text-shadow:0 1px 0 white; white-space:nowrap; }
 .activity-popup--pa .activity-popup__subtitle { font-size:3cqw; }
+/* VIVA: TWO ACTIVITY CARDS - screening and improvement panels sit in their measured regions. */
 .activity-popup__card { position:absolute; border:2px solid var(--accent); border-radius:4cqw; background:linear-gradient(135deg,var(--card-tint),var(--card-tint)); box-shadow:inset 0 0 0 2px #fff9,0 3px 5px #87480e20; }
 .activity-popup__card--improve { border-color:#77be4c; background:linear-gradient(135deg,#f3fce5,#edf9dc); }
+/*
+   SELECTOR: .activity-popup__illustration Find the matching className in the component named in this
+   file guide. position:absolute places this layer; left/top/right/bottom/inset move it within its
+   containing area; transform/scale moves, rotates or resizes the drawn element without changing its
+   normal layout space; width/height/max-width control this element size.
+ */
 .activity-popup__illustration { position:absolute; top:1%; left:8%; width:84%; height:47%; object-fit:contain; transform:scale(1.35); user-select:none; }
+/*
+   SELECTOR: .activity-popup__card h3 Find the matching className in the component named in this file
+   guide. position:absolute places this layer; left/top/right/bottom/inset move it within its containing
+   area; grid arranges children into defined rows/columns; grid-template values set their sizes;
+   font/font-size and line-height change text size and readable line spacing; width/height/max-width
+   control this element size; padding is inside space, margin is outside space and gap separates
+   children.
+ */
 .activity-popup__card h3 { position:absolute; top:48%; left:2%; width:96%; height:11%; display:grid; place-items:center; margin:0; font-size:4.2cqw; font-weight:900; letter-spacing:-.07cqw; line-height:1.1; text-align:center; text-shadow:0 1px 0 white; }
+/*
+   SELECTOR: .activity-popup__card > p Find the matching className in the component named in this file
+   guide. position:absolute places this layer; left/top/right/bottom/inset move it within its containing
+   area; grid arranges children into defined rows/columns; grid-template values set their sizes;
+   font/font-size and line-height change text size and readable line spacing; width/height/max-width
+   control this element size; padding is inside space, margin is outside space and gap separates
+   children.
+ */
 .activity-popup__card > p { position:absolute; top:62%; left:3%; width:94%; height:8%; display:grid; place-items:center; margin:0; color:var(--accent); font-size:2.95cqw; font-weight:900; line-height:1.1; text-align:center; }
 .activity-popup__card--improve > p { color:#2d8821; }
+/* VIVA: ACTION BUTTONS - button shape, colors and hover/disabled states; JSX supplies the click callback. */
+/*
+   SELECTOR: .activity-popup__action Find the matching className in the component named in this file
+   guide. position:absolute places this layer; left/top/right/bottom/inset move it within its containing
+   area; flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .activity-popup__action { position:absolute; top:75%; left:5%; width:90%; height:19%; display:flex; align-items:center; justify-content:center; gap:3cqw; padding:0 3%; border:1px solid #ffffff80; border-radius:999px; background:linear-gradient(var(--accent),var(--accent-dark)); color:white; font-family:inherit; font-size:3.9cqw; font-weight:900; line-height:1.1; box-shadow:inset 0 2px 1px #fff5,0 3px 4px #58331533; cursor:pointer; transition:filter 150ms,transform 150ms; }
 .activity-popup__card--improve .activity-popup__action { background:linear-gradient(#269c32,#066c1b); }
 .activity-popup__action svg { width:2.8cqw; height:3.2cqw; flex-shrink:0; filter:drop-shadow(0 1px 1px #0002); }
+/*
+   SELECTOR: .activity-popup__action:hover:not(:disabled) Find the matching className in the component
+   named in this file guide. transform/scale moves, rotates or resizes the drawn element without changing
+   its normal layout space; :hover applies while the pointer is over the element; disabled/locked styling
+   explains availability; actual click guards and unlock rules live in JS/backend.
+ */
 .activity-popup__action:hover:not(:disabled) { filter:brightness(1.08); transform:translateY(-1px); }
+/*
+   SELECTOR: .activity-popup__action:active:not(:disabled) Find the matching className in the component
+   named in this file guide. transform/scale moves, rotates or resizes the drawn element without changing
+   its normal layout space; disabled/locked styling explains availability; actual click guards and unlock
+   rules live in JS/backend.
+ */
 .activity-popup__action:active:not(:disabled) { transform:translateY(1px); }
+/*
+   SELECTOR: .activity-popup__action:disabled Find the matching className in the component named in this
+   file guide. disabled/locked styling explains availability; actual click guards and unlock rules live
+   in JS/backend.
+ */
 .activity-popup__action:disabled { cursor:not-allowed; }
+/* VIVA: CLOSE CONTROL - round wooden image and clickable area. */
+/*
+   SELECTOR: .activity-popup__close Find the matching className in the component named in this file
+   guide. position:absolute places this layer; left/top/right/bottom/inset move it within its containing
+   area; grid arranges children into defined rows/columns; grid-template values set their sizes; padding
+   is inside space, margin is outside space and gap separates children.
+ */
 .activity-popup__close { position:absolute; display:grid; place-items:center; padding:0; border:0; border-radius:50%; background:transparent; cursor:pointer; }
 .activity-popup__close img { display:block; width:100%; height:100%; object-fit:contain; pointer-events:none; user-select:none; }
+/*
+   SELECTOR: .activity-popup button:focus-visible Find the matching className in the component named in
+   this file guide. focus-visible provides a visible keyboard focus indicator.
+ */
 .activity-popup button:focus-visible { outline:3px solid white; outline-offset:2px; box-shadow:0 0 0 5px #472209; }
+/*
+   SELECTOR: .activity-popup__availability Find the matching className in the component named in this
+   file guide. position:absolute places this layer; left/top/right/bottom/inset move it within its
+   containing area; font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .activity-popup__availability { position:absolute; top:100%; left:0; width:100%; margin:4px 0 0; color:white; font-size:12px; font-weight:800; text-align:center; }
+/* VIVA: SINHALA LAYOUT - smaller label sizes keep translated text within the same artwork. */
+/*
+   SELECTOR: .activity-popup--localized .activity-popup__title Find the matching className in the
+   component named in this file guide. this matching language/state selector adjusts Sinhala
+   presentation; font/font-size and line-height change text size and readable line spacing.
+ */
 .activity-popup--localized .activity-popup__title { font-size:4.2cqw; letter-spacing:0; }
+/*
+   SELECTOR: .activity-popup--localized .activity-popup__subtitle Find the matching className in the
+   component named in this file guide. this matching language/state selector adjusts Sinhala
+   presentation; font/font-size and line-height change text size and readable line spacing.
+ */
 .activity-popup--localized .activity-popup__subtitle { font-size:2.6cqw; white-space:normal; }
+/*
+   SELECTOR: .activity-popup--localized .activity-popup__card h3 Find the matching className in the
+   component named in this file guide. this matching language/state selector adjusts Sinhala
+   presentation; font/font-size and line-height change text size and readable line spacing.
+ */
 .activity-popup--localized .activity-popup__card h3 { font-size:2.75cqw; letter-spacing:0; }
+/*
+   SELECTOR: .activity-popup--localized .activity-popup__card > p Find the matching className in the
+   component named in this file guide. this matching language/state selector adjusts Sinhala
+   presentation; font/font-size and line-height change text size and readable line spacing.
+ */
 .activity-popup--localized .activity-popup__card > p { font-size:2.25cqw; }
+/*
+   SELECTOR: .activity-popup--localized .activity-popup__action Find the matching className in the
+   component named in this file guide. this matching language/state selector adjusts Sinhala
+   presentation; font/font-size and line-height change text size and readable line spacing; padding is
+   inside space, margin is outside space and gap separates children.
+ */
 .activity-popup--localized .activity-popup__action { font-size:2.7cqw; gap:1.5cqw; }
+/* VIVA: POPUP ENTRANCE - a short opacity/scale animation when the dialog appears. */
+
+/* ANIMATION: activity-popup-enter. Keyframes describe the intermediate visual states; matching animation declarations start them. */
 @keyframes activity-popup-enter { from {opacity:0;transform:scale(.97)} to {opacity:1;transform:scale(1)} }
+/* VIVA: SMALL SCREENS - reduce outer padding; the following media rule supports reduced motion. */
+
+/* MEDIA QUERY: (max-width:520px). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media(max-width:520px) { .activity-popup-overlay {padding:10px} .activity-popup__card,.activity-popup__close {border-width:1px} }
+
+/* MEDIA QUERY: (prefers-reduced-motion:reduce). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media(prefers-reduced-motion:reduce) { .activity-popup {animation:none} .activity-popup__action {transition:none} }

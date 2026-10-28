@@ -10,6 +10,7 @@ function HomeSymbol(props) {
   return <svg viewBox="0 0 24 24" {...props}><path d="M3 10 12 2l9 8v11h-6v-7H9v7H3Z" fill="currentColor" stroke="none" /></svg>;
 }
 
+// VIVA: SHARED ART - combine a blank wooden-disc image with a live SVG icon.
 export function WoodenReportIcon({ icon: Icon, className = "", ...props }) {
   return (
     <span className={`reports-wooden-icon ${className}`.trim()} aria-hidden="true" {...props}>
@@ -37,6 +38,8 @@ export function ReportActionLink({ to, children, className = "", ...props }) {
   );
 }
 
+// VIVA: SHARED REPORT LAYOUT - Home/Profile links, student badge, bookmarks and journal frame wrap children.
+// reportJournal.css positions the public artwork while JSX keeps names and links interactive.
 export default function ReportShell({ children, moduleId = null, profile }) {
   const { i18n } = useTranslation("common");
   const sinhala = i18n.language?.startsWith("si");
@@ -52,6 +55,7 @@ export default function ReportShell({ children, moduleId = null, profile }) {
       className={`reports-page reports-page--selection ${moduleId ? "reports-page--module" : "reports-page--hub"}`}
       style={{ "--report-accent": selectedModule?.accent || "#ff5b08" }}
     >
+      {/* VIVA: REPORT NAVIGATION - Home and the student's profile badge are here. */}
       <header className="reports-navigation">
         <Link to="/dashboard" className="reports-home-link" aria-label={homeLabel}>
           <WoodenReportIcon icon={HomeSymbol} className="reports-home-link__disc" />
@@ -67,6 +71,7 @@ export default function ReportShell({ children, moduleId = null, profile }) {
         </Link>
       </header>
 
+      {/* VIVA: JOURNAL LAYOUT - module bookmarks, illustrated frame and each page's children. */}
       <main className="reports-journal">
         <nav className="reports-bookmarks" aria-label={sinhala ? "වාර්තා අංශ" : "Report categories"}>
           {REPORT_MODULES.map(module => {

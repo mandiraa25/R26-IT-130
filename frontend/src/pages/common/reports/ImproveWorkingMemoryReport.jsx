@@ -1,3 +1,19 @@
+/*
+ * FILE PURPOSE
+ * Student improvement report showing saved unlocks, attempts and performance history.
+ *
+ * HOW IT CONNECTS
+ * App.jsx registers the report route. improveApi fetches progress/history; Recharts draws trends. The
+ * backend controls actual progression.
+ * Direct source importers: ../../../App.jsx.
+ * Local feature/style dependencies: ../../../features/workingMemory/services/improveApi.js.
+ *
+ * THINGS TO REMEMBER
+ * The historical table badge still uses score >= 2, whereas current completion requires >= 3. This
+ * documentation preserves that discrepancy. Appearance uses JSX Tailwind classes. Attempt
+ * totalTimeTaken is seconds, unlike per-question milliseconds.
+ */
+
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -5,13 +21,36 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { getStudentProgress, getAttemptHistory } from "../../../features/workingMemory/services/improveApi";
 import { getStudentProfile } from "../../../services/student/api";
 
+// VIVA: PRACTICE REPORT - show saved level/game completion, best scores and the individual attempt history.
 export default function ImproveWorkingMemoryReport() {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation(["wm", "common"]);
 
+  /*
+   * REMEMBER: profile
+   * Student identity, name and grade. An API/cache fills it; navigation and attempt saving read the
+   * student ID/grade.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [profile, setProfile] = useState(null);
+  /*
+   * REMEMBER: progress
+   * Saved level/game access from the server. Loading fills it; cards and menu derive their
+   * lock/completion display from it.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [progress, setProgress] = useState(null);
+  /*
+ * REMEMBER: attempts
+ * Saved improvement attempt records, fetched for the report table/chart and accumulated statistics.
+ * The setter asks React to render the updated report controls/content.
+ */
   const [attempts, setAttempts] = useState([]);
+  /*
+   * REMEMBER: loading
+   * Whether an API read is pending. The view displays its loading screen before showing fetched records.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [loading, setLoading] = useState(true);
 
   const studentId = localStorage.getItem("studentId");
@@ -20,6 +59,7 @@ export default function ImproveWorkingMemoryReport() {
     fetchReportData();
   }, []);
 
+  // VIVA: API READ - obtain student identity, then request current progress and detailed attempts together.
   const fetchReportData = async () => {
     try {
       let activeStudentId = studentId;
@@ -57,6 +97,8 @@ export default function ImproveWorkingMemoryReport() {
   };
 
   // Prepare data points for progress chart
+  // VIVA: GRAPH - display score percentages from saved attempts; backend progress controls actual unlocks.
+  // The historical table below still uses score >= 2 for its badge; the current backend pass rule is >= 3.
   const chartData = attempts
     .map((att, idx) => ({
       name: `Attempt ${idx + 1}`,
@@ -111,7 +153,7 @@ export default function ImproveWorkingMemoryReport() {
 
       {/* Main Container */}
       <main className="max-w-6xl w-full mx-auto space-y-8 flex-1">
-        {/* Summary Stats Widgets */}
+        {/* VIVA: PRACTICE SUMMARY CARDS - unlocked level, completed games and saved attempt count. */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 text-white rounded-3xl p-6 shadow-lg border-b-8 border-indigo-700">
             <h4 className="font-black text-lg uppercase tracking-wider opacity-90">Current Unlocked Level</h4>
@@ -160,7 +202,7 @@ export default function ImproveWorkingMemoryReport() {
           </div>
         )}
 
-        {/* Level Breakdown Grid */}
+        {/* VIVA: LEVEL BREAKDOWN - saved level and game flags choose the completion/lock appearance. */}
         <div className="bg-white/95 backdrop-blur-md rounded-3xl p-6 md:p-8 shadow-xl border-b-8 border-slate-200">
           <h3 className="text-2xl font-black text-slate-800 mb-6">Level Completion Details</h3>
 
@@ -236,7 +278,7 @@ export default function ImproveWorkingMemoryReport() {
           </div>
         </div>
 
-        {/* Historical Practice Logs Table */}
+        {/* VIVA: ATTEMPT HISTORY - saved scores and durations are displayed in this table. */}
         <div className="bg-white/95 backdrop-blur-md rounded-3xl p-6 md:p-8 shadow-xl border-b-8 border-slate-200">
           <h3 className="text-2xl font-black text-slate-800 mb-6">Historical Attempt Log 📜</h3>
 

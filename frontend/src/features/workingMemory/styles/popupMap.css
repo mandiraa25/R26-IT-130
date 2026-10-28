@@ -1,35 +1,205 @@
+/*
+ * FILE PURPOSE
+ * Style file: Level-map headings/navigation and the selected-level game popup.
+ *
+ * HOW IT CONNECTS
+ * LevelSelection.jsx imports this and renders GameMenu.jsx. The heading uses map-heading.webp; popup
+ * controls use their own artwork.
+ * Direct source importers: ../improvement/LevelSelection.jsx.
+ *
+ * THINGS TO REMEMBER
+ * Selectors match JSX className values. width/height control size; left/top/inset position absolute
+ * elements inside a positioned parent. padding is inside space; margin is outside space; gap separates
+ * flex/grid children. Later matching rules and more specific selectors can override earlier ones.
+ * These comments preserve every existing declaration.
+ */
+
+
+/* SECTION 1: TOP NAVIGATION AND CONTROLS
+   LevelSelection.jsx imports this and renders GameMenu.jsx. The heading uses map-heading.webp; popup controls use their own artwork. */
+/*
+   SELECTOR: .lx-adventure-map .lx-nav-left .lx-nav-title Find the matching className in the related JSX
+   named in this file guide. font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-adventure-map .lx-nav-left .lx-nav-title{visibility:visible;min-width:195px;font-size:26px;text-align:center;padding:14px 25px;height:64px}
 .lx-adventure-map .lx-nav{z-index:10;top:25px;left:60px;right:45px}
 .lx-adventure-map .lx-nav-left{gap:10px}
 .lx-adventure-map .lx-nav-right{gap:12px}
+
+/* SECTION 2: LEVEL MAP AND ILLUSTRATED CARDS
+   LevelSelection.jsx imports this and renders GameMenu.jsx. The heading uses map-heading.webp; popup controls use their own artwork. */
+/*
+   SELECTOR: .lx-adventure-heading Find the matching className in the related JSX named in this file
+   guide. position:absolute places this layer; left/top/right/bottom/inset move it within its containing
+   area; flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; z-index controls which overlapping layer appears in front; the URL selects artwork;
+   background-size or object-fit determines how it fits; font/font-size and line-height change text size
+   and readable line spacing; width/height/max-width control this element size; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .lx-adventure-heading{position:absolute;left:480px;top:12px;width:640px;height:120px;margin:0;padding:18px 30px;display:flex;justify-content:center;align-items:center;background:url('/images/workingMemory/shared/boards/level-map/map-heading.webp') center/100% 175px no-repeat;font:700 30px/1.05 Fredoka,'Noto Sans Sinhala',sans-serif;letter-spacing:.2px;color:white;text-shadow:0 3px 0 #54230b,-2px 0 #54230b,2px 0 #54230b;text-align:center;z-index:11;pointer-events:none}
+/*
+   SELECTOR: .lx-adventure-subtitle Find the matching className in the related JSX named in this file
+   guide. position:absolute places this layer; left/top/right/bottom/inset move it within its containing
+   area; font/font-size and line-height change text size and readable line spacing; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .lx-adventure-subtitle{position:absolute;left:90px;right:90px;top:190px;margin:0;text-align:center;font:700 50px/1.2 Fredoka,'Noto Sans Sinhala',sans-serif;color:#54260f;-webkit-text-stroke:5px #fff8e5;paint-order:stroke fill;text-shadow:0 3px 0 #fff8e5}
+/*
+   SELECTOR: .lx-adventure-map .lx-map-notice Find the matching className in the related JSX named in
+   this file guide. flex arranges children along a row/column; align-items and justify-content align
+   them, gap separates them; font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-adventure-map .lx-map-notice{bottom:24px;font-size:18px;padding:7px 14px;max-width:1030px;min-height:48px;border:1px solid #ddb67b;background:#fff0d5e8;display:flex;align-items:center;justify-content:center}
+
+/* SECTION 3: ACTIVITY OR GAME POPUP
+   LevelSelection.jsx imports this and renders GameMenu.jsx. The heading uses map-heading.webp; popup controls use their own artwork. */
 .lx-adventure-map .lx-map-notice.is-popup-open{display:none}
+/*
+   SELECTOR: .lx-menu-overlay Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   grid arranges children into defined rows/columns; grid-template values set their sizes; z-index
+   controls which overlapping layer appears in front.
+ */
 .lx-menu-overlay{position:absolute;inset:0;z-index:30;background:#12321b66;display:grid;place-items:center}
+/*
+   SELECTOR: .lx-menu-board.lx-popup-board Find the matching className in the related JSX named in this
+   file guide. position:relative makes this element an anchor for absolutely positioned children;
+   width/height/max-width control this element size.
+ */
 .lx-menu-board.lx-popup-board{position:relative;left:auto;top:auto;width:1240px;height:698px;background:none;filter:drop-shadow(0 18px 20px #09231566)}
+/*
+   SELECTOR: .lx-popup-board-art Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   width/height/max-width control this element size.
+ */
 .lx-popup-board-art{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+/*
+   SELECTOR: .lx-popup-title Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   grid arranges children into defined rows/columns; grid-template values set their sizes; font/font-size
+   and line-height change text size and readable line spacing; padding is inside space, margin is outside
+   space and gap separates children.
+ */
 .lx-popup-title{position:absolute;top:48px;left:420px;right:420px;margin:0;display:grid;place-items:center;min-height:65px;font:700 54px/1 Fredoka,'Noto Sans Sinhala',sans-serif;color:#51270e}
+/*
+   SELECTOR: .lx-popup-close Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   grid arranges children into defined rows/columns; grid-template values set their sizes;
+   width/height/max-width control this element size.
+ */
 .lx-popup-close{position:absolute;right:88px;top:93px;width:57px;height:57px;border:3px solid #fff4c8;border-radius:50%;background:linear-gradient(#efab39,#c4640e);box-shadow:0 3px 0 #86430d;color:white;display:grid;place-items:center}
 .lx-popup-close svg{width:35px;height:35px;stroke-width:4}
+/*
+   SELECTOR: .lx-popup-games Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   grid arranges children into defined rows/columns; grid-template values set their sizes; padding is
+   inside space, margin is outside space and gap separates children.
+ */
 .lx-popup-games{position:absolute;left:167px;right:167px;top:162px;bottom:105px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:23px 26px}
+/*
+   SELECTOR: .lx-popup-game Find the matching className in the related JSX named in this file guide.
+   position:relative makes this element an anchor for absolutely positioned children; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .lx-popup-game{position:relative;min-width:0;border:0;border-radius:28px;padding:0;background:none;isolation:isolate;transition:translate .15s,filter .15s}
+/*
+   SELECTOR: .lx-popup-game:hover Find the matching className in the related JSX named in this file
+   guide. :hover applies while the pointer is over the element.
+ */
 .lx-popup-game:hover{translate:0 -3px;filter:brightness(1.04)}
+/*
+   SELECTOR: .lx-popup-thumbnail Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   z-index controls which overlapping layer appears in front; width/height/max-width control this element
+   size.
+ */
 .lx-popup-thumbnail{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;z-index:-1;pointer-events:none}
+/*
+   SELECTOR: .lx-popup-game-label Find the matching className in the related JSX named in this file
+   guide. position:absolute places this layer; left/top/right/bottom/inset move it within its containing
+   area; flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-popup-game-label{position:absolute;left:14%;right:25%;bottom:10%;height:48px;display:flex;justify-content:center;align-items:center;padding:0 8px;border:2px solid #fff8;border-radius:999px;background:linear-gradient(color-mix(in srgb,var(--game-c),white 15%),var(--game-c));box-shadow:inset 0 3px 2px #fff5,0 4px 0 var(--game-d);font:700 29px/1 Fredoka,'Noto Sans Sinhala',sans-serif;color:white;text-shadow:0 2px 1px var(--game-d)}
+/*
+   SELECTOR: .lx-popup-play Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   grid arranges children into defined rows/columns; grid-template values set their sizes;
+   width/height/max-width control this element size.
+ */
 .lx-popup-play{position:absolute;right:6%;bottom:7%;width:64px;height:64px;border-radius:50%;border:5px solid #fff;background:linear-gradient(color-mix(in srgb,var(--game-c),white 15%),var(--game-d));box-shadow:inset 0 3px 2px #fff8,0 3px 2px #5c351e66;display:grid;place-items:center;color:white}
 .lx-popup-play svg{width:34px;height:34px;stroke-width:3}.lx-popup-play svg.lucide-play{margin-left:5px}
 .lx-popup-game.is-locked .lx-popup-thumbnail{filter:saturate(.5)}
+/*
+   SELECTOR: .lx-popup-notice Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   font/font-size and line-height change text size and readable line spacing; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .lx-popup-notice{position:absolute;bottom:46px;left:130px;right:130px;margin:0;text-align:center;font-size:20px;color:#603410}
-.lx-adventure-map:lang(si) .lx-adventure-heading{font-size:29px}.lx-adventure-map:lang(si) .lx-adventure-subtitle{font-size:32px}
+
+/* SECTION 4: LEVEL MAP AND ILLUSTRATED CARDS
+   LevelSelection.jsx imports this and renders GameMenu.jsx. The heading uses map-heading.webp; popup controls use their own artwork. */
+/*
+   SELECTOR: .lx-adventure-map:lang(si) .lx-adventure-heading Find the matching className in the related
+   JSX named in this file guide. this matching language/state selector adjusts Sinhala presentation;
+   font/font-size and line-height change text size and readable line spacing.
+ */
+.lx-adventure-map:lang(si) .lx-adventure-heading{font-size:29px}/*
+   SELECTOR: .lx-adventure-map:lang(si) .lx-adventure-subtitle Find the matching className in the related
+   JSX named in this file guide. this matching language/state selector adjusts Sinhala presentation;
+   font/font-size and line-height change text size and readable line spacing.
+ */
+.lx-adventure-map:lang(si) .lx-adventure-subtitle{font-size:32px}
+
+/* MEDIA QUERY: (prefers-reduced-motion:reduce). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media(prefers-reduced-motion:reduce){.lx-popup-game,.lx-adventure-map .lx-level-card{transition:none}}
 
+/*
+   SELECTOR: .lx-adventure-subtitle::before,.lx-adventure-subtitle::after Find the matching className in
+   the related JSX named in this file guide. the URL selects artwork; background-size or object-fit
+   determines how it fits; width/height/max-width control this element size; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .lx-adventure-subtitle::before,.lx-adventure-subtitle::after{content:"";display:inline-block;width:34px;height:38px;margin:0 21px;vertical-align:middle;background:url("/images/workingMemory/shared/icons/leaf.svg") center/contain no-repeat}.lx-adventure-subtitle::before{transform:rotate(-55deg)}.lx-adventure-subtitle::after{transform:rotate(25deg)}
 
-.lx-adventure-map .lx-map-underlay{position:absolute;inset:0}.lx-adventure-map .lx-map-underlay[inert],.lx-adventure-map:has(.lx-menu-overlay)>.lx-background{filter:blur(4px)}
 
-.lx-adventure-map .lx-map-notice:empty{display:none}.lx-adventure-map:lang(si) .lx-adventure-heading{font-size:25px}
+/* SECTION 5: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   LevelSelection.jsx imports this and renders GameMenu.jsx. The heading uses map-heading.webp; popup controls use their own artwork. */
+.lx-adventure-map .lx-map-underlay{position:absolute;inset:0}
+/* SECTION 6: ACTIVITY OR GAME POPUP
+   LevelSelection.jsx imports this and renders GameMenu.jsx. The heading uses map-heading.webp; popup controls use their own artwork. */
+.lx-adventure-map .lx-map-underlay[inert],.lx-adventure-map:has(.lx-menu-overlay)>.lx-background{filter:blur(4px)}
+
+
+/* SECTION 7: LEVEL MAP AND ILLUSTRATED CARDS
+   LevelSelection.jsx imports this and renders GameMenu.jsx. The heading uses map-heading.webp; popup controls use their own artwork. */
+.lx-adventure-map .lx-map-notice:empty{display:none}/*
+   SELECTOR: .lx-adventure-map:lang(si) .lx-adventure-heading Find the matching className in the related
+   JSX named in this file guide. this matching language/state selector adjusts Sinhala presentation;
+   font/font-size and line-height change text size and readable line spacing.
+ */
+.lx-adventure-map:lang(si) .lx-adventure-heading{font-size:25px}
 /* Close: the same wooden round button as the home-page activity popups. */
+
+/* SECTION 8: ACTIVITY OR GAME POPUP
+   LevelSelection.jsx imports this and renders GameMenu.jsx. The heading uses map-heading.webp; popup controls use their own artwork. */
+/*
+   SELECTOR: .lx-popup-close Find the matching className in the related JSX named in this file guide.
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-popup-close{width:64px;height:64px;padding:0;border:0;border-radius:50%;background:none;box-shadow:none;filter:drop-shadow(0 3px 2px #5c351e55)}
 .lx-popup-close img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}
+/*
+   SELECTOR: .lx-popup-close:hover Find the matching className in the related JSX named in this file
+   guide. :hover applies while the pointer is over the element.
+ */
 .lx-popup-close:hover{filter:drop-shadow(0 3px 2px #5c351e55) brightness(1.06)}

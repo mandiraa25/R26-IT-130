@@ -1,3 +1,24 @@
+/*
+ * FILE PURPOSE
+ * Main controller shared by all four improvement games and Levels 1-4.
+ *
+ * HOW IT CONNECTS
+ * App.jsx supplies grade, levelNumber and subCategoryKey through the activity route.
+ * getSubCategoryData selects the bank; answerChecking checks responses; improveApi reads access, saves
+ * an attempt and refreshes progress/history. ActivityScreen receives the state and callbacks as props.
+ * Direct source importers: ../../../App.jsx.
+ * Local feature/style dependencies: ActivityScreen.jsx, ../logic/progression.js, ../logic/audio.js,
+ * ../logic/progression.js, ../services/improveApi.js, data/index.js, ../config/gameConfig.js,
+ * ../logic/presentation.js, ../config/levelThemes.js, ../logic/answerChecking.js.
+ *
+ * THINGS TO REMEMBER
+ * phase chooses tutorial, study, recall, feedback or results. questions is a selected attempt of up to
+ * five questions. score counts correct answers; earnedStars uses five per correct answer. words is the
+ * saved/API key for Picture Memory. Timers and submission guards live here; styles live in the view
+ * components, not this controller.
+ */
+
+// VIVA: Improvement controller: question flow, answer arrangement, rewards and persistence.
 import ActivityScreen from "./ActivityScreen";
 import { readTotalStars } from "../logic/progression";
 import React, { useState, useEffect, useRef } from "react";
@@ -24,11 +45,31 @@ const LEVEL_CARD_BACKS = {
 const WM_PROFILE_CACHE = "wm-profile-cache";
 const WM_PROGRESS_CACHE = "wm-progress-cache";
 
+/*
+ * FUNCTION: readSessionCache
+ * Read a cached profile/progress object without failing on invalid JSON.
+ * WHEN: ImprovementPage initial state calls this.
+ * HOW / RESULT: Returns null on missing/bad cache; later server reads remain the source of saved
+ * progress.
+ */
 const readSessionCache = (key) => {
   try { return JSON.parse(sessionStorage.getItem(key) || "null"); } catch { return null; }
 };
 
+/*
+ * FUNCTION: pictureItemKey
+ * Read a stable comparison key from a picture object or primitive value.
+ * WHEN: Shuffle/drag/pool validation calls this.
+ * HOW / RESULT: IDs keep matching independent of translated picture names.
+ */
 const pictureItemKey = (item) => item && typeof item === "object" ? item.id || item.image || item.alt : item;
+/*
+ * FUNCTION: shuffleIntoDifferentOrder
+ * Shuffle a copied picture sequence and avoid returning the identical order when possible.
+ * WHEN: Picture setup and Start over call this.
+ * HOW / RESULT: If the shuffle is unchanged, rotates the sequence; it does not mutate authored
+ * questions.
+ */
 const shuffleIntoDifferentOrder = (items) => {
   const source = [...items];
   if (source.length < 2) return source;
@@ -39,70 +80,349 @@ const shuffleIntoDifferentOrder = (items) => {
 };
 
 const PATTERN_HOW_TO_PLAY_VIDEO = "https://youtu.be/uAqYnG7B0w8";
+/*
+ * REWARD CONSTANT: Each correctly checked improvement question adds five reward stars.
+ * score still increases by one correct answer. Backend uses the same five-star rule;
+ * the save response reconciles the displayed running total with persisted progress.
+ */
 const STARS_PER_CORRECT = 5;
 
 
+/*
+ * FUNCTION / COMPONENT: ImprovementPage
+ * React renders this component when its parent uses <ImprovementPage /> or when its state/props
+ * change.
+ * This component has no explicit props; its body shows the hooks or fixed values it uses.
+ * RETURN: The existing JSX below builds this part of the screen. See the file guide for its caller and
+ * CSS.
+ */
 export default function ImprovementPage() {
+  // VIVA: URL parameters choose the grade, level and game; React state below
+  // holds this attempt, while savedProgress comes from the backend.
   const { grade, levelNumber, subCategoryKey } = useParams();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation("wm");
 
+  /*
+   * REMEMBER: profile
+   * Student identity, name and grade. An API/cache fills it; navigation and attempt saving read the
+   * student ID/grade.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [profile, setProfile] = useState(() => readSessionCache(WM_PROFILE_CACHE));
+  /*
+   * REMEMBER: accessState
+   * Access check outcome: checking, allowed, connection error, screening required or locked. It selects
+   * the loading/error/game return branch.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [accessState, setAccessState] = useState("checking");
+  /*
+   * REMEMBER: accessRetry
+   * Retry counter for a failed access request. Changing it reruns the access effect with a refreshed
+   * request.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [accessRetry, setAccessRetry] = useState(0);
+  /*
+   * REMEMBER: savedProgress
+   * Backend progress used to confirm completions and unlocks. It is separate from the current local
+   * attempt score.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [savedProgress, setSavedProgress] = useState(null);
+  /*
+   * REMEMBER: progressLoading
+   * Whether an already-saved attempt is refreshing progress. This is separate from saving the attempt
+   * again.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [progressLoading, setProgressLoading] = useState(false);
+  /*
+   * REMEMBER: progressError
+   * Whether progress refresh failed. It enables retrying the read without awarding the same attempt
+   * again.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [progressError, setProgressError] = useState(false);
+  /*
+   * REMEMBER: progressRefreshRef
+   * The in-flight progress-read promise. Reusing it prevents duplicate refresh requests; cleanup clears
+   * it.
+   * Changing .current is immediate and does not cause a render.
+   */
   const progressRefreshRef = useRef(null);
+  /*
+   * REMEMBER: levelHistory
+   * Saved attempts for the level, used to total recorded rewards on result screens. History refresh
+   * replaces it.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [levelHistory, setLevelHistory] = useState(null);
+  /*
+   * REMEMBER: historyLoading
+   * Whether recorded attempt history is being fetched. Result screens show a loading message while it is
+   * true.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [historyLoading, setHistoryLoading] = useState(false);
+  /*
+   * REMEMBER: historyError
+   * Whether attempt-history loading failed. Result screens show unavailable/retry instead of invented
+   * star totals.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [historyError, setHistoryError] = useState(false);
+  /*
+   * REMEMBER: historyRefreshRef
+   * The in-flight history-read promise. It prevents duplicate history fetches for the current attempt.
+   * Changing .current is immediate and does not cause a render.
+   */
   const historyRefreshRef = useRef(null);
+  /*
+   * REMEMBER: phase
+   * The current study/listening/answer/feedback stage. Event handlers and timers change it; the view
+   * chooses which controls to display.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [phase, setPhase] = useState("video"); // 'video' | 'intro' | 'show' | 'countdown' | 'answer' | 'feedback' | 'result'
+  /*
+   * REMEMBER: subCatData
+   * Selected game metadata and full question pool for this grade/level/language. The bank-loading effect
+   * sets it.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [subCatData, setSubCatData] = useState(null);
+  /*
+   * REMEMBER: questions
+   * Questions selected for the current improvement attempt. startQuiz selects up to five and currentIdx
+   * chooses the active one.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [questions, setQuestions] = useState([]);
+  /*
+   * REMEMBER: currentIdx
+   * Zero-based improvement question index. Next advances it after feedback; the tracker displays
+   * currentIdx + 1.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [currentIdx, setCurrentIdx] = useState(0);
+  /*
+   * REMEMBER: score
+   * Number of correctly answered improvement questions. Correct answers add one; this is not the
+   * five-stars-per-answer reward.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [score, setScore] = useState(0);
+  /*
+   * REMEMBER: results
+   * Recorded responses for this session (or fetched report records in report views). Rendering/scoring
+   * reads this list; recording/loading replaces it.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [results, setResults] = useState([]);
+  // VIVA: Refs change synchronously without rendering. These guards prevent
+  // rapid repeated clicks from answering, advancing or saving the same attempt twice.
+  /*
+   * REMEMBER: latestResultRef
+   * Most recently evaluated answer record, stored immediately without waiting for a React render.
+   * Changing .current is immediate and does not cause a render.
+   */
   const latestResultRef = useRef(null);
+  /*
+   * REMEMBER: answeredQuestionRef
+   * Whether this question already accepted an answer. It is reset in setupQuestion and blocks duplicate
+   * submissions.
+   * Changing .current is immediate and does not cause a render.
+   */
   const answeredQuestionRef = useRef(false);
+  /*
+   * REMEMBER: nextTransitionRef
+   * Whether Next already started a transition. It blocks rapid double-clicks until setupQuestion resets
+   * it.
+   * Changing .current is immediate and does not cause a render.
+   */
   const nextTransitionRef = useRef(false);
+  /*
+   * REMEMBER: previousQuestionIdsRef
+   * IDs from the last selected attempt. Question selection prefers different questions when the pool
+   * permits it.
+   * Changing .current is immediate and does not cause a render.
+   */
   const previousQuestionIdsRef = useRef([]);
+  /*
+   * REMEMBER: undoHistoryRef
+   * Snapshots of both picture slots and pool. Undo restores a consistent arrangement without
+   * losing/duplicating a picture.
+   * Changing .current is immediate and does not cause a render.
+   */
   const undoHistoryRef = useRef([]);
+  /*
+   * REMEMBER: submissionStartedRef
+   * Whether final-question completion has begun. It prevents starting the final save path twice.
+   * Changing .current is immediate and does not cause a render.
+   */
   const submissionStartedRef = useRef(false);
+  /*
+   * REMEMBER: saveAttemptInFlightRef
+   * Whether an attempt POST is currently running. It blocks duplicate saves/restarts during that
+   * request.
+   * Changing .current is immediate and does not cause a render.
+   */
   const saveAttemptInFlightRef = useRef(false);
+  /*
+   * REMEMBER: savedAttemptRef
+   * Whether this attempt already saved successfully. Refresh retries must not POST and award it again.
+   * Changing .current is immediate and does not cause a render.
+   */
   const savedAttemptRef = useRef(false);
+  /*
+   * REMEMBER: attemptGenerationRef
+   * Attempt version counter. Late responses from an older attempt are ignored after replay or
+   * route/language reload.
+   * Changing .current is immediate and does not cause a render.
+   */
   const attemptGenerationRef = useRef(0);
+  /*
+   * REMEMBER: wordsSpeechTimeoutRef
+   * Pending pause between spoken picture names. setupQuestion/cleanup can cancel the timeout.
+   * Changing .current is immediate and does not cause a render.
+   */
   const wordsSpeechTimeoutRef = useRef(null);
+  /*
+   * REMEMBER: numbersReadyStartedRef
+   * Synchronous guard preventing more than one Ready event from starting the same number reveal.
+   * Changing .current is immediate and does not cause a render.
+   */
   const numbersReadyStartedRef = useRef(false);
+  /*
+   * REMEMBER: earnedStars
+   * Stars earned in this attempt, five for each correct answer. startQuiz resets this; saved response
+   * later confirms the reward.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [earnedStars, setEarnedStars] = useState(0);
+  /*
+   * REMEMBER: lastStarReward
+   * Reward for the latest answer: five or zero. Feedback displays this number beside decorative stars.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [lastStarReward, setLastStarReward] = useState(0);
+  /*
+   * REMEMBER: totalStars
+   * Displayed accumulated WM reward total, seeded from cache and reconciled with the server after
+   * saving.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [totalStars, setTotalStars] = useState(() =>
     readTotalStars(readSessionCache(WM_PROGRESS_CACHE) ?? readSessionCache(WM_PROFILE_CACHE))
   );
 
   // Timing states
+  /*
+   * REMEMBER: timerCount
+   * Seconds remaining in the reveal stage. The timer effect decreases it and the timer component
+   * displays it.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [timerCount, setTimerCount] = useState(0);
+  /*
+   * REMEMBER: timerMax
+   * Initial reveal duration used to draw the timer bar as a fraction of the full time.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [timerMax, setTimerMax] = useState(15);
+  /*
+   * REMEMBER: questionStartTime
+   * performance.now timestamp set in setupQuestion. Improvement question time includes
+   * Ready/study/listening and recall.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [questionStartTime, setQuestionStartTime] = useState(null);
+  /*
+   * REMEMBER: totalStartTime
+   * performance.now timestamp for the whole improvement attempt. Saving converts elapsed milliseconds to
+   * seconds.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [totalStartTime, setTotalStartTime] = useState(null);
   const { muted } = useMemoryMusic();
   const soundEnabled = !muted;
 
   // Drag and drop slots state
+  /*
+   * REMEMBER: slots
+   * The student answer positions. Taps/drops/Undo update them; Submit compares the completed sequence
+   * with the authored answer.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [slots, setSlots] = useState([]);
+  /*
+   * REMEMBER: dragPool
+   * Currently available choices/pictures. Placing a picture removes it; digits remain reusable for
+   * repeated numbers.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [dragPool, setDragPool] = useState([]);
+  /*
+   * REMEMBER: activeStepIdx
+   * Legacy instruction-step index retained by the shared controller/timer conditions; current
+   * InstructionsGame owns its listening status.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [activeStepIdx, setActiveStepIdx] = useState(-1);
 
   // Words Subcategory states (Card Pack Theme)
+  /*
+   * REMEMBER: cardsFlipped
+   * Retained picture animation flag: becomes true shortly after reveal starts and resets for recall.
+   * The current picture view derives its displayed scene from phase and Ready props.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [cardsFlipped, setCardsFlipped] = useState(false);
+  /*
+   * REMEMBER: wordsAwaitingPlay
+   * Whether Picture Memory is waiting for Ready. The reveal timer stays stopped until startWordsMemory
+   * clears it.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [wordsAwaitingPlay, setWordsAwaitingPlay] = useState(false);
+  /*
+   * REMEMBER: numbersAwaitingPlay
+   * Whether Number Memory is waiting for Ready. handleNumbersReady clears it and starts the
+   * level-duration reveal.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [numbersAwaitingPlay, setNumbersAwaitingPlay] = useState(false);
+  /*
+   * REMEMBER: deckRevealed
+   * Retained deck-interaction state used by controller callbacks. The current PictureMemoryGame displays
+   * a visible pool instead of a deck stack.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [deckRevealed, setDeckRevealed] = useState(false);
+  /*
+   * REMEMBER: selectedSlotIndex
+   * Picture slot selected for clearing or swapping. Slot taps/drops update it and CSS highlights the
+   * selected position.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [selectedSlotIndex, setSelectedSlotIndex] = useState(null);
+  /*
+   * REMEMBER: draggedItem
+   * Source, index and value for an HTML drag gesture. Drop can read this state or the dataTransfer
+   * payload.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [draggedItem, setDraggedItem] = useState(null);
 
   // HTML5 Drag & Drop and Slot Swap Handlers
+  /*
+   * FUNCTION: handleDragStart
+   * Remember the drag source/index/value and write the browser drag payload.
+   * WHEN: A draggable MemoryPicture calls this.
+   * HOW / RESULT: Drop handlers can recover the item from state or dataTransfer.
+   */
   const handleDragStart = (e, source, index, value) => {
     setDraggedItem({ source, index, value });
     if (e?.dataTransfer) {
@@ -111,6 +431,12 @@ export default function ImprovementPage() {
     }
   };
 
+  /*
+   * FUNCTION: handleDragOver
+   * Allow a drop target to accept the dragged picture.
+   * WHEN: The answer slot drag-over event calls this.
+   * HOW / RESULT: preventDefault enables dropping; dropEffect requests a move cursor.
+   */
   const handleDragOver = (e) => {
     e.preventDefault();
     if (e?.dataTransfer) {
@@ -118,6 +444,13 @@ export default function ImprovementPage() {
     }
   };
 
+  /*
+   * FUNCTION: handleDropOnSlot
+   * Place or swap a dragged picture in a recall slot.
+   * WHEN: An answer slot drop event calls this.
+   * HOW / RESULT: Validates phase/source, remembers Undo state, swaps occupied slots or exchanges a pool
+   * item with the target, then clears selection.
+   */
   const handleDropOnSlot = (e, targetIndex) => {
     if (e) e.preventDefault();
     let item = draggedItem;
@@ -167,6 +500,13 @@ export default function ImprovementPage() {
   };
 
   // Handle deck stack interactions for Words subcategory
+  /*
+   * FUNCTION: handleDeckTap
+   * Handle the retained deck-stack interaction.
+   * WHEN: Passed through ActivityScreen as a callback; current PictureMemoryGame renders a visible pool
+   * instead.
+   * HOW / RESULT: Can reveal the deck or place its top picture into an available/selected slot.
+   */
   const handleDeckTap = () => {
     if (dragPool.length === 0) return;
 
@@ -180,6 +520,13 @@ export default function ImprovementPage() {
     }
   };
 
+  /*
+   * FUNCTION: handlePlaceCardFromDeck
+   * Move the retained deck top card into a target slot.
+   * WHEN: Deck/slot controller callbacks can call this.
+   * HOW / RESULT: Updates slots and pool together and clears deck/slot selection. Current picture view
+   * uses the visible pool.
+   */
   const handlePlaceCardFromDeck = (slotIdx) => {
     if (dragPool.length === 0) return;
     const topCard = dragPool[dragPool.length - 1];
@@ -202,18 +549,50 @@ export default function ImprovementPage() {
   };
 
   // Feedbacks
+  /*
+   * REMEMBER: isCurrentCorrect
+   * Correctness of the latest improvement answer. It chooses the feedback text, artwork and CSS state.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [isCurrentCorrect, setIsCurrentCorrect] = useState(null);
+  /*
+   * REMEMBER: lastUserAnswer
+   * Latest submitted value/sequence. Answer/feedback views use it to keep the selected response visible.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [lastUserAnswer, setLastUserAnswer] = useState(null);
 
   // Backend submission status
+  /*
+   * REMEMBER: isSubmitting
+   * Whether the attempt POST is running. Result actions are disabled and saving status is displayed
+   * while true.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [isSubmitting, setIsSubmitting] = useState(false);
+  /*
+   * REMEMBER: submitResult
+   * Data returned by a successful attempt POST. Continue requires this saved confirmation as well as a
+   * passing score.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [submitResult, setSubmitResult] = useState(null);
+  /*
+   * REMEMBER: submissionError
+   * Whether the attempt POST failed. Results expose Retry Saving without claiming an unlock was stored.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [submissionError, setSubmissionError] = useState(false);
 
 
   const isPatternGame = subCategoryKey === "pattern";
 
 
+  /*
+   * EFFECT: After React renders
+   * Preload artwork before the child reaches its next screen; it changes download timing, not answers.
+   * DEPENDENCIES: [levelNumber]. A changed dependency reruns the effect; its prior cleanup runs first.
+   */
   useEffect(() => {
     const themeAssets = getWorkingMemoryThemeAssets(levelNumber);
     const imageSources = [
@@ -228,9 +607,24 @@ export default function ImprovementPage() {
     imageSources.forEach((src) => { const image = new Image(); image.src = src; });
   }, [levelNumber]);
 
+  /*
+   * EFFECT: After React renders
+   * Load saved student access/progress and ignore responses after leaving the screen.
+   * DEPENDENCIES: [levelNumber, subCategoryKey, accessRetry]. A changed dependency reruns the effect;
+   * its prior cleanup runs first.
+   */
   useEffect(() => {
     let cancelled = false;
+    /*
+     * FUNCTION: checkAccess
+     * Fetch the current student and saved screening/game access.
+     * WHEN: The activity access effect runs this on route or retry changes.
+     * HOW / RESULT: Caches the response, reads the selected game record and chooses allowed,
+     * screening-required, locked or connection-error UI.
+     */
     const checkAccess = async () => {
+      // VIVA: Checking the direct activity URL also enforces the server's saved
+      // screening/unlock state; hiding a locked button alone would be insufficient.
       setAccessState("checking");
       try {
         // Use the authenticated profile ID, just as the level map does. A
@@ -256,8 +650,16 @@ export default function ImprovementPage() {
     return () => { cancelled = true; };
   }, [levelNumber, subCategoryKey, accessRetry]);
 
+  /*
+   * EFFECT: After React renders
+   * Load the matching authored game bank and reset stale attempt requests after route/language changes.
+   * DEPENDENCIES: [grade, levelNumber, subCategoryKey, i18n.language]. A changed dependency reruns the
+   * effect; its prior cleanup runs first.
+   */
   useEffect(() => {
     const currentLang = i18n.language?.startsWith("si") ? "si" : "en";
+    // VIVA: Changing route/language loads the matching static bank and tutorial.
+    // The generation number makes responses from an older attempt harmless.
     attemptGenerationRef.current += 1;
     saveAttemptInFlightRef.current = false;
     savedAttemptRef.current = false;
@@ -282,12 +684,25 @@ export default function ImprovementPage() {
     }
   }, [grade, levelNumber, subCategoryKey, i18n.language]);
 
+  /*
+   * FUNCTION: handleSkipAndPlay
+   * Start the improvement attempt from the tutorial.
+   * WHEN: HowToPlay invokes this through onSkipAndPlay.
+   * HOW / RESULT: Delegates to startQuiz; watching the video is not required for scoring access.
+   */
   const handleSkipAndPlay = () => {
     startQuiz();
   };
 
   // Text-to-speech for instructions. Accepts an optional onEnd callback so callers
   // (e.g. the Instructions game) can chain utterances with a pause between them.
+  /*
+   * FUNCTION: speakText
+   * Read text with the current browser language voice and optional completion callback.
+   * WHEN: Game headings/listening and picture-name playback call this.
+   * HOW / RESULT: Cleans decorative symbols and chooses voice/rate. A backup completion timer protects
+   * callers if browser end events do not arrive.
+   */
   const speakText = (text, slow = true, onEnd) => {
     if (!text) {
       onEnd?.();
@@ -330,6 +745,12 @@ export default function ImprovementPage() {
 
   // Speak picture names without displaying them. Each name starts one second
   // after the previous name finishes so the sequence is easy to distinguish.
+  /*
+   * FUNCTION: speakPictureNames
+   * Speak picture names in order with a pause between names.
+   * WHEN: startWordsMemory calls this during the study reveal.
+   * HOW / RESULT: Uses each object alt/id and stores the next timeout so question cleanup can stop it.
+   */
   const speakPictureNames = (items) => {
     const names = items
       .map((item) => typeof item === "object" ? item?.alt || item?.id : item)
@@ -351,6 +772,13 @@ export default function ImprovementPage() {
   };
 
   // Start a fresh five-question attempt, including when the child plays again.
+  /*
+   * FUNCTION: startQuiz
+   * Create or replay a fresh improvement attempt.
+   * WHEN: Skip & Play and Play Again call this.
+   * HOW / RESULT: Resets question/result/reward/save guards, selects up to five questions, records the
+   * attempt start time and calls setupQuestion.
+   */
   const startQuiz = () => {
     if (saveAttemptInFlightRef.current) return;
     attemptGenerationRef.current += 1;
@@ -379,16 +807,37 @@ export default function ImprovementPage() {
     setupQuestion(0, attempt);
   };
 
+  /*
+   * FUNCTION: handleInstructionReady
+   * Change from the listening scene to recall choices.
+   * WHEN: InstructionsGame Show question calls this after playback finishes.
+   * HOW / RESULT: Sets phase to answer; tapping a recall choice then evaluates immediately.
+   */
   const handleInstructionReady = () => {
     setPhase("answer");
   };
 
   // Timer configuration based on levels for standard games
+  /*
+   * FUNCTION: getDisplayTime
+   * Read the configured reveal duration for this level.
+   * WHEN: Question setup/number Ready logic calls this.
+   * HOW / RESULT: Returns seconds from gameConfig; Picture Memory has its own ten-second reveal.
+   */
   const getDisplayTime = () => {
     return getLevelDisplaySeconds(levelNumber);
   };
 
+  /*
+   * FUNCTION: setupQuestion
+   * Initialize one improvement question and its study/answer phase.
+   * WHEN: startQuiz and Next call this with the target index.
+   * HOW / RESULT: Cancels old speech, resets guards/feedback/Undo, builds answer slots and choices, and
+   * sets Pattern answer, Pictures Ready, Instructions listening or Numbers Ready.
+   */
   const setupQuestion = (idx, questionSet = questions) => {
+    // VIVA: Every question starts here. Pattern opens in answer phase; Pictures
+    // and Numbers wait for Ready; Instructions waits for listening to finish.
     const q = questionSet[idx];
     if (!q) return;
 
@@ -400,6 +849,8 @@ export default function ImprovementPage() {
     latestResultRef.current = null;
     undoHistoryRef.current = [];
     setQuestionStartTime(performance.now());
+    // VIVA: Improvement question time includes Ready, memorization/listening
+    // and recall. Screening measures its answer period separately.
     setIsCurrentCorrect(null);
     setLastUserAnswer(null);
     setCardsFlipped(false);
@@ -416,6 +867,8 @@ export default function ImprovementPage() {
     setDragPool(subCategoryKey === "numbers"
       ? shuffleArray(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"])
       : (subCategoryKey === "words" ? shuffleIntoDifferentOrder(correctSeq) : shuffleArray(q.dragPool || [])));
+    // VIVA: The current Picture pool uses only the remembered pictures, even
+    // when the bank supplies extra distractors. Numbers renders a fixed keypad.
 
     if (subCategoryKey === "words") {
       setPhase("show");
@@ -460,6 +913,13 @@ export default function ImprovementPage() {
   };
 
   // Picture Memory keeps its original ten-second memorization period.
+  /*
+   * FUNCTION: startWordsMemory
+   * Begin the Picture Memory reveal after Ready.
+   * WHEN: PictureMemoryGame Ready calls this.
+   * HOW / RESULT: Requires the correct waiting phase, sets the ten-second timer, clears waiting state
+   * and starts ordered picture speech.
+   */
   const startWordsMemory = () => {
     if (!wordsAwaitingPlay) return;
 
@@ -473,6 +933,13 @@ export default function ImprovementPage() {
     }
   };
 
+  /*
+   * FUNCTION: handleNumbersReady
+   * Begin the Number Memory reveal exactly once.
+   * WHEN: NumberMemoryGame Ready calls this.
+   * HOW / RESULT: Uses a synchronous guard, sets this level timer and clears numbersAwaitingPlay; timer
+   * expiry later opens recall.
+   */
   const handleNumbersReady = () => {
     if (![1, 2, 3, 4].includes(Number(levelNumber)) || subCategoryKey !== "numbers" || phase !== "show" || !numbersAwaitingPlay || numbersReadyStartedRef.current) return;
     // Claim the start synchronously, before the Ready button can be clicked again.
@@ -484,6 +951,13 @@ export default function ImprovementPage() {
   };
 
   // 3D card flip animation hook for Words subcategory in Phase 2 (show)
+  /*
+   * EFFECT: After React renders
+   * Synchronize this component with browser state or external work after rendering; the existing
+   * callback shows the exact side effects.
+   * DEPENDENCIES: [phase, currentIdx, subCategoryKey, wordsAwaitingPlay]. A changed dependency reruns
+   * the effect; its prior cleanup runs first.
+   */
   useEffect(() => {
     if (phase === "show" && subCategoryKey === "words" && !wordsAwaitingPlay) {
       setCardsFlipped(false);
@@ -495,6 +969,14 @@ export default function ImprovementPage() {
   }, [phase, currentIdx, subCategoryKey, wordsAwaitingPlay]);
 
   // Timer countdown hook for showing items
+  /*
+   * EFFECT: After React renders
+   * Run the reveal countdown and switch to recall when it expires; clear scheduled timers when
+   * dependencies change.
+   * DEPENDENCIES: [phase, timerCount, currentIdx, levelNumber, subCategoryKey, isPatternGame,
+   * activeStepIdx, wordsAwaitingPlay, numbersAwaitingPlay, questions]. A changed dependency reruns the
+   * effect; its prior cleanup runs first.
+   */
   useEffect(() => {
     if (phase !== "show" || !questions[currentIdx]) return;
     if (subCategoryKey === "words" && wordsAwaitingPlay) return;
@@ -516,7 +998,16 @@ export default function ImprovementPage() {
     return () => clearInterval(interval);
   }, [phase, timerCount, currentIdx, levelNumber, subCategoryKey, isPatternGame, activeStepIdx, wordsAwaitingPlay, numbersAwaitingPlay, questions]);
 
+  /*
+   * FUNCTION: handleTileClick
+   * Put a selected picture/digit into the first empty answer slot.
+   * WHEN: Picture pool or Number keypad calls this.
+   * HOW / RESULT: Requires answer phase. Pictures leave the pool; digits remain reusable so repeated
+   * numbers can be recalled.
+   */
   const handleTileClick = (val) => {
+    // VIVA: Tapping a picture/digit fills the first empty answer slot. Pictures
+    // leave their pool; digits remain reusable so repeated numbers can be entered.
     if (phase !== "answer" || answeredQuestionRef.current) return;
     if (isPatternGame) {
       setSlots([val]);
@@ -547,6 +1038,13 @@ export default function ImprovementPage() {
     }
   };
 
+  /*
+   * FUNCTION: handleSlotClear
+   * Clear one chosen answer slot and return a movable item to the pool.
+   * WHEN: Slot selection/clear interactions call this.
+   * HOW / RESULT: Remembers Undo state and resets the selected slot; answering after feedback is
+   * blocked.
+   */
   const handleSlotClear = (index) => {
     const val = slots[index];
     if (phase !== "answer" || answeredQuestionRef.current) return;
@@ -563,6 +1061,13 @@ export default function ImprovementPage() {
     setSelectedSlotIndex(null);
   };
 
+  /*
+   * FUNCTION: handleSlotClick
+   * Select, clear or swap picture recall positions.
+   * WHEN: A picture answer slot calls this on click or keyboard activation.
+   * HOW / RESULT: A second slot click exchanges positions; clicking the selected slot clears it.
+   * Retained deck state can also place a card.
+   */
   const handleSlotClick = (targetIndex) => {
     if (selectedSlotIndex !== null) {
       if (selectedSlotIndex === targetIndex) {
@@ -591,7 +1096,20 @@ export default function ImprovementPage() {
   };
 
   // Snapshots include both rows, so Undo conserves the complete picture set.
+  /*
+   * FUNCTION: rememberArrangement
+   * Store an Undo snapshot of both slots and picture pool.
+   * WHEN: Arrangement-changing handlers call this before editing.
+   * HOW / RESULT: Copies both arrays so Undo can restore all pictures together.
+   */
   const rememberArrangement = () => { undoHistoryRef.current.push({ slots: [...slots], pool: [...dragPool] }); };
+  /*
+   * FUNCTION: handleUndo
+   * Undo the current recall input.
+   * WHEN: The game Undo button calls this.
+   * HOW / RESULT: Numbers clears the last filled slot; Pictures restores the previous slots/pool
+   * snapshot. Only answer phase accepts the action.
+   */
   const handleUndo = () => {
     if (phase !== "answer" || answeredQuestionRef.current) return;
     if (subCategoryKey === "numbers") {
@@ -602,6 +1120,14 @@ export default function ImprovementPage() {
       if (previous) { setSlots(previous.slots); setDragPool(previous.pool); setSelectedSlotIndex(null); }
     }
   };
+  /*
+   * FUNCTION: handleStartOver
+   * Reset the picture arrangement for this question.
+   * WHEN: Retained Start over UI branch calls this; supported level views currently hide that extra
+   * button.
+   * HOW / RESULT: Stores an Undo snapshot, empties the answer positions and reshuffles the correct
+   * pictures.
+   */
   const handleStartOver = () => {
     if (phase !== "answer" || answeredQuestionRef.current) return;
     rememberArrangement();
@@ -610,6 +1136,13 @@ export default function ImprovementPage() {
     setSelectedSlotIndex(null);
   };
 
+  /*
+   * FUNCTION: handleDragSubmit
+   * Check a fully filled recall sequence.
+   * WHEN: Picture/Number Submit calls this.
+   * HOW / RESULT: Rejects empty/duplicate submissions, runs evaluateDragAnswer, then delegates to
+   * evaluateAnswer.
+   */
   const handleDragSubmit = () => {
     const q = questions[currentIdx];
     if (!q || phase !== "answer" || answeredQuestionRef.current || slots.length === 0 || slots.some((s) => s === "" || s === null)) {
@@ -624,6 +1157,12 @@ export default function ImprovementPage() {
 
   // Instructions game recall step: the child taps one option and gets immediate feedback
   // (no drag-and-drop, no intermediate submit step).
+  /*
+   * FUNCTION: handleInstructionAnswer
+   * Check the tapped listening recall choice immediately.
+   * WHEN: An Instructions answer button calls this.
+   * HOW / RESULT: Compares the choice with q.correct, then delegates to evaluateAnswer.
+   */
   const handleInstructionAnswer = (selectedOption) => {
     const q = questions[currentIdx];
     if (!q) return;
@@ -631,7 +1170,16 @@ export default function ImprovementPage() {
   };
 
   // Record one answer and show its existing feedback and star reward.
+  /*
+   * FUNCTION: evaluateAnswer
+   * Record one improvement response and display correct/incorrect feedback.
+   * WHEN: All four game answer handlers converge here.
+   * HOW / RESULT: Blocks duplicate answers, records elapsed milliseconds, adds one score/five stars when
+   * correct and appends the result for the later save.
+   */
   const evaluateAnswer = (userAnswer, isCorrect) => {
+    // VIVA: All four games meet here: record one response, show feedback and
+    // award five displayed stars per correct answer. The score counts questions.
     const q = questions[currentIdx];
     if (!q || phase !== "answer" || answeredQuestionRef.current) return;
     answeredQuestionRef.current = true;
@@ -664,6 +1212,13 @@ export default function ImprovementPage() {
   };
 
   // Move on after feedback, or save the result after the final question.
+  /*
+   * FUNCTION: handleNextQuestion
+   * Advance after feedback or finish and save the attempt.
+   * WHEN: Next or See results calls this.
+   * HOW / RESULT: A synchronous transition guard prevents skipping questions. The final step opens
+   * result phase and calls handleCompleteQuiz once.
+   */
   const handleNextQuestion = async () => {
     if (!answeredQuestionRef.current || nextTransitionRef.current) return;
     nextTransitionRef.current = true;
@@ -682,6 +1237,13 @@ export default function ImprovementPage() {
 
   // Re-read the existing progress endpoint after saving. A refresh failure must
   // never retry the successful attempt POST, which would award the stars twice.
+  /*
+   * FUNCTION: handleRetryProgress
+   * Refresh saved progress without posting the attempt again.
+   * WHEN: Successful saves and Refresh Progress controls call this.
+   * HOW / RESULT: Shares one in-flight request and ignores stale attempt responses; failure changes
+   * progressError only.
+   */
   const handleRetryProgress = () => {
     if (progressRefreshRef.current) return progressRefreshRef.current;
     const generation = attemptGenerationRef.current;
@@ -708,6 +1270,13 @@ export default function ImprovementPage() {
     return request;
   };
 
+  /*
+   * FUNCTION: handleRetryLevelHistory
+   * Fetch recorded attempts for the current level.
+   * WHEN: Successful final-game/final-level saves and history Retry call this.
+   * HOW / RESULT: Totals can be shown from real history; errors set historyError and never invent
+   * recorded rewards.
+   */
   const handleRetryLevelHistory = () => {
     if (historyRefreshRef.current) return historyRefreshRef.current;
     const generation = attemptGenerationRef.current;
@@ -736,7 +1305,16 @@ export default function ImprovementPage() {
   };
 
   // Save through the existing API; its response controls saved progression.
+  /*
+   * FUNCTION: handleCompleteQuiz
+   * POST the completed improvement attempt and reconcile saved rewards/progress.
+   * WHEN: Final Next or Retry Saving calls this.
+   * HOW / RESULT: Sends score, question results and total seconds. Successful save sets submitResult,
+   * then independent progress/history reads refresh the dashboard without repeating the POST.
+   */
   const handleCompleteQuiz = async (finalScore, finalResults) => {
+    // VIVA: One POST stores the whole attempt. questionResults.timeTaken is
+    // milliseconds; totalTimeTaken below is seconds across the complete attempt.
     if (saveAttemptInFlightRef.current || savedAttemptRef.current) return;
     const generation = attemptGenerationRef.current;
     const totalTimeTaken = Math.round((performance.now() - totalStartTime) / 1000);
@@ -789,11 +1367,26 @@ export default function ImprovementPage() {
     }
   };
 
+  /*
+   * FUNCTION: handleBackToLevels
+   * Return to this level game menu.
+   * WHEN: Header Back and result return buttons call this.
+   * HOW / RESULT: Navigates to the map with ?level= so the selected menu can reopen.
+   */
   const handleBackToLevels = () => {
     navigate(`/improvement-wm/${grade}?level=${levelNumber}`);
   };
 
+  /*
+   * FUNCTION: handleNextSubCategory
+   * Continue after a saved pass to the next activity or level summary.
+   * WHEN: The result Continue button calls this.
+   * HOW / RESULT: Requires at least three correct and saved confirmation. Numbers checks saved level
+   * completion; other games follow SUBCATEGORY_ORDER.
+   */
   const handleNextSubCategory = () => {
+    // VIVA: A saved pass (at least 3 correct) permits continuation. After Numbers,
+    // saved level completion decides whether to show the four-game overview.
     if (score < 3 || isSubmitting || !submitResult) return;
     if (subCategoryKey === "numbers") {
       const progress = [1, 2, 3, 4].includes(Number(levelNumber)) ? savedProgress || submitResult.progress : submitResult.progress;
@@ -818,9 +1411,10 @@ export default function ImprovementPage() {
   };
 
   if (accessState === "error") {
+    // VIVA: Connection failure renders retry and return-to-levels controls here.
     const isSinhala = i18n.language?.startsWith("si");
     return (
-      <main className="min-h-screen flex items-center justify-center bg-sky-100 p-6 text-center">
+      /* RETURN: This JSX is the visible UI for this branch; props/state choose its content. */ <main className="min-h-screen flex items-center justify-center bg-sky-100 p-6 text-center">
         <section className="max-w-lg rounded-[2rem] border-4 border-amber-200 bg-white p-8 shadow-xl" role="alert">
           <h1 className="text-2xl font-black text-slate-800">{isSinhala ? "ප්‍රගතිය පූරණය කළ නොහැක" : "Unable to load your progress"}</h1>
           <p className="mt-3 font-bold text-slate-600">{isSinhala ? "සම්බන්ධතාවය පරීක්ෂා කර නැවත උත්සාහ කරන්න." : "Please check your connection and try again."}</p>
@@ -836,8 +1430,9 @@ export default function ImprovementPage() {
   }
 
   if (accessState === "denied_identification") {
+    // VIVA: The screening-required notice and screening navigation are here.
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-sky-100 p-6 text-center">
+      /* RETURN: This JSX is the visible UI for this branch; props/state choose its content. */ <div className="min-h-screen flex flex-col items-center justify-center bg-sky-100 p-6 text-center">
         <div className="max-w-lg rounded-[2rem] border-4 border-amber-200 bg-white p-8 shadow-xl">
           <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-amber-50 text-5xl">📝</div>
           <h1 className="text-2xl font-black text-slate-800 uppercase">{t("identification_required_title")}</h1>
@@ -862,8 +1457,9 @@ export default function ImprovementPage() {
   }
 
   if (accessState === "denied_locked") {
+    // VIVA: Direct links to a locked game display this return-to-levels notice.
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-sky-100 p-6 text-center">
+      /* RETURN: This JSX is the visible UI for this branch; props/state choose its content. */ <div className="min-h-screen flex flex-col items-center justify-center bg-sky-100 p-6 text-center">
         <div className="max-w-lg rounded-[2rem] border-4 border-slate-200 bg-white p-8 shadow-xl">
           <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-slate-100 text-5xl">🔒</div>
           <h1 className="text-2xl font-black text-slate-800 uppercase">{t("locked")}</h1>
@@ -882,7 +1478,7 @@ export default function ImprovementPage() {
 
   if (accessState === "checking" || !subCatData) {
     return (
-      <div className="min-h-screen bg-sky-100 flex flex-col items-center justify-center">
+      /* RETURN: This JSX is the visible UI for this branch; props/state choose its content. */ <div className="min-h-screen bg-sky-100 flex flex-col items-center justify-center">
         <div className="w-20 h-20 border-8 border-white border-t-emerald-500 rounded-full animate-spin mb-4" />
         <p className="text-emerald-700 font-black text-2xl animate-pulse">{t("getting_ready")}</p>
       </div>
@@ -891,7 +1487,15 @@ export default function ImprovementPage() {
 
   const currentQuestion = questions[currentIdx];
   // Props shared by every game (video/header/result phases, submission state, etc.)
-  const sharedProps = {
+  /*
+ * DATA TO THE VIEW: This props object passes controller state and named callbacks downward.
+ * ActivityScreen reads phase to choose tutorial/game/results, then passes the same game
+ * state to the selected child. A child calls a callback to ask the controller to change
+ * state. This keeps timers, scoring and persistence consistent across the four games.
+ */
+const sharedProps = {
+    // VIVA: Props pass controller state and callbacks down to ActivityScreen;
+    // game components invoke these callbacks instead of owning saved progress.
     phase,
     levelNumber,
     subCategoryKey,
@@ -950,5 +1554,6 @@ export default function ImprovementPage() {
     totalStars,
   };
 
-  return <ActivityScreen {...sharedProps} cardsFlipped={cardsFlipped} selectedSlotIndex={selectedSlotIndex} deckRevealed={deckRevealed} handleDeckTap={handleDeckTap} />;
+  // VIVA: ActivityScreen renders the tutorial, current game, feedback or results.
+  return /* RETURN: This JSX is the visible UI for this branch; props/state choose its content. */ <ActivityScreen {...sharedProps} cardsFlipped={cardsFlipped} selectedSlotIndex={selectedSlotIndex} deckRevealed={deckRevealed} handleDeckTap={handleDeckTap} />;
 }

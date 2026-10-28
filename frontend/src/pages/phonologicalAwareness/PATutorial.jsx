@@ -1,3 +1,4 @@
+// VIVA: OVERVIEW - Shared PA tutorial presentation: scaled stage, navigation, instructional video and watch/skip actions.
 import React, { useLayoutEffect, useRef } from 'react';
 import { ArrowRight, Play, Star } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -25,10 +26,12 @@ export function PATutorialNavigation({ levelNumber, score, soundEnabled, onToggl
   const sinhala = i18n.language?.startsWith('si');
   return (
     <header className="pa-tutorial-nav">
+      {/* VIVA: Back navigation and the current difficulty/activity title. */}
       <div className="pa-tutorial-nav-group">
         <button type="button" className="pa-tutorial-back" onClick={onBack} aria-label={sinhala ? 'ආපසු' : 'Go back'}><img src="/images/workingMemory/shared/buttons/navigation/nav-back.png" alt="" draggable="false" /></button>
         <div className="pa-tutorial-level">{sinhala ? `මට්ටම ${levelNumber} • ශබ්ද පිළිබඳ දැනුවත්භාවය` : `LEVEL ${levelNumber} • PHONOLOGICAL AWARENESS`}</div>
       </div>
+      {/* VIVA: Attempt score and sound controls supplied by the activity controller. */}
       <div className="pa-tutorial-nav-group">
         <WoodenStarCounter value={score} />
         <WoodenMusicToggle muted={!soundEnabled} onToggle={onToggleSound} ariaLabel={soundEnabled ? 'Mute sound' : 'Enable sound'} />
@@ -42,11 +45,13 @@ export default function PATutorial({ instruction, videoStarted, onWatch, onSkip,
   const sinhala = i18n.language?.startsWith('si');
   return (
     <main className="pa-tutorial-main" lang={i18n.language}>
+      {/* VIVA: Tutorial board, instruction and embedded video. */}
       <section className="pa-tutorial-board" aria-labelledby="pa-tutorial-heading">
         <img className="pa-tutorial-board-art" src={`${ART}/vine-board-v2.png`} alt="" draggable="false" />
         <h1 id="pa-tutorial-heading">{sinhala ? 'ක්‍රීඩා කරන ආකාරය' : 'HOW TO PLAY'}</h1>
         <div className="pa-tutorial-content">
           <p className="pa-tutorial-instruction">{instruction}</p>
+          {/* VIVA: Video content and the click-to-play poster. */}
           <div className="pa-tutorial-video">
             {children}
             {!videoStarted && (
@@ -56,6 +61,7 @@ export default function PATutorial({ instruction, videoStarted, onWatch, onSkip,
               </button>
             )}
           </div>
+          {/* VIVA: Watch the video or skip directly into practice. */}
           <div className="pa-tutorial-actions">
             <button className="pa-tutorial-watch" onClick={onWatch}><Play fill="currentColor" />{sinhala ? 'වීඩියෝව නරඹන්න' : 'Watch Video'}</button>
             <button className="pa-tutorial-skip" onClick={onSkip}>{sinhala ? 'මඟහැර ක්‍රීඩා කරන්න' : 'Skip & Play'}<ArrowRight /></button>

@@ -1,3 +1,19 @@
+/*
+ * FILE PURPOSE
+ * Shared student API handlers that supply the dashboard and Working Memory access identity.
+ *
+ * HOW IT CONNECTS
+ * Student routes call these handlers. getProfile combines module rewards; getLearningSummary reads WM
+ * progress and the latest screening weak areas for Dashboard. Other profile handlers serve the whole
+ * app.
+ * Direct source importers: ../routes/student.routes.js.
+ *
+ * THINGS TO REMEMBER
+ * The dashboard total aggregates modules, whereas WM progress totals describe WM rewards. Learning
+ * summary is read-only reporting. Its latest screening lookup differs from the oldest screening used
+ * for initial WM placement.
+ */
+
 const Student = require("../models/student.model");
 const { validateProfileUpdate } = require("../validation/studentValidation");
 const { WorkingMemoryImproveProgress } = require("../../workingMemory/models/workingMemoryImprove.model");
@@ -20,6 +36,7 @@ const readProgressStars = (progressDoc) =>
   Math.max(0, Number(progressDoc?.totalStars ?? progressDoc?.totalCarrots) || 0);
 
 // GET /api/students/profile
+// VIVA: PROFILE/HOME DATA - authenticated student details plus combined stars from the learning modules.
 exports.getProfile = async (req, res) => {
   try {
     const student = await Student.findById(req.user.id).select("-password");
@@ -49,6 +66,7 @@ exports.getProfile = async (req, res) => {
 };
 
 // PUT /api/students/profile
+// VIVA: PROFILE UPDATE - validate the editable fields and update the student identified by verified JWT.
 exports.updateProfile = async (req, res) => {
   try {
     const { message, errors } = validateProfileUpdate(req.body);
@@ -85,6 +103,7 @@ exports.updateProfile = async (req, res) => {
 // Learning journey summary for the home page (read-only)
 // ---------------------------------------------------------------------------
 // Working Memory and Phonological Awareness: 4 levels of 4 games each.
+// VIVA: HOME CARD - choose the first unlocked unfinished level and count its completed games.
 const summariseLevels = (progress) => {
   if (!progress?.isIdentificationCompleted && !progress?.levelsProgress?.some(level => level.subCategories?.some(game => game.totalAttempts > 0))) {
     return { started: false, totalLevels: 4 };
@@ -129,6 +148,8 @@ const summariseSpeech = (progress) => {
 // Current level and progress for each learning component, and the areas that
 // need attention from the latest Working Memory screening (weakAreas are
 // calculated by the screening itself; nothing is re-scored here).
+// VIVA: DASHBOARD SUMMARY - saved improvement progress drives cards; latest screening weakAreas drive focus chips.
+// Initial Working Memory level allocation is separate and uses the earliest screening in its improve controller.
 exports.getLearningSummary = async (req, res) => {
   try {
     const studentId = req.user.id;

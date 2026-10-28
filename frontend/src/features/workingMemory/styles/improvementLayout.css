@@ -1,43 +1,126 @@
+/*
+ * FILE PURPOSE
+ * Style file: Final shared content spacing for all four improvement games and result boards.
+ *
+ * HOW IT CONNECTS
+ * ActivityScreen.jsx imports this after other game refinements. It adjusts tracker, board padding,
+ * rows, feedback and results without owning game state.
+ * Direct source importers: ../improvement/ActivityScreen.jsx.
+ *
+ * THINGS TO REMEMBER
+ * Selectors match JSX className values. width/height control size; left/top/inset position absolute
+ * elements inside a positioned parent. padding is inside space; margin is outside space; gap separates
+ * flex/grid children. Later matching rules and more specific selectors can override earlier ones.
+ * These comments preserve every existing declaration.
+ */
+
 /* One content layout for all four Improvement games and levels.
    Stage, board artwork, backgrounds and navigation keep their original bounds. */
+
+/* SECTION 1: QUESTION PROGRESS TRACKER
+   ActivityScreen.jsx imports this after other game refinements. It adjusts tracker, board padding, rows, feedback and results without owning game state. */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-tracker {
   top:112px; height:52px;
 }
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-tracker:not(.lx-tracker--long) { display:block; padding:0; }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four)
+   .lx-tracker:not(.lx-tracker--long) > .lx-step Find the matching className in the related JSX named in
+   this file guide. position:absolute places this layer; left/top/right/bottom/inset move it within its
+   containing area; transform/scale moves, rotates or resizes the drawn element without changing its
+   normal layout space.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-tracker:not(.lx-tracker--long) > .lx-step {
   position:absolute; left:calc(9.52381% + var(--step-index) * 20.190476%);
   top:50%; transform:translate(-50%,-50%);
 }
 
+
+/* SECTION 2: RESULTS, REWARDS AND COMPLETION
+   ActivityScreen.jsx imports this after other game refinements. It adjusts tracker, board padding, rows, feedback and results without owning game state. */
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four)
+   .lx-board:not(.lx-level-one-dashboard) .lx-board-content Find the matching className in the related
+   JSX named in this file guide. position:relative makes this element an anchor for absolutely positioned
+   children; flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; width/height/max-width control this element size; padding is inside space, margin is
+   outside space and gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board:not(.lx-level-one-dashboard) .lx-board-content {
   position:relative; display:flex; flex-direction:column; align-items:center;
   justify-content:center; height:100%; min-height:0; padding:68px 96px 64px; gap:18px;
 }
 
+
+/* SECTION 3: VINE BOARD AND ITS CONTENT
+   ActivityScreen.jsx imports this after other game refinements. It adjusts tracker, board padding, rows, feedback and results without owning game state. */
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board
+   .lx-game-activity Find the matching className in the related JSX named in this file guide. flex
+   arranges children along a row/column; align-items and justify-content align them, gap separates them;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-game-activity {
   display:flex; flex-direction:column; align-items:center; justify-content:space-between;
   flex:1; width:100%; height:100%; min-height:0; gap:18px;
 }
 
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board
+   .lx-question-heading Find the matching className in the related JSX named in this file guide.
+   font/font-size and line-height change text size and readable line spacing; width/height/max-width
+   control this element size; padding is inside space, margin is outside space and gap separates
+   children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-question-heading {
   flex:none; width:680px; max-width:100%; min-height:68px; margin:0 auto;
   padding:12px 66px 12px 24px; font-size:26px; line-height:1.35; text-wrap:balance;
 }
 
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):lang(si) .lx-board
+   .lx-question-heading Find the matching className in the related JSX named in this file guide. this
+   matching language/state selector adjusts Sinhala presentation; font/font-size and line-height change
+   text size and readable line spacing.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):lang(si) .lx-board .lx-question-heading {
   font-size:22px; line-height:1.5;
 }
 
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board
+   .lx-actions Find the matching className in the related JSX named in this file guide.
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-actions {
   flex:none; min-height:60px; width:100%; margin:0; gap:20px; justify-content:center;
 }
 
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board
+   :is(.lx-timer,.lx-reminder) Find the matching className in the related JSX named in this file guide.
+   font/font-size and line-height change text size and readable line spacing; width/height/max-width
+   control this element size; padding is inside space, margin is outside space and gap separates
+   children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board :is(.lx-timer,.lx-reminder) {
   flex:none; width:680px; max-width:100%; margin-inline:auto; padding:12px 18px;
   font-size:19px; line-height:1.4;
 }
 
 /* Sequences fit the available band even for the longest question banks. */
+
+/* SECTION 4: PICTURE STUDY AND RECALL
+   ActivityScreen.jsx imports this after other game refinements. It adjusts tracker, board padding, rows, feedback and results without owning game state. */
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board
+   .lx-picture-sequence, .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four)
+   .lx-board .lx-card-rows .lx-row Find the matching className in the related JSX named in this file
+   guide. width/height/max-width control this element size; padding is inside space, margin is outside
+   space and gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-picture-sequence,
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-card-rows .lx-row {
   width:100%; max-width:760px; flex-wrap:nowrap; gap:18px; justify-content:center;
@@ -57,50 +140,178 @@
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-picture-pool:empty { display:none; }
 
 /* Ready contains blank artwork. Reveal and recall retain separate space. */
+
+/* SECTION 5: NUMBER STUDY AND KEYPAD
+   ActivityScreen.jsx imports this after other game refinements. It adjusts tracker, board padding, rows, feedback and results without owning game state. */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-number-ready { gap:24px; }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board
+   :is(.lx-number-concealed,.lx-numbers-show) Find the matching className in the related JSX named in
+   this file guide. width/height/max-width control this element size; padding is inside space, margin is
+   outside space and gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board :is(.lx-number-concealed,.lx-numbers-show) { width:100%; max-width:720px; gap:18px; justify-content:center; }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board
+   :is(.lx-number-concealed,.lx-numbers-show) .lx-number Find the matching className in the related JSX
+   named in this file guide. font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board :is(.lx-number-concealed,.lx-numbers-show) .lx-number {
   flex:0 1 auto; width:min(136px,calc((720px - (var(--item-count,4) - 1) * 18px) / var(--item-count,4)));
   height:auto; aspect-ratio:1; min-width:0; font-size:64px;
 }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board
+   .lx-number-blank:disabled Find the matching className in the related JSX named in this file guide.
+   disabled/locked styling explains availability; actual click guards and unlock rules live in
+   JS/backend.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-number-blank:disabled { opacity:1; }
+/*
+   SELECTOR:
+   .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--numbers.lx-phase--answer
+   .lx-board .lx-game-activity Find the matching className in the related JSX named in this file guide.
+   grid arranges children into defined rows/columns; grid-template values set their sizes; padding is
+   inside space, margin is outside space and gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--numbers.lx-phase--answer .lx-board .lx-game-activity {
   display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:minmax(68px,auto) 72px minmax(166px,1fr) 60px;
   gap:16px; align-items:center; justify-items:center; justify-content:center;
 }
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-keypad { grid-template-columns:repeat(5,76px); gap:10px 18px; }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-keypad
+   .lx-number Find the matching className in the related JSX named in this file guide. font/font-size and
+   line-height change text size and readable line spacing; width/height/max-width control this element
+   size.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-keypad .lx-number { width:76px; height:76px; font-size:38px; }
 
 /* Listening and answer cards share the same inset and readable line spacing. */
+
+/* SECTION 6: LISTENING AND INSTRUCTION ANSWERS
+   ActivityScreen.jsx imports this after other game refinements. It adjusts tracker, board padding, rows, feedback and results without owning game state. */
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board
+   .lx-instruction-options Find the matching className in the related JSX named in this file guide.
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-instruction-options { width:100%; gap:16px; align-content:center; }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board
+   .lx-instruction-option Find the matching className in the related JSX named in this file guide.
+   font/font-size and line-height change text size and readable line spacing; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-instruction-option { min-height:108px; padding:14px 16px; gap:12px; font-size:22px; line-height:1.4; }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):lang(si) .lx-board
+   .lx-instruction-option Find the matching className in the related JSX named in this file guide. this
+   matching language/state selector adjusts Sinhala presentation; font/font-size and line-height change
+   text size and readable line spacing.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):lang(si) .lx-board .lx-instruction-option { font-size:20px; line-height:1.5; }
 
 /* Pattern has the same heading, activity, choice and action rhythm. */
+
+/* SECTION 7: PATTERN QUESTION AND ARTWORK
+   ActivityScreen.jsx imports this after other game refinements. It adjusts tracker, board padding, rows, feedback and results without owning game state. */
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-pattern-question
+   .lx-board-content Find the matching className in the related JSX named in this file guide. grid
+   arranges children into defined rows/columns; grid-template values set their sizes; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-pattern-question .lx-board-content {
   display:grid; grid-template-columns:minmax(0,1fr);
   grid-template-rows:minmax(68px,auto) minmax(112px,1fr) minmax(124px,1fr) 64px;
   align-items:center; justify-items:center; gap:16px;
 }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-pattern-question
+   .lx-pattern-sequence Find the matching className in the related JSX named in this file guide.
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-pattern-question .lx-pattern-sequence { width:100%; max-width:760px; min-height:112px; margin:0; padding:12px 18px; gap:12px; }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-pattern-question
+   .lx-pattern-tile Find the matching className in the related JSX named in this file guide.
+   font/font-size and line-height change text size and readable line spacing; width/height/max-width
+   control this element size.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-pattern-question .lx-pattern-tile { flex:0 1 86px; width:86px; height:86px; min-width:0; font-size:58px; }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-pattern-question
+   .lx-pattern-options Find the matching className in the related JSX named in this file guide.
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-pattern-question .lx-pattern-options { width:100%; max-width:760px; gap:20px; justify-content:center; }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-pattern-question
+   .lx-pattern-option Find the matching className in the related JSX named in this file guide.
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-pattern-question .lx-pattern-option { flex:1 1 0; width:auto; min-width:0; height:120px; padding:18px 26px; }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-pattern-question
+   .lx-pattern-response Find the matching className in the related JSX named in this file guide.
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-pattern-question .lx-pattern-response { height:auto; min-height:60px; margin:0; gap:20px; }
 
 /* Keep the answered activity and Next on the board, with feedback below it. */
+
+/* SECTION 8: VINE BOARD AND ITS CONTENT
+   ActivityScreen.jsx imports this after other game refinements. It adjusts tracker, board padding, rows, feedback and results without owning game state. */
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-phase--feedback
+   .lx-board .lx-game-activity Find the matching className in the related JSX named in this file guide.
+   flex arranges children along a row/column; align-items and justify-content align them, gap separates
+   them; width/height/max-width control this element size; padding is inside space, margin is outside
+   space and gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-phase--feedback .lx-board .lx-game-activity {
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   flex:1; height:auto; min-height:0; gap:22px;
 }
+
+/* SECTION 9: NUMBER STUDY AND KEYPAD
+   ActivityScreen.jsx imports this after other game refinements. It adjusts tracker, board padding, rows, feedback and results without owning game state. */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-phase--feedback .lx-game-activity :is(.lx-actions,.lx-keypad) { display:none; }
+
+/* SECTION 10: PATTERN QUESTION AND ARTWORK
+   ActivityScreen.jsx imports this after other game refinements. It adjusts tracker, board padding, rows, feedback and results without owning game state. */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-phase--feedback .lx-pattern-question .lx-board-content {
   grid-template-rows:minmax(68px,auto) minmax(112px,1fr) minmax(124px,1fr) 64px;
 }
+
+/* SECTION 11: CORRECT AND INCORRECT FEEDBACK
+   ActivityScreen.jsx imports this after other game refinements. It adjusts tracker, board padding, rows, feedback and results without owning game state. */
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board
+   .lx-feedback-footer Find the matching className in the related JSX named in this file guide. flex
+   arranges children along a row/column; align-items and justify-content align them, gap separates them;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-feedback-footer {
   position:static; display:flex; align-items:center; justify-content:center;
   flex:none; width:100%; min-height:64px; margin:0; padding:0;
 }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-stage >
+   .lx-answer-feedback Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   grid arranges children into defined rows/columns; grid-template values set their sizes;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-stage > .lx-answer-feedback {
   position:absolute; left:300px; top:793px; width:1000px; min-height:96px;
   display:grid; grid-template-columns:104px minmax(0,1fr) auto; grid-template-rows:auto auto;
@@ -109,44 +320,146 @@
   background:linear-gradient(110deg,#eaf7e4,#f5fbed); color:#356439;
   box-shadow:0 4px 0 #1f3d2422; text-align:left;
 }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-stage >
+   .lx-answer-feedback.is-incorrect Find the matching className in the related JSX named in this file
+   guide. correct/incorrect classes change feedback appearance; correctness is calculated in JavaScript.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-stage > .lx-answer-feedback.is-incorrect {
   border-color:#efb9b6; background:linear-gradient(110deg,#ffe5e5,#fff3f2); color:#a82216;
 }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-stage >
+   .lx-answer-feedback h2 Find the matching className in the related JSX named in this file guide.
+   font/font-size and line-height change text size and readable line spacing; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-stage > .lx-answer-feedback h2 { grid-column:2; grid-row:1; margin:0; color:inherit; font:700 32px/1.15 'Fredoka','Noto Sans Sinhala',sans-serif; }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-stage >
+   .lx-answer-feedback p Find the matching className in the related JSX named in this file guide.
+   font/font-size and line-height change text size and readable line spacing; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-stage > .lx-answer-feedback p { grid-column:2; grid-row:2; margin:0; font-size:22px; font-weight:500; line-height:1.4; }
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-stage > .lx-answer-feedback :is(.lx-feedback-stars,.lx-feedback-encouragement) { grid-column:1; grid-row:1 / 3; justify-self:center; }
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-stage > .lx-answer-feedback .lx-feedback-stars { gap:3px; }
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-stage > .lx-answer-feedback .lx-feedback-stars img { width:30px; height:30px; }
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-stage > .lx-answer-feedback .lx-feedback-stars img:nth-child(2) { width:38px; height:38px; }
+/*
+   SELECTOR: .lx-feedback-encouragement Find the matching className in the related JSX named in this file
+   guide. grid arranges children into defined rows/columns; grid-template values set their sizes;
+   width/height/max-width control this element size.
+ */
 .lx-feedback-encouragement { display:grid; place-items:center; width:72px; height:72px; border-radius:50%; color:#d33d34; background:#ffd3d1; }
 .lx-feedback-encouragement svg { width:44px; height:44px; filter:drop-shadow(0 2px 0 #b5272522); }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-stage >
+   .lx-answer-feedback .lx-feedback-reward Find the matching className in the related JSX named in this
+   file guide. font/font-size and line-height change text size and readable line spacing; padding is
+   inside space, margin is outside space and gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-stage > .lx-answer-feedback .lx-feedback-reward { grid-column:3; grid-row:1 / 3; padding:6px 12px; font-size:20px; white-space:nowrap; }
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-feedback-footer > button { min-width:150px; min-height:60px; padding:12px 20px; }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):lang(si) .lx-stage >
+   .lx-answer-feedback h2 Find the matching className in the related JSX named in this file guide. this
+   matching language/state selector adjusts Sinhala presentation; font/font-size and line-height change
+   text size and readable line spacing.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):lang(si) .lx-stage > .lx-answer-feedback h2 { font-size:28px; line-height:1.4; }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):lang(si) .lx-stage >
+   .lx-answer-feedback p Find the matching className in the related JSX named in this file guide. this
+   matching language/state selector adjusts Sinhala presentation; font/font-size and line-height change
+   text size and readable line spacing.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):lang(si) .lx-stage > .lx-answer-feedback p { font-size:20px; line-height:1.5; }
 
 /* Results use content-sized rows, preventing an empty stretch above the actions. */
+
+/* SECTION 12: RESULTS, REWARDS AND COMPLETION
+   ActivityScreen.jsx imports this after other game refinements. It adjusts tracker, board padding, rows, feedback and results without owning game state. */
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four)
+   .lx-level-one-dashboard .lx-board-content Find the matching className in the related JSX named in this
+   file guide. grid arranges children into defined rows/columns; grid-template values set their sizes;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-level-one-dashboard .lx-board-content {
   display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:auto auto auto minmax(50px,auto) auto;
   align-content:center; align-items:stretch; justify-content:normal;
   padding:56px 80px 72px; gap:18px; height:100%;
 }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four)
+   .lx-level-one-dashboard .lx-pattern-result-heading Find the matching className in the related JSX
+   named in this file guide. width/height/max-width control this element size; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-level-one-dashboard .lx-pattern-result-heading { height:auto; min-height:68px; gap:16px; }
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-level-one-dashboard .lx-pattern-result-heading h1 { font-size:43px; line-height:1.15; }
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-level-one-dashboard .lx-pattern-result-heading p { margin-top:6px; font-size:18px; line-height:1.4; white-space:normal; }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four)
+   .lx-level-one-dashboard .lx-pattern-score Find the matching className in the related JSX named in this
+   file guide. width/height/max-width control this element size; padding is inside space, margin is
+   outside space and gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-level-one-dashboard .lx-pattern-score { height:102px; min-height:102px; padding:10px 24px; }
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-level-one-dashboard .lx-pattern-score span { font-size:19px; }
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-level-one-dashboard .lx-pattern-score strong { font-size:58px; }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four)
+   .lx-level-one-dashboard .lx-pattern-statistics Find the matching className in the related JSX named in
+   this file guide. width/height/max-width control this element size; padding is inside space, margin is
+   outside space and gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-level-one-dashboard .lx-pattern-statistics { height:96px; gap:14px; }
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-level-one-dashboard .lx-pattern-statistics > section { min-width:0; padding:10px 12px; }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four)
+   .lx-level-one-dashboard .lx-pattern-save-status Find the matching className in the related JSX named
+   in this file guide. flex arranges children along a row/column; align-items and justify-content align
+   them, gap separates them; font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-level-one-dashboard .lx-pattern-save-status { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:50px; height:auto; margin:0; padding:0 12px; gap:4px; font-size:17px; line-height:1.45; }
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-level-one-dashboard .lx-pattern-save-status small { display:block; font-size:14px; }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four)
+   .lx-level-one-dashboard .lx-pattern-result-actions Find the matching className in the related JSX
+   named in this file guide. width/height/max-width control this element size; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-level-one-dashboard .lx-pattern-result-actions { height:auto; min-height:62px; margin:0; }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four)
+   .lx-level-one-dashboard .lx-pattern-result-actions .lx-button Find the matching className in the
+   related JSX named in this file guide. font/font-size and line-height change text size and readable
+   line spacing; padding is inside space, margin is outside space and gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-level-one-dashboard .lx-pattern-result-actions .lx-button { min-height:62px; padding:10px 18px; font-size:24px; line-height:1.25; }
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-level-one-completion .lx-board-content { grid-template-rows:auto auto minmax(154px,auto) minmax(50px,auto) auto; padding-top:52px; padding-bottom:64px; gap:16px; }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):lang(si)
+   .lx-level-one-dashboard .lx-pattern-result-heading h1 Find the matching className in the related JSX
+   named in this file guide. this matching language/state selector adjusts Sinhala presentation;
+   font/font-size and line-height change text size and readable line spacing.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):lang(si) .lx-level-one-dashboard .lx-pattern-result-heading h1 { font-size:34px; line-height:1.4; }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):lang(si)
+   .lx-level-one-dashboard .lx-pattern-result-actions .lx-button Find the matching className in the
+   related JSX named in this file guide. this matching language/state selector adjusts Sinhala
+   presentation; font/font-size and line-height change text size and readable line spacing.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):lang(si) .lx-level-one-dashboard .lx-pattern-result-actions .lx-button { font-size:20px; }
 
+
+/* MEDIA QUERY: (prefers-reduced-motion:reduce). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media (prefers-reduced-motion:reduce) {
   .lx-game .lx-feedback-stars img { animation:none; }
 }
@@ -156,35 +469,77 @@
    --------------------------------------------------------------------------- */
 
 /* Tracker: a wrong answer shows a red cross instead of the green tick. */
+
+/* SECTION 13: QUESTION PROGRESS TRACKER
+   ActivityScreen.jsx imports this after other game refinements. It adjusts tracker, board padding, rows, feedback and results without owning game state. */
+/*
+   SELECTOR: .lx-step.is-incorrect b Find the matching className in the related JSX named in this file
+   guide. correct/incorrect classes change feedback appearance; correctness is calculated in JavaScript.
+ */
 .lx-step.is-incorrect b { background:#d33d34; }
 
 /* Picture Memory and Number Memory study screens: the cards and the timer sit
    together in the middle of the board, with the timer well clear of the frame. */
+
+/* SECTION 14: NUMBER STUDY AND KEYPAD
+   ActivityScreen.jsx imports this after other game refinements. It adjusts tracker, board padding, rows, feedback and results without owning game state. */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):is(.lx-game--words,.lx-game--numbers).lx-phase--show .lx-board .lx-game-activity { justify-content:center; gap:34px; }
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):is(.lx-game--words,.lx-game--numbers).lx-phase--show .lx-board .lx-game-activity > .lx-question-heading { margin-bottom:auto; }
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):is(.lx-game--words,.lx-game--numbers).lx-phase--show .lx-board :is(.lx-timer,.lx-reminder) { margin-bottom:auto; }
+
+/* SECTION 15: VINE BOARD AND ITS CONTENT
+   ActivityScreen.jsx imports this after other game refinements. It adjusts tracker, board padding, rows, feedback and results without owning game state. */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-reminder { gap:20px; }
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-reminder p { flex:1; text-align:left; }
 
 /* Picture Memory: larger cards (there is room on the board). */
+
+/* SECTION 16: PICTURE STUDY AND RECALL
+   ActivityScreen.jsx imports this after other game refinements. It adjusts tracker, board padding, rows, feedback and results without owning game state. */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-picture-sequence .lx-picture {
   width:min(172px,calc((800px - (var(--item-count,5) - 1) * 20px) / var(--item-count,5)));
 }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board
+   .lx-picture-sequence Find the matching className in the related JSX named in this file guide.
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-picture-sequence { max-width:800px; gap:20px; }
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-picture-slot,
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board .lx-picture-pool > .lx-picture {
   width:min(136px,calc((760px - (var(--item-count,5) - 1) * 18px) / var(--item-count,5)));
 }
+
+/* SECTION 17: VINE BOARD AND ITS CONTENT
+   ActivityScreen.jsx imports this after other game refinements. It adjusts tracker, board padding, rows, feedback and results without owning game state. */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--words.lx-phase--answer .lx-board .lx-board-content { padding-top:64px; padding-bottom:56px; }
+
+/* SECTION 18: PICTURE STUDY AND RECALL
+   ActivityScreen.jsx imports this after other game refinements. It adjusts tracker, board padding, rows, feedback and results without owning game state. */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--words.lx-phase--answer .lx-board .lx-card-rows { gap:20px; }
 
 /* Number Memory answer: answer boxes, keypad and buttons centred as one group. */
+
+/* SECTION 19: NUMBER STUDY AND KEYPAD
+   ActivityScreen.jsx imports this after other game refinements. It adjusts tracker, board padding, rows, feedback and results without owning game state. */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--numbers.lx-phase--answer .lx-board .lx-game-activity {
   grid-template-rows:auto auto auto auto; align-content:center; gap:24px;
 }
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--numbers.lx-phase--answer .lx-board .lx-game-activity > .lx-question-heading { margin-bottom:6px; }
 
 /* Score dashboard and level results: buttons fit their content. */
+
+/* SECTION 20: RESULTS, REWARDS AND COMPLETION
+   ActivityScreen.jsx imports this after other game refinements. It adjusts tracker, board padding, rows, feedback and results without owning game state. */
+/*
+   SELECTOR: .lx-game .lx-pattern-result-actions,
+   .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-level-one-dashboard
+   .lx-pattern-result-actions Find the matching className in the related JSX named in this file guide.
+   flex arranges children along a row/column; align-items and justify-content align them, gap separates
+   them; width/height/max-width control this element size; padding is inside space, margin is outside
+   space and gap separates children.
+ */
 .lx-game .lx-pattern-result-actions,
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-level-one-dashboard .lx-pattern-result-actions {
   display:flex; justify-content:center; align-items:center; gap:22px; width:auto;
@@ -195,22 +550,55 @@
 }
 /* The picture/number rows keep their natural height on study screens so the
    free space goes above and below the group, not inside the row. */
+
+/* SECTION 21: PICTURE STUDY AND RECALL
+   ActivityScreen.jsx imports this after other game refinements. It adjusts tracker, board padding, rows, feedback and results without owning game state. */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four):is(.lx-game--words,.lx-game--numbers).lx-phase--show .lx-board :is(.lx-picture-sequence,.lx-numbers-show,.lx-number-ready) { flex:0 0 auto; }
+
+/* SECTION 22: NUMBER STUDY AND KEYPAD
+   ActivityScreen.jsx imports this after other game refinements. It adjusts tracker, board padding, rows, feedback and results without owning game state. */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--numbers.lx-phase--show .lx-board .lx-number-ready { margin-bottom:auto; }
 
 /* Number Memory feedback: keep the answer boxes and the (disabled) keypad on
    the board so it is not empty; Next sits where Undo/Submit were. */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--numbers.lx-phase--feedback .lx-game-activity .lx-keypad { display:grid; visibility:visible; }
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--numbers.lx-phase--feedback .lx-board .lx-game-activity { flex:0 1 auto; gap:24px; }
+/*
+   SELECTOR:
+   .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--numbers.lx-phase--feedback
+   .lx-board .lx-keypad .lx-number:disabled Find the matching className in the related JSX named in this
+   file guide. disabled/locked styling explains availability; actual click guards and unlock rules live
+   in JS/backend.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--numbers.lx-phase--feedback .lx-board .lx-keypad .lx-number:disabled { opacity:.55; filter:saturate(.7); cursor:default; }
 
 /* Number Memory study: bigger balls and digits so the board is not empty. */
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board
+   :is(.lx-number-concealed,.lx-numbers-show) Find the matching className in the related JSX named in
+   this file guide. width/height/max-width control this element size; padding is inside space, margin is
+   outside space and gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board :is(.lx-number-concealed,.lx-numbers-show) { max-width:800px; gap:26px; }
+/*
+   SELECTOR: .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board
+   :is(.lx-number-concealed,.lx-numbers-show) .lx-number Find the matching className in the related JSX
+   named in this file guide. font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four) .lx-board :is(.lx-number-concealed,.lx-numbers-show) .lx-number {
   width:min(176px,calc((800px - (var(--item-count,4) - 1) * 26px) / var(--item-count,4))); font-size:84px;
 }
 /* Number Memory feedback (all levels): heading, answer, keypad and Next as one centred group. */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--numbers.lx-phase--feedback .lx-board .lx-board-content { justify-content:center; gap:22px; }
+/*
+   SELECTOR:
+   .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--numbers.lx-phase--feedback
+   .lx-board .lx-board-content > .lx-game-activity Find the matching className in the related JSX named
+   in this file guide. flex arranges children along a row/column; align-items and justify-content align
+   them, gap separates them; width/height/max-width control this element size; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .lx-game:is(.lx-level-one,.lx-level-two,.lx-level-three,.lx-level-four).lx-game--numbers.lx-phase--feedback .lx-board .lx-board-content > .lx-game-activity {
   display:flex; flex-direction:column; align-items:center; justify-content:center; flex:0 0 auto; height:auto; gap:22px;
 }

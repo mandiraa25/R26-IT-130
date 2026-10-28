@@ -1,56 +1,200 @@
+/*
+ * FILE PURPOSE
+ * Style file: Additional readable question/answer and artwork sizing rules for screening and
+ * improvement.
+ *
+ * HOW IT CONNECTS
+ * Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can
+ * override these declarations.
+ * Direct source importers: ../identification/ScreeningQuestions.jsx,
+ * ../improvement/ActivityScreen.jsx.
+ *
+ * THINGS TO REMEMBER
+ * Selectors match JSX className values. width/height control size; left/top/inset position absolute
+ * elements inside a positioned parent. padding is inside space; margin is outside space; gap separates
+ * flex/grid children. Later matching rules and more specific selectors can override earlier ones.
+ * These comments preserve every existing declaration.
+ */
+
 /* UIs.zip refinement: only board contents. The board, backdrop, navigation,
    tracker, outside mascot and basket retain their original geometry/artwork. */
+
+/* SECTION 1: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
+/*
+   SELECTOR: .lx-game .lx-game-activity Find the matching className in the related JSX named in this file
+   guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; width/height/max-width control this element size; padding is inside space, margin is
+   outside space and gap separates children.
+ */
 .lx-game .lx-game-activity {
   display:flex; flex-direction:column; align-items:center; justify-content:space-between;
   width:100%; height:100%; min-height:0; gap:18px;
 }
+
+/* SECTION 2: QUESTION CONTENT AND ACTIONS
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
+/*
+   SELECTOR: .lx-game:not(.lx-phase--video) .lx-question-heading Find the matching className in the
+   related JSX named in this file guide. font/font-size and line-height change text size and readable
+   line spacing; padding is inside space, margin is outside space and gap separates children.
+ */
 .lx-game:not(.lx-phase--video) .lx-question-heading {
   font-size:28px; line-height:1.3; min-height:66px; padding:10px 70px 10px 24px;
 }
+
+/* SECTION 3: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
 .lx-game .lx-speaker { width:56px; height:56px; }
+
+/* SECTION 4: QUESTION CONTENT AND ACTIONS
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
 .lx-game .lx-game-activity > .lx-actions { gap:22px; }
+/*
+   SELECTOR: .lx-game .lx-game-activity .lx-button Find the matching className in the related JSX named
+   in this file guide. font/font-size and line-height change text size and readable line spacing; padding
+   is inside space, margin is outside space and gap separates children.
+ */
 .lx-game .lx-game-activity .lx-button { min-height:58px; font-size:23px; padding:10px 30px; }
 .lx-game .lx-game-activity .lx-button:not(.lx-button--secondary):not(.lx-button--play) {
   background:linear-gradient(#ffb018,#ff7800); border:2px solid #e57d0c; box-shadow:inset 0 2px 0 #fff7,0 4px 0 #b85b0c;
 }
+/*
+   SELECTOR: .lx-game .lx-game-activity .lx-button:disabled Find the matching className in the related
+   JSX named in this file guide. disabled/locked styling explains availability; actual click guards and
+   unlock rules live in JS/backend.
+ */
 .lx-game .lx-game-activity .lx-button:disabled {
   opacity:1; background:#eee5d6; color:#826d5b; border:2px solid #d6c8b5; box-shadow:none;
 }
+/*
+   SELECTOR: .lx-game .lx-game-activity .lx-timer Find the matching className in the related JSX named in
+   this file guide. font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-game .lx-game-activity .lx-timer { width:800px; font-size:21px; font-weight:700; padding:12px 20px; }
+/*
+   SELECTOR: .lx-game .lx-game-activity .lx-reminder Find the matching className in the related JSX named
+   in this file guide. font/font-size and line-height change text size and readable line spacing; padding
+   is inside space, margin is outside space and gap separates children.
+ */
 .lx-game .lx-game-activity .lx-reminder { font-size:20px; padding:13px 20px; gap:18px; }
 .lx-game .lx-game-activity .lx-reminder .lx-button { flex-shrink:0; }
 
 /* One set of proportional cards also accommodates the longer later levels. */
+
+/* SECTION 5: PICTURE STUDY AND RECALL
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
+/*
+   SELECTOR: .lx-game--words .lx-picture-sequence Find the matching className in the related JSX named in
+   this file guide. width/height/max-width control this element size; padding is inside space, margin is
+   outside space and gap separates children.
+ */
 .lx-game--words .lx-picture-sequence { width:100%; gap:24px; flex-wrap:nowrap; }
 .lx-game--words .lx-picture-sequence .lx-picture { width:clamp(110px,calc(720px / var(--item-count,2)),194px); height:auto; aspect-ratio:1; }
+/*
+   SELECTOR: .lx-game--words .lx-card-rows Find the matching className in the related JSX named in this
+   file guide. width/height/max-width control this element size; padding is inside space, margin is
+   outside space and gap separates children.
+ */
 .lx-game--words .lx-card-rows { width:100%; gap:24px; }
+/*
+   SELECTOR: .lx-game--words .lx-card-rows .lx-row Find the matching className in the related JSX named
+   in this file guide. width/height/max-width control this element size; padding is inside space, margin
+   is outside space and gap separates children.
+ */
 .lx-game--words .lx-card-rows .lx-row { width:100%; gap:24px; }
 .lx-game--words .lx-picture-slot,.lx-game--words .lx-picture-pool > .lx-picture {
   width:clamp(80px,calc(650px / var(--item-count,2)),138px); height:auto; aspect-ratio:1;
 }
 .lx-game--words .lx-picture-slot { border-width:3px; font-size:56px; border-radius:20px; }
+/*
+   SELECTOR: .lx-game--words .lx-picture-slot > small Find the matching className in the related JSX
+   named in this file guide. font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size.
+ */
 .lx-game--words .lx-picture-slot > small { width:34px; height:34px; font-size:20px; }
 .lx-game--words .lx-picture-face { padding:14px; }
 .lx-game--words .lx-picture-face > span[role=img] { width:100%; height:100%; }
+/*
+   SELECTOR: .lx-game .lx-picture-face .lx-fitted-art Find the matching className in the related JSX
+   named in this file guide. position:relative makes this element an anchor for absolutely positioned
+   children; width/height/max-width control this element size.
+ */
 .lx-game .lx-picture-face .lx-fitted-art { display:block; position:relative; width:100%; height:100%; overflow:hidden; }
+/*
+   SELECTOR: .lx-game .lx-fitted-art > img Find the matching className in the related JSX named in this
+   file guide. position:absolute places this layer; left/top/right/bottom/inset move it within its
+   containing area; width/height/max-width control this element size.
+ */
 .lx-game .lx-fitted-art > img { position:absolute; max-width:none; object-fit:contain; }
 
+
+/* SECTION 6: NUMBER STUDY AND KEYPAD
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
+/*
+   SELECTOR: .lx-game--numbers .lx-numbers-show Find the matching className in the related JSX named in
+   this file guide. width/height/max-width control this element size; padding is inside space, margin is
+   outside space and gap separates children.
+ */
 .lx-game--numbers .lx-numbers-show { gap:30px; width:100%; }
+/*
+   SELECTOR: .lx-game--numbers .lx-numbers-show .lx-number Find the matching className in the related JSX
+   named in this file guide. font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size.
+ */
 .lx-game--numbers .lx-numbers-show .lx-number { width:min(166px,calc(700px / var(--item-count,2))); height:auto; aspect-ratio:1; font-size:76px; padding-bottom:9px; }
 .lx-game--numbers .lx-number-slots { gap:18px; }
+/*
+   SELECTOR: .lx-game--numbers .lx-number-slot Find the matching className in the related JSX named in
+   this file guide. font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size.
+ */
 .lx-game--numbers .lx-number-slot { width:80px; height:80px; font-size:44px; border-width:3px; }
 .lx-game--numbers .lx-keypad { grid-template-columns:repeat(5,98px); gap:12px 20px; }
+/*
+   SELECTOR: .lx-game--numbers .lx-keypad .lx-number Find the matching className in the related JSX named
+   in this file guide. font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size.
+ */
 .lx-game--numbers .lx-keypad .lx-number { width:98px; height:98px; font-size:46px; }
 .lx-game--numbers.lx-phase--answer .lx-game-activity { gap:14px; }
 
+
+/* SECTION 7: LISTENING AND INSTRUCTION ANSWERS
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
 .lx-game--instructions .lx-listening-scene { gap:34px; flex:1; min-height:0; }
+
+/* SECTION 8: BUNNY AND THOUGHT BUBBLE
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
 .lx-game--instructions .lx-listening-bunny { width:265px; height:265px; }
+
+/* SECTION 9: LISTENING AND INSTRUCTION ANSWERS
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
 .lx-game--instructions .lx-waves { visibility:visible; opacity:.4; height:150px; }
 .lx-game--instructions .lx-waves.is-playing { opacity:1; }
 .lx-game--instructions .lx-waves:not(.is-playing) i { animation:none; }
+/*
+   SELECTOR: .lx-game--instructions .lx-actions .lx-button Find the matching className in the related JSX
+   named in this file guide. flex arranges children along a row/column; align-items and justify-content
+   align them, gap separates them; padding is inside space, margin is outside space and gap separates
+   children.
+ */
 .lx-game--instructions .lx-actions .lx-button { display:flex; align-items:center; justify-content:center; gap:10px; }
 .lx-game--instructions .lx-listen-icon { width:32px; height:32px; object-fit:contain; }
+/*
+   SELECTOR: .lx-game--instructions .lx-instruction-options Find the matching className in the related
+   JSX named in this file guide. grid arranges children into defined rows/columns; grid-template values
+   set their sizes; width/height/max-width control this element size; padding is inside space, margin is
+   outside space and gap separates children.
+ */
 .lx-game--instructions .lx-instruction-options { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); width:820px; gap:22px; margin:auto; }
+/*
+   SELECTOR: .lx-game--instructions .lx-instruction-option Find the matching className in the related JSX
+   named in this file guide. font/font-size and line-height change text size and readable line spacing;
+   padding is inside space, margin is outside space and gap separates children.
+ */
 .lx-game--instructions .lx-instruction-option {
   min-height:140px; gap:18px; padding:20px; border:2px solid #ecb6c4; border-radius:22px;
   background:#ffedf1; box-shadow:0 4px 0 #d8bfb522; font-size:25px; line-height:1.4;
@@ -58,6 +202,15 @@
 .lx-game--instructions .lx-instruction-option:nth-child(2) { background:#e6f2ff; border-color:#a9cae8; }
 .lx-game--instructions .lx-instruction-option:nth-child(3) { background:#fff4d3; border-color:#e6ca8a; }
 .lx-game--instructions .lx-instruction-option:nth-child(4) { background:#edf5e5; border-color:#b8d1a5; }
+
+/* SECTION 10: NUMBER STUDY AND KEYPAD
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
+/*
+   SELECTOR: .lx-game--instructions .lx-instruction-option .lx-number Find the matching className in the
+   related JSX named in this file guide. font/font-size and line-height change text size and readable
+   line spacing; width/height/max-width control this element size; padding is inside space, margin is
+   outside space and gap separates children.
+ */
 .lx-game--instructions .lx-instruction-option .lx-number {
   width:46px; height:46px; min-width:46px; padding:0; border-radius:50%; background:#f9c5d4;
   color:#603a24; text-shadow:none; font-size:25px; flex-shrink:0;
@@ -65,17 +218,58 @@
 .lx-game--instructions .lx-instruction-option:nth-child(2) .lx-number { background:#c6e3fa; }
 .lx-game--instructions .lx-instruction-option:nth-child(3) .lx-number { background:#ffe39c; }
 .lx-game--instructions .lx-instruction-option:nth-child(4) .lx-number { background:#cfe4ba; }
+
+/* SECTION 11: LISTENING AND INSTRUCTION ANSWERS
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
+/*
+   SELECTOR: .lx-game--instructions .lx-instruction-option.is-selected Find the matching className in the
+   related JSX named in this file guide. the selected class/attribute is supplied by JSX answer-selection
+   state.
+ */
 .lx-game--instructions .lx-instruction-option.is-selected { outline:4px solid var(--lx-dark); outline-offset:3px; }
+/*
+   SELECTOR: .lx-game--instructions.lx-phase--feedback .lx-instruction-option:disabled Find the matching
+   className in the related JSX named in this file guide. disabled/locked styling explains availability;
+   actual click guards and unlock rules live in JS/backend.
+ */
 .lx-game--instructions.lx-phase--feedback .lx-instruction-option:disabled { opacity:1; }
 
+
+/* SECTION 12: PATTERN QUESTION AND ARTWORK
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
 .lx-game .lx-pattern-question .lx-board-content { justify-content:flex-start; gap:24px; padding:36px 64px 42px; }
+/*
+   SELECTOR: .lx-game .lx-pattern-question .lx-pattern-sequence Find the matching className in the
+   related JSX named in this file guide. width/height/max-width control this element size; padding is
+   inside space, margin is outside space and gap separates children.
+ */
 .lx-game .lx-pattern-question .lx-pattern-sequence {
   width:820px; min-height:136px; gap:20px; padding:18px 24px; margin-top:5px;
   border:2px solid #f3b3c4; background:#fff0f3;
 }
+/*
+   SELECTOR: .lx-game .lx-pattern-question .lx-pattern-tile Find the matching className in the related
+   JSX named in this file guide. font/font-size and line-height change text size and readable line
+   spacing; width/height/max-width control this element size.
+ */
 .lx-game .lx-pattern-question .lx-pattern-tile { flex:0 1 100px; width:100px; height:100px; min-width:0; font-size:66px; }
+/*
+   SELECTOR: .lx-game .lx-pattern-question .lx-pattern-tile.is-missing Find the matching className in the
+   related JSX named in this file guide. font/font-size and line-height change text size and readable
+   line spacing; width/height/max-width control this element size.
+ */
 .lx-game .lx-pattern-question .lx-pattern-tile.is-missing { width:100px; font-size:66px; }
+/*
+   SELECTOR: .lx-game .lx-pattern-question .lx-pattern-options Find the matching className in the related
+   JSX named in this file guide. width/height/max-width control this element size; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .lx-game .lx-pattern-question .lx-pattern-options { width:760px; gap:30px; }
+/*
+   SELECTOR: .lx-game .lx-pattern-question .lx-pattern-option Find the matching className in the related
+   JSX named in this file guide. width/height/max-width control this element size; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .lx-game .lx-pattern-question .lx-pattern-option { flex:1; min-width:0; width:auto; height:142px; padding:22px 35px; }
 .lx-game .lx-pattern-question .lx-pattern-option .lx-pattern-symbol { width:96px; height:96px; max-width:100%; max-height:100%; }
 .lx-game .lx-pattern-question .lx-pattern-option > span { font-size:76px; }
@@ -83,6 +277,12 @@
 .lx-game .lx-pattern-question .lx-pattern-option:first-child { background:#ffedf1; border-color:#eda9be; }
 .lx-game .lx-pattern-question .lx-pattern-response { height:70px; margin-top:-10px; }
 .lx-game .lx-pattern-question .lx-pattern-response .lx-note { font-size:24px; font-weight:700; }
+/*
+   SELECTOR: .lx-game .lx-pattern-check Find the matching className in the related JSX named in this file
+   guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; font/font-size and line-height change text size and readable line spacing; padding is
+   inside space, margin is outside space and gap separates children.
+ */
 .lx-game .lx-pattern-check {
   display:flex; align-items:center; justify-content:center; gap:12px;
   min-width:190px; min-height:58px; padding:10px 24px;
@@ -91,34 +291,110 @@
   box-shadow:inset 0 3px 1px #fff8,0 4px 0 #ac570a;
   font:700 25px/1.2 Fredoka,'Noto Sans Sinhala',sans-serif;
 }
+/*
+   SELECTOR: .lx-game .lx-pattern-check:disabled Find the matching className in the related JSX named in
+   this file guide. disabled/locked styling explains availability; actual click guards and unlock rules
+   live in JS/backend.
+ */
 .lx-game .lx-pattern-check:disabled { opacity:1; color:#806c56; background:#eee4d3; border-color:#d1c1aa; box-shadow:none; }
+/*
+   SELECTOR: .lx-game .lx-pattern-check:hover:not(:disabled) Find the matching className in the related
+   JSX named in this file guide. :hover applies while the pointer is over the element; disabled/locked
+   styling explains availability; actual click guards and unlock rules live in JS/backend.
+ */
 .lx-game .lx-pattern-check:hover:not(:disabled) { filter:brightness(1.05); }
+/*
+   SELECTOR: .lx-game .lx-pattern-check:active:not(:disabled) Find the matching className in the related
+   JSX named in this file guide. transform/scale moves, rotates or resizes the drawn element without
+   changing its normal layout space; disabled/locked styling explains availability; actual click guards
+   and unlock rules live in JS/backend.
+ */
 .lx-game .lx-pattern-check:active:not(:disabled) { transform:translateY(2px); }
 .lx-game .lx-pattern-check svg { width:26px; height:26px; stroke-width:3; }
+/*
+   SELECTOR: .lx-game:lang(si) .lx-pattern-check Find the matching className in the related JSX named in
+   this file guide. this matching language/state selector adjusts Sinhala presentation; font/font-size
+   and line-height change text size and readable line spacing.
+ */
 .lx-game:lang(si) .lx-pattern-check { min-width:230px; font-size:21px; }
+/*
+   SELECTOR: .lx-game .lx-pattern-check--illustrated Find the matching className in the related JSX named
+   in this file guide. position:relative makes this element an anchor for absolutely positioned children;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-game .lx-pattern-check--illustrated { position:relative; width:200px; min-height:70px; padding:0; border:0; background:none; box-shadow:none; }
+/*
+   SELECTOR: .lx-game .lx-pattern-check--illustrated:disabled Find the matching className in the related
+   JSX named in this file guide. disabled/locked styling explains availability; actual click guards and
+   unlock rules live in JS/backend.
+ */
 .lx-game .lx-pattern-check--illustrated:disabled { background:none; border:0; }
 .lx-pattern-check--illustrated img { display:block; width:200px; height:70px; object-fit:contain; }
+/*
+   SELECTOR: .lx-pattern-check--illustrated:disabled img Find the matching className in the related JSX
+   named in this file guide. disabled/locked styling explains availability; actual click guards and
+   unlock rules live in JS/backend.
+ */
 .lx-pattern-check--illustrated:disabled img { filter:grayscale(.8); opacity:.6; }
+/*
+   SELECTOR: .lx-pattern-check--illustrated .lx-pattern-check-label Find the matching className in the
+   related JSX named in this file guide. position:absolute places this layer; left/top/right/bottom/inset
+   move it within its containing area; width/height/max-width control this element size.
+ */
 .lx-pattern-check--illustrated .lx-pattern-check-label { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
 
 /* Keep the answered activity visible; a compact footer replaces the old panel. */
+
+/* SECTION 13: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
+/*
+   SELECTOR: .lx-game.lx-phase--feedback .lx-game-activity Find the matching className in the related JSX
+   named in this file guide. width/height/max-width control this element size; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .lx-game.lx-phase--feedback .lx-game-activity { height:auto; flex:1; gap:12px; }
+
+/* SECTION 14: QUESTION CONTENT AND ACTIONS
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
 .lx-game.lx-phase--feedback .lx-game-activity .lx-actions { display:none; }
+
+/* SECTION 15: NUMBER STUDY AND KEYPAD
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
 .lx-game.lx-phase--feedback .lx-game-activity .lx-keypad { display:none; }
+
+/* SECTION 16: CORRECT AND INCORRECT FEEDBACK
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
+/*
+   SELECTOR: .lx-game .lx-feedback Find the matching className in the related JSX named in this file
+   guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; width/height/max-width control this element size; padding is inside space, margin is
+   outside space and gap separates children.
+ */
 .lx-game .lx-feedback {
   display:flex; flex-direction:row; flex-wrap:wrap; align-items:center; justify-content:center; gap:10px 14px;
   width:100%; min-height:76px; padding:10px 16px; border-width:1.5px; border-radius:18px;
 }
 .lx-game .lx-feedback h2 { font-size:24px; white-space:nowrap; }
 .lx-game .lx-feedback p { font-size:17px; }
+/*
+   SELECTOR: .lx-game .lx-feedback .lx-button Find the matching className in the related JSX named in
+   this file guide. font/font-size and line-height change text size and readable line spacing; padding is
+   inside space, margin is outside space and gap separates children.
+ */
 .lx-game .lx-feedback .lx-button { min-height:52px; padding:8px 22px; font-size:22px; flex-shrink:0; }
 .lx-game .lx-feedback-summary { order:5; flex-basis:100%; min-height:36px; font-size:18px; }
 .lx-game .lx-feedback-summary .lx-picture { width:40px; height:40px; }
 .lx-game .lx-feedback-summary .lx-picture-face { padding:3px; border-width:1px; border-radius:8px; }
+
+/* SECTION 17: LISTENING AND INSTRUCTION ANSWERS
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
 .lx-game--instructions.lx-phase--feedback .lx-instruction-option { min-height:110px; padding:14px 20px; }
 
 /* Result boards keep their original art/outer bounds, with all content inside. */
+
+/* SECTION 18: RESULTS, REWARDS AND COMPLETION
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
 .lx-game .lx-pattern-result .lx-board-content { justify-content:center; padding:44px 100px 56px; gap:16px; }
 .lx-game .lx-pattern-result-heading { height:100px; }
 .lx-game .lx-pattern-result-heading h1 { font-size:59px; }
@@ -131,49 +407,139 @@
 .lx-game .lx-pattern-result .lx-pattern-result-actions button { min-height:65px; font-size:28px; }
 .lx-game .lx-results .lx-result-title { font-size:33px; }
 .lx-game .lx-results .lx-board-content { gap:16px; padding:42px 70px 48px; }
+/*
+   SELECTOR: .lx-game .lx-results .lx-score Find the matching className in the related JSX named in this
+   file guide. width/height/max-width control this element size; padding is inside space, margin is
+   outside space and gap separates children.
+ */
 .lx-game .lx-results .lx-score { width:100%; padding:12px 24px; background:var(--lx-light); color:#583215; border:2px solid #e5c69b; }
 .lx-game .lx-results .lx-result-stats { width:100%; grid-template-columns:repeat(3,minmax(0,1fr)); }
 .lx-game .lx-results .lx-result-stats strong { font-size:40px; }
 .lx-game .lx-results .lx-result-stats small { font-size:20px; }
+/*
+   SELECTOR: .lx-game .lx-results .lx-result-notice Find the matching className in the related JSX named
+   in this file guide. font/font-size and line-height change text size and readable line spacing; padding
+   is inside space, margin is outside space and gap separates children.
+ */
 .lx-game .lx-results .lx-result-notice { font-size:18px; margin:0; text-align:center; }
 
 /* Screening retains the existing 15-question flow and exact shared board. */
+
+/* SECTION 19: BUNNY AND THOUGHT BUBBLE
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
+/*
+   SELECTOR: .lx-screening .wm-screen__standing-bunny Find the matching className in the related JSX
+   named in this file guide. transform/scale moves, rotates or resizes the drawn element without changing
+   its normal layout space; width/height/max-width control this element size.
+ */
 .lx-screening .wm-screen__standing-bunny {
   left:0; bottom:60px; width:375px; height:500px;
   object-fit:contain; object-position:center bottom; transform:none;
 }
+
+/* SECTION 20: VINE BOARD AND ITS CONTENT
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
 .lx-screening .lx-board .wm-screen__board-content { justify-content:flex-start; gap:14px; }
 .lx-screening .lx-board .wm-screen__question-header { gap:12px; }
 .lx-screening .lx-board .wm-screen__question-title { font-size:32px; line-height:1.3; color:#243e20; }
+
+/* SECTION 21: LISTENING AND INSTRUCTION ANSWERS
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
 .lx-screening .lx-board .wm-screen__listen { font-size:19px; min-height:58px; }
 .lx-screening .lx-board .wm-screen__listen img { width:56px; height:56px; }
+
+/* SECTION 22: VINE BOARD AND ITS CONTENT
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
 .lx-screening .lx-board .wm-screen__question-content { flex:1; justify-content:center; gap:22px; }
 .lx-screening .lx-board .wm-screen__question-footer { margin-top:0; }
+
+/* SECTION 23: PATTERN QUESTION AND ARTWORK
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
 .lx-screening .lx-board .wm-screen__question-content--pattern { flex:0 1 auto; padding-top:8px; }
 .lx-screening .lx-board .wm-screen__pattern { min-height:118px; gap:20px; }
+
+/* SECTION 24: VINE BOARD AND ITS CONTENT
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
+/*
+   SELECTOR: .lx-screening .lx-board .wm-screen__missing Find the matching className in the related JSX
+   named in this file guide. font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size.
+ */
 .lx-screening .lx-board .wm-screen__missing { width:64px; height:64px; font-size:46px; }
+
+/* SECTION 25: PATTERN QUESTION AND ARTWORK
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
 .lx-screening .lx-board .wm-screen__options--pattern .wm-screen__option { min-height:104px; border-width:2px; }
+
+/* SECTION 26: PICTURE STUDY AND RECALL
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
 .lx-screening .lx-board .wm-screen__memory-panel--pictures { padding:22px 28px; }
+/*
+   SELECTOR: .lx-screening .lx-board .wm-screen__memory-panel--pictures .wm-screen__picture-strip Find
+   the matching className in the related JSX named in this file guide. width/height/max-width control
+   this element size; padding is inside space, margin is outside space and gap separates children.
+ */
 .lx-screening .lx-board .wm-screen__memory-panel--pictures .wm-screen__picture-strip { width:100%; justify-content:space-evenly; gap:24px; }
 .lx-screening .lx-board .wm-screen__memory-panel--pictures .wm-screen__picture-figure { width:180px; height:180px; }
+
+/* SECTION 27: VINE BOARD AND ITS CONTENT
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
 .lx-screening .lx-board .wm-screen__options--orders { gap:14px; }
+
+/* SECTION 28: PICTURE STUDY AND RECALL
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
 .lx-screening .lx-board .wm-screen__option--pictures { min-height:0; padding:7px 22px; }
 .lx-screening .lx-board .wm-screen__option--pictures .wm-screen__picture-strip { width:100%; justify-content:space-evenly; }
 .lx-screening .lx-board .wm-screen__option--pictures .wm-screen__picture-figure { width:clamp(60px,calc(210px / var(--choice-count,2)),104px); height:clamp(60px,calc(210px / var(--choice-count,2)),104px); }
+
+/* SECTION 29: VINE BOARD AND ITS CONTENT
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
 .lx-screening .lx-board .wm-screen__memory-panel--plain { padding:20px; border:1.5px solid #f1c8c4; border-radius:24px; background:#fff0ec; }
+
+/* SECTION 30: NUMBER STUDY AND KEYPAD
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
 .lx-screening .lx-board .wm-screen__number-sequence--study { gap:30px; }
+/*
+   SELECTOR: .lx-screening .lx-board .wm-screen__number-sequence--study > span Find the matching
+   className in the related JSX named in this file guide. font/font-size and line-height change text size
+   and readable line spacing; width/height/max-width control this element size.
+ */
 .lx-screening .lx-board .wm-screen__number-sequence--study > span { width:150px; height:150px; font-size:84px; }
+/*
+   SELECTOR: .lx-screening .lx-board .wm-screen__number-sequence--4 > span Find the matching className in
+   the related JSX named in this file guide. font/font-size and line-height change text size and readable
+   line spacing; width/height/max-width control this element size.
+ */
 .lx-screening .lx-board .wm-screen__number-sequence--4 > span { width:116px; height:126px; font-size:66px; }
 .lx-screening .lx-board .wm-screen__options--orders .wm-screen__option--numbers { min-height:88px; font-size:42px; letter-spacing:2px; }
+
+/* SECTION 31: LISTENING AND INSTRUCTION ANSWERS
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
 .lx-screening .lx-board .wm-screen__instruction-area { width:690px; }
 .lx-screening .lx-board .wm-screen__instruction-steps { gap:16px; }
 .lx-screening .lx-board .wm-screen__instruction-steps li { min-height:82px; padding:10px 20px; border:1.5px solid #e9b7c5; }
+/*
+   SELECTOR: .lx-screening .lx-board .wm-screen__instruction-steps li > span Find the matching className
+   in the related JSX named in this file guide. font/font-size and line-height change text size and
+   readable line spacing; width/height/max-width control this element size.
+ */
 .lx-screening .lx-board .wm-screen__instruction-steps li > span { width:50px; height:50px; font-size:26px; }
 .lx-screening .lx-board .wm-screen__instruction-steps p { font-size:29px; line-height:1.35; }
+
+/* SECTION 32: VINE BOARD AND ITS CONTENT
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
 .lx-screening .lx-board .wm-screen__question-content--steps { flex:0 1 auto; padding-top:20px; }
 .lx-screening .lx-board .wm-screen__options--actions { width:100%; margin-top:16px; }
 .lx-screening .lx-board .wm-screen__options--actions .wm-screen__option { min-height:110px; border-width:1.5px; font-size:27px; }
 
+
+/* SECTION 33: RESULTS, REWARDS AND COMPLETION
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
+/*
+   SELECTOR: .lx-screening .lx-board .wm-screen__complete Find the matching className in the related JSX
+   named in this file guide. width/height/max-width control this element size; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .lx-screening .lx-board .wm-screen__complete { height:100%; gap:14px; }
 .lx-screening .lx-board .wm-screen__complete header h1 { font-size:32px; line-height:1.25; }
 .lx-screening .lx-board .wm-screen__complete header p { font-size:19px; }
@@ -181,6 +547,12 @@
 .lx-screening .lx-board .wm-screen__results h2 { font-size:23px; }
 .lx-screening .lx-board .wm-screen__score strong { font-size:76px; }
 .lx-screening .lx-board .wm-screen__results .wm-recommendations { padding:16px; }
+/*
+   SELECTOR: .lx-screening .lx-board .wm-screen__results .wm-recommendations button Find the matching
+   className in the related JSX named in this file guide. font/font-size and line-height change text size
+   and readable line spacing; padding is inside space, margin is outside space and gap separates
+   children.
+ */
 .lx-screening .lx-board .wm-screen__results .wm-recommendations button { min-height:74px; font-size:20px; gap:12px; }
 .lx-screening .lx-board .wm-screen__results .wm-recommendations img { width:52px; height:52px; }
 .lx-screening .lx-board .wm-screen__result-actions button { min-height:62px; font-size:20px; }
@@ -189,10 +561,60 @@
 .lx-screening .lx-board .wm-screen__complete--notice .wm-screen__results .wm-recommendations button { min-height:54px; font-size:18px; }
 .lx-screening .lx-board .wm-screen__complete--notice .wm-screen__results .wm-recommendations img { width:40px; height:40px; }
 
+
+/* SECTION 34: QUESTION CONTENT AND ACTIONS
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
+/*
+   SELECTOR: .lx-game:lang(si) .lx-question-heading Find the matching className in the related JSX named
+   in this file guide. this matching language/state selector adjusts Sinhala presentation; font/font-size
+   and line-height change text size and readable line spacing.
+ */
 .lx-game:lang(si) .lx-question-heading { font-size:24px; }
+
+/* SECTION 35: CORRECT AND INCORRECT FEEDBACK
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
+/*
+   SELECTOR: .lx-game:lang(si) .lx-feedback Find the matching className in the related JSX named in this
+   file guide. this matching language/state selector adjusts Sinhala presentation; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .lx-game:lang(si) .lx-feedback { gap:10px; }
+/*
+   SELECTOR: .lx-game:lang(si) .lx-feedback p Find the matching className in the related JSX named in
+   this file guide. this matching language/state selector adjusts Sinhala presentation; font/font-size
+   and line-height change text size and readable line spacing.
+ */
 .lx-game:lang(si) .lx-feedback p { font-size:15px; }
+
+/* SECTION 36: RESULTS, REWARDS AND COMPLETION
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
+/*
+   SELECTOR: .lx-game:lang(si) .lx-pattern-result-heading p Find the matching className in the related
+   JSX named in this file guide. this matching language/state selector adjusts Sinhala presentation;
+   font/font-size and line-height change text size and readable line spacing.
+ */
 .lx-game:lang(si) .lx-pattern-result-heading p { font-size:18px; }
+/*
+   SELECTOR: .lx-game:lang(si) .lx-pattern-result-actions button Find the matching className in the
+   related JSX named in this file guide. this matching language/state selector adjusts Sinhala
+   presentation; font/font-size and line-height change text size and readable line spacing.
+ */
 .lx-game:lang(si) .lx-pattern-result-actions button { font-size:22px; }
+
+/* SECTION 37: VINE BOARD AND ITS CONTENT
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
+/*
+   SELECTOR: .lx-screening:lang(si) .lx-board .wm-screen__question-title Find the matching className in
+   the related JSX named in this file guide. this matching language/state selector adjusts Sinhala
+   presentation; font/font-size and line-height change text size and readable line spacing.
+ */
 .lx-screening:lang(si) .lx-board .wm-screen__question-title { font-size:28px; }
+
+/* SECTION 38: LISTENING AND INSTRUCTION ANSWERS
+   Imported by ScreeningQuestions.jsx and ActivityScreen.jsx; more specific or later screen CSS can override these declarations. */
+/*
+   SELECTOR: .lx-screening:lang(si) .lx-board .wm-screen__instruction-steps p Find the matching className
+   in the related JSX named in this file guide. this matching language/state selector adjusts Sinhala
+   presentation; font/font-size and line-height change text size and readable line spacing.
+ */
 .lx-screening:lang(si) .lx-board .wm-screen__instruction-steps p { font-size:25px; }

@@ -15,6 +15,7 @@ dotenv.config();
 const PORT = process.env.PORT || 5000;
 
 // MongoDB Connection
+// VIVA: DATABASE CONNECTION - Mongoose connects using configured environment values; secrets stay in .env.
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
@@ -26,6 +27,7 @@ const connectDB = async () => {
 };
 
 // Start Server
+// VIVA: STARTUP ORDER - accept API requests only after the database connection succeeds.
 const startServer = async () => {
   await connectDB();
 

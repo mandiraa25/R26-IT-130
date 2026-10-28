@@ -1,3 +1,4 @@
+// VIVA: Small reward banner displaying child feedback, Leo's encouragement and a repeated star illustration.
 function StarReward({ result }) {
   if (!result) return null;
 

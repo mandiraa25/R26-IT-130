@@ -1,3 +1,4 @@
+// VIVA: Placeholder screen displaying Speech Processing Page Loaded Successfully!; it contains no assessment interaction.
 function Sample() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

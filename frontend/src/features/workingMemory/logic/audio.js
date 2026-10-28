@@ -1,3 +1,19 @@
+/*
+ * FILE PURPOSE
+ * Shared background music store, route listener and synthesized game sounds.
+ *
+ * HOW IT CONNECTS
+ * App.jsx mounts MemoryMusicRouteListener once. MemoryNav and ImprovementPage use useMemoryMusic.
+ * ImprovementPage plays answer sounds; NumberMemoryGame plays keypad tones.
+ * Direct source importers: ../../../App.jsx, ../improvement/games/NumberMemoryGame.jsx,
+ * ../improvement/ImprovementPage.jsx, ../shared/GameLayout.jsx.
+ *
+ * THINGS TO REMEMBER
+ * One looping Audio element plays bgmusic.mp3 on Working Memory routes. localStorage remembers
+ * background mute. One AudioContext creates short tones. Explicit answer/keypad sounds are independent
+ * of background music mute. Cleanup removes route listener gesture handlers.
+ */
+
 import { useEffect, useSyncExternalStore } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -59,6 +75,12 @@ function playTones(notes, { type = "sine", duration = .25, peak = .2, attack = 0
 
 // Answer sounds are independent of the background music preference.
 // Called by the answer controller once, directly from the child's submission.
+/*
+ * FUNCTION: playMemoryFeedbackSound - play one synthesized correct/incorrect cue.
+ * The shared improvement answer controller calls this after accepting a response.
+ * Correct uses rising notes; incorrect uses two descending notes. It does not read
+ * background muted, and it never changes scores. playTones owns audio-node cleanup.
+ */
 export function playMemoryFeedbackSound(correct) {
   // Correct: four rising triangle notes. Wrong: the two descending sine notes
   // used by Phonological Awareness's PACategory1-4.
@@ -69,18 +91,47 @@ export function playMemoryFeedbackSound(correct) {
 // A short two-tone "dial" beep for Number Memory keypad presses; each digit
 // has its own pitch so the keys sound different. Square waves keep it distinct
 // from the answer sounds (and let tests tell the two apart).
+/*
+ * FUNCTION: playKeypadTone - play the digit-specific short keypad sound.
+ * NumberMemoryGame calls it from the digit button before filling an answer slot.
+ * The input is clamped to 0-9; square-wave notes keep keypad and answer cues distinct.
+ */
 export function playKeypadTone(digit) {
   const n = Math.max(0, Math.min(9, Number(digit) || 0));
   playTones([[660 + n * 40, 0], [990 + n * 60, 0]], { type: "square", duration: .1, peak: .035, attack: .005 });
 }
 
 export function useMemoryMusic() {
+  // VIVA: useSyncExternalStore lets many components observe this shared module
+  // preference. Toggling background music does not mute explicit answer sounds.
   const value = useSyncExternalStore(subscribe, () => muted);
   return { muted: value, toggle: () => { muted = !muted; localStorage.setItem("lexiland-wm-muted", String(muted)); update(); listeners.forEach(fn => fn()); } };
 }
+/*
+ * FUNCTION / COMPONENT: MemoryMusicRouteListener
+ * React renders this component when its parent uses <MemoryMusicRouteListener /> or when its
+ * state/props change.
+ * This component has no explicit props; its body shows the hooks or fixed values it uses.
+ * RETURN: The existing JSX below builds this part of the screen. See the file guide for its caller and
+ * CSS.
+ */
 export function MemoryMusicRouteListener() {
+  // VIVA: One route listener starts/stops shared background audio and unlocks
+  // browser audio on a pointer/key gesture, avoiding a player per game component.
   const { pathname } = useLocation();
+  /*
+   * EFFECT: After React renders
+   * Synchronize this component with browser state or external work after rendering; the existing
+   * callback shows the exact side effects.
+   * DEPENDENCIES: [pathname]. A changed dependency reruns the effect; its prior cleanup runs first.
+   */
   useEffect(() => { active = /^\/(improvement-wm|improvement-activity-wm|working-memory)\//.test(pathname); update(); }, [pathname]);
+  /*
+   * EFFECT: After React renders
+   * Manage DOM focus/keyboard/scroll behaviour while this screen/dialog is mounted, and restore it in
+   * cleanup.
+   * DEPENDENCIES: [] means mount once; a returned cleanup runs on unmount.
+   */
   useEffect(() => { const unlock = () => { unlockGameSounds(); if (active) update(); }; document.addEventListener("pointerdown", unlock); document.addEventListener("keydown", unlock); return () => { document.removeEventListener("pointerdown", unlock); document.removeEventListener("keydown", unlock); }; }, []);
   return null;
 }

@@ -1,3 +1,18 @@
+/*
+ * FILE PURPOSE
+ * Translation setup shared across the application, including Working Memory.
+ *
+ * HOW IT CONNECTS
+ * main.jsx initializes this module. React useTranslation reads resources registered here;
+ * LanguageSwitcher changes the active language.
+ * Direct source importers: main.jsx.
+ *
+ * THINGS TO REMEMBER
+ * locales/en/wm.json and locales/si/wm.json are UI text dictionaries. They are valid JSON and cannot
+ * contain comments. Screening/improvement question banks are separate JS data. English is the fallback
+ * and wm is a namespace.
+ */
+
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';

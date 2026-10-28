@@ -1,3 +1,4 @@
+// VIVA: Pre-game map view: navigation, stars/progress, Leo's current mission, level path, start action and optional replay section.
 import { useState } from "react";
 import { ArrowLeft, Gamepad2, Volume2, VolumeX } from "lucide-react";
 import { useTranslation } from "react-i18next";

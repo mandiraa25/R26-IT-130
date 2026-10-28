@@ -1,3 +1,4 @@
+// VIVA: Full-screen dialog/background wrapper for child gameplay content; children supply the actual controls.
 function LeoGameSessionModal({ title, onClose, children }) {
   return (
     <div

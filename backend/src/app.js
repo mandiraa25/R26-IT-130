@@ -1,3 +1,17 @@
+/*
+ * FILE PURPOSE
+ * Express application wiring, including the two Working Memory API route prefixes.
+ *
+ * HOW IT CONNECTS
+ * server.js starts this app. The /api/working-memory/identification and
+ * /api/working-memory/improvement prefixes delegate to their route files, then controllers/models.
+ * Direct source importers: server.js.
+ *
+ * THINGS TO REMEMBER
+ * express.json parses request bodies before route handlers. CORS enables browser requests. This app
+ * file also mounts other modules; Working Memory router files determine their own middleware.
+ */
+
 const express = require("express");
 const cors = require("cors");
 
@@ -10,6 +24,7 @@ const workingMemoryImproveRoutes = require("./modules/workingMemory/routes/worki
 const adminRoutes = require("./modules/admin/routes/admin.routes");
 const speechProcessingRoutes = require("./modules/speechProcessing/routes/speechProcessing.routes");
 
+// VIVA: BACKEND ENTRY - Express parses JSON, then dispatches URL prefixes to each feature's route file.
 const app = express();
 
 app.use(cors());

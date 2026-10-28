@@ -1,3 +1,22 @@
+/*
+ * FILE PURPOSE
+ * Application route map; Working Memory uses screening, improvement map and activity routes.
+ *
+ * HOW IT CONNECTS
+ * Dashboard navigates here through React Router. Working Memory routes render ScreeningPage,
+ * LevelSelection and ImprovementPage. MemoryMusicRouteListener observes route changes.
+ * Direct source importers: main.jsx.
+ * Local feature/style dependencies: features/workingMemory/logic/audio.js, styles/pageTransitions.css,
+ * features/workingMemory/identification/ScreeningPage.jsx,
+ * features/workingMemory/improvement/LevelSelection.jsx,
+ * features/workingMemory/improvement/ImprovementPage.jsx.
+ *
+ * THINGS TO REMEMBER
+ * This file also serves other modules. ProtectedRoute checks token presence for page navigation;
+ * backend endpoints apply their own actual middleware. See the Working Memory route block for URL
+ * parameter names. No routes are changed by these comments.
+ */
+
 import { Suspense, lazy, useEffect, useRef } from "react";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { stopAllAudio } from "./utils/phonologicalAwareness/audio";
@@ -81,6 +100,7 @@ const GlobalAudioListener = () => {
 };
 
 // Component to protect routes that require authentication
+// VIVA: FRONTEND GUARD - token presence controls page access; backend middleware must validate requests.
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem("token");
   if (!token) {
@@ -98,6 +118,7 @@ const PublicRoute = ({ children }) => {
   return children;
 };
 
+// VIVA: ADMIN PAGE GUARD - adminToken is separate from the student's token; API roles are checked server-side.
 const AdminProtectedRoute = ({ children }) => {
   const token = localStorage.getItem("adminToken");
   if (!token) {
@@ -114,6 +135,7 @@ const AdminPublicRoute = ({ children }) => {
   return children;
 };
 
+// VIVA: ROUTE MAP - locate a screen by its URL; :grade/:levelNumber/:subCategoryKey become useParams values.
 function App() {
   return (
     <BrowserRouter>

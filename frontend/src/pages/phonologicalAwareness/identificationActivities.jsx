@@ -1,3 +1,4 @@
+// VIVA: OVERVIEW - PA screening: selects grade/language questions, records responses and saves screening metrics.
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
@@ -302,6 +303,7 @@ export default function IdentificationActivities() {
         <div className="max-w-3xl w-full bg-white rounded-[3rem] shadow-[0_20px_0_rgba(0,0,0,0.1)] p-12 text-center transform transition-all">
           <h2 className="text-6xl font-black text-slate-800 mb-8 drop-shadow-sm">{t("woo_hoo")}</h2>
 
+          {/* VIVA: Completed-screening score and percentage summary. */}
           <div className="bg-yellow-400 p-12 rounded-[2.5rem] mb-12 shadow-inner border-b-8 border-yellow-500">
             <p className="text-2xl text-yellow-900 uppercase tracking-widest font-black mb-4">{t("final_stars")}</p>
             <div className="text-9xl font-black text-white drop-shadow-md">{score} / {quizData.length}</div>
@@ -321,6 +323,7 @@ export default function IdentificationActivities() {
             </div>
           )}
 
+          {/* VIVA: Repeat the screening or return through the existing result actions. */}
           <div className="flex flex-col md:flex-row gap-6">
             <button
               onClick={() => window.location.reload()}
@@ -350,6 +353,7 @@ export default function IdentificationActivities() {
         backgroundPosition: 'center'
       }}
     >
+      {/* VIVA: Screening question-progress indicators. */}
       <div className="w-full max-w-6xl flex justify-center items-center mb-2 px-6 z-10">
         <div className="flex gap-2 bg-white/50 backdrop-blur-sm p-2 rounded-full border border-white/50">
           {quizData.map((_, i) => (
@@ -371,6 +375,7 @@ export default function IdentificationActivities() {
         </div>
 
         <div className="flex-1 flex flex-col items-center justify-start gap-6 min-h-0 overflow-hidden">
+          {/* VIVA: Screening prompt and optional question artwork. */}
           {/* Top Section: Instruction and Image */}
           <div className="w-full flex flex-col items-center text-center">
             <h1 className="text-2xl lg:text-3xl font-black text-slate-800 leading-tight drop-shadow-sm mb-4">
@@ -394,6 +399,7 @@ export default function IdentificationActivities() {
             )}
           </div>
 
+          {/* VIVA: Choose the input display for the current screening question. */}
           {/* Bottom Section: Interaction Area */}
           <div
             className="w-full flex-1 flex items-center justify-center p-4 bg-white/5 rounded-[2.5rem] shadow-inner relative overflow-hidden border-4 border-white/30 backdrop-blur-sm"

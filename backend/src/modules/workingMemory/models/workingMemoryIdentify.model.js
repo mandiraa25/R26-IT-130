@@ -1,6 +1,26 @@
+/*
+ * FILE PURPOSE
+ * Mongoose schema for one completed screening attempt and its assessment features.
+ *
+ * HOW IT CONNECTS
+ * The identification controller creates/saves documents and reads history; improvement placement reads
+ * the first document. Admin/student report APIs also read these records.
+ * Direct source importers: ../../admin/controllers/admin.controller.js,
+ * ../../common/controllers/student.controller.js, ../controllers/workingMemoryIdentify.controller.js,
+ * ../controllers/workingMemoryImprove.controller.js.
+ *
+ * THINGS TO REMEMBER
+ * studentId links to Student. questionResults includes scalar/array answers, correctness, errorType
+ * and millisecond timing. metrics keeps both frontend assessment values and optional ML
+ * prediction/confidence. timestamps adds createdAt/updatedAt. Schema comments do not change validation
+ * or fields.
+ */
+
 const mongoose = require("mongoose");
 
 const workingMemoryIdentifySchema = new mongoose.Schema(
+  // VIVA: One document represents one completed screening attempt. Mixed answer
+  // fields support both scalar choices and picture/number sequences.
   {
     studentId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -44,6 +64,8 @@ const workingMemoryIdentifySchema = new mongoose.Schema(
     ],
 
     totalTimeTaken: Number,
+    // VIVA: Screening response and total times are milliseconds. Risk/features
+    // describe assessment performance; they are separate from improvement stars.
 
     // 🔥 FINAL SCORING + ML FEATURES
     metrics: {

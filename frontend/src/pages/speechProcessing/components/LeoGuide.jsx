@@ -1,3 +1,4 @@
+// VIVA: Leo advice card: mascot, translated greeting/title and a supplied or default encouragement message.
 import { useTranslation } from "react-i18next";
 import { LeoLionImage } from "./LeoAssetFallback";
 

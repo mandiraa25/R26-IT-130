@@ -1,3 +1,14 @@
+/*
+ * FILE PURPOSE
+ * Shared session profile cache used by Dashboard and Working Memory navigation.
+ * 
+ * HOW IT CONNECTS
+ * Dashboard reads getCachedProfile; services/student/api writes the verified profile. The legacy wm-profile-cache key is kept compatible with Working Memory code.
+ * 
+ * THINGS TO REMEMBER
+ * Cache reads tolerate missing/invalid JSON. Cache values make the first render faster; refreshed profile/progress requests still supply saved identity/access. toProfileFormState also serves the profile editor.
+ */
+
 const PROFILE_CACHE_KEY = "lexiland-student-profile";
 const LEGACY_WM_CACHE_KEY = "wm-profile-cache";
 

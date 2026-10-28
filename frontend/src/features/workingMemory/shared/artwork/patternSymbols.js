@@ -1,4 +1,19 @@
 /*
+ * FILE PURPOSE
+ * Map of stable pattern tokens to labels, image names and original dimensions.
+ *
+ * HOW IT CONNECTS
+ * PatternArtwork calls resolvePatternArtwork and patternImageSrc. Asset tests also inspect these
+ * paths.
+ * Direct source importers: PatternArtwork.jsx.
+ *
+ * THINGS TO REMEMBER
+ * Removing emoji variation selectors normalizes visual aliases. A recognised token yields image
+ * metadata; unknown tokens return null for text fallback. Without a level, paths use the grade
+ * screening folder; improvement uses grade/level folders.
+ */
+
+/*
  * Working Memory: pattern symbol map
  *
  * What is inside
@@ -90,6 +105,11 @@ export const PATTERN_ARTWORK = Object.freeze(Object.fromEntries(SYMBOLS.map(([va
   normalize(value), Object.freeze({ value, label, file, width, height }),
 ])));
 
+/*
+ * FUNCTION: Resolve the stable question token to one or more illustration records.
+ * PatternArtwork calls this. Unknown letter/number tokens keep their text fallback;
+ * compound visual tokens can yield several cells. This lookup never scores an answer.
+ */
 export function resolvePatternArtwork(value) {
   const token = normalize(value);
   if (PATTERN_ARTWORK[token]) return [PATTERN_ARTWORK[token]];

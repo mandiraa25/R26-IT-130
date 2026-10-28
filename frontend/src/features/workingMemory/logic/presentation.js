@@ -1,3 +1,19 @@
+/*
+ * FILE PURPOSE
+ * Small display helpers for tutorial URLs, spoken instruction steps and shuffled copies.
+ *
+ * HOW IT CONNECTS
+ * HowToPlay formats a YouTube URL; InstructionsGame splits instructions; ImprovementPage and
+ * progression shuffle question/choice arrays.
+ * Direct source importers: ../improvement/games/InstructionsGame.jsx,
+ * ../improvement/ImprovementPage.jsx, progression.js, ../shared/HowToPlay.jsx.
+ *
+ * THINGS TO REMEMBER
+ * shuffleArray copies its input before sorting, so authored banks stay intact. Its random-sort
+ * approach is not a uniform Fisher-Yates shuffle. Instruction icons are presentation metadata, not
+ * answers.
+ */
+
 // Shared helper functions used across the Working Memory improvement games
 
 export const formatYouTubeEmbedUrl = (url) => {
@@ -17,6 +33,8 @@ export const formatYouTubeEmbedUrl = (url) => {
 };
 
 export const parseInstructionSteps = (instructionText) => {
+  // VIVA: Split authored instruction text into spoken steps; assigned icons are
+  // presentation metadata and never change correct answers or scores.
 	if (!instructionText) return [];
 
 	let cleanText = instructionText.trim();
@@ -48,4 +66,9 @@ export const parseInstructionSteps = (instructionText) => {
 	});
 };
 
+/*
+ * FUNCTION: shuffleArray - return a shuffled copy without modifying the authored array.
+ * Question/choice selection calls it. sort with a random comparator is the current
+ * implementation; it does not guarantee mathematically uniform permutations.
+ */
 export const shuffleArray = (arr) => [...arr].sort(() => Math.random() - 0.5);

@@ -1,3 +1,4 @@
+// VIVA: OVERVIEW - Admin speech screening summaries with student groups, filters, audio details and export.
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -86,6 +87,7 @@ const DetailModal = ({ result, onClose }) => {
   return (
     <div className="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex items-center justify-center sm:p-4 p-2 font-sans">
       <div className="bg-white rounded-[2rem] md:rounded-[3.5rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.2)] w-full max-w-6xl max-h-[96vh] md:max-h-[92vh] flex flex-col overflow-hidden animate-zoomIn">
+        {/* VIVA: Record summary and detail-dialog header. */}
         {/* Top Header Section */}
         <div className="relative p-6 md:p-10 bg-indigo-600 text-white overflow-hidden shrink-0">
           <div className="absolute top-0 left-0 w-[700px] h-[700px] bg-white/10 rounded-full blur-[120px] -mr-48 -mt-48"></div>
@@ -123,8 +125,10 @@ const DetailModal = ({ result, onClose }) => {
           </div>
         </div>
 
+        {/* VIVA: Scrollable record details and saved measurements. */}
         {/* Scrollable Body */}
         <div className="flex-1 overflow-y-auto p-6 md:p-10 space-y-8 custom-scrollbar">
+          {/* VIVA: Summary cards for the current directory or result view. */}
           {/* Key Metrics Cards */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="bg-indigo-50/80 p-5 rounded-2xl border border-indigo-100">
@@ -176,6 +180,7 @@ const DetailModal = ({ result, onClose }) => {
             </div>
           </div>
 
+          {/* VIVA: Per-question or per-attempt detail records. */}
           {/* Word Articulation Breakdown Table */}
           <section>
             <div className="flex items-center justify-between mb-4">
@@ -602,6 +607,7 @@ const SpeechIdentifyResults = () => {
 
   return (
     <div className="space-y-12 pb-24 font-sans">
+      {/* VIVA: Page title, search and available page actions. */}
       {/* Top Header */}
       <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-8">
         <div className="space-y-4">
@@ -650,6 +656,7 @@ const SpeechIdentifyResults = () => {
         </div>
       </div>
 
+      {/* VIVA: Search and dropdown filters for the loaded records. */}
       {/* Filter Command Bar */}
       <div className="bg-slate-900 rounded-[3.5rem] p-4 relative overflow-hidden shadow-2xl shadow-indigo-900/20">
         <div className="relative z-10 flex flex-wrap items-center gap-4 p-4">
@@ -725,6 +732,7 @@ const SpeechIdentifyResults = () => {
         </div>
       </div>
 
+      {/* VIVA: Summary cards for the current directory or result view. */}
       {/* KPI Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-white rounded-[2.5rem] p-8 shadow-sm border border-slate-100 transition-all hover:-translate-y-1">
@@ -792,6 +800,7 @@ const SpeechIdentifyResults = () => {
         </div>
       </div>
 
+      {/* VIVA: Student groups with expandable assessment or training history. */}
       {/* Student Result Accordion List */}
       <section className="space-y-6">
         <div className="flex items-center justify-between">
@@ -830,6 +839,7 @@ const SpeechIdentifyResults = () => {
         )}
       </section>
 
+      {/* VIVA: Open the selected result or session detail dialog. */}
       {/* Diagnostic Analysis Modal */}
       {selectedResult && (
         <DetailModal

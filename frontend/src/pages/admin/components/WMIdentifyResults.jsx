@@ -1,3 +1,19 @@
+/*
+ * FILE PURPOSE
+ * Administrator view of saved Working Memory screening attempts with filters, details and exports.
+ *
+ * HOW IT CONNECTS
+ * Admin Dashboard selects this component. It reads admin results through the existing admin API,
+ * groups student attempts and uses XLSX for exports.
+ * Direct source importers: ../Dashboard.jsx.
+ *
+ * THINGS TO REMEMBER
+ * This is a read/report screen, not the screening scorer. Filter/selection state affects displayed
+ * records only. Tailwind classes in JSX control appearance. Model prediction and rule-based risk must
+ * not be described as the same calculation.
+ */
+
+// VIVA: OVERVIEW - Saved Working Memory screenings with student groups, filters, details and CSV/Excel export.
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -111,6 +127,7 @@ const DetailModal = ({ result, onClose }) => {
   return (
     <div className="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex items-center justify-center sm:p-4 p-2">
       <div className="bg-white rounded-[2rem] md:rounded-[3rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.2)] w-full max-w-6xl max-h-[96vh] md:max-h-[92vh] flex flex-col overflow-hidden animate-zoomIn">
+        {/* VIVA: Record summary and detail-dialog header. */}
         {/* Top Header Section */}
         <div className="relative p-6 md:p-10 bg-slate-900 text-white overflow-hidden shrink-0">
           <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[100px] -mr-40 -mt-40"></div>
@@ -160,9 +177,11 @@ const DetailModal = ({ result, onClose }) => {
           </button>
         </div>
 
+        {/* VIVA: Scrollable record details and saved measurements. */}
         {/* Content Area */}
         <div className="overflow-y-auto custom-scrollbar bg-slate-50 flex-1">
           <div className="p-6 md:p-10 space-y-8 md:space-y-12">
+            {/* VIVA: Summary cards for the current directory or result view. */}
             {/* Detailed Stats Grid */}
             <section>
               <div className="flex items-center gap-3 mb-6 md:mb-8">
@@ -200,6 +219,7 @@ const DetailModal = ({ result, onClose }) => {
               </div>
             </section>
 
+            {/* VIVA: Per-question or per-attempt detail records. */}
             {/* Response Timeline */}
             <section>
               <div className="flex items-center justify-between mb-6 md:mb-8">
@@ -298,6 +318,11 @@ const AttemptRow = ({ attempt, index, isLatest, onView }) => {
 
 // ─── Student Result Group ──────────────────────────────────────────────────────
 const StudentResultGroup = ({ student, attempts, onView }) => {
+  /*
+ * REMEMBER: expanded
+ * Whether this admin student/attempt detail section is expanded; the row toggle changes it.
+ * The setter asks React to render the updated report controls/content.
+ */
   const [expanded, setExpanded] = useState(false);
   const latest = attempts[0];
   const older = attempts.slice(1);
@@ -362,17 +387,55 @@ const StudentResultGroup = ({ student, attempts, onView }) => {
 
 // ─── Main Component ────────────────────────────────────────────────────────────
 const WMIdentifyResults = () => {
+  // VIVA: Saved screenings feed the table; selectedResult opens a read-only detail modal.
+  /*
+   * REMEMBER: results
+   * Recorded responses for this session (or fetched report records in report views). Rendering/scoring
+   * reads this list; recording/loading replaces it.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [results, setResults] = useState([]);
+  /*
+   * REMEMBER: loading
+   * Whether an API read is pending. The view displays its loading screen before showing fetched records.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [loading, setLoading] = useState(true);
+  /*
+ * REMEMBER: selectedResult
+ * Screening attempt selected for the admin details dialog; selecting/closing a record updates it.
+ * The setter asks React to render the updated report controls/content.
+ */
   const [selectedResult, setSelectedResult] = useState(null);
+  /*
+ * REMEMBER: search
+ * Admin text search entered by the user; filtering reads it without altering the saved records.
+ * The setter asks React to render the updated report controls/content.
+ */
   const [search, setSearch] = useState("");
+  /*
+ * REMEMBER: filterGrade
+ * Selected admin grade filter; All keeps every grade visible.
+ * The setter asks React to render the updated report controls/content.
+ */
   const [filterGrade, setFilterGrade] = useState("All");
+  /*
+ * REMEMBER: filterRisk
+ * Selected admin risk filter; All keeps every risk category visible.
+ * The setter asks React to render the updated report controls/content.
+ */
   const [filterRisk, setFilterRisk] = useState("All");
+  /*
+ * REMEMBER: filterScore
+ * Selected admin score range; filtering changes the displayed list, not stored metrics.
+ * The setter asks React to render the updated report controls/content.
+ */
   const [filterScore, setFilterScore] = useState("All");
 
   const token = localStorage.getItem("adminToken");
 
   useEffect(() => {
+    // VIVA: The admin API supplies screenings newest first and includes student names/emails.
     const fetch = async () => {
       try {
         const res = await axios.get("http://localhost:5000/api/admin/results/working-memory/identify", {
@@ -389,6 +452,7 @@ const WMIdentifyResults = () => {
   }, [token]);
 
   const filteredResults = results.filter(r => {
+    // VIVA: These controls filter saved risk/finalScore values; they do not re-score answers.
     const m = r.metrics || {};
     const student = r.studentId || {};
     const studentName = (typeof student === 'object' ? student.fullName : String(student)) || "";
@@ -407,6 +471,7 @@ const WMIdentifyResults = () => {
   });
 
   const grouped = results.reduce((acc, r) => {
+    // VIVA: Preserve API order so the first record in each student's group is the latest.
     const sid = typeof r.studentId === 'object' ? r.studentId?._id : r.studentId;
     const key = sid || "unknown";
     if (!acc[key]) acc[key] = [];
@@ -423,6 +488,7 @@ const WMIdentifyResults = () => {
   }, {});
 
   const downloadData = (format) => {
+    // VIVA: Export each student's latest record from the full dataset, independent of screen filters.
     const data = Object.values(grouped).map(attempts => {
       const latest = attempts[0];
       const s = latest.studentId || {};
@@ -473,6 +539,7 @@ const WMIdentifyResults = () => {
 
   return (
     <div className="space-y-12 pb-24">
+      {/* VIVA: Page title, search and available page actions. */}
       {/* Premium Header */}
       <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-12">
         <div className="space-y-4">
@@ -513,6 +580,7 @@ const WMIdentifyResults = () => {
         </div>
       </div>
 
+      {/* VIVA: Search and dropdown filters for the loaded records. */}
       {/* Enhanced Filter Control Center */}
       <div className="bg-slate-900 rounded-[4rem] p-2 relative overflow-hidden shadow-2xl shadow-indigo-900/20">
         <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-[100px] -mr-32 -mt-32"></div>
@@ -581,6 +649,7 @@ const WMIdentifyResults = () => {
         </div>
       </div>
 
+      {/* VIVA: Summary cards for the current directory or result view. */}
       {/* Stats Summary Panel */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {[

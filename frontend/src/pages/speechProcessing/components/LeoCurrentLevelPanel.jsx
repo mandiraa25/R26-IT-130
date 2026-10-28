@@ -1,3 +1,4 @@
+// VIVA: Current prompt panel: sound playback, word/pair/sentence display, choice or microphone response, feedback and next-step controls.
 import { useTranslation } from "react-i18next";
 import LeoSentencePrompt from "./LeoSentencePrompt";
 import SpeechRecorder from "./SpeechRecorder";

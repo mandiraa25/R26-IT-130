@@ -5,6 +5,7 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { getStudentProgress, getAttemptHistory } from "../../../services/phonologicalAwareness/improveApi";
 import { getStudentProfile } from "../../../services/student/api";
 
+// VIVA: FILE CONTENTS - saved PA practice summary, score trend, level/game breakdown and attempt log.
 export default function PhonologicalImprovementReport() {
   const navigate = useNavigate();
   const { t } = useTranslation(["pa", "common"]);
@@ -128,7 +129,7 @@ export default function PhonologicalImprovementReport() {
       </header>
 
       <main className="max-w-6xl mx-auto space-y-8 relative z-10">
-        {/* 🌟 Summary Cards Grid */}
+        {/* VIVA: PRACTICE SUMMARY - current access, completed activities and total attempts. */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="bg-white/90 backdrop-blur-md rounded-3xl p-6 shadow-xl border-b-8 border-indigo-400 flex flex-col justify-between">
             <span className="text-4xl mb-2">🏆</span>
@@ -267,7 +268,7 @@ export default function PhonologicalImprovementReport() {
           </div>
         </div>
 
-        {/* 📜 Detailed Attempt Logs Table */}
+        {/* VIVA: SAVED ATTEMPTS TABLE - historical scores, timing and result labels are shown here. */}
         <div className="bg-white/95 backdrop-blur-md rounded-3xl p-6 md:p-8 shadow-xl border-b-8 border-slate-200">
           <h3 className="text-2xl font-black text-slate-800 mb-6">Historical Attempt Log 📜</h3>
 

@@ -1,3 +1,4 @@
+// VIVA: OVERVIEW - PA segmentation/counting activity: drum taps, numbered answer choices and selection feedback.
 import React, { useState, useEffect, useRef } from "react";
 import PAQuizHeaderControls from "./PAQuizHeaderControls";
 import { renderMirroredText, getCleanText } from "../../utils/phonologicalAwareness/text.util";
@@ -218,6 +219,7 @@ export default function PACategory4({
       />
       <div className="absolute inset-0 bg-black/15 pointer-events-none" />
 
+      {/* VIVA: Back navigation, activity title, question tracker and sound controls. */}
       {/* 🌟 TOP HEADER ROW */}
       <header className="relative z-10 w-full flex items-center justify-between gap-2 md:gap-4 shrink-0">
         {/* Left: Back Home Button & Wooden Sign */}
@@ -258,6 +260,7 @@ export default function PACategory4({
         />
       </header>
 
+      {/* VIVA: Activity prompt, interactive answer area and supporting tip. */}
       {/* 🧩 MAIN CONTENT ROW */}
       <main className="relative z-10 flex-1 w-full max-w-7xl mx-auto flex items-center justify-between gap-2 md:gap-6 py-2 min-h-0">
         {/* 🦜 LEFT COLUMN: Speech Bubble aligned with background Parrot */}
@@ -304,6 +307,7 @@ export default function PACategory4({
           {/* Decorative Drum Accent */}
           <div className="absolute top-2 right-4 text-2xl">🥁</div>
 
+          {/* VIVA: Question prompt with its speech playback control. */}
           {/* TOP WOODEN INSTRUCTION BANNER WITH q_bg.png */}
           <div
             className="w-full max-w-md sm:max-w-lg md:max-w-xl text-center drop-shadow-md mt-0 mb-1 flex items-center justify-center relative h-[84px] sm:h-[98px] md:h-[112px] shrink-0 z-10"
@@ -345,6 +349,7 @@ export default function PACategory4({
             )}
           </div>
 
+          {/* VIVA: Practice drum taps and the visible tap count. */}
           {/* 🥁 INTERACTIVE BONGO DRUM TAPPER & SYLLABLE COUNTER */}
           <div className="w-full max-w-lg flex-1 flex flex-col items-center justify-center my-2 p-4 bg-gradient-to-b from-white to-emerald-50 rounded-[2rem] border-3 border-emerald-300 shadow-inner relative">
             <button
@@ -389,6 +394,7 @@ export default function PACategory4({
             </div>
           </div>
 
+          {/* VIVA: Selectable answer choices for the current question. */}
           {/* 🍃 NUMBERED LILY PAD OPTION CARDS */}
           <div className="w-full max-w-2xl grid grid-cols-3 gap-3 md:gap-6 mt-2 shrink-0">
             {currentQuestion.options?.map((opt, i) => {
@@ -444,11 +450,13 @@ export default function PACategory4({
         </div>
       </main>
 
+      {/* VIVA: Answer feedback and the next-question action. */}
       {/* 🌟 BOTTOM STATUS & NAVIGATION BAR */}
       <footer className="relative z-10 w-full max-w-4xl mx-auto flex items-center justify-between gap-3 mt-2 shrink-0">
         {/* Previous Button (HIDDEN per request) */}
         <div className="w-12 h-12 md:w-14 md:h-14 opacity-0 pointer-events-none shrink-0" />
 
+        {/* VIVA: Correct/incorrect selection feedback. */}
         {/* Center Feedback Banner (Replaces "Click an answer..." section) */}
         <div className="flex-1 max-w-2xl mx-auto flex items-center justify-center">
           {selectedOpt && (

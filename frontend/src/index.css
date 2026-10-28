@@ -1,5 +1,7 @@
+/* VIVA: GLOBAL CSS - Tailwind supplies the utility classes used by the JSX screens. */
 @import "tailwindcss";
 
+/* VIVA: RECORDING STATE - pause decorative animations while the recording class is active. */
 .recording-animations-paused * {
   animation-play-state: paused !important;
 }

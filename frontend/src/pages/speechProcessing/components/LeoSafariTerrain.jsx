@@ -1,3 +1,4 @@
+// VIVA: Procedural 3D ground, grass patches, curved river/path and low-poly trees; no HTML form or scoring logic.
 import { useMemo } from "react";
 import * as THREE from "three";
 

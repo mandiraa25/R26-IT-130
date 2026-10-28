@@ -1,3 +1,4 @@
+// VIVA: Services persist the profile; cache helpers give an immediate display while fresh data loads.
 import { useState, useEffect } from "react";
 import { getStudentProfile, updateStudentProfile } from "../../services/student/api";
 import { getCachedProfile, clearCachedProfile, toProfileFormState } from "../../utils/studentProfileCache";
@@ -11,6 +12,7 @@ import LanguageSwitcher from "../../components/common/LanguageSwitcher";
 const PROFILE_BG = "/images/profile/profile-bg.jpeg";
 const PROFILE_SIDEBAR_BOARD = "/images/profile/profile-sidebar-board.png";
 
+// VIVA: A presentational wrapper: children supply the actual input or select element.
 function ProfileField({ icon, iconBg, label, children }) {
   return (
     <div className="profile-field flex items-start gap-3">
@@ -31,9 +33,11 @@ function ProfileField({ icon, iconBg, label, children }) {
 const fieldInputClass =
   "w-full rounded-xl border-2 border-[#dfc79e] bg-white/95 px-4 py-2.5 text-slate-800 outline-none transition focus:border-[#65a832] focus:ring-4 focus:ring-green-100/70";
 
+// VIVA: FILE CONTENTS - profile background, photo/sidebar, per-module stars, editable form, save and logout.
 function Profile() {
   const navigate = useNavigate();
   const { t } = useTranslation("common");
+  // VIVA: profile is the editable draft; initialProfile is the last loaded/saved comparison snapshot.
   const cachedProfile = getCachedProfile();
   const [loading, setLoading] = useState(!cachedProfile);
   const [saving, setSaving] = useState(false);
@@ -56,6 +60,7 @@ function Profile() {
   );
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
 
+  // VIVA: Logout removes local credentials and cached profile data, then opens sign-in.
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
@@ -64,6 +69,7 @@ function Profile() {
     navigate("/");
   };
 
+  // VIVA: Only editable fields participate; unchanged forms cannot submit through the Save button.
   const hasChanges =
     initialProfile &&
     (profile.fullName !== initialProfile.fullName ||
@@ -72,10 +78,12 @@ function Profile() {
       profile.school !== initialProfile.school ||
       profile.profilePhoto !== initialProfile.profilePhoto);
 
+  // VIVA: Fetch once on mount even if cached data already made the page visible.
   useEffect(() => {
     fetchProfile();
   }, []);
 
+  // VIVA: Refresh both draft and snapshot; keep an existing cached display if the request fails.
   const fetchProfile = async () => {
     const hasCachedProfile = Boolean(getCachedProfile());
     if (!hasCachedProfile) {
@@ -97,10 +105,12 @@ function Profile() {
     }
   };
 
+  // VIVA: All named text/select controls share this controlled-input handler.
   const handleChange = (e) => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
   };
 
+  // VIVA: Preview/store the selected photo as a data URL; this handler rejects files larger than 5 MB.
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -117,6 +127,7 @@ function Profile() {
     }
   };
 
+  // VIVA: Validate name/school, PUT editable fields, then mark the current draft as saved.
   const handleSubmit = async (e) => {
     e.preventDefault();
     const problem = validateFullName(profile.fullName) || validateSchool(profile.school);
@@ -158,6 +169,7 @@ function Profile() {
     );
   }
 
+  // VIVA: Sidebar shows identity/rewards; the form edits profile data and Toast displays request feedback.
   return (
     <div className="profile-page relative min-h-dvh overflow-x-hidden">
       <div
@@ -174,7 +186,7 @@ function Profile() {
 
       <div className="relative z-10 flex min-h-dvh items-center justify-center px-4 pb-8 pt-16 sm:px-6 lg:px-8 lg:pt-20">
         <div className="profile-layout flex w-full max-w-[1120px] flex-col items-center justify-center gap-5 lg:flex-row lg:items-center lg:gap-6">
-          {/* Left column — back button + vine board */}
+          {/* VIVA: PROFILE SIDEBAR - back button, photo picker, identity, stars and logout are here. */}
           <div className="profile-layout__sidebar-col flex w-full max-w-[310px] flex-col lg:max-w-[330px]">
             <button
               type="button"
@@ -215,6 +227,7 @@ function Profile() {
                         d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
                       />
                     </svg>
+                    {/* VIVA: PHOTO PICKER - the camera label opens this hidden input and handleFileChange previews it. */}
                     <input type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
                   </label>
                 </div>
@@ -241,7 +254,7 @@ function Profile() {
                   </div>
                 </div>
 
-                {/* Stars earned in each module: the module's badge with its count */}
+                {/* VIVA: MODULE REWARDS - render each module's badge and saved star count. */}
                 <ul className="mt-2 mb-2 grid w-full max-w-[212px] grid-cols-4 gap-1.5">
                   {[
                     { id: "wm", key: "working_memory", color: "text-[#ea580c]", stars: profile.moduleStars?.workingMemory },
@@ -291,7 +304,7 @@ function Profile() {
             </aside>
           </div>
 
-          {/* Right column — form panel (add profile-form-board.png later for vine frame) */}
+          {/* VIVA: PROFILE FORM - editable student fields and the save button are in this right panel. */}
           <section className="profile-form-panel w-full max-w-[640px] flex-1 rounded-[1.75rem] border-2 border-[#e8dcc4] bg-[#fff9ee]/96 p-5 shadow-[0_14px_32px_rgba(36,72,52,0.16)] sm:p-7 lg:p-8">
             <header className="mb-5 sm:mb-6">
               <h3 className="flex items-center gap-2 text-lg font-black text-[#2f5f28] sm:text-xl">
@@ -314,6 +327,7 @@ function Profile() {
                 />
               </ProfileField>
 
+              {/* VIVA: EMAIL DISPLAY - this field is read-only and is excluded from the update payload. */}
               <ProfileField icon="✉️" iconBg="bg-[#e8f5e3] text-[#3d9b2f]" label={t("email_address")}>
                 <input
                   type="email"

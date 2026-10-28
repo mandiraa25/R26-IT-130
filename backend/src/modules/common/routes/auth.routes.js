@@ -3,7 +3,8 @@ const router = express.Router();
 
 const authController = require("../controllers/auth.controller");
 
-// Routes
+// VIVA: Mounted under /api/auth by the app. Each POST delegates validation/work to its controller.
+// VIVA: These entry/reset endpoints do not require an existing login token.
 router.post("/register/student", authController.registerStudent);
 router.post("/register/admin", authController.registerAdmin);
 router.post("/login", authController.login);
