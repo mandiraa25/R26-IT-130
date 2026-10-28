@@ -1,3 +1,20 @@
+/*
+ * FILE PURPOSE
+ * Local font declarations for Working Memory and shared illustrated controls.
+ *
+ * HOW IT CONNECTS
+ * frontend/index.html and memoryUI.css load these fonts. Fredoka, Lexend and Noto Sans Sinhala are
+ * referenced by screen selectors.
+ *
+ * THINGS TO REMEMBER
+ * @font-face declares a font name, weight and local TTF URL. font-display:swap allows fallback text
+ * until fonts load. Actual screen font-size/line-height are set in the relevant CSS file; font files
+ * stay untouched.
+ */
+
+/* VIVA: LOCAL FONT - 'Fredoka' files below provide the displayed weights without a font API request. */
+
+/* FONT FACE: Registers this exact local font family/weight. The requesting selector still decides size and line spacing. */
 @font-face {
   font-family: 'Fredoka';
   font-style: normal;
@@ -6,6 +23,8 @@
   font-display: swap;
   src: url(/fonts/workingMemory/fredoka-600.ttf) format('truetype');
 }
+
+/* FONT FACE: Registers this exact local font family/weight. The requesting selector still decides size and line spacing. */
 @font-face {
   font-family: 'Fredoka';
   font-style: normal;
@@ -14,6 +33,9 @@
   font-display: swap;
   src: url(/fonts/workingMemory/fredoka-700.ttf) format('truetype');
 }
+/* VIVA: LOCAL FONT - 'Lexend' files below provide the displayed weights without a font API request. */
+
+/* FONT FACE: Registers this exact local font family/weight. The requesting selector still decides size and line spacing. */
 @font-face {
   font-family: 'Lexend';
   font-style: normal;
@@ -21,6 +43,8 @@
   font-display: swap;
   src: url(/fonts/workingMemory/lexend-500.ttf) format('truetype');
 }
+
+/* FONT FACE: Registers this exact local font family/weight. The requesting selector still decides size and line spacing. */
 @font-face {
   font-family: 'Lexend';
   font-style: normal;
@@ -28,6 +52,8 @@
   font-display: swap;
   src: url(/fonts/workingMemory/lexend-600.ttf) format('truetype');
 }
+
+/* FONT FACE: Registers this exact local font family/weight. The requesting selector still decides size and line spacing. */
 @font-face {
   font-family: 'Lexend';
   font-style: normal;
@@ -35,6 +61,9 @@
   font-display: swap;
   src: url(/fonts/workingMemory/lexend-700.ttf) format('truetype');
 }
+/* VIVA: LOCAL FONT - 'Noto Sans Sinhala' files below provide the displayed weights without a font API request. */
+
+/* FONT FACE: Registers this exact local font family/weight. The requesting selector still decides size and line spacing. */
 @font-face {
   font-family: 'Noto Sans Sinhala';
   font-style: normal;
@@ -43,6 +72,8 @@
   font-display: swap;
   src: url(/fonts/workingMemory/noto-sans-sinhala-500.ttf) format('truetype');
 }
+
+/* FONT FACE: Registers this exact local font family/weight. The requesting selector still decides size and line spacing. */
 @font-face {
   font-family: 'Noto Sans Sinhala';
   font-style: normal;
@@ -51,6 +82,8 @@
   font-display: swap;
   src: url(/fonts/workingMemory/noto-sans-sinhala-600.ttf) format('truetype');
 }
+
+/* FONT FACE: Registers this exact local font family/weight. The requesting selector still decides size and line spacing. */
 @font-face {
   font-family: 'Noto Sans Sinhala';
   font-style: normal;

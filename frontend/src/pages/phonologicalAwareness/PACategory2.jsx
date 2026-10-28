@@ -1,3 +1,4 @@
+// VIVA: OVERVIEW - PA visual-processing activity: prompt, visual answer cards, feedback and question controls.
 import React, { useState, useEffect, useRef } from "react";
 import PAQuizHeaderControls from "./PAQuizHeaderControls";
 import { renderMirroredText, getCleanText } from "../../utils/phonologicalAwareness/text.util";
@@ -240,6 +241,7 @@ export default function PACategory2({
         }}
       />
 
+      {/* VIVA: Back navigation, activity title, question tracker and sound controls. */}
       {/* 🌟 TOP HEADER ROW */}
       <header className="relative z-10 w-full flex items-center justify-between gap-2 md:gap-4 shrink-0">
         {/* Left: Home Button & Wooden Activity Sign */}
@@ -280,6 +282,7 @@ export default function PACategory2({
         />
       </header>
 
+      {/* VIVA: Activity prompt, interactive answer area and supporting tip. */}
       {/* 🧩 MAIN CONTENT ROW */}
       <main className="relative z-10 flex-1 w-full max-w-7xl mx-auto flex items-center justify-between gap-2 md:gap-6 py-2 min-h-0">
         {/* 🦜 LEFT COLUMN: Speech Bubble aligned with background Parrot */}
@@ -327,6 +330,7 @@ export default function PACategory2({
             backgroundSize: "100% 100%",
           }}
         >
+          {/* VIVA: Question prompt with its speech playback control. */}
           {/* TOP WOODEN INSTRUCTION BANNER WITH q_bg.png */}
           <div
             className="w-full max-w-md sm:max-w-lg md:max-w-xl text-center drop-shadow-md mt-0 mb-0.5 flex items-center justify-center relative h-[76px] sm:h-[88px] md:h-[100px] shrink-0"
@@ -391,6 +395,7 @@ export default function PACategory2({
             </div>
           )}
 
+          {/* VIVA: Selectable answer choices for the current question. */}
           {/* OPTION CARDS (3 COLUMN GRID) */}
           <div className="w-full max-w-md sm:max-w-lg md:max-w-xl grid grid-cols-3 gap-2.5 sm:gap-4 md:gap-5 my-0 shrink-0">
             {currentQuestion.options?.map((opt, i) => {
@@ -464,11 +469,13 @@ export default function PACategory2({
         </div>
       </main>
 
+      {/* VIVA: Answer feedback and the next-question action. */}
       {/* 🌟 BOTTOM STATUS & NAVIGATION BAR */}
       <footer className="relative z-10 w-full max-w-4xl mx-auto flex items-center justify-between gap-3 mt-2 shrink-0">
         {/* Previous Button (HIDDEN per request) */}
         <div className="w-12 h-12 md:w-14 md:h-14 opacity-0 pointer-events-none shrink-0" />
 
+        {/* VIVA: Correct/incorrect selection feedback. */}
         {/* Center Feedback Banner (Replaces "Click an answer..." section) */}
         <div className="flex-1 max-w-2xl mx-auto flex items-center justify-center">
           {selectedOpt && (

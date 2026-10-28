@@ -1,3 +1,4 @@
+// VIVA: OVERVIEW - PA level map: loads saved progress, displays level locks and opens category selection dialogs.
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -116,6 +117,7 @@ export default function ImprovementLevels() {
       <img className="pa-level-map-background" src={LEVEL_MAP_ART + '/jungle-background.png'} alt="" />
       <PATutorialStage active>
         <div className="pa-level-map-canvas" lang={i18n.language} aria-busy={loading}>
+          {/* VIVA: Back navigation, grade label and sound toggle. */}
           <header className="pa-level-map-nav">
             <div className="pa-level-map-nav-left">
               <button type="button" className="pa-level-map-back" onClick={handleBack} aria-label={t('common:back', { defaultValue: 'Go back' })}>
@@ -130,6 +132,7 @@ export default function ImprovementLevels() {
           <h1 className="pa-level-map-heading"><img src={LEVEL_MAP_ART + '/wooden-title-banner.png'} alt="" /><span>{t('improvement_path')}</span></h1>
           <main aria-labelledby="pa-level-map-subtitle">
             <h2 id="pa-level-map-subtitle" className="pa-level-map-subtitle">{t('select_level')}</h2>
+            {/* VIVA: Difficulty cards with saved completion counts and lock states. */}
             <div className="pa-level-map-cards">
               {levelsConfig.map((lvl) => {
                 const isLocked = lvl.num > maxUnlocked;
@@ -170,6 +173,7 @@ export default function ImprovementLevels() {
         </div>
       </PATutorialStage>
 
+      {/* VIVA: Category selection dialog for the selected difficulty level. */}
       {/* 📂 SUB-CATEGORIES MODAL (Slightly Reduced Dimensions, 100% Uncropped) */}
       {showSubCatModal && selectedLevelNum && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/80 backdrop-blur-md animate-fadeIn">
@@ -350,6 +354,7 @@ export default function ImprovementLevels() {
         </div>
       )}
 
+      {/* VIVA: Explain why the selected difficulty level is locked. */}
       {/* 🔒 LOCKED MODAL */}
       {showLockedModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fadeIn">

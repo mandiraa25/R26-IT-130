@@ -16,6 +16,7 @@ import {
   getSpeechIdentificationStatus,
 } from "../../../services/speechProcessing/api";
 
+// VIVA: FILE CONTENTS - speech assessment summary, sound/word breakdowns, performance chart and certificate modal.
 export default function SpeechIdentificationReport() {
   const navigate = useNavigate();
   const { t } = useTranslation(["sp", "common"]);
@@ -334,7 +335,7 @@ export default function SpeechIdentificationReport() {
           </div>
         ) : (
           <>
-            {/* Summary Highlights Grid */}
+            {/* VIVA: ASSESSMENT SUMMARY CARDS - support level, word accuracy, sounds checked and audio clarity. */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               {/* Card 1: Support Level */}
               <div
@@ -544,7 +545,7 @@ export default function SpeechIdentificationReport() {
               </div>
             </div>
 
-            {/* Prompt Performance Chart */}
+            {/* VIVA: PROMPT PERFORMANCE GRAPH - draw per-prompt values from the report's prepared chart data. */}
             {chartData.length > 0 && (
               <div className="bg-white/90 backdrop-blur-sm rounded-[3rem] p-6 sm:p-8 shadow-xl border-4 border-white mb-8">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-2">
@@ -598,7 +599,7 @@ export default function SpeechIdentificationReport() {
               </div>
             )}
 
-            {/* Word-by-Word Deep Accuracy Breakdown */}
+            {/* VIVA: WORD RESULTS - filter and expand word-level details and phoneme feedback here. */}
             {attempts.length > 0 && (
               <div className="bg-white/90 backdrop-blur-sm rounded-[3rem] p-6 sm:p-8 shadow-xl border-4 border-white mb-8">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
@@ -892,7 +893,7 @@ export default function SpeechIdentificationReport() {
         )}
       </div>
 
-      {/* Certificate Modal */}
+      {/* VIVA: CERTIFICATE DIALOG - conditional completion certificate display. */}
       {showCertificate && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fadeIn">
           <div className="relative w-full max-w-xl rounded-[3rem] border-8 border-amber-300 bg-white p-8 sm:p-10 shadow-2xl text-center">

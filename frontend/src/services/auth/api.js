@@ -1,3 +1,5 @@
+// VIVA: Shared Axios client supplies /api base URL and request/response interceptors.
+// VIVA: These helpers return Axios promises; page components handle messages and navigation.
 import API from "../api";
 
 // Register Student

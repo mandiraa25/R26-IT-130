@@ -4,15 +4,19 @@ import ReportShell, { ReportActionLink } from "./components/ReportShell";
 import { REPORT_MODULES } from "./reportModules";
 import useReportProfile from "./hooks/useReportProfile";
 
+// VIVA: ACHIEVEMENTS ENTRY - /reports lists modules; each link opens that module's report-type selection.
+// REPORT_MODULES supplies names, mascot URLs and destinations; ReportShell supplies the journal layout.
 export default function ReportsDashboard() {
   const { i18n } = useTranslation("common");
   const si = i18n.language?.startsWith("si");
   const profile = useReportProfile();
   return <ReportShell profile={profile}>
+    {/* VIVA: ACHIEVEMENTS HEADING - the journal shell surrounds this page content. */}
     <header className="reports-heading">
       <h1>{si ? "ඉගෙනුම් වාර්තා" : "Learning Reports"}<span className="reports-title-sprouts" aria-hidden="true" /></h1>
       <p>{si ? "ඔබේ දරුවාගේ ක්‍රියාකාරකම්වල ප්‍රතිඵල බලන්න." : "Review your child’s activity results."}</p>
     </header>
+    {/* VIVA: ACHIEVEMENT MODULE CARDS - names, animal images and report links come from REPORT_MODULES. */}
     <ol className="reports-module-list" aria-label={si ? "ඉගෙනුම් අංශ" : "Learning components"}>
       {REPORT_MODULES.map(module => <li key={module.id} className="reports-module-row" style={{ "--report-accent": module.accent }}>
         <span className="reports-row-number" aria-hidden="true">{module.number}</span>

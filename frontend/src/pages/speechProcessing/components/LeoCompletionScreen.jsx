@@ -1,3 +1,4 @@
+// VIVA: Identification completion card: Leo, translated completion message, collected stars and return-to-map button.
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { LeoLionImage } from "./LeoAssetFallback";

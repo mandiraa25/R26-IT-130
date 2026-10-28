@@ -1,3 +1,4 @@
+// VIVA: OVERVIEW - Admin registration form: sends account details and returns successful registrations to login.
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
@@ -19,12 +20,14 @@ const AdminRegister = () => {
   };
 
   const handleSubmit = async (e) => {
+    // VIVA: Native required/email checks run before submission; the API checks role and duplicates.
     e.preventDefault();
     setIsLoading(true);
 
     try {
       const response = await axios.post("http://localhost:5000/api/admin/register", formData);
       if (response.data.success) {
+        // VIVA: Registration creates the record; authentication happens on the login page.
         toast.success("Account created successfully!");
         navigate("/admin/login");
       }
@@ -53,6 +56,7 @@ const AdminRegister = () => {
         </div>
 
         <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-[2.5rem] shadow-2xl">
+          {/* VIVA: Form fields submit through the existing page handler. */}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Full Identity Name</label>

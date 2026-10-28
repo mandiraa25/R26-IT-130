@@ -1,3 +1,4 @@
+// VIVA: Procedural grove/cave/robot/bridge/tree activity landmarks with locked/completed/focused visual states.
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 

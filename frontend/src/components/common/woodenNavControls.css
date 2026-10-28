@@ -1,4 +1,28 @@
+/*
+ * FILE PURPOSE
+ * Style file for illustrated stars, music and language controls reused in WM navigation.
+ *
+ * HOW IT CONNECTS
+ * WoodenNavControls.jsx and the woodland LanguageSwitcher use these classes; MemoryNav and Dashboard
+ * place the controls.
+ * Direct source importers: WoodenNavControls.jsx.
+ *
+ * THINGS TO REMEMBER
+ * Artwork supplies wooden decoration; live text/icons sit above it. width/height change the whole
+ * control, while icon/text selectors adjust its contents.
+ */
+
 /* Shared dashboard, profile and Working Memory navigation artwork and sizing. */
+/* VIVA: STAR COUNTER - shared wooden pill, star image and live numeric total. */
+
+/* SECTION 1: TOP NAVIGATION AND CONTROLS
+   WoodenNavControls.jsx and the woodland LanguageSwitcher use these classes; MemoryNav and Dashboard place the controls. */
+/*
+   SELECTOR: .wooden-nav-stars Find the matching className in the component named in this file guide. the
+   URL selects artwork; background-size or object-fit determines how it fits; width/height/max-width
+   control this element size; padding is inside space, margin is outside space and gap separates
+   children.
+ */
 .wooden-nav-stars {
   display: inline-flex;
   align-items: center;
@@ -34,6 +58,13 @@
   letter-spacing: -.045em;
 }
 
+/* VIVA: MUSIC BUTTON - wooden artwork, dimensions and muted slash state. */
+/*
+   SELECTOR: .wooden-nav-music Find the matching className in the component named in this file guide.
+   position:relative makes this element an anchor for absolutely positioned children;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .wooden-nav-music {
   position: relative;
   display: block;
@@ -48,8 +79,21 @@
 }
 
 .wooden-nav-music > img { display: block; width: 100%; height: 100%; object-fit: contain; }
+/*
+   SELECTOR: .wooden-nav-mute-slash Find the matching className in the component named in this file
+   guide. position:absolute places this layer; left/top/right/bottom/inset move it within its containing
+   area; transform/scale moves, rotates or resizes the drawn element without changing its normal layout
+   space; width/height/max-width control this element size.
+ */
 .wooden-nav-mute-slash { position: absolute; top: 48%; left: 17%; width: 66%; height: 7%; border-radius: 999px; background: #cc3b40; transform: rotate(-45deg); box-shadow: 0 1px 1px #7d211e55; }
 
+/* VIVA: LANGUAGE CONTROL - shared artwork and overlaid English/Sinhala hit areas. */
+/*
+   SELECTOR: .wooden-nav-language Find the matching className in the component named in this file guide.
+   flex arranges children along a row/column; align-items and justify-content align them, gap separates
+   them; width/height/max-width control this element size; padding is inside space, margin is outside
+   space and gap separates children.
+ */
 .wooden-nav-language {
   display: flex;
   align-items: center;
@@ -66,6 +110,13 @@
   box-sizing: border-box;
 }
 
+/*
+   SELECTOR: .wooden-nav-language.wooden-nav-language > button Find the matching className in the
+   component named in this file guide. grid arranges children into defined rows/columns; grid-template
+   values set their sizes; font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .wooden-nav-language.wooden-nav-language > button {
   display: grid;
   place-items: center;
@@ -82,4 +133,10 @@
 }
 
 .wooden-nav-language > button[aria-pressed='true'] { color: white; }
+/* VIVA: KEYBOARD FOCUS - visible outline for the shared navigation buttons. */
+/*
+   SELECTOR: .wooden-nav-music:focus-visible, .wooden-nav-language > button:focus-visible Find the
+   matching className in the component named in this file guide. focus-visible provides a visible
+   keyboard focus indicator.
+ */
 .wooden-nav-music:focus-visible, .wooden-nav-language > button:focus-visible { outline: 3px solid white; outline-offset: 3px; box-shadow: 0 0 0 6px #285b1d; }

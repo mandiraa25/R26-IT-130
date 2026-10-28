@@ -1,7 +1,32 @@
+/*
+ * FILE PURPOSE
+ * Pure calculation of screening assessment metrics, final score, risk and weak areas.
+ *
+ * HOW IT CONNECTS
+ * ScreeningPage calls calculateWorkingMemoryMetrics both for saving and display; ScreeningResults
+ * presents its output. The backend may separately attach an ML prediction.
+ * Direct source importers: ../identification/ScreeningPage.jsx.
+ *
+ * THINGS TO REMEMBER
+ * Inputs are recorded responses with millisecond timings. Weighted final score: accuracy 25%,
+ * normalized digit span 25%, sequence 15%, instructions 15%, pattern 10%, time 10%. Risk cutoffs are
+ * 75/45. Improvement stars and its 3-correct pass rule are a different system. Normal callers supply
+ * completed, nonempty result arrays.
+ */
+
 // -----------------------------
 // MAIN FUNCTION
 // -----------------------------
+/*
+ * FUNCTION: calculateWorkingMemoryMetrics
+ * Calculate screening features and the weighted assessment score.
+ * WHEN: ScreeningPage calls this for real-save payload and final display.
+ * HOW / RESULT: Aggregates correctness, timing, number span/error weights and category scores, then
+ * returns risk and weak areas. It does not award improvement stars.
+ */
 export const calculateWorkingMemoryMetrics = (results) => {
+  // VIVA: Build screening features from recorded answers, not improvement stars.
+  // Digit span is the longest correctly recalled number sequence in this test.
   const total = results.length;
 
   let correctCount = 0;
@@ -68,7 +93,13 @@ export const calculateWorkingMemoryMetrics = (results) => {
 
   const avgResponseTime = totalTime / total;
 
-  const sequenceScore =
+  /*
+ * SCORING STEP: Average the recorded number-sequence error weights and convert to percent.
+ * This feature is separate from overall recall accuracy. The current option-based
+ * number questions often yield only correct/incorrect weights; free-recall branches
+ * can produce the partial/order/skip classifications retained in answerChecking.js.
+ */
+const sequenceScore =
     sequenceCount > 0 ? (sequenceScoreSum / sequenceCount) * 100 : 0;
 
   const instructionScore =
@@ -91,7 +122,12 @@ export const calculateWorkingMemoryMetrics = (results) => {
   });
 
   // Normalize digit span based on the max provided in the test
-  const digitSpanScore = maxPossibleSpan > 0 ? (maxSpan / maxPossibleSpan) * 100 : 0;
+  /*
+ * SCORING STEP: Normalize achieved number span against this test's largest number span.
+ * For example, a longest correct span of 3 with a maximum available span of 4 gives 75.
+ * Picture Memory accuracy contributes to overall accuracy, not to this digit-span feature.
+ */
+const digitSpanScore = maxPossibleSpan > 0 ? (maxSpan / maxPossibleSpan) * 100 : 0;
 
   const timeScore = calculateTimeScore(avgResponseTime);
 
@@ -100,6 +136,8 @@ export const calculateWorkingMemoryMetrics = (results) => {
   // -----------------------------
 
   const finalScore =
+    // VIVA: Weights sum to 1: accuracy/span 25% each, sequence/instructions 15%
+    // each, and pattern/time 10% each. The displayed final score is out of 100.
     0.25 * recallAccuracy +
     0.25 * digitSpanScore +
     0.15 * sequenceScore +
@@ -135,7 +173,16 @@ export const calculateWorkingMemoryMetrics = (results) => {
 // -----------------------------
 // TIME SCORE (IMPORTANT)
 // -----------------------------
+/*
+ * FUNCTION: calculateTimeScore
+ * Convert average answer milliseconds into a 0-100-style time contribution with a floor of five.
+ * WHEN: calculateWorkingMemoryMetrics calls this.
+ * HOW / RESULT: Below 15 seconds gets 100; each started extra second subtracts five, with minimum
+ * five. Exactly 15 seconds also computes 100.
+ */
 const calculateTimeScore = (avgTime) => {
+  // VIVA: Input is milliseconds. Average time beyond 15 seconds loses five
+  // points per started extra second, with a minimum time score of five.
   if (avgTime < 15000) return 100;
   const overtime = avgTime - 15000;
   const steps = Math.ceil(overtime / 1000);
@@ -146,6 +193,13 @@ const calculateTimeScore = (avgTime) => {
 // -----------------------------
 // RISK LEVEL
 // -----------------------------
+/*
+ * FUNCTION: getRiskLevel
+ * Map the weighted screening score to the implemented risk label.
+ * WHEN: calculateWorkingMemoryMetrics calls this.
+ * HOW / RESULT: 75 or more is Low; 45 or more is Moderate; lower is High. The separate ML service can
+ * later attach a different prediction.
+ */
 const getRiskLevel = (score) => {
   if (score >= 75) return "Low";
   if (score >= 45) return "Moderate";
@@ -155,6 +209,12 @@ const getRiskLevel = (score) => {
 // -----------------------------
 // WEAK AREA DETECTION
 // -----------------------------
+/*
+ * FUNCTION: getWeakAreas
+ * List assessment components whose normalized score is below 50.
+ * WHEN: calculateWorkingMemoryMetrics calls this.
+ * HOW / RESULT: Returns stored English area identifiers; Dashboard maps them to translated UI labels.
+ */
 const getWeakAreas = (metrics) => {
   const weak = [];
 

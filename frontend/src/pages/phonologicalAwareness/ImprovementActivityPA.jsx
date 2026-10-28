@@ -1,3 +1,4 @@
+// VIVA: OVERVIEW - PA improvement controller: loads activity data, runs tutorial/quiz/result phases and saves attempts.
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -664,6 +665,7 @@ export default function ImprovementActivityPA() {
         </div>
       </header>}
 
+      {/* VIVA: Tutorial phase with the current activity instructions and video. */}
       {/* 📺 PHASE 1: VIDEO LESSON */}
       {phase === "video" && (
         <PATutorial
@@ -755,10 +757,12 @@ export default function ImprovementActivityPA() {
         </PATutorial>
       )}
 
+      {/* VIVA: Fallback quiz presentation for the current activity question. */}
       {/* 🧩 PHASE 2: INTERACTIVE PRACTICE QUIZ (for other subcategories) */}
       {phase === "quiz" && currentQuestion && (
         <main className="relative z-10 flex-1 max-w-4xl mx-auto w-full px-4 py-4 flex flex-col items-center justify-center animate-fadeIn">
           <div className="bg-white/95 backdrop-blur-md rounded-[3rem] p-6 md:p-8 shadow-2xl border-b-[10px] border-slate-200 w-full flex flex-col items-center text-center">
+            {/* VIVA: Current question position within this attempt. */}
             {/* Progress indicator */}
             <div className="w-full flex items-center justify-between mb-4 px-2">
               <span className="bg-purple-100 text-purple-700 px-4 py-1.5 rounded-full font-black text-sm uppercase tracking-wider border-2 border-purple-200">
@@ -773,6 +777,7 @@ export default function ImprovementActivityPA() {
               </div>
             </div>
 
+            {/* VIVA: Question instruction and speech playback action. */}
             {/* Instruction & TTS Speaker */}
             <div className="flex items-center gap-3 bg-sky-50 border-2 border-sky-200 px-6 py-4 rounded-3xl mb-6 max-w-2xl w-full justify-between shadow-inner">
               <h3 className="text-xl md:text-2xl font-black text-slate-800 text-left leading-snug">
@@ -787,6 +792,7 @@ export default function ImprovementActivityPA() {
               </button>
             </div>
 
+            {/* VIVA: Answer options passed to the current activity handler. */}
             {/* Options Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-2xl my-4">
               {currentQuestion.options.map((opt, i) => {

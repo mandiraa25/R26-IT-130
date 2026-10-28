@@ -1,3 +1,4 @@
+// VIVA: Demo results card: pronunciation percentage, earned stars, sound-practice/audio checks and completion practice ideas.
 const SpeechResultCard = ({ result, completion }) => {
   if (!result && !completion) return null;
 

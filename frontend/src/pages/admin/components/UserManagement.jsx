@@ -1,3 +1,4 @@
+// VIVA: OVERVIEW - Super-admin account directory with registration, editing, password reset and status actions.
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -16,6 +17,7 @@ const QuickStat = ({ label, value, icon, color }) => (
 );
 
 export default function UserManagement() {
+  // VIVA: Separate directories and modal state support the student/admin tabs on one page.
   const [activeTab, setActiveTab] = useState("students"); // "students" or "admins"
   const [students, setStudents] = useState([]);
   const [admins, setAdmins] = useState([]);
@@ -52,6 +54,7 @@ export default function UserManagement() {
   });
 
   const fetchData = async () => {
+    // VIVA: Independent reads load accounts and school choices together after each saved change.
     try {
       setLoading(true);
       const [studentsRes, adminsRes, schoolsRes] = await Promise.all([
@@ -85,6 +88,7 @@ export default function UserManagement() {
   }, []);
 
   if (loggedInUser.role !== "super admin") {
+    // VIVA: This browser check controls rendering; each management API also requires the role.
     return (
       <div className="p-8 bg-rose-50 border-4 border-rose-200 text-rose-700 font-black rounded-3xl text-center max-w-xl mx-auto mt-10 shadow-lg">
         🔒 ACCESS DENIED. Super Admin only.
@@ -94,6 +98,7 @@ export default function UserManagement() {
 
   // Register Handler
   const handleRegisterSubmit = async (e) => {
+    // VIVA: Required-field checks give quick feedback before choosing the account-specific API.
     e.preventDefault();
     if (!addFormData.fullName || !addFormData.email || !addFormData.password) {
       toast.warn("Full Name, Email and Password are required");
@@ -147,6 +152,7 @@ export default function UserManagement() {
 
   // Password Reset Handler
   const handlePasswordReset = async (e) => {
+    // VIVA: This admin action sets a new password directly; it does not send a reset email.
     e.preventDefault();
     if (!resetPasswordValue) {
       toast.warn("Please enter a new password");
@@ -173,6 +179,7 @@ export default function UserManagement() {
 
   // Edit Submit Handler
   const handleEditSubmit = async (e) => {
+    // VIVA: Student and admin records live in different collections and use different endpoints.
     e.preventDefault();
     const isStudent = showEditModal.role === "student" || showEditModal.grade !== undefined;
 
@@ -211,6 +218,7 @@ export default function UserManagement() {
 
   // Deactivate / Reactivate Handler
   const handleToggleStatus = async (userId, currentStatus) => {
+    // VIVA: Preserve the record while switching whether the account may log in.
     try {
       const res = await axios.post("http://localhost:5000/api/admin/users/toggle-status", {
         userId,
@@ -248,6 +256,7 @@ export default function UserManagement() {
 
   return (
     <div className="space-y-10">
+      {/* VIVA: Summary cards for the current directory or result view. */}
       {/* Quick Stats Widgets */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <QuickStat label="Total Registered Students" value={totalStudents} icon="🧑‍🎓" color="bg-emerald-50 text-emerald-600" />
@@ -255,6 +264,7 @@ export default function UserManagement() {
         <QuickStat label="Active Students" value={`${activeStudents} / ${totalStudents}`} icon="🟢" color="bg-teal-50 text-teal-600" />
       </div>
 
+      {/* VIVA: Directory table and its available record actions. */}
       {/* Main Panel Box */}
       <div className="bg-white rounded-[3rem] p-8 border border-slate-100 shadow-sm">
         {/* Header line */}
@@ -299,6 +309,7 @@ export default function UserManagement() {
             <div className="text-center py-12 text-slate-400 font-bold">No students registered yet.</div>
           ) : (
             <div className="overflow-x-auto">
+              {/* VIVA: Tabular records with row-level details or actions. */}
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="border-b-2 border-slate-100 text-slate-400 text-[10px] uppercase font-black tracking-widest">
@@ -350,6 +361,7 @@ export default function UserManagement() {
             <div className="text-center py-12 text-slate-400 font-bold">No admins registered yet.</div>
           ) : (
             <div className="overflow-x-auto">
+              {/* VIVA: Tabular records with row-level details or actions. */}
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="border-b-2 border-slate-100 text-slate-400 text-[10px] uppercase font-black tracking-widest">
@@ -400,6 +412,7 @@ export default function UserManagement() {
         )}
       </div>
 
+      {/* VIVA: Account creation dialog and account-specific fields. */}
       {/* Add User Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex items-center justify-center p-4">
@@ -417,6 +430,7 @@ export default function UserManagement() {
               </button>
             </div>
 
+            {/* VIVA: Form fields submit through the existing page handler. */}
             <form onSubmit={handleRegisterSubmit} className="p-10 space-y-5 max-h-[70vh] overflow-y-auto">
               <div>
                 <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">Account Category</label>
@@ -529,6 +543,7 @@ export default function UserManagement() {
         </div>
       )}
 
+      {/* VIVA: Edit the selected account details. */}
       {/* Edit Details Modal */}
       {showEditModal && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex items-center justify-center p-4">
@@ -546,6 +561,7 @@ export default function UserManagement() {
               </button>
             </div>
 
+            {/* VIVA: Form fields submit through the existing page handler. */}
             <form onSubmit={handleEditSubmit} className="p-10 space-y-6 max-h-[70vh] overflow-y-auto">
               <div>
                 <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">Full Name</label>
@@ -650,6 +666,7 @@ export default function UserManagement() {
         </div>
       )}
 
+      {/* VIVA: Set a replacement password for the selected account. */}
       {/* Password Reset Modal */}
       {showResetModal && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex items-center justify-center p-4">
@@ -670,6 +687,7 @@ export default function UserManagement() {
               </button>
             </div>
 
+            {/* VIVA: Form fields submit through the existing page handler. */}
             <form onSubmit={handlePasswordReset} className="p-8 space-y-6">
               <div>
                 <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">New Secure Password</label>

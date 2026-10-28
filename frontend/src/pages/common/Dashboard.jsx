@@ -1,3 +1,20 @@
+/*
+ * FILE PURPOSE
+ * Student home page and entry into Working Memory screening or improvement.
+ *
+ * HOW IT CONNECTS
+ * App.jsx renders /dashboard. The wm category opens ActivitySelectionModal; handleActivitySelect
+ * chooses /working-memory/:grade or /improvement-wm/:grade. Student services supply profile, stars and
+ * learning summary.
+ * Direct source importers: ../../App.jsx.
+ * Local feature/style dependencies: dashboard.css.
+ *
+ * THINGS TO REMEMBER
+ * cards supplies module labels/images. selectedCategory/showModal control the popup. summary supplies
+ * saved completion and weak-area labels. Dashboard stars combine modules; Working Memory game
+ * navigation shows its own progress stars. dashboard.css controls this home screen.
+ */
+
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -10,6 +27,7 @@ import ActivitySelectionModal from "../../components/common/ActivitySelectionMod
 import { WoodenMusicToggle, WoodenStarCounter } from "../../components/common/WoodenNavControls";
 import "./dashboard.css";
 
+// VIVA: ASSETS - /images URLs resolve to frontend/public/images; card labels remain live JSX text.
 const UI_ASSETS = "/images/dashboard/reference-style/";
 // Pictures of the screens a tap on the home page opens: the activity popup and
 // the first Working Memory screens. Fetched while the child looks at the home page.
@@ -22,16 +40,47 @@ const NEXT_SCREEN_IMAGES = [
   "/images/workingMemory/shared/backgrounds/screening/forest.webp",
   "/images/workingMemory/identification/intro/choice-board.png",
 ];
+// VIVA: HOME SCREEN - /dashboard renders the student greeting, animal module cards and activity popup.
 function Dashboard() {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation("common");
+  // VIVA: STATE - cached profile paints immediately; selecting a card opens the shared popup.
+  /*
+   * REMEMBER: profile
+   * Student identity, name and grade. An API/cache fills it; navigation and attempt saving read the
+   * student ID/grade.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [profile, setProfile] = useState(() => getCachedProfile());
+  /*
+   * REMEMBER: selectedCategory
+   * Home-page module selected by a card tap. The activity popup uses it to choose artwork and
+   * destinations.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [selectedCategory, setSelectedCategory] = useState(null);
+  /*
+   * REMEMBER: showModal
+   * Whether the home activity-choice dialog is open. Card taps open it; onClose hides it.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [showModal, setShowModal] = useState(false);
+  /*
+   * REMEMBER: musicEnabled
+   * Whether the dashboard background video is unmuted. The toggle updates this state and the video ref.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [musicEnabled, setMusicEnabled] = useState(false);
+  /*
+   * REMEMBER: backgroundVideoRef
+   * The dashboard video DOM element. Music handling plays/mutes the element without finding it through
+   * document queries.
+   * Changing .current is immediate and does not cause a render.
+   */
   const backgroundVideoRef = useRef(null);
   const localized = (i18n.resolvedLanguage || i18n.language).startsWith("si");
 
+  // VIVA: DATA FLOW - fetch current profile once; ignore replies after unmount.
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -46,6 +95,7 @@ function Dashboard() {
     return () => { cancelled = true; stopWarming(); };
   }, []);
 
+  // VIVA: MODULE BUTTONS - map these records into buttons; t(...) supplies English/Sinhala names.
   const cards = [
     { id: "wm", title: t("working_memory"), description: t("wm_desc"), image: "working-memory-removebg-preview.png" },
     { id: "rp", title: t("reading_processing"), description: t("rp_desc"), image: "reading-processing-removebg-preview.png" },
@@ -53,11 +103,13 @@ function Dashboard() {
     { id: "sp", title: t("speech_processing"), description: t("sp_desc"), image: "speech-processing-removebg-preview.png" },
   ];
 
+  // VIVA: BUTTON HANDLER - choose the module, then render ActivitySelectionModal with its details.
   const handleCategoryClick = (card) => {
     setSelectedCategory(card);
     setShowModal(true);
   };
 
+  // VIVA: NAVIGATION - the popup calls onSelect(type); module ID and student grade choose the route.
   const handleActivitySelect = (type) => {
     const currentGrade = profile?.grade || getCachedProfile()?.grade || "2";
     if (type === "identification" && selectedCategory?.id === "pa") {
@@ -81,6 +133,7 @@ function Dashboard() {
     }
   };
 
+  // VIVA: DEMO LINKS - navigate to the existing screening demo entry; no scoring is performed here.
   const handleStartDemo = (type) => {
     const currentGrade = profile?.grade || "2";
     const path = type === "wm"
@@ -89,23 +142,29 @@ function Dashboard() {
     navigate(path);
   };
 
+  // VIVA: MUSIC BUTTON - state updates the icon; the ref controls the actual background video.
   const setBackgroundMusic = async (enabled) => {
     setMusicEnabled(enabled);
     const video = backgroundVideoRef.current;
     if (!video) return;
+    // VIVA: enabled=true means muted=false; muting leaves the background animation running.
     video.muted = !enabled;
     if (enabled) {
       try {
         await video.play();
       } catch {
+        // VIVA: PLAYBACK FAILURE - restore the muted UI if the browser rejects video.play().
         setMusicEnabled(false);
         video.muted = true;
       }
     }
   };
 
+  // VIVA: LAYOUT - dashboard.css positions the video, greeting, responsive card grid and live labels.
+  // The background scenery is part of /vedios/bgvedio.mp4; module artwork is in the cards.map below.
   return (
     <div className={`student-home${localized ? " student-home--localized" : ""}`}>
+      {/* VIVA: HOME BACKGROUND - looping scenery video and its dimming overlay. */}
       <video
         ref={backgroundVideoRef}
         className="student-home__video"
@@ -116,6 +175,7 @@ function Dashboard() {
       </video>
       <div className="student-home__backdrop" aria-hidden="true" />
 
+      {/* VIVA: ACTIVITY POPUP - the selected module offers screening and improvement choices here. */}
       {showModal && selectedCategory && (
         <ActivitySelectionModal
           category={selectedCategory}
@@ -125,6 +185,7 @@ function Dashboard() {
         />
       )}
 
+      {/* VIVA: TOP BAR - profile greeting, total stars, music, language and achievements button. */}
       <header className="student-home__topbar">
         <button type="button" className="student-greeting" onClick={() => navigate("/profile")} aria-label={t("profile")}>
           <span className="student-greeting__avatar">
@@ -180,6 +241,7 @@ function Dashboard() {
           <div className="student-home__flourish" aria-hidden="true"><span />✿<span /></div>
         </section>
 
+        {/* VIVA: HOME PAGE CARDS ARE HERE - each animal/module button comes from cards.map below. */}
         <div className="dashboard-cards">
           {cards.map((card) => (
             <button
@@ -197,6 +259,7 @@ function Dashboard() {
           ))}
         </div>
 
+        {/* VIVA: DEMO BUTTONS - open the existing Working Memory or PA screening demo entry. */}
         <section className="student-home__demo" aria-labelledby="dashboard-demo-title">
           <h2 id="dashboard-demo-title">{t("try_demo")}</h2>
           <div className="student-home__demo-buttons">

@@ -1,3 +1,4 @@
+// VIVA: Speech landing page: Sound Adventure, Start Demo, guardian-assigned activity and five game descriptions.
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getMySpeechAssignments } from "../../services/speechProcessing/api";

@@ -1,3 +1,4 @@
+// VIVA: Final-reward badge/chest display: locked or unlocked reward, collected stars and compact/adventure presentation options.
 import { useTranslation } from "react-i18next";
 
 function LeoRewardChest({

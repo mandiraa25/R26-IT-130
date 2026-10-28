@@ -1,3 +1,4 @@
+// VIVA: Compact progress display: Jungle step X of Y, Stars count and a row of filled/unfilled progress bars.
 function LeoProgressPath({ currentIndex, total, stars }) {
   const safeTotal = Math.max(total || 1, 1);
 

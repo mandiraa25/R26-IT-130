@@ -1,3 +1,18 @@
+/*
+ * FILE PURPOSE
+ * Authored listening prompts, recall questions, choices and correct answers for the instruction game.
+ *
+ * HOW IT CONNECTS
+ * getSubCategoryData selects INSTRUCTION_BANKS. InstructionsGame reads
+ * instruction/questionText/options; ImprovementPage checks the tapped choice.
+ * Direct source importers: ../index.js.
+ *
+ * THINGS TO REMEMBER
+ * English banks are grade-specific. At the bottom, Grades 2 and 4 deliberately reuse the Grade 3
+ * Sinhala bank, including its recording IDs. Some older Sinhala data is retained inside block
+ * comments. Active data and commented historical data must be distinguished.
+ */
+
 // Existing grade/language questions and metadata, grouped by game.
 export const INSTRUCTION_BANKS = {
   "2": {

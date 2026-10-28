@@ -1,4 +1,22 @@
 /*
+ * FILE PURPOSE
+ * Configuration of level colours, shared image roots and screening artwork.
+ *
+ * HOW IT CONNECTS
+ * GameLayout uses LEVEL_THEMES and UI. ImprovementPage preloads getWorkingMemoryThemeAssets.
+ * ScreeningIntro/ScreeningQuestions use SCREENING_ART.
+ * Direct source importers: ../identification/ScreeningIntro.jsx,
+ * ../identification/ScreeningQuestions.jsx, ../improvement/ActivityScreen.jsx,
+ * ../improvement/games/InstructionsGame.jsx, ../improvement/ImprovementPage.jsx,
+ * ../shared/ActivityResults.jsx, ../shared/GameLayout.jsx.
+ *
+ * THINGS TO REMEMBER
+ * Level 1 is orange, 2 green, 3 pink, 4 purple. Themes return paths into public/images/workingMemory.
+ * All tutorials use the same original How to Play board. These paths choose artwork; CSS controls its
+ * size and placement. The current level cards get artwork from levelMapCards.js instead.
+ */
+
+/*
  * Working Memory: level themes and image paths
  *
  * What is inside
@@ -42,6 +60,11 @@ export const LEVEL_THEMES = {
 
 const THEME_ROOT = "/images/workingMemory/shared/boards/how-to-play";
 
+/*
+ * FUNCTION: getWorkingMemoryThemeAssets - select the level artwork paths for preloading.
+ * ImprovementPage calls this on level changes. Clamp the requested level to 1-4;
+ * return level-specific scenery and shared tutorial/question boards. CSS places them.
+ */
 export const getWorkingMemoryThemeAssets = (levelNumber) => {
   const level = Math.min(Math.max(Number(levelNumber) || 1, 1), 4);
 

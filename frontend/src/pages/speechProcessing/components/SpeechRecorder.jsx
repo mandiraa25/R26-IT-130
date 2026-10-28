@@ -1,3 +1,4 @@
+// VIVA: Reusable microphone recorder with duration/status, playback, record-again action, support errors and optional auto-submit.
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 

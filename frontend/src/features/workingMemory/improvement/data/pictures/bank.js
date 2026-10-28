@@ -1,3 +1,18 @@
+/*
+ * FILE PURPOSE
+ * Older Picture Memory bank and per-grade/language tutorial metadata.
+ *
+ * HOW IT CONNECTS
+ * improvement/data/index.js preserves this metadata but normally replaces questions with
+ * pictures/questions.js.
+ * Direct source importers: ../index.js.
+ *
+ * THINGS TO REMEMBER
+ * These legacy emoji questions remain in the source. To explain the current image-object questions,
+ * read pictures/questions.js and the override in getSubCategoryData. words remains the persisted game
+ * key.
+ */
+
 // Existing grade/language questions and metadata, grouped by game.
 export const PICTURE_BANKS = {
   "2": {

@@ -1,33 +1,634 @@
+/*
+ * FILE PURPOSE
+ * Style file: Base forest stage, navigation, vine board, tracker, reusable controls and game layout.
+ *
+ * HOW IT CONNECTS
+ * Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900
+ * stage; the full-window background uses object-fit:cover.
+ * Direct source importers: ../shared/GameLayout.jsx.
+ *
+ * THINGS TO REMEMBER
+ * Selectors match JSX className values. width/height control size; left/top/inset position absolute
+ * elements inside a positioned parent. padding is inside space; margin is outside space; gap separates
+ * flex/grid children. Later matching rules and more specific selectors can override earlier ones.
+ * These comments preserve every existing declaration.
+ */
+
+
+/* DEPENDENCY: Load the existing shared stylesheet before the rules below. Import order affects the cascade. */
 @import url('/fonts/workingMemory/fonts.css');
+
+/* SECTION 1: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-viewport Find the matching className in the related JSX named in this file guide.
+   position:fixed places this layer; left/top/right/bottom/inset move it within its containing area;
+   font/font-size and line-height change text size and readable line spacing.
+ */
 .lx-viewport{position:fixed;inset:0;overflow:hidden;color:#2e1c0e;background:#20301f;font:600 22px/1.45 'Fredoka','Noto Sans Sinhala',sans-serif;--lx-accent:#E07B1F;--lx-dark:#B5560B;--lx-light:#FDE3C6}
-.lx-viewport *{box-sizing:border-box}.lx-viewport button{font:inherit;cursor:pointer}.lx-viewport button:disabled{cursor:not-allowed;opacity:.45}.lx-viewport button:focus-visible,.lx-viewport [role=button]:focus-visible{outline:5px solid #174d88;outline-offset:5px}.lx-background{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.lx-stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;transform-origin:center}.lx-viewport:lang(si){font-family:'Noto Sans Sinhala','Fredoka',sans-serif}
-.lx-nav{position:absolute;top:20px;left:28px;right:28px;height:74px;display:flex;align-items:center;justify-content:space-between;z-index:10}.lx-nav-left,.lx-nav-right{display:flex;align-items:center;gap:14px}.lx-nav-icon{position:relative;width:70px;height:73px;padding:0;border:0;background:none;border-radius:50%}.lx-nav-icon img{width:100%;height:100%;object-fit:contain}.lx-nav-title{height:64px;min-width:300px;max-width:920px;padding:15px 32px 18px;background:url('/images/workingMemory/shared/boards/navigation/nav-title-plank.png') center/100% 100% no-repeat;font-size:23px;font-weight:700;text-transform:uppercase;white-space:nowrap;color:#4a2410}.lx-button{min-height:60px;padding:11px 34px;border:0;border-radius:999px;background:var(--lx-dark);color:white;font-weight:700;font-size:24px;box-shadow:0 5px 0 color-mix(in srgb,var(--lx-dark),#000 20%);transition:filter .15s,translate .15s}.lx-button:hover:not(:disabled){filter:brightness(1.07);translate:0 -2px}.lx-button:active:not(:disabled){translate:0 3px}.lx-button--play{background:#14A877;box-shadow:0 5px 0 #087451}.lx-button--secondary{color:var(--lx-dark);background:#fff9ee;box-shadow:0 4px 0 var(--lx-light);border:2px solid var(--lx-accent)}.lx-actions{display:flex;justify-content:center;align-items:center;gap:24px;flex-wrap:wrap}.lx-board{position:absolute;left:300px;top:175px;width:1000px;height:580px;background:url('/images/workingMemory/shared/boards/vine/wm-vine-board.webp') center/100% 100% no-repeat;border:0}.lx-board-content{height:100%;padding:30px 44px 34px;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;gap:14px;min-width:0}.lx-board-content>*{flex-shrink:0;max-width:100%}.lx-bunny{position:absolute;left:28px;bottom:36px;height:400px;width:255px;object-fit:contain;transform:rotate(5deg);pointer-events:none;z-index:2}.lx-thought{position:absolute;left:20px;top:184px;width:262px;padding:16px 18px;border:3px solid #e7c59a;background:white;border-radius:30px;text-align:center;font-size:21px;line-height:1.5;box-shadow:0 5px 0 #2e1c0e15;z-index:2}.lx-thought p{margin:0}.lx-thought i{position:absolute;bottom:-26px;left:65%;width:18px;height:18px;background:#fff;border-radius:50%;border:2px solid #e7c59a}.lx-thought i+i{bottom:-46px;left:59%;width:11px;height:11px}.lx-question-heading{position:relative;margin:0;padding:12px 64px 12px 28px;min-height:60px;max-width:850px;display:flex;align-items:center;justify-content:center;gap:16px;background:#f8ebd6;border-radius:22px;font-size:26px;line-height:1.4;text-align:center;font-weight:700;box-shadow:inset 0 -3px 0 #ead3b0}.lx-question-heading:lang(si){font-size:24px}.lx-speaker{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:48px;height:48px;padding:0;background:none;border:0}.lx-speaker img{width:100%;height:100%;object-fit:contain}.lx-tracker{position:absolute;left:550px;top:124px;width:500px;height:55px;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;margin:0;padding:0 17px;list-style:none;background:url('/images/workingMemory/shared/boards/navigation/nav-tracker.png') center/100% 100% no-repeat;z-index:5}.lx-step{position:relative;width:45px;height:45px;justify-self:center;border-radius:50%}.lx-step.is-current{box-shadow:0 0 0 4px #fff6dc,0 0 14px 5px #ffda77;animation:lx-glow 1.8s ease-in-out infinite}.lx-step.is-upcoming{background:#2c1b0d44}.lx-step b{position:absolute;right:-6px;bottom:-4px;width:22px;height:22px;display:grid;place-items:center;border:2px solid white;border-radius:50%;background:#369b59;color:white;font-size:14px}.lx-tracker--long{left:300px;top:120px;width:1000px;height:48px;grid-template-columns:repeat(15,1fr);padding:0 8px;background-repeat:repeat-x;background-size:33.333% 100%}.lx-tracker--long .lx-step{width:48px;height:48px;background:none}.lx-step img{position:absolute;inset:0;width:100%;height:100%}.lx-step>span{position:absolute;inset:0;display:grid;place-items:center;color:white;font-size:21px;font-weight:700}.lx-tracker--long .is-upcoming{filter:brightness(.7)}.lx-timer{width:680px;padding:10px 18px;background:#fff8e9;border:2px solid #ead3b0;border-radius:18px;font-size:18px}.lx-timer>div{height:12px;border-radius:20px;background:#ebdfc9;overflow:hidden;margin-top:5px}.lx-timer i{display:block;height:100%;background:var(--lx-accent);border-radius:20px;transition:width .8s linear}.lx-note{margin:0;color:#6a4b34;font-size:20px;text-align:center}.lx-reminder{display:flex;align-items:center;justify-content:space-between;gap:28px;width:800px;padding:14px 20px;background:#fff8ea;border:2px solid #ead3b0;border-radius:20px;font-size:20px}.lx-reminder p{margin:0}.lx-row{display:flex;align-items:center;justify-content:center;gap:18px;max-width:100%}.lx-number{display:grid;place-items:center;width:84px;height:84px;min-width:64px;padding:0 0 6px;border:0;background:var(--lx-number) center/100% 100% no-repeat;color:#fff;font-size:42px;font-weight:700;text-shadow:0 3px 0 #0003}.lx-number[aria-hidden=true]{pointer-events:none}.lx-numbers-show .lx-number{width:108px;height:108px;font-size:55px}.lx-keypad{display:grid;grid-template-columns:repeat(5,70px);gap:12px}.lx-keypad .lx-number{width:70px;height:70px;font-size:32px}.lx-number-slot{width:67px;height:72px;border:2px solid var(--lx-accent);border-radius:14px;background:var(--lx-light);display:grid;place-items:center;font-size:35px;color:var(--lx-dark)}.lx-number-slot.is-empty{border-style:dashed;background:#fff9ee}.lx-picture{position:relative;width:108px;height:108px;display:grid;place-items:center;flex:0 0 auto;border-radius:18px;cursor:default}.lx-picture[role=button],.lx-picture[draggable=true]{cursor:grab}.lx-picture>img{width:100%;height:100%;object-fit:contain;pointer-events:none;border-radius:15px}.lx-picture-face{width:100%;height:100%;padding:12px;border:3px solid var(--lx-accent);border-radius:18px;background:#fff8e9;display:grid;place-items:center;box-shadow:0 4px 0 var(--lx-light)}.lx-picture-face>img{width:100%;height:100%;object-fit:contain}.lx-picture-face>span[role=img]{display:block;width:80px;height:80px;background-repeat:no-repeat}.lx-picture-slot{position:relative;display:grid;place-items:center;width:108px;height:108px;padding:0;border:2px dashed var(--lx-accent);border-radius:18px;background:var(--lx-light);font-size:36px;color:var(--lx-dark)}.lx-picture-slot>small{position:absolute;left:-7px;top:-12px;width:27px;height:27px;display:grid;place-items:center;background:var(--lx-dark);color:white;border-radius:50%;font-size:16px}.lx-picture-slot:has(.lx-picture){border-style:solid}.lx-picture-slot.is-selected{outline:4px solid #e9b526;outline-offset:3px}.lx-picture-slot .lx-picture{width:100%;height:100%}.lx-card-rows{display:flex;flex-direction:column;align-items:center;gap:28px}.lx-pattern-sequence{display:flex;align-items:center;justify-content:center;gap:12px;padding:18px 24px;background:#fffdf8;border:2px solid #eadbc4;border-radius:24px;max-width:100%}.lx-pattern-tile{width:68px;height:68px;display:grid;place-items:center;font-size:45px}.lx-pattern-tile.is-missing{border:3px dashed var(--lx-accent);border-radius:14px;background:var(--lx-light);color:var(--lx-dark);font-size:48px}.lx-pattern-symbol{width:90%;height:90%;object-fit:contain}.lx-pattern-options{display:flex;gap:24px;justify-content:center}.lx-pattern-option{position:relative;width:126px;height:126px;padding:22px;border:3px solid #efc99f;border-radius:22px;display:grid;place-items:center;background:#fff1e1;box-shadow:0 5px 0 #e5c9a3}.lx-pattern-option:nth-child(2){background:#e7f1ff;border-color:#b3cde9}.lx-pattern-option:nth-child(3){background:#e8f5e3;border-color:#a9c994}.lx-pattern-option:nth-child(4){background:#f0e8ff;border-color:#c9b5e7}.lx-pattern-option b{position:absolute;left:7px;top:5px;font-size:16px;color:#6b4831}.lx-pattern-option>span{font-size:48px}.lx-feedback{width:780px;display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center;padding:20px 28px;border:2px solid #b9d7b6;background:#f2faed;border-radius:24px}.lx-feedback.is-incorrect{border-color:#eccb9e;background:#fff6e8}.lx-feedback h2{font:700 38px/1.2 'Fredoka',sans-serif;margin:0;color:#29633c}.lx-feedback.is-incorrect h2{color:#8c5829}.lx-feedback p{margin:0;font-size:23px}.lx-feedback-summary{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap}.lx-feedback-summary .lx-picture{width:66px;height:66px}.lx-result-title{font:700 38px/1.2 'Fredoka',sans-serif;margin:0;text-align:center}.lx-score{width:780px;display:flex;justify-content:space-between;align-items:center;padding:13px 24px;color:white;border-radius:20px;background:var(--lx-accent);text-align:left}.lx-score small{display:block;font-size:17px}.lx-score strong{font-size:52px;line-height:1.15}.lx-earned-stars{display:flex;gap:8px}.lx-earned-stars img{width:47px;height:47px;filter:grayscale(1);opacity:.35}.lx-earned-stars img.is-earned{filter:none;opacity:1}.lx-result-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:800px;text-align:center}.lx-result-stats>div{padding:12px 8px;border:2px solid #a8d6ba;border-radius:16px;background:#edf9f0}.lx-result-stats>div:nth-child(2){background:#fff0f2;border-color:#edbec9}.lx-result-stats>div:nth-child(n+3){background:#fff8dd;border-color:#e6cf74}.lx-result-stats small{font-size:15px;display:block}.lx-result-stats strong{font-size:31px}.lx-result-notice{padding:8px 18px;border:1px solid #bad7bd;background:#f1faef;border-radius:14px;font-size:19px}.lx-results .lx-board-content{gap:10px;justify-content:center}.lx-listening-bunny{width:175px;height:175px;object-fit:contain}.lx-listening-scene{display:flex;align-items:center;justify-content:center;gap:24px}.lx-waves{display:flex;align-items:center;gap:6px;width:74px;height:110px;visibility:hidden}.lx-waves.is-playing{visibility:visible}.lx-waves i{display:block;width:8px;height:45px;background:var(--lx-accent);border-radius:99px;animation:lx-wave .7s ease-in-out infinite alternate}.lx-waves i:nth-child(2){height:80px;animation-delay:.2s}.lx-waves i:nth-child(3){height:105px;animation-delay:.4s}.lx-instruction-options{display:flex;flex-direction:column;gap:12px;width:820px}.lx-instruction-option{display:flex;align-items:center;gap:18px;width:100%;min-height:72px;padding:8px 18px;border:2px solid #e6d3b8;border-radius:16px;background:#fffdf8;font-size:22px;text-align:left;box-shadow:0 3px 0 #dfd2bb}.lx-instruction-option .lx-number{width:55px;height:55px;min-width:55px;font-size:27px}.lx-howto-board{position:absolute;left:330px;top:115px;width:940px;height:660px;background:url('/images/workingMemory/shared/boards/how-to-play/wm-level1-how-to-board.png') center/100% 100% no-repeat;padding:130px 100px 60px;display:flex;flex-direction:column;align-items:center;gap:24px}.lx-howto-title{position:absolute;left:0;right:0;top:43px;text-align:center;font:700 34px/1 'Fredoka',sans-serif;color:#713b13;margin:0}.lx-howto-text{font-size:24px;line-height:1.6;text-align:center;margin:0;max-width:700px}.lx-howto-video{width:640px;height:360px;background:#000;border:0;border-radius:18px}
-@keyframes lx-glow{50%{box-shadow:0 0 0 4px #fff6dc,0 0 20px 7px #ffda77}}@keyframes lx-wave{to{transform:scaleY(.6)}}
+.lx-viewport *{box-sizing:border-box}
+/* SECTION 2: QUESTION CONTENT AND ACTIONS
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+.lx-viewport button{font:inherit;cursor:pointer}/*
+   SELECTOR: .lx-viewport button:disabled Find the matching className in the related JSX named in this
+   file guide. disabled/locked styling explains availability; actual click guards and unlock rules live
+   in JS/backend.
+ */
+.lx-viewport button:disabled{cursor:not-allowed;opacity:.45}/*
+   SELECTOR: .lx-viewport button:focus-visible,.lx-viewport [role=button]:focus-visible Find the matching
+   className in the related JSX named in this file guide. focus-visible provides a visible keyboard focus
+   indicator.
+ */
+.lx-viewport button:focus-visible,.lx-viewport [role=button]:focus-visible{outline:5px solid #174d88;outline-offset:5px}
+/* SECTION 3: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-background Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   width/height/max-width control this element size.
+ */
+.lx-background{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}/*
+   SELECTOR: .lx-stage Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   width/height/max-width control this element size.
+ */
+.lx-stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;transform-origin:center}.lx-viewport:lang(si){font-family:'Noto Sans Sinhala','Fredoka',sans-serif}
+
+/* SECTION 4: TOP NAVIGATION AND CONTROLS
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-nav Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   flex arranges children along a row/column; align-items and justify-content align them, gap separates
+   them; z-index controls which overlapping layer appears in front; width/height/max-width control this
+   element size.
+ */
+.lx-nav{position:absolute;top:20px;left:28px;right:28px;height:74px;display:flex;align-items:center;justify-content:space-between;z-index:10}/*
+   SELECTOR: .lx-nav-left,.lx-nav-right Find the matching className in the related JSX named in this file
+   guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; padding is inside space, margin is outside space and gap separates children.
+ */
+.lx-nav-left,.lx-nav-right{display:flex;align-items:center;gap:14px}/*
+   SELECTOR: .lx-nav-icon Find the matching className in the related JSX named in this file guide.
+   position:relative makes this element an anchor for absolutely positioned children;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
+.lx-nav-icon{position:relative;width:70px;height:73px;padding:0;border:0;background:none;border-radius:50%}.lx-nav-icon img{width:100%;height:100%;object-fit:contain}/*
+   SELECTOR: .lx-nav-title Find the matching className in the related JSX named in this file guide. the
+   URL selects artwork; background-size or object-fit determines how it fits; font/font-size and
+   line-height change text size and readable line spacing; width/height/max-width control this element
+   size; padding is inside space, margin is outside space and gap separates children.
+ */
+.lx-nav-title{height:64px;min-width:300px;max-width:920px;padding:15px 32px 18px;background:url('/images/workingMemory/shared/boards/navigation/nav-title-plank.png') center/100% 100% no-repeat;font-size:23px;font-weight:700;text-transform:uppercase;white-space:nowrap;color:#4a2410}
+/* SECTION 5: QUESTION CONTENT AND ACTIONS
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-button Find the matching className in the related JSX named in this file guide.
+   font/font-size and line-height change text size and readable line spacing; padding is inside space,
+   margin is outside space and gap separates children.
+ */
+.lx-button{min-height:60px;padding:11px 34px;border:0;border-radius:999px;background:var(--lx-dark);color:white;font-weight:700;font-size:24px;box-shadow:0 5px 0 color-mix(in srgb,var(--lx-dark),#000 20%);transition:filter .15s,translate .15s}/*
+   SELECTOR: .lx-button:hover:not(:disabled) Find the matching className in the related JSX named in this
+   file guide. :hover applies while the pointer is over the element; disabled/locked styling explains
+   availability; actual click guards and unlock rules live in JS/backend.
+ */
+.lx-button:hover:not(:disabled){filter:brightness(1.07);translate:0 -2px}/*
+   SELECTOR: .lx-button:active:not(:disabled) Find the matching className in the related JSX named in
+   this file guide. disabled/locked styling explains availability; actual click guards and unlock rules
+   live in JS/backend.
+ */
+.lx-button:active:not(:disabled){translate:0 3px}.lx-button--play{background:#14A877;box-shadow:0 5px 0 #087451}.lx-button--secondary{color:var(--lx-dark);background:#fff9ee;box-shadow:0 4px 0 var(--lx-light);border:2px solid var(--lx-accent)}/*
+   SELECTOR: .lx-actions Find the matching className in the related JSX named in this file guide. flex
+   arranges children along a row/column; align-items and justify-content align them, gap separates them;
+   padding is inside space, margin is outside space and gap separates children.
+ */
+.lx-actions{display:flex;justify-content:center;align-items:center;gap:24px;flex-wrap:wrap}
+/* SECTION 6: VINE BOARD AND ITS CONTENT
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-board Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   the URL selects artwork; background-size or object-fit determines how it fits; width/height/max-width
+   control this element size.
+ */
+.lx-board{position:absolute;left:300px;top:175px;width:1000px;height:580px;background:url('/images/workingMemory/shared/boards/vine/wm-vine-board.webp') center/100% 100% no-repeat;border:0}/*
+   SELECTOR: .lx-board-content Find the matching className in the related JSX named in this file guide.
+   flex arranges children along a row/column; align-items and justify-content align them, gap separates
+   them; width/height/max-width control this element size; padding is inside space, margin is outside
+   space and gap separates children.
+ */
+.lx-board-content{height:100%;padding:30px 44px 34px;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;gap:14px;min-width:0}.lx-board-content>*{flex-shrink:0;max-width:100%}
+/* SECTION 7: BUNNY AND THOUGHT BUBBLE
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-bunny Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   z-index controls which overlapping layer appears in front; transform/scale moves, rotates or resizes
+   the drawn element without changing its normal layout space; width/height/max-width control this
+   element size.
+ */
+.lx-bunny{position:absolute;left:28px;bottom:36px;height:400px;width:255px;object-fit:contain;transform:rotate(5deg);pointer-events:none;z-index:2}/*
+   SELECTOR: .lx-thought Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   z-index controls which overlapping layer appears in front; font/font-size and line-height change text
+   size and readable line spacing; width/height/max-width control this element size; padding is inside
+   space, margin is outside space and gap separates children.
+ */
+.lx-thought{position:absolute;left:20px;top:184px;width:262px;padding:16px 18px;border:3px solid #e7c59a;background:white;border-radius:30px;text-align:center;font-size:21px;line-height:1.5;box-shadow:0 5px 0 #2e1c0e15;z-index:2}.lx-thought p{margin:0}/*
+   SELECTOR: .lx-thought i Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   width/height/max-width control this element size.
+ */
+.lx-thought i{position:absolute;bottom:-26px;left:65%;width:18px;height:18px;background:#fff;border-radius:50%;border:2px solid #e7c59a}.lx-thought i+i{bottom:-46px;left:59%;width:11px;height:11px}
+/* SECTION 8: QUESTION CONTENT AND ACTIONS
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-question-heading Find the matching className in the related JSX named in this file
+   guide. position:relative makes this element an anchor for absolutely positioned children; flex
+   arranges children along a row/column; align-items and justify-content align them, gap separates them;
+   font/font-size and line-height change text size and readable line spacing; width/height/max-width
+   control this element size; padding is inside space, margin is outside space and gap separates
+   children.
+ */
+.lx-question-heading{position:relative;margin:0;padding:12px 64px 12px 28px;min-height:60px;max-width:850px;display:flex;align-items:center;justify-content:center;gap:16px;background:#f8ebd6;border-radius:22px;font-size:26px;line-height:1.4;text-align:center;font-weight:700;box-shadow:inset 0 -3px 0 #ead3b0}/*
+   SELECTOR: .lx-question-heading:lang(si) Find the matching className in the related JSX named in this
+   file guide. this matching language/state selector adjusts Sinhala presentation; font/font-size and
+   line-height change text size and readable line spacing.
+ */
+.lx-question-heading:lang(si){font-size:24px}
+/* SECTION 9: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-speaker Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   transform/scale moves, rotates or resizes the drawn element without changing its normal layout space;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
+.lx-speaker{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:48px;height:48px;padding:0;background:none;border:0}.lx-speaker img{width:100%;height:100%;object-fit:contain}
+/* SECTION 10: QUESTION PROGRESS TRACKER
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-tracker Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   grid arranges children into defined rows/columns; grid-template values set their sizes; z-index
+   controls which overlapping layer appears in front; the URL selects artwork; background-size or
+   object-fit determines how it fits; width/height/max-width control this element size; padding is inside
+   space, margin is outside space and gap separates children.
+ */
+.lx-tracker{position:absolute;left:550px;top:124px;width:500px;height:55px;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;margin:0;padding:0 17px;list-style:none;background:url('/images/workingMemory/shared/boards/navigation/nav-tracker.png') center/100% 100% no-repeat;z-index:5}/*
+   SELECTOR: .lx-step Find the matching className in the related JSX named in this file guide.
+   position:relative makes this element an anchor for absolutely positioned children;
+   width/height/max-width control this element size.
+ */
+.lx-step{position:relative;width:45px;height:45px;justify-self:center;border-radius:50%}.lx-step.is-current{box-shadow:0 0 0 4px #fff6dc,0 0 14px 5px #ffda77;animation:lx-glow 1.8s ease-in-out infinite}.lx-step.is-upcoming{background:#2c1b0d44}/*
+   SELECTOR: .lx-step b Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   grid arranges children into defined rows/columns; grid-template values set their sizes; font/font-size
+   and line-height change text size and readable line spacing; width/height/max-width control this
+   element size.
+ */
+.lx-step b{position:absolute;right:-6px;bottom:-4px;width:22px;height:22px;display:grid;place-items:center;border:2px solid white;border-radius:50%;background:#369b59;color:white;font-size:14px}/*
+   SELECTOR: .lx-tracker--long Find the matching className in the related JSX named in this file guide.
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
+.lx-tracker--long{left:300px;top:120px;width:1000px;height:48px;grid-template-columns:repeat(15,1fr);padding:0 8px;background-repeat:repeat-x;background-size:33.333% 100%}.lx-tracker--long .lx-step{width:48px;height:48px;background:none}/*
+   SELECTOR: .lx-step img Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   width/height/max-width control this element size.
+ */
+.lx-step img{position:absolute;inset:0;width:100%;height:100%}/*
+   SELECTOR: .lx-step>span Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   grid arranges children into defined rows/columns; grid-template values set their sizes; font/font-size
+   and line-height change text size and readable line spacing.
+ */
+.lx-step>span{position:absolute;inset:0;display:grid;place-items:center;color:white;font-size:21px;font-weight:700}.lx-tracker--long .is-upcoming{filter:brightness(.7)}
+/* SECTION 11: QUESTION CONTENT AND ACTIONS
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-timer Find the matching className in the related JSX named in this file guide.
+   font/font-size and line-height change text size and readable line spacing; width/height/max-width
+   control this element size; padding is inside space, margin is outside space and gap separates
+   children.
+ */
+.lx-timer{width:680px;padding:10px 18px;background:#fff8e9;border:2px solid #ead3b0;border-radius:18px;font-size:18px}.lx-timer>div{height:12px;border-radius:20px;background:#ebdfc9;overflow:hidden;margin-top:5px}.lx-timer i{display:block;height:100%;background:var(--lx-accent);border-radius:20px;transition:width .8s linear}
+/* SECTION 12: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-note Find the matching className in the related JSX named in this file guide.
+   font/font-size and line-height change text size and readable line spacing; padding is inside space,
+   margin is outside space and gap separates children.
+ */
+.lx-note{margin:0;color:#6a4b34;font-size:20px;text-align:center}
+/* SECTION 13: QUESTION CONTENT AND ACTIONS
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-reminder Find the matching className in the related JSX named in this file guide. flex
+   arranges children along a row/column; align-items and justify-content align them, gap separates them;
+   font/font-size and line-height change text size and readable line spacing; width/height/max-width
+   control this element size; padding is inside space, margin is outside space and gap separates
+   children.
+ */
+.lx-reminder{display:flex;align-items:center;justify-content:space-between;gap:28px;width:800px;padding:14px 20px;background:#fff8ea;border:2px solid #ead3b0;border-radius:20px;font-size:20px}.lx-reminder p{margin:0}
+/* SECTION 14: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-row Find the matching className in the related JSX named in this file guide. flex
+   arranges children along a row/column; align-items and justify-content align them, gap separates them;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
+.lx-row{display:flex;align-items:center;justify-content:center;gap:18px;max-width:100%}
+/* SECTION 15: NUMBER STUDY AND KEYPAD
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-number Find the matching className in the related JSX named in this file guide. grid
+   arranges children into defined rows/columns; grid-template values set their sizes; font/font-size and
+   line-height change text size and readable line spacing; width/height/max-width control this element
+   size; padding is inside space, margin is outside space and gap separates children.
+ */
+.lx-number{display:grid;place-items:center;width:84px;height:84px;min-width:64px;padding:0 0 6px;border:0;background:var(--lx-number) center/100% 100% no-repeat;color:#fff;font-size:42px;font-weight:700;text-shadow:0 3px 0 #0003}.lx-number[aria-hidden=true]{pointer-events:none}/*
+   SELECTOR: .lx-numbers-show .lx-number Find the matching className in the related JSX named in this
+   file guide. font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size.
+ */
+.lx-numbers-show .lx-number{width:108px;height:108px;font-size:55px}/*
+   SELECTOR: .lx-keypad Find the matching className in the related JSX named in this file guide. grid
+   arranges children into defined rows/columns; grid-template values set their sizes; padding is inside
+   space, margin is outside space and gap separates children.
+ */
+.lx-keypad{display:grid;grid-template-columns:repeat(5,70px);gap:12px}/*
+   SELECTOR: .lx-keypad .lx-number Find the matching className in the related JSX named in this file
+   guide. font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size.
+ */
+.lx-keypad .lx-number{width:70px;height:70px;font-size:32px}/*
+   SELECTOR: .lx-number-slot Find the matching className in the related JSX named in this file guide.
+   grid arranges children into defined rows/columns; grid-template values set their sizes; font/font-size
+   and line-height change text size and readable line spacing; width/height/max-width control this
+   element size.
+ */
+.lx-number-slot{width:67px;height:72px;border:2px solid var(--lx-accent);border-radius:14px;background:var(--lx-light);display:grid;place-items:center;font-size:35px;color:var(--lx-dark)}.lx-number-slot.is-empty{border-style:dashed;background:#fff9ee}
+/* SECTION 16: PICTURE STUDY AND RECALL
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-picture Find the matching className in the related JSX named in this file guide.
+   position:relative makes this element an anchor for absolutely positioned children; grid arranges
+   children into defined rows/columns; grid-template values set their sizes; width/height/max-width
+   control this element size.
+ */
+.lx-picture{position:relative;width:108px;height:108px;display:grid;place-items:center;flex:0 0 auto;border-radius:18px;cursor:default}.lx-picture[role=button],.lx-picture[draggable=true]{cursor:grab}.lx-picture>img{width:100%;height:100%;object-fit:contain;pointer-events:none;border-radius:15px}/*
+   SELECTOR: .lx-picture-face Find the matching className in the related JSX named in this file guide.
+   grid arranges children into defined rows/columns; grid-template values set their sizes;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
+.lx-picture-face{width:100%;height:100%;padding:12px;border:3px solid var(--lx-accent);border-radius:18px;background:#fff8e9;display:grid;place-items:center;box-shadow:0 4px 0 var(--lx-light)}.lx-picture-face>img{width:100%;height:100%;object-fit:contain}.lx-picture-face>span[role=img]{display:block;width:80px;height:80px;background-repeat:no-repeat}/*
+   SELECTOR: .lx-picture-slot Find the matching className in the related JSX named in this file guide.
+   position:relative makes this element an anchor for absolutely positioned children; grid arranges
+   children into defined rows/columns; grid-template values set their sizes; font/font-size and
+   line-height change text size and readable line spacing; width/height/max-width control this element
+   size; padding is inside space, margin is outside space and gap separates children.
+ */
+.lx-picture-slot{position:relative;display:grid;place-items:center;width:108px;height:108px;padding:0;border:2px dashed var(--lx-accent);border-radius:18px;background:var(--lx-light);font-size:36px;color:var(--lx-dark)}/*
+   SELECTOR: .lx-picture-slot>small Find the matching className in the related JSX named in this file
+   guide. position:absolute places this layer; left/top/right/bottom/inset move it within its containing
+   area; grid arranges children into defined rows/columns; grid-template values set their sizes;
+   font/font-size and line-height change text size and readable line spacing; width/height/max-width
+   control this element size.
+ */
+.lx-picture-slot>small{position:absolute;left:-7px;top:-12px;width:27px;height:27px;display:grid;place-items:center;background:var(--lx-dark);color:white;border-radius:50%;font-size:16px}.lx-picture-slot:has(.lx-picture){border-style:solid}/*
+   SELECTOR: .lx-picture-slot.is-selected Find the matching className in the related JSX named in this
+   file guide. the selected class/attribute is supplied by JSX answer-selection state.
+ */
+.lx-picture-slot.is-selected{outline:4px solid #e9b526;outline-offset:3px}.lx-picture-slot .lx-picture{width:100%;height:100%}/*
+   SELECTOR: .lx-card-rows Find the matching className in the related JSX named in this file guide. flex
+   arranges children along a row/column; align-items and justify-content align them, gap separates them;
+   padding is inside space, margin is outside space and gap separates children.
+ */
+.lx-card-rows{display:flex;flex-direction:column;align-items:center;gap:28px}
+/* SECTION 17: PATTERN QUESTION AND ARTWORK
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-pattern-sequence Find the matching className in the related JSX named in this file
+   guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; width/height/max-width control this element size; padding is inside space, margin is
+   outside space and gap separates children.
+ */
+.lx-pattern-sequence{display:flex;align-items:center;justify-content:center;gap:12px;padding:18px 24px;background:#fffdf8;border:2px solid #eadbc4;border-radius:24px;max-width:100%}/*
+   SELECTOR: .lx-pattern-tile Find the matching className in the related JSX named in this file guide.
+   grid arranges children into defined rows/columns; grid-template values set their sizes; font/font-size
+   and line-height change text size and readable line spacing; width/height/max-width control this
+   element size.
+ */
+.lx-pattern-tile{width:68px;height:68px;display:grid;place-items:center;font-size:45px}.lx-pattern-tile.is-missing{border:3px dashed var(--lx-accent);border-radius:14px;background:var(--lx-light);color:var(--lx-dark);font-size:48px}.lx-pattern-symbol{width:90%;height:90%;object-fit:contain}/*
+   SELECTOR: .lx-pattern-options Find the matching className in the related JSX named in this file guide.
+   flex arranges children along a row/column; align-items and justify-content align them, gap separates
+   them; padding is inside space, margin is outside space and gap separates children.
+ */
+.lx-pattern-options{display:flex;gap:24px;justify-content:center}/*
+   SELECTOR: .lx-pattern-option Find the matching className in the related JSX named in this file guide.
+   position:relative makes this element an anchor for absolutely positioned children; grid arranges
+   children into defined rows/columns; grid-template values set their sizes; width/height/max-width
+   control this element size; padding is inside space, margin is outside space and gap separates
+   children.
+ */
+.lx-pattern-option{position:relative;width:126px;height:126px;padding:22px;border:3px solid #efc99f;border-radius:22px;display:grid;place-items:center;background:#fff1e1;box-shadow:0 5px 0 #e5c9a3}.lx-pattern-option:nth-child(2){background:#e7f1ff;border-color:#b3cde9}.lx-pattern-option:nth-child(3){background:#e8f5e3;border-color:#a9c994}.lx-pattern-option:nth-child(4){background:#f0e8ff;border-color:#c9b5e7}/*
+   SELECTOR: .lx-pattern-option b Find the matching className in the related JSX named in this file
+   guide. position:absolute places this layer; left/top/right/bottom/inset move it within its containing
+   area; font/font-size and line-height change text size and readable line spacing.
+ */
+.lx-pattern-option b{position:absolute;left:7px;top:5px;font-size:16px;color:#6b4831}.lx-pattern-option>span{font-size:48px}
+/* SECTION 18: CORRECT AND INCORRECT FEEDBACK
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-feedback Find the matching className in the related JSX named in this file guide. flex
+   arranges children along a row/column; align-items and justify-content align them, gap separates them;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
+.lx-feedback{width:780px;display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center;padding:20px 28px;border:2px solid #b9d7b6;background:#f2faed;border-radius:24px}/*
+   SELECTOR: .lx-feedback.is-incorrect Find the matching className in the related JSX named in this file
+   guide. correct/incorrect classes change feedback appearance; correctness is calculated in JavaScript.
+ */
+.lx-feedback.is-incorrect{border-color:#eccb9e;background:#fff6e8}/*
+   SELECTOR: .lx-feedback h2 Find the matching className in the related JSX named in this file guide.
+   font/font-size and line-height change text size and readable line spacing; padding is inside space,
+   margin is outside space and gap separates children.
+ */
+.lx-feedback h2{font:700 38px/1.2 'Fredoka',sans-serif;margin:0;color:#29633c}/*
+   SELECTOR: .lx-feedback.is-incorrect h2 Find the matching className in the related JSX named in this
+   file guide. correct/incorrect classes change feedback appearance; correctness is calculated in
+   JavaScript.
+ */
+.lx-feedback.is-incorrect h2{color:#8c5829}/*
+   SELECTOR: .lx-feedback p Find the matching className in the related JSX named in this file guide.
+   font/font-size and line-height change text size and readable line spacing; padding is inside space,
+   margin is outside space and gap separates children.
+ */
+.lx-feedback p{margin:0;font-size:23px}/*
+   SELECTOR: .lx-feedback-summary Find the matching className in the related JSX named in this file
+   guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; padding is inside space, margin is outside space and gap separates children.
+ */
+.lx-feedback-summary{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap}.lx-feedback-summary .lx-picture{width:66px;height:66px}
+/* SECTION 19: RESULTS, REWARDS AND COMPLETION
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-result-title Find the matching className in the related JSX named in this file guide.
+   font/font-size and line-height change text size and readable line spacing; padding is inside space,
+   margin is outside space and gap separates children.
+ */
+.lx-result-title{font:700 38px/1.2 'Fredoka',sans-serif;margin:0;text-align:center}/*
+   SELECTOR: .lx-score Find the matching className in the related JSX named in this file guide. flex
+   arranges children along a row/column; align-items and justify-content align them, gap separates them;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
+.lx-score{width:780px;display:flex;justify-content:space-between;align-items:center;padding:13px 24px;color:white;border-radius:20px;background:var(--lx-accent);text-align:left}.lx-score small{display:block;font-size:17px}.lx-score strong{font-size:52px;line-height:1.15}
+/* SECTION 20: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-earned-stars Find the matching className in the related JSX named in this file guide.
+   flex arranges children along a row/column; align-items and justify-content align them, gap separates
+   them; padding is inside space, margin is outside space and gap separates children.
+ */
+.lx-earned-stars{display:flex;gap:8px}.lx-earned-stars img{width:47px;height:47px;filter:grayscale(1);opacity:.35}.lx-earned-stars img.is-earned{filter:none;opacity:1}
+/* SECTION 21: RESULTS, REWARDS AND COMPLETION
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-result-stats Find the matching className in the related JSX named in this file guide.
+   grid arranges children into defined rows/columns; grid-template values set their sizes;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
+.lx-result-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:800px;text-align:center}.lx-result-stats>div{padding:12px 8px;border:2px solid #a8d6ba;border-radius:16px;background:#edf9f0}.lx-result-stats>div:nth-child(2){background:#fff0f2;border-color:#edbec9}.lx-result-stats>div:nth-child(n+3){background:#fff8dd;border-color:#e6cf74}.lx-result-stats small{font-size:15px;display:block}.lx-result-stats strong{font-size:31px}/*
+   SELECTOR: .lx-result-notice Find the matching className in the related JSX named in this file guide.
+   font/font-size and line-height change text size and readable line spacing; padding is inside space,
+   margin is outside space and gap separates children.
+ */
+.lx-result-notice{padding:8px 18px;border:1px solid #bad7bd;background:#f1faef;border-radius:14px;font-size:19px}.lx-results .lx-board-content{gap:10px;justify-content:center}
+/* SECTION 22: BUNNY AND THOUGHT BUBBLE
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+.lx-listening-bunny{width:175px;height:175px;object-fit:contain}
+/* SECTION 23: LISTENING AND INSTRUCTION ANSWERS
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-listening-scene Find the matching className in the related JSX named in this file guide.
+   flex arranges children along a row/column; align-items and justify-content align them, gap separates
+   them; padding is inside space, margin is outside space and gap separates children.
+ */
+.lx-listening-scene{display:flex;align-items:center;justify-content:center;gap:24px}/*
+   SELECTOR: .lx-waves Find the matching className in the related JSX named in this file guide. flex
+   arranges children along a row/column; align-items and justify-content align them, gap separates them;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
+.lx-waves{display:flex;align-items:center;gap:6px;width:74px;height:110px;visibility:hidden}.lx-waves.is-playing{visibility:visible}.lx-waves i{display:block;width:8px;height:45px;background:var(--lx-accent);border-radius:99px;animation:lx-wave .7s ease-in-out infinite alternate}.lx-waves i:nth-child(2){height:80px;animation-delay:.2s}.lx-waves i:nth-child(3){height:105px;animation-delay:.4s}/*
+   SELECTOR: .lx-instruction-options Find the matching className in the related JSX named in this file
+   guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; width/height/max-width control this element size; padding is inside space, margin is
+   outside space and gap separates children.
+ */
+.lx-instruction-options{display:flex;flex-direction:column;gap:12px;width:820px}/*
+   SELECTOR: .lx-instruction-option Find the matching className in the related JSX named in this file
+   guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
+.lx-instruction-option{display:flex;align-items:center;gap:18px;width:100%;min-height:72px;padding:8px 18px;border:2px solid #e6d3b8;border-radius:16px;background:#fffdf8;font-size:22px;text-align:left;box-shadow:0 3px 0 #dfd2bb}
+/* SECTION 24: NUMBER STUDY AND KEYPAD
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-instruction-option .lx-number Find the matching className in the related JSX named in
+   this file guide. font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size.
+ */
+.lx-instruction-option .lx-number{width:55px;height:55px;min-width:55px;font-size:27px}
+/* SECTION 25: HOW TO PLAY VIDEO BOARD
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-howto-board Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   flex arranges children along a row/column; align-items and justify-content align them, gap separates
+   them; the URL selects artwork; background-size or object-fit determines how it fits;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
+.lx-howto-board{position:absolute;left:330px;top:115px;width:940px;height:660px;background:url('/images/workingMemory/shared/boards/how-to-play/wm-level1-how-to-board.png') center/100% 100% no-repeat;padding:130px 100px 60px;display:flex;flex-direction:column;align-items:center;gap:24px}/*
+   SELECTOR: .lx-howto-title Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   font/font-size and line-height change text size and readable line spacing; padding is inside space,
+   margin is outside space and gap separates children.
+ */
+.lx-howto-title{position:absolute;left:0;right:0;top:43px;text-align:center;font:700 34px/1 'Fredoka',sans-serif;color:#713b13;margin:0}/*
+   SELECTOR: .lx-howto-text Find the matching className in the related JSX named in this file guide.
+   font/font-size and line-height change text size and readable line spacing; width/height/max-width
+   control this element size; padding is inside space, margin is outside space and gap separates
+   children.
+ */
+.lx-howto-text{font-size:24px;line-height:1.6;text-align:center;margin:0;max-width:700px}.lx-howto-video{width:640px;height:360px;background:#000;border:0;border-radius:18px}
+
+/* ANIMATION: lx-glow. Keyframes describe the intermediate visual states; matching animation declarations start them. */
+@keyframes lx-glow{50%{box-shadow:0 0 0 4px #fff6dc,0 0 20px 7px #ffda77}}
+/* ANIMATION: lx-wave. Keyframes describe the intermediate visual states; matching animation declarations start them. */
+@keyframes lx-wave{to{transform:scaleY(.6)}}
+
+/* MEDIA QUERY: (prefers-reduced-motion:reduce). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media(prefers-reduced-motion:reduce){.lx-viewport *{animation:none!important;transition:none!important}}
-.lx-map .lx-nav-left .lx-nav-title{visibility:hidden}.lx-level-cards{position:absolute;left:66px;right:66px;top:282px;display:grid;grid-template-columns:repeat(4,1fr);gap:34px}.lx-level-card{position:relative;height:516px;border:6px solid var(--card-accent);padding:12px 12px 22px;border-radius:40px;background:#fff8ec;display:flex;flex-direction:column;align-items:center;box-shadow:0 10px 0 #0002,0 18px 24px #0003;transition:translate .15s}.lx-level-card:hover:not(:disabled){translate:0 -5px}.lx-level-card h2{font:700 39px/1 'Fredoka',sans-serif;margin:16px 0 14px}.lx-level-cta{display:grid;place-items:center;width:88%;min-height:65px;border-radius:999px;background:var(--card-accent);color:white;box-shadow:0 5px 0 var(--card-dark);font:700 30px/1 'Fredoka',sans-serif}.lx-level-cta.is-locked{background:#fff8eb;border:2px solid var(--card-accent);color:#46311d;box-shadow:none}.lx-map-notice{position:absolute;left:100px;right:100px;bottom:17px;text-align:center;font-size:21px;z-index:8}.lx-map-notice:not(:empty){padding:8px 20px;border-radius:24px;background:#fff8ecd9;max-width:1100px;margin:auto}.lx-map-notice p{margin:0 0 12px}.lx-menu-board{position:absolute;left:230px;top:118px;width:1140px;height:760px;background:url('/images/workingMemory/shared/boards/vine/wm-vine-board.webp') center/100% 100% no-repeat}
+
+/* SECTION 26: TOP NAVIGATION AND CONTROLS
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+.lx-map .lx-nav-left .lx-nav-title{visibility:hidden}
+/* SECTION 27: LEVEL MAP AND ILLUSTRATED CARDS
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-level-cards Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   grid arranges children into defined rows/columns; grid-template values set their sizes; padding is
+   inside space, margin is outside space and gap separates children.
+ */
+.lx-level-cards{position:absolute;left:66px;right:66px;top:282px;display:grid;grid-template-columns:repeat(4,1fr);gap:34px}/*
+   SELECTOR: .lx-level-card Find the matching className in the related JSX named in this file guide.
+   position:relative makes this element an anchor for absolutely positioned children; flex arranges
+   children along a row/column; align-items and justify-content align them, gap separates them;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
+.lx-level-card{position:relative;height:516px;border:6px solid var(--card-accent);padding:12px 12px 22px;border-radius:40px;background:#fff8ec;display:flex;flex-direction:column;align-items:center;box-shadow:0 10px 0 #0002,0 18px 24px #0003;transition:translate .15s}/*
+   SELECTOR: .lx-level-card:hover:not(:disabled) Find the matching className in the related JSX named in
+   this file guide. :hover applies while the pointer is over the element; disabled/locked styling
+   explains availability; actual click guards and unlock rules live in JS/backend.
+ */
+.lx-level-card:hover:not(:disabled){translate:0 -5px}/*
+   SELECTOR: .lx-level-card h2 Find the matching className in the related JSX named in this file guide.
+   font/font-size and line-height change text size and readable line spacing; padding is inside space,
+   margin is outside space and gap separates children.
+ */
+.lx-level-card h2{font:700 39px/1 'Fredoka',sans-serif;margin:16px 0 14px}
+/* SECTION 28: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-level-cta Find the matching className in the related JSX named in this file guide. grid
+   arranges children into defined rows/columns; grid-template values set their sizes; font/font-size and
+   line-height change text size and readable line spacing; width/height/max-width control this element
+   size.
+ */
+.lx-level-cta{display:grid;place-items:center;width:88%;min-height:65px;border-radius:999px;background:var(--card-accent);color:white;box-shadow:0 5px 0 var(--card-dark);font:700 30px/1 'Fredoka',sans-serif}.lx-level-cta.is-locked{background:#fff8eb;border:2px solid var(--card-accent);color:#46311d;box-shadow:none}
+/* SECTION 29: LEVEL MAP AND ILLUSTRATED CARDS
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-map-notice Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   z-index controls which overlapping layer appears in front; font/font-size and line-height change text
+   size and readable line spacing.
+ */
+.lx-map-notice{position:absolute;left:100px;right:100px;bottom:17px;text-align:center;font-size:21px;z-index:8}/*
+   SELECTOR: .lx-map-notice:not(:empty) Find the matching className in the related JSX named in this file
+   guide. width/height/max-width control this element size; padding is inside space, margin is outside
+   space and gap separates children.
+ */
+.lx-map-notice:not(:empty){padding:8px 20px;border-radius:24px;background:#fff8ecd9;max-width:1100px;margin:auto}.lx-map-notice p{margin:0 0 12px}
+/* SECTION 30: VINE BOARD AND ITS CONTENT
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-menu-board Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   the URL selects artwork; background-size or object-fit determines how it fits; width/height/max-width
+   control this element size.
+ */
+.lx-menu-board{position:absolute;left:230px;top:118px;width:1140px;height:760px;background:url('/images/workingMemory/shared/boards/vine/wm-vine-board.webp') center/100% 100% no-repeat}
+
+/* SECTION 31: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
 .lx-viewport.lx-screening{display:block;padding:0;color:#483622;font-family:Fredoka,'Noto Sans Sinhala',sans-serif}
 .lx-screening .wm-screen__wrap{width:1600px;max-width:none}
 .lx-screening .wm-screen__stage{position:static}
+
+/* SECTION 32: QUESTION PROGRESS TRACKER
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-screening .wm-screen__tracking Find the matching className in the related JSX named in
+   this file guide. position:absolute places this layer; left/top/right/bottom/inset move it within its
+   containing area; width/height/max-width control this element size; padding is inside space, margin is
+   outside space and gap separates children.
+ */
 .lx-screening .wm-screen__tracking{position:absolute;left:330px;top:94px;width:940px;margin:0;gap:12px}
 .lx-screening .wm-screen__stars{padding:4px 14px;background:#fff8eacc}
 .lx-screening .wm-screen__stars svg{width:20px;height:20px}
+/*
+   SELECTOR: .lx-screening .wm-screen__count Find the matching className in the related JSX named in this
+   file guide. position:absolute places this layer; left/top/right/bottom/inset move it within its
+   containing area; font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .lx-screening .wm-screen__count{position:absolute;left:980px;top:30px;width:190px;text-align:center;font-size:17px;padding:9px}
+
+/* SECTION 33: VINE BOARD AND ITS CONTENT
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-screening .wm-screen__board-content Find the matching className in the related JSX named
+   in this file guide. flex arranges children along a row/column; align-items and justify-content align
+   them, gap separates them; width/height/max-width control this element size; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .lx-screening .wm-screen__board-content{container-type:inline-size;width:100%;height:100%;min-height:0;padding:0;gap:10px;display:flex;flex-direction:column}
+
+/* SECTION 34: QUESTION CONTENT AND ACTIONS
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
 .lx-screening .wm-screen__question-content{gap:12px;padding:4px 0;justify-content:center}
 .lx-screening .wm-screen__question-title{font-size:28px}
 .lx-screening .wm-screen__option{font-family:inherit;min-height:60px}
+
+/* SECTION 35: LISTENING AND INSTRUCTION ANSWERS
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
 .lx-screening .wm-screen__listen,.lx-screening .wm-screen__primary{font-family:inherit;min-height:60px}
+
+/* SECTION 36: RESULTS, REWARDS AND COMPLETION
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-screening .wm-screen__complete Find the matching className in the related JSX named in
+   this file guide. width/height/max-width control this element size; padding is inside space, margin is
+   outside space and gap separates children.
+ */
 .lx-screening .wm-screen__complete{gap:10px;height:100%}
 .lx-screening .wm-screen__complete header h1{font-size:28px}
+/*
+   SELECTOR: .lx-screening .wm-screen__complete header p Find the matching className in the related JSX
+   named in this file guide. font/font-size and line-height change text size and readable line spacing;
+   padding is inside space, margin is outside space and gap separates children.
+ */
 .lx-screening .wm-screen__complete header p{font-size:16px;margin:4px 0}
 .lx-screening .wm-screen__results{min-height:0;flex:1}
 .lx-screening .wm-screen__score strong{font-size:54px}
 .lx-screening .wm-screen__result-actions{gap:10px}
 .lx-screening .wm-screen__result-actions button{min-height:60px;font-size:19px}
+
+/* SECTION 37: SCREENING WELCOME AND RULES
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
+/*
+   SELECTOR: .lx-screening-intro .wm-intro-scene Find the matching className in the related JSX named in
+   this file guide. position:absolute places this layer; left/top/right/bottom/inset move it within its
+   containing area; padding is inside space, margin is outside space and gap separates children.
+ */
 .lx-screening-intro .wm-intro-scene{position:absolute;inset:0;min-height:900px;padding:104px 24px 24px;font-family:inherit}
 .lx-screening-intro .wm-intro-panel{width:830px;max-width:830px}
 .lx-screening-intro .wm-intro-panel--rules{width:760px}
 .lx-screening-intro .wm-intro-dimmer{position:absolute;pointer-events:none}
+
+/* SECTION 38: QUESTION PROGRESS TRACKER
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
 .lx-tracker{padding:0}
+
+/* SECTION 39: VINE BOARD AND ITS CONTENT
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
 .lx-screening .wm-screen__board-content{position:relative;inset:auto}
+
+/* SECTION 40: TOP NAVIGATION AND CONTROLS
+   Imported by shared/GameLayout.jsx and then refined by screen styles. MemoryStage scales a 1600x900 stage; the full-window background uses object-fit:cover. */
 .lx-nav-right { --wooden-control-height:65px; --wooden-music-height:73px; flex-shrink:0; }

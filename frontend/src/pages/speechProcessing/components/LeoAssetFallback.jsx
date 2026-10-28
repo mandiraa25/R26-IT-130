@@ -1,3 +1,4 @@
+// VIVA: Reusable Leo image with an SVG fallback, a microphone demo illustration and a training-map gradient constant.
 /**
  * Temporary fallbacks until real Leo assets are supplied:
  * - frontend/src/assets/lexiland/leo-lion.webp

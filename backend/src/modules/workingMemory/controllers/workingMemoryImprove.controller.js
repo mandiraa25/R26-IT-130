@@ -1,3 +1,19 @@
+/*
+ * FILE PURPOSE
+ * Improvement progress initialization, saved attempts, star rewards and authoritative unlock updates.
+ *
+ * HOW IT CONNECTS
+ * The improvement router calls exported handlers. WorkingMemoryIdentify supplies initial placement;
+ * WorkingMemoryImproveProgress/Attempt persist progress/history; Student stores accumulated WM stars.
+ * Direct source importers: ../routes/workingMemoryImprove.routes.js.
+ *
+ * THINGS TO REMEMBER
+ * Placement is initialized from the oldest screening only when progress is missing. ML risk wins over
+ * rule-based risk, then raw accuracy is fallback. A pass is at least three correct; each correct earns
+ * five stars even on replay. Games unlock in order and all four passes complete a level. Server uses
+ * submitted scores rather than rechecking bank answers.
+ */
+
 const {
   WorkingMemoryImproveProgress,
   WorkingMemoryImproveAttempt,
@@ -18,7 +34,16 @@ const SUB_CATEGORIES = [
 ];
 
 // Helper to construct empty/default levels progress structure (Levels 1 to 4)
+/*
+ * FUNCTION: createInitialLevelsProgress
+ * Construct four level records with four ordered game records each.
+ * WHEN: Backend progress initialization calls this.
+ * HOW / RESULT: Levels up to the placement maximum open their first Pattern game only; the remaining
+ * games start locked.
+ */
 const createInitialLevelsProgress = (maxUnlockedLevel = 1) => {
+  // VIVA: Every student gets four level records. Placement opens levels up to
+  // maxUnlockedLevel, but only Pattern starts unlocked inside each open level.
   const levels = [];
   for (let lvl = 1; lvl <= 4; lvl++) {
     const isLevelUnlocked = lvl <= maxUnlockedLevel;
@@ -42,7 +67,16 @@ const createInitialLevelsProgress = (maxUnlockedLevel = 1) => {
 };
 
 // Map identification quiz result to starting level (1 to 4)
+/*
+ * FUNCTION: determineLevelFromIdentification
+ * Choose initial placement from the oldest screening when progress is created.
+ * WHEN: getStudentProgress and first-submit initialization call this.
+ * HOW / RESULT: Prefers ML risk, then local risk, then raw correct percentage. Risk mapping is
+ * implemented here; a later screening does not automatically replace existing progress.
+ */
 const determineLevelFromIdentification = (firstIdentifyResult) => {
+  // VIVA: Placement prefers ML risk, then frontend risk, then raw accuracy.
+  // It uses the first screening result only when progress is first created.
   if (!firstIdentifyResult) return 1;
 
   // Check ML prediction risk level first if available
@@ -67,7 +101,16 @@ const determineLevelFromIdentification = (firstIdentifyResult) => {
 };
 
 // GET: Fetch student improvement progress & level unlocks
+/*
+ * FUNCTION: getStudentProgress
+ * Read or initialize a student progress document.
+ * WHEN: GET /progress/:studentId calls this controller.
+ * HOW / RESULT: Without screening returns an all-locked response. Otherwise creates initial placement
+ * once and returns saved progress/stars.
+ */
 exports.getStudentProgress = async (req, res) => {
+  // VIVA: This GET may initialize a missing progress document. Without any
+  // screening it returns an all-locked payload without creating progress.
   try {
     const { studentId } = req.params;
 
@@ -126,7 +169,17 @@ exports.getStudentProgress = async (req, res) => {
 };
 
 // POST: Submit a sub-category attempt & update unlock status
+/*
+ * FUNCTION: submitSubCategoryAttempt
+ * Validate access, save an attempt, update rewards and unlock sequential progress.
+ * WHEN: POST /submit-attempt calls this controller.
+ * HOW / RESULT: Checks grade/level/game, result count, matching-grade screening and saved game lock.
+ * Uses submitted score: at least three passes, five stars per correct. Writes attempt, student and
+ * progress separately.
+ */
 exports.submitSubCategoryAttempt = async (req, res) => {
+  // VIVA: Saving has three stages: validate access/payload, store an attempt,
+  // then update accumulated progress, student stars and sequential unlocks.
   try {
     const {
       studentId,
@@ -143,6 +196,8 @@ exports.submitSubCategoryAttempt = async (req, res) => {
     const normalizedLevel = Number(levelNumber);
     const normalizedScore = Number(score);
     const normalizedTotalQuestions = Number(totalQuestions);
+    // VIVA: Validate grade/level/category and result count. The current server
+    // accepts the submitted score; it does not independently score bank answers.
     if (!["2", "3", "4"].includes(String(grade)) || ![1, 2, 3, 4].includes(normalizedLevel) || !SUB_CATEGORIES.includes(subCategoryKey)) {
       return res.status(400).json({ success: false, message: "Invalid working memory attempt details." });
     }
@@ -206,6 +261,8 @@ exports.submitSubCategoryAttempt = async (req, res) => {
 
     // New attempts require 3/5; previously earned completions stay intact.
     const isPassed = normalizedScore >= 3;
+    // VIVA: Passing is a fixed minimum of three correct answers. Stars are five
+    // per correct answer on every saved attempt, including an unsuccessful replay.
     const achievePercentage = (normalizedScore / tQ) * 100;
     const starsEarned = normalizedScore * STARS_PER_CORRECT;
 
@@ -227,6 +284,8 @@ exports.submitSubCategoryAttempt = async (req, res) => {
     });
 
     await newAttempt.save();
+    // VIVA: Attempt history and progress/student updates are separate writes;
+    // this handler does not use a transaction or a request idempotency key.
 
     // 3. Update Progress Document
     targetSubCat.totalAttempts = attemptNumber;
@@ -242,6 +301,8 @@ exports.submitSubCategoryAttempt = async (req, res) => {
 
     // Only mark as completed and unlock next steps if minimum mark is achieved (or if already completed previously)
     if (isPassed) {
+      // VIVA: Completion is persistent: a later failed attempt does not revoke
+      // an earlier pass. Only a pass unlocks the next game in this level.
       targetSubCat.isCompleted = true;
 
       // Unlock next sequential sub-category within the same level if exists
@@ -253,6 +314,8 @@ exports.submitSubCategoryAttempt = async (req, res) => {
       const allSubCatsCompleted = currentLevel.subCategories.every((sc) => sc.isCompleted);
 
       if (allSubCatsCompleted) {
+        // VIVA: All four saved game completions finish a level; the next level's
+        // Pattern opens only when advancing beyond the highest unlocked level.
         currentLevel.isCompleted = true;
         currentLevel.completedAt = new Date();
 
@@ -306,7 +369,16 @@ exports.submitSubCategoryAttempt = async (req, res) => {
 };
 
 // GET: Fetch attempt history for a student
+/*
+ * FUNCTION: getAttemptHistory
+ * Read saved improvement attempts with optional level/game filters.
+ * WHEN: ImprovementPage history refresh and reports call this.
+ * HOW / RESULT: Builds query parameters and returns response.data; reading history does not award
+ * rewards.
+ */
 exports.getAttemptHistory = async (req, res) => {
+  // VIVA: Optional level/category query filters let result pages total recorded
+  // rewards for one game or all four games without changing saved progression.
   try {
     const { studentId } = req.params;
     const { levelNumber, subCategoryKey } = req.query;

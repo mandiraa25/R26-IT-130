@@ -1,3 +1,4 @@
+// VIVA: Basic demo recorder: Start/Stop Recording, recorded-audio playback, microphone error and recording guidance.
 import { useEffect, useRef, useState } from "react";
 
 const RecorderButton = ({ onRecordingComplete }) => {

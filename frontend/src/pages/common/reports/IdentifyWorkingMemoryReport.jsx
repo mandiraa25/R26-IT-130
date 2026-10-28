@@ -1,13 +1,41 @@
+/*
+ * FILE PURPOSE
+ * Student screening history page showing saved assessment metrics and a score trend.
+ *
+ * HOW IT CONNECTS
+ * App.jsx registers the report route. identifyApi fetches stored attempts; Recharts draws the trend.
+ * This view reads records, not live question state.
+ * Direct source importers: ../../../App.jsx.
+ * Local feature/style dependencies: ../../../features/workingMemory/services/identifyApi.js.
+ *
+ * THINGS TO REMEMBER
+ * results/loading drive the table/chart and loading screen. Saved rule-based risk and optional ML
+ * fields are distinct. Appearance mainly uses the JSX Tailwind classes. The existing hard-coded
+ * fallback student ID is preserved.
+ */
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getWorkingMemoryIdentifyResults } from "../../../features/workingMemory/services/identifyApi";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
+// VIVA: SCREENING HISTORY - retrieve saved screenings and render their metrics with a Recharts score trend.
 function IdentifyWorkingMemoryReport() {
   const navigate = useNavigate();
   const { t } = useTranslation(['wm', 'common']);
+  /*
+   * REMEMBER: results
+   * Recorded responses for this session (or fetched report records in report views). Rendering/scoring
+   * reads this list; recording/loading replaces it.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [results, setResults] = useState([]);
+  /*
+   * REMEMBER: loading
+   * Whether an API read is pending. The view displays its loading screen before showing fetched records.
+   * Calling the setter schedules a React render so the dependent UI can update.
+   */
   const [loading, setLoading] = useState(true);
   const studentId = localStorage.getItem("studentId") || "60d0fe4f5311236168a109ca";
 
@@ -15,6 +43,7 @@ function IdentifyWorkingMemoryReport() {
     fetchResults();
   }, []);
 
+  // VIVA: API READ - identification service returns an Axios response; the server's records are in res.data.data.
   const fetchResults = async () => {
     try {
       const res = await getWorkingMemoryIdentifyResults(studentId);
@@ -36,6 +65,7 @@ function IdentifyWorkingMemoryReport() {
   };
 
   // Prepare data for the chart
+  // VIVA: CHART DATA - convert saved records into graph points; this screen does not re-run screening.
   const chartData = results.map(r => ({
     date: formatDate(r.createdAt, true),
     score: r.metrics?.finalScore || Math.round((r.totalScore / r.totalQuestions) * 100),
@@ -103,7 +133,7 @@ function IdentifyWorkingMemoryReport() {
           </div>
         ) : (
           <>
-            {/* Chart Summary Section */}
+            {/* VIVA: SCREENING PROGRESS GRAPH - plot the saved assessment scores in date order. */}
             <div className="bg-white/90 backdrop-blur-sm rounded-[3rem] p-8 md:p-12 shadow-2xl border-b-[12px] border-teal-100 mb-12 transform hover:scale-[1.01] transition-transform">
                 <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
                     <div>
@@ -170,7 +200,7 @@ function IdentifyWorkingMemoryReport() {
             </div>
 
             <div className="grid grid-cols-1 gap-8">
-              {/* Display results in reverse order (newest first) for the list */}
+              {/* VIVA: SCREENING RESULT CARDS - render the saved assessments newest first. */}
               {[...results].reverse().map((result, idx) => (
                 <div 
                   key={result._id} 

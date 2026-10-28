@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const adminSchema = new mongoose.Schema(
+  // VIVA: Admin accounts have their own collection; role and isActive drive access/login checks.
   {
     fullName: {
       type: String,

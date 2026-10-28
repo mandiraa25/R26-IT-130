@@ -1,3 +1,4 @@
+// VIVA: OVERVIEW - PA landing page with grade-specific screening entry and spelling-book information; older commented examples are retained.
 // function Sample() {
 //   return (
 //     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -675,11 +676,13 @@ function Sample() {
         {/* Overlay (better readability) */}
         <div className="absolute inset-0 bg-black/10" />
 
+        {/* VIVA: Choose the page language. */}
         {/* Language Switcher */}
         <div className="absolute top-8 right-8 z-20">
           <LanguageSwitcher />
         </div>
 
+        {/* VIVA: Open screening for the signed-in student grade. */}
         {/* Cards Grid */}
         <div className="relative z-10 w-full max-w-6xl px-6 flex justify-center">
 
@@ -722,6 +725,7 @@ function Sample() {
         </svg>
       </div>
 
+      {/* VIVA: Supporting spelling-book information. */}
       {/* ================= EBOOK ================= */}
       <div className="bg-[#67b962] text-white py-20 px-6 md:px-20">
         <h2 className="text-3xl md:text-5xl font-bold text-center mb-16">

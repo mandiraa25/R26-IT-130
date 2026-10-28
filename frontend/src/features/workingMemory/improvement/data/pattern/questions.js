@@ -1,3 +1,18 @@
+/*
+ * FILE PURPOSE
+ * Current authored visual Pattern Recognition question pools for each grade and level.
+ *
+ * HOW IT CONNECTS
+ * getSubCategoryData uses PATTERN_QUESTIONS instead of the empty pattern bank arrays. PatternGame
+ * displays showItems/options; evaluatePatternAnswer compares the selection with missingAnswer.
+ * Direct source importers: ../index.js.
+ *
+ * THINGS TO REMEMBER
+ * visualQuestion builds a consistent record from supplied data; it does not invent a pattern.
+ * gridQuestion marks a single-board layout. Level 4 adds a sixth grid question; selectAttemptQuestions
+ * chooses up to five. Symbol images are resolved by shared/artwork/patternSymbols.js.
+ */
+
 const visualQuestion = (id, showItems, options, answer) => ({
   id,
   type: "tap",

@@ -1,4 +1,5 @@
 /* Only the two shared PA mini-game header controls. */
+/* VIVA: Centered tracker layout fits the available width between header controls. */
 .pa-quiz-tracker {
   position: absolute;
   left: 50%;
@@ -16,6 +17,7 @@
   height: 100%;
 }
 
+/* VIVA: Active question marker tint and clipping. */
 .pa-quiz-tracker > .pa-quiz-tracker-active {
   position: absolute;
   inset: 0;
@@ -24,6 +26,7 @@
   filter: hue-rotate(85deg) saturate(1.25);
 }
 
+/* VIVA: Number placement and text styling over the active marker. */
 .pa-quiz-tracker-number {
   position: absolute;
   left: var(--active-circle-x);
@@ -36,14 +39,17 @@
   text-shadow: 0 1px 1px #58300e;
 }
 
+/* VIVA: Sound-button sizing. */
 .wooden-nav-music.pa-quiz-sound {
   --wooden-music-height: 48px;
 }
 
+/* VIVA: Responsive sound-button size on wider screens. */
 @media (min-width: 768px) {
   .wooden-nav-music.pa-quiz-sound { --wooden-music-height: 56px; }
 }
 
+/* VIVA: Hide the tracker when narrow screens need more control space. */
 @media (max-width: 639px) {
   .pa-quiz-tracker { display: none; }
 }
