@@ -19,7 +19,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Leaf, Trophy } from "lucide-react";
-import { getLearningSummary, getStudentProfile } from "../../services/student/api";
+import { getStudentProfile } from "../../services/student/api";
 import { getCachedProfile } from "../../utils/studentProfileCache";
 import { warmImagesWhenIdle } from "../../utils/warmImages";
 import LanguageSwitcher from "../../components/common/LanguageSwitcher";
@@ -40,40 +40,6 @@ const NEXT_SCREEN_IMAGES = [
   "/images/workingMemory/shared/backgrounds/screening/forest.webp",
   "/images/workingMemory/identification/intro/choice-board.png",
 ];
-// Home card id -> key in GET /students/learning-summary.
-const SUMMARY_KEYS = { wm: "workingMemory", rp: "reading", pa: "phonologicalAwareness", sp: "speech" };
-// Working Memory screening weak areas (stored by the screening) -> label keys.
-const FOCUS_KEYS = {
-  "Slow cognitive processing": "focus_slow_processing",
-  "Low working memory capacity": "focus_working_memory",
-  "Sequence processing difficulty": "focus_sequencing",
-  "Instruction following difficulty": "focus_instructions",
-  "Pattern recognition difficulty": "focus_patterns",
-};
-
-// The card's progress line: current level, games done in it, and a small bar.
-function CardProgress({ id, module, t, description }) {
-  if (id === "rp") {
-    if (!module?.started) return <span className="learning-card__description">{description}</span>;
-    if (module.finished) return <span className="learning-card__progress"><strong>{t("all_levels_complete")}</strong></span>;
-    return <span className="learning-card__progress">
-      <strong>{t("level_of", { level: module.currentLevel, total: module.totalLevels })}</strong>
-      <span>{t("levels_done", { done: module.completedLevels, total: module.totalLevels })}</span>
-      <i aria-hidden="true"><b style={{ width: `${Math.round((module.completedLevels / Math.max(module.totalLevels, 1)) * 100)}%` }} /></i>
-    </span>;
-  }
-  if (!module?.started) return <span className="learning-card__description">{description}</span>;
-  if (module.finished) return <span className="learning-card__progress"><strong>{t("all_levels_complete")}</strong></span>;
-  const isSpeech = id === "sp";
-  const done = isSpeech ? module.completedLevels : module.gamesCompleted;
-  const total = isSpeech ? module.totalLevels : module.gamesTotal;
-  return <span className="learning-card__progress">
-    <strong>{t("level_of", { level: module.currentLevel, total: module.totalLevels })}</strong>
-    <span>{t(isSpeech ? "levels_done" : "games_done", { done, total })}</span>
-    <i aria-hidden="true"><b style={{ width: `${Math.round((done / Math.max(total, 1)) * 100)}%` }} /></i>
-  </span>;
-}
-
 // VIVA: HOME SCREEN - /dashboard renders the student greeting, animal module cards and activity popup.
 function Dashboard() {
   const navigate = useNavigate();
@@ -86,13 +52,6 @@ function Dashboard() {
    * Calling the setter schedules a React render so the dependent UI can update.
    */
   const [profile, setProfile] = useState(() => getCachedProfile());
-  /*
-   * REMEMBER: summary
-   * Home-page learning summary, including WM completion and latest screening weak areas. Its API result
-   * updates the cards.
-   * Calling the setter schedules a React render so the dependent UI can update.
-   */
-  const [summary, setSummary] = useState(null);
   /*
    * REMEMBER: selectedCategory
    * Home-page module selected by a card tap. The activity popup uses it to choose artwork and
@@ -121,7 +80,7 @@ function Dashboard() {
   const backgroundVideoRef = useRef(null);
   const localized = (i18n.resolvedLanguage || i18n.language).startsWith("si");
 
-  // VIVA: DATA FLOW - fetch current profile and learning-summary once; ignore replies after unmount.
+  // VIVA: DATA FLOW - fetch current profile once; ignore replies after unmount.
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -132,7 +91,6 @@ function Dashboard() {
         console.error("Error fetching profile:", err);
       }
     })();
-    getLearningSummary().then(res => { if (!cancelled) setSummary(res.data); }).catch(() => {});
     const stopWarming = warmImagesWhenIdle(NEXT_SCREEN_IMAGES);
     return () => { cancelled = true; stopWarming(); };
   }, []);
@@ -280,16 +238,7 @@ function Dashboard() {
             <span>{t("choose_learning_adventure")}</span>
             <Leaf aria-hidden="true" />
           </p>
-          {/* VIVA: SCREENING FOCUS - show weak-area labels from the latest saved WM screening. */}
-          {summary?.workingMemoryAttention?.screened ? (
-            // Areas the latest Working Memory screening flagged.
-            <div className="student-home__focus" role="note" aria-label={t("focus_title")}>
-              <span className="student-home__focus-label">{t("focus_title")}</span>
-              {summary.workingMemoryAttention.areas.length
-                ? summary.workingMemoryAttention.areas.map((area, index) => <span key={area} className={`student-home__focus-chip student-home__focus-chip--${index % 3}`}>{t(FOCUS_KEYS[area] || "focus_other", { area })}</span>)
-                : <span className="student-home__focus-chip student-home__focus-chip--ok">{t("focus_none")}</span>}
-            </div>
-          ) : <div className="student-home__flourish" aria-hidden="true"><span />✿<span /></div>}
+          <div className="student-home__flourish" aria-hidden="true"><span />✿<span /></div>
         </section>
 
         {/* VIVA: HOME PAGE CARDS ARE HERE - each animal/module button comes from cards.map below. */}
@@ -303,7 +252,7 @@ function Dashboard() {
               <img src={`/images/dashboard/category-cards/${card.image}`} alt="" className="learning-card__image" draggable="false" />
               <span className="learning-card__text">
                 <span className="learning-card__title">{card.title}</span>
-                <CardProgress id={card.id} module={summary?.modules?.[SUMMARY_KEYS[card.id]]} t={t} description={card.description} />
+                <span className="learning-card__description">{card.description}</span>
               </span>
               <img src={`${UI_ASSETS}badge-${card.id}.png`} alt="" className="learning-card__badge" draggable="false" />
             </button>

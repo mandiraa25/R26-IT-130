@@ -85,10 +85,10 @@ export const GAME_CATEGORIES = [
 // Empty entries retain the existing game's configured video as a fallback.
 // Each language can use its own video without changing the shared UI.
 export const HOW_TO_PLAY_VIDEOS = {
-  pattern: { en: "", si: "" },
-  words: { en: "", si: "" },
-  instructions: { en: "", si: "" },
-  numbers: { en: "", si: "" },
+  pattern: { en: "https://youtu.be/eUaVaTqeu9M", si: "https://youtu.be/elt0rJIeW2M" },
+  words: { en: "https://youtu.be/9-1z36hAWgY", si: "https://youtu.be/9-1z36hAWgY" },
+  instructions: { en: "https://youtu.be/-2JYq8pkrvg", si: "https://youtu.be/Yjtdwx3T-Do" },
+  numbers: { en: "https://youtu.be/QvootIfM0Gg", si: "https://youtu.be/QvootIfM0Gg" },
 };
 
 // Optional per-level overrides, for example:

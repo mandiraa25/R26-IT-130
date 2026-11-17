@@ -79,7 +79,6 @@ const shuffleIntoDifferentOrder = (items) => {
   return shuffled;
 };
 
-const PATTERN_HOW_TO_PLAY_VIDEO = "https://youtu.be/uAqYnG7B0w8";
 /*
  * REWARD CONSTANT: Each correctly checked improvement question adds five reward stars.
  * score still increases by one correct answer. Backend uses the same five-star rule;
@@ -671,11 +670,7 @@ export default function ImprovementPage() {
     // Load the existing bank for this grade, language, level and game.
     const data = getSubCategoryData(grade, levelNumber, subCategoryKey, currentLang);
     if (data) {
-      setSubCatData(
-        subCategoryKey === "pattern"
-          ? { ...data, youtubeVideoUrl: PATTERN_HOW_TO_PLAY_VIDEO }
-          : data,
-      );
+      setSubCatData(data);
       setQuestions(selectAttemptQuestions(data.questions || []));
       previousQuestionIdsRef.current = [];
       setPhase("video");
