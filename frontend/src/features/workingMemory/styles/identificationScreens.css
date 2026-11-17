@@ -1,4 +1,22 @@
 /*
+ * FILE PURPOSE
+ * Style file: Current screening welcome/rules dialogs, question layout, standing bunny and result
+ * arrangement.
+ *
+ * HOW IT CONNECTS
+ * ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs;
+ * wm-screen__* classes style screening.
+ * Direct source importers: ../identification/ScreeningIntro.jsx,
+ * ../identification/ScreeningQuestions.jsx.
+ *
+ * THINGS TO REMEMBER
+ * Selectors match JSX className values. width/height control size; left/top/inset position absolute
+ * elements inside a positioned parent. padding is inside space; margin is outside space; gap separates
+ * flex/grid children. Later matching rules and more specific selectors can override earlier ones.
+ * These comments preserve every existing declaration.
+ */
+
+/*
  * Working Memory: screening (identification) screen layout and intro popups
  *
  * What is inside
@@ -20,6 +38,9 @@
    --------------------------------------------------------------------------- */
 /* Memory Check only. Keep the existing 1600 x 900 stage, board artwork and
    board bounds; these rules also isolate screening from game-level themes. */
+
+/* SECTION 1: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
 .wm-screen.lx-screening {
   --wm-ink:#483622;
   --wm-border:#edacbc;
@@ -27,15 +48,37 @@
 }
 
 /* The tracker is centered on the same x=800 axis as the vine board. */
+
+/* SECTION 2: QUESTION PROGRESS TRACKER
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-screen.lx-screening .wm-screen__tracking Find the matching className in the related JSX
+   named in this file guide. flex arranges children along a row/column; align-items and justify-content
+   align them, gap separates them; width/height/max-width control this element size; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .wm-screen__tracking {
   left:300px; right:auto; top:105px; width:1000px; height:50px;
   margin:0; display:flex; flex-wrap:nowrap; justify-content:center; align-items:center; gap:20px;
 }
 .wm-screen.lx-screening .wm-screen__trackers { flex:0 0 auto; }
+/*
+   SELECTOR: .wm-screen.lx-screening .wm-screen__stars Find the matching className in the related JSX
+   named in this file guide. flex arranges children along a row/column; align-items and justify-content
+   align them, gap separates them; width/height/max-width control this element size; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .wm-screen__stars {
   display:flex; align-items:center; gap:8px; width:auto; height:44px;
   margin:0; padding:10px 18px; box-shadow:none;
 }
+/*
+   SELECTOR: .wm-screen.lx-screening .wm-screen__count Find the matching className in the related JSX
+   named in this file guide. flex arranges children along a row/column; align-items and justify-content
+   align them, gap separates them; font/font-size and line-height change text size and readable line
+   spacing; width/height/max-width control this element size; padding is inside space, margin is outside
+   space and gap separates children.
+ */
 .wm-screen.lx-screening .wm-screen__count {
   position:static; width:auto; min-height:44px; display:flex; align-items:center;
   margin:0; padding:8px 18px; font-size:19px; line-height:1.4;
@@ -43,27 +86,81 @@
 
 /* Padding clears the visible inner frame and both decorative leaf corners.
    Fixed header/content/footer areas keep study and recall on the same board. */
+
+/* SECTION 3: VINE BOARD AND ITS CONTENT
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
 .wm-screen.lx-screening .lx-board .lx-board-content { padding:40px 84px 76px; }
+
+/* SECTION 4: RESULTS, REWARDS AND COMPLETION
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
 .wm-screen.lx-screening .lx-board:has(.wm-screen__complete) .lx-board-content { padding-bottom:84px; }
+
+/* SECTION 5: VINE BOARD AND ITS CONTENT
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__board-content Find the matching className in
+   the related JSX named in this file guide. position:relative makes this element an anchor for
+   absolutely positioned children; flex arranges children along a row/column; align-items and
+   justify-content align them, gap separates them; width/height/max-width control this element size;
+   padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__board-content {
   position:relative; inset:auto; width:100%; height:100%; min-height:0; padding:0;
   display:flex; flex-direction:column; justify-content:flex-start; gap:10px;
 }
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__question-header Find the matching className in
+   the related JSX named in this file guide. flex arranges children along a row/column; align-items and
+   justify-content align them, gap separates them; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__question-header {
   display:flex; flex-direction:column; align-items:stretch; gap:8px; flex:none;
 }
+
+/* SECTION 6: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-screen.lx-screening .wm-screen__category Find the matching className in the related JSX
+   named in this file guide. font/font-size and line-height change text size and readable line spacing;
+   padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .wm-screen__category {
   align-self:flex-start; padding:5px 13px; font-size:16px; line-height:1.4;
 }
+
+/* SECTION 7: VINE BOARD AND ITS CONTENT
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__title-row Find the matching className in the
+   related JSX named in this file guide. grid arranges children into defined rows/columns; grid-template
+   values set their sizes; padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__title-row {
   display:grid; grid-template-columns:132px minmax(0,1fr) 132px;
   align-items:center; gap:12px; min-height:68px;
 }
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__question-title Find the matching className in
+   the related JSX named in this file guide. font/font-size and line-height change text size and readable
+   line spacing; width/height/max-width control this element size; padding is inside space, margin is
+   outside space and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__question-title {
   grid-column:2; min-width:0; max-width:none; margin:0;
   font-size:28px; line-height:1.35; text-align:center; color:var(--wm-ink);
   overflow-wrap:break-word; text-wrap:pretty;
 }
+
+/* SECTION 8: LISTENING AND INSTRUCTION ANSWERS
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__listen Find the matching className in the
+   related JSX named in this file guide. flex arranges children along a row/column; align-items and
+   justify-content align them, gap separates them; font/font-size and line-height change text size and
+   readable line spacing; width/height/max-width control this element size; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__listen {
   grid-column:3; width:132px; min-height:60px; padding:6px 10px;
   display:flex; align-items:center; justify-content:center; gap:8px;
@@ -74,27 +171,71 @@
 /* The previous instruction outline indicated active audio. Keep that state
    distinct from the consistent, high-contrast keyboard focus on all controls. */
 .wm-screen.lx-screening .wm-screen__listen[aria-pressed=true] { border-color:#a86624; outline:none; }
+/*
+   SELECTOR: .wm-screen.lx-screening button:focus-visible, .wm-screen.lx-screening
+   .wm-screen__listen[aria-pressed=true]:focus-visible Find the matching className in the related JSX
+   named in this file guide. the selected class/attribute is supplied by JSX answer-selection state;
+   focus-visible provides a visible keyboard focus indicator.
+ */
 .wm-screen.lx-screening button:focus-visible,
 .wm-screen.lx-screening .wm-screen__listen[aria-pressed=true]:focus-visible {
   outline:4px solid #174d88; outline-offset:4px;
 }
+
+/* SECTION 9: VINE BOARD AND ITS CONTENT
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__question-content Find the matching className
+   in the related JSX named in this file guide. flex arranges children along a row/column; align-items
+   and justify-content align them, gap separates them; width/height/max-width control this element size;
+   padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__question-content {
   flex:1 1 0; min-height:0; width:100%; padding:0;
   display:flex; flex-direction:column; justify-content:flex-start; align-items:center; gap:18px;
 }
 .wm-screen.lx-screening .lx-board .wm-screen__question-footer { flex:none; margin:0; padding:0; }
+
+/* SECTION 10: QUESTION CONTENT AND ACTIONS
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-screen.lx-screening .wm-screen__question-footer p Find the matching className in the
+   related JSX named in this file guide. font/font-size and line-height change text size and readable
+   line spacing; padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .wm-screen__question-footer p {
   margin:0; color:#6f5138; font-size:19px; font-weight:700; line-height:1.45; text-align:center;
 }
 
+
+/* SECTION 11: VINE BOARD AND ITS CONTENT
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__option Find the matching className in the
+   related JSX named in this file guide. font/font-size and line-height change text size and readable
+   line spacing; padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__option {
   min-width:0; padding:10px 18px; border-width:2px; border-radius:18px;
   font-family:inherit; font-size:25px; line-height:1.4; color:var(--wm-ink);
   overflow-wrap:break-word; box-shadow:0 3px 0 #70401612;
 }
+
+/* SECTION 12: PATTERN QUESTION AND ARTWORK
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__pattern Find the matching className in the
+   related JSX named in this file guide. width/height/max-width control this element size; padding is
+   inside space, margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__pattern {
   width:100%; min-height:116px; padding:16px 22px; gap:18px;
 }
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__options--pattern Find the matching className
+   in the related JSX named in this file guide. width/height/max-width control this element size; padding
+   is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__options--pattern {
   width:100%; max-width:none; gap:16px; margin:0;
 }
@@ -104,9 +245,25 @@
 
 /* Fit the existing transparent pictures without distorting their aspect ratio.
    Three-choice rows use a slightly smaller square to keep all rows readable. */
+
+/* SECTION 13: PICTURE STUDY AND RECALL
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__memory-panel--pictures Find the matching
+   className in the related JSX named in this file guide. width/height/max-width control this element
+   size; padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__memory-panel--pictures {
   width:100%; padding:24px; border-radius:20px;
 }
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__picture-strip, .wm-screen.lx-screening
+   .lx-board .wm-screen__memory-panel--pictures .wm-screen__picture-strip, .wm-screen.lx-screening
+   .lx-board .wm-screen__option--pictures .wm-screen__picture-strip Find the matching className in the
+   related JSX named in this file guide. flex arranges children along a row/column; align-items and
+   justify-content align them, gap separates them; width/height/max-width control this element size;
+   padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__picture-strip,
 .wm-screen.lx-screening .lx-board .wm-screen__memory-panel--pictures .wm-screen__picture-strip,
 .wm-screen.lx-screening .lx-board .wm-screen__option--pictures .wm-screen__picture-strip {
@@ -117,12 +274,23 @@
 .wm-screen.lx-screening .lx-board .wm-screen__memory-panel--pictures .wm-screen__picture-figure {
   width:154px; height:154px;
 }
+
+/* SECTION 14: VINE BOARD AND ITS CONTENT
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__options--orders Find the matching className in
+   the related JSX named in this file guide. width/height/max-width control this element size; padding is
+   inside space, margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__options--orders {
   width:100%; max-width:none; gap:8px; margin:0;
 }
 .wm-screen.lx-screening .lx-board .wm-screen__options--orders .wm-screen__option {
   border-style:dashed; min-height:82px; font-size:32px;
 }
+
+/* SECTION 15: PICTURE STUDY AND RECALL
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
 .wm-screen.lx-screening .lx-board .wm-screen__options--orders .wm-screen__option--pictures {
   min-height:0; padding:7px 20px;
 }
@@ -130,31 +298,78 @@
   width:clamp(78px,calc(234px / var(--choice-count,2)),117px);
   height:clamp(78px,calc(234px / var(--choice-count,2)),117px);
 }
+
+/* SECTION 16: VINE BOARD AND ITS CONTENT
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__memory-panel--plain Find the matching
+   className in the related JSX named in this file guide. width/height/max-width control this element
+   size; padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__memory-panel--plain { width:100%; padding:0; }
+
+/* SECTION 17: NUMBER STUDY AND KEYPAD
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
 .wm-screen.lx-screening .lx-board .wm-screen__number-sequence--study { flex-wrap:nowrap; gap:24px; }
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__number-sequence--study > span Find the
+   matching className in the related JSX named in this file guide. font/font-size and line-height change
+   text size and readable line spacing; width/height/max-width control this element size.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__number-sequence--study > span {
   width:138px; height:138px; font-size:66px;
 }
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board
+   .wm-screen__number-sequence--study.wm-screen__number-sequence--4 > span Find the matching className in
+   the related JSX named in this file guide. font/font-size and line-height change text size and readable
+   line spacing; width/height/max-width control this element size.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__number-sequence--study.wm-screen__number-sequence--4 > span {
   width:116px; height:126px; font-size:56px;
 }
 
+
+/* SECTION 18: LISTENING AND INSTRUCTION ANSWERS
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
 .wm-screen.lx-screening .lx-board .wm-screen__instruction-area { width:100%; }
 .wm-screen.lx-screening .lx-board .wm-screen__instruction-steps { gap:10px; }
 .wm-screen.lx-screening .lx-board .wm-screen__instruction-steps li {
   min-height:60px; padding:8px 18px; gap:14px; border-radius:18px;
 }
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__instruction-steps li > span Find the matching
+   className in the related JSX named in this file guide. font/font-size and line-height change text size
+   and readable line spacing; width/height/max-width control this element size.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__instruction-steps li > span {
   flex:none; width:40px; height:40px; font-size:22px;
 }
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__instruction-steps p Find the matching
+   className in the related JSX named in this file guide. font/font-size and line-height change text size
+   and readable line spacing; padding is inside space, margin is outside space and gap separates
+   children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__instruction-steps p {
   min-width:0; margin:0; font-size:25px; line-height:1.4; overflow-wrap:break-word;
 }
+
+/* SECTION 19: VINE BOARD AND ITS CONTENT
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__options--actions Find the matching className
+   in the related JSX named in this file guide. width/height/max-width control this element size; padding
+   is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__options--actions {
   width:100%; max-width:none; margin:0; gap:16px;
   grid-template-columns:repeat(2,minmax(0,1fr));
 }
 .wm-screen.lx-screening .lx-board .wm-screen__options--actions .wm-screen__option { min-height:88px; }
+
+/* SECTION 20: LISTENING AND INSTRUCTION ANSWERS
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
 .wm-screen.lx-screening .wm-screen__instruction-area .wm-screen__primary { margin-top:12px; }
 /* Four readable steps and the existing audio-failure Continue control must
    share this area without reaching the helper text below it. */
@@ -162,14 +377,45 @@
 .wm-screen.lx-screening .lx-board .wm-screen__instruction-area:has(.wm-screen__primary):has(li:nth-child(4)) .wm-screen__instruction-steps li {
   min-height:48px; padding:6px 18px;
 }
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board
+   .wm-screen__instruction-area:has(.wm-screen__primary):has(li:nth-child(4))
+   .wm-screen__instruction-steps li > span Find the matching className in the related JSX named in this
+   file guide. font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__instruction-area:has(.wm-screen__primary):has(li:nth-child(4)) .wm-screen__instruction-steps li > span { width:32px; height:32px; font-size:20px; }
 .wm-screen.lx-screening .lx-board .wm-screen__instruction-area:has(.wm-screen__primary):has(li:nth-child(4)) .wm-screen__instruction-steps p { font-size:22px; line-height:1.4; }
 
+
+/* SECTION 21: RESULTS, REWARDS AND COMPLETION
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__complete Find the matching className in the
+   related JSX named in this file guide. flex arranges children along a row/column; align-items and
+   justify-content align them, gap separates them; width/height/max-width control this element size;
+   padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__complete {
   display:flex; flex-direction:column; height:100%; min-height:0; gap:12px;
 }
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__complete header h1 Find the matching className
+   in the related JSX named in this file guide. font/font-size and line-height change text size and
+   readable line spacing; padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__complete header h1 { margin:0 0 5px; font-size:30px; line-height:1.3; }
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__complete header p Find the matching className
+   in the related JSX named in this file guide. font/font-size and line-height change text size and
+   readable line spacing; padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__complete header p { margin:0; font-size:17px; line-height:1.4; }
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__results Find the matching className in the
+   related JSX named in this file guide. grid arranges children into defined rows/columns; grid-template
+   values set their sizes; padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__results {
   display:grid; grid-template-columns:1fr 1.12fr; flex:1 1 0; min-height:0; gap:18px;
 }
@@ -177,19 +423,53 @@
 .wm-screen.lx-screening .lx-board .wm-screen__results .wm-recommendations {
   min-width:0; min-height:0; padding:20px; gap:8px; border-radius:22px;
 }
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__results h2 Find the matching className in the
+   related JSX named in this file guide. font/font-size and line-height change text size and readable
+   line spacing; padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__results h2 { margin:0; font-size:21px; line-height:1.4; }
 .wm-screen.lx-screening .lx-board .wm-screen__score strong { font-size:62px; line-height:1.1; }
 .wm-screen.lx-screening .lx-board .wm-screen__score small { font-size:16px; line-height:1.4; }
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__score p Find the matching className in the
+   related JSX named in this file guide. font/font-size and line-height change text size and readable
+   line spacing; padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__score p { margin:0; padding:5px 10px; font-size:15px; line-height:1.4; }
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__results .wm-recommendations ul Find the
+   matching className in the related JSX named in this file guide. grid arranges children into defined
+   rows/columns; grid-template values set their sizes; padding is inside space, margin is outside space
+   and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__results .wm-recommendations ul { display:grid; gap:10px; }
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__results .wm-recommendations button Find the
+   matching className in the related JSX named in this file guide. font/font-size and line-height change
+   text size and readable line spacing; padding is inside space, margin is outside space and gap
+   separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__results .wm-recommendations button {
   min-height:70px; padding:10px 12px; gap:12px; border-radius:16px;
   font-family:inherit; font-size:17px; line-height:1.4;
 }
 .wm-screen.lx-screening .lx-board .wm-screen__results .wm-recommendations img { width:48px; height:48px; }
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__result-actions Find the matching className in
+   the related JSX named in this file guide. grid arranges children into defined rows/columns;
+   grid-template values set their sizes; padding is inside space, margin is outside space and gap
+   separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__result-actions {
   flex:none; display:grid; grid-template-columns:.8fr 1.2fr; gap:16px; padding-top:6px;
 }
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__result-actions button Find the matching
+   className in the related JSX named in this file guide. font/font-size and line-height change text size
+   and readable line spacing; padding is inside space, margin is outside space and gap separates
+   children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__result-actions button {
   min-height:64px; padding:10px 18px; font-size:19px; line-height:1.4;
 }
@@ -202,64 +482,285 @@
 .wm-screen.lx-screening .lx-board .wm-screen__complete--notice .wm-screen__score,
 .wm-screen.lx-screening .lx-board .wm-screen__complete--notice .wm-screen__results .wm-recommendations { padding:12px 18px; }
 .wm-screen.lx-screening .lx-board .wm-screen__complete--notice .wm-screen__score strong { font-size:48px; }
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__complete--notice .wm-screen__results
+   .wm-recommendations button Find the matching className in the related JSX named in this file guide.
+   font/font-size and line-height change text size and readable line spacing; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__complete--notice .wm-screen__results .wm-recommendations button { min-height:56px; padding:6px 10px; font-size:16px; }
 .wm-screen.lx-screening .lx-board .wm-screen__complete--notice .wm-screen__results .wm-recommendations img { width:40px; height:40px; }
 
+
+/* SECTION 22: VINE BOARD AND ITS CONTENT
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-screen.lx-screening:lang(si) .lx-board .wm-screen__question-title Find the matching
+   className in the related JSX named in this file guide. this matching language/state selector adjusts
+   Sinhala presentation; font/font-size and line-height change text size and readable line spacing.
+ */
 .wm-screen.lx-screening:lang(si) .lx-board .wm-screen__question-title { font-size:24px; line-height:1.45; }
+
+/* SECTION 23: LISTENING AND INSTRUCTION ANSWERS
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-screen.lx-screening:lang(si) .lx-board .wm-screen__instruction-steps p Find the matching
+   className in the related JSX named in this file guide. this matching language/state selector adjusts
+   Sinhala presentation; font/font-size and line-height change text size and readable line spacing.
+ */
 .wm-screen.lx-screening:lang(si) .lx-board .wm-screen__instruction-steps p { font-size:23px; line-height:1.45; }
+
+/* SECTION 24: RESULTS, REWARDS AND COMPLETION
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-screen.lx-screening:lang(si) .lx-board .wm-screen__complete header h1 Find the matching
+   className in the related JSX named in this file guide. this matching language/state selector adjusts
+   Sinhala presentation; font/font-size and line-height change text size and readable line spacing.
+ */
 .wm-screen.lx-screening:lang(si) .lx-board .wm-screen__complete header h1 { font-size:27px; }
+/*
+   SELECTOR: .wm-screen.lx-screening:lang(si) .lx-board .wm-screen__results .wm-recommendations button
+   Find the matching className in the related JSX named in this file guide. this matching language/state
+   selector adjusts Sinhala presentation; font/font-size and line-height change text size and readable
+   line spacing.
+ */
 .wm-screen.lx-screening:lang(si) .lx-board .wm-screen__results .wm-recommendations button { font-size:16px; }
+/*
+   SELECTOR: .wm-screen.lx-screening:lang(si) .lx-board .wm-screen__result-actions button Find the
+   matching className in the related JSX named in this file guide. this matching language/state selector
+   adjusts Sinhala presentation; font/font-size and line-height change text size and readable line
+   spacing.
+ */
 .wm-screen.lx-screening:lang(si) .lx-board .wm-screen__result-actions button { font-size:18px; }
 
 /* ---------------------------------------------------------------------------
    Intro popups: welcome choice and rules (was identificationIntro.css)
    --------------------------------------------------------------------------- */
+
+/* SECTION 25: SCREENING WELCOME AND RULES
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-intro-scene Find the matching className in the related JSX named in this file guide.
+   position:relative makes this element an anchor for absolutely positioned children; grid arranges
+   children into defined rows/columns; grid-template values set their sizes; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .wm-intro-scene { position:relative; display:grid; place-items:center; min-height:100dvh; padding:24px; background-position:center; background-size:cover; font-family:'Nunito',sans-serif; }
 .wm-intro-dimmer { position:fixed; inset:0; background:rgb(10 35 22 / 35%); backdrop-filter:blur(3px); }
+/*
+   SELECTOR: .wm-intro-panel Find the matching className in the related JSX named in this file guide.
+   position:relative makes this element an anchor for absolutely positioned children;
+   width/height/max-width control this element size.
+ */
 .wm-intro-panel { --intro-ratio:1.18; position:relative; container-type:inline-size; width:min(860px,100%,calc((100dvh - 48px) * var(--intro-ratio))); aspect-ratio:var(--intro-ratio); color:#47210c; }
 .wm-intro-panel--rules { --intro-ratio:1.03; width:min(870px,100%,calc((100dvh - 48px) * var(--intro-ratio))); }
+/*
+   SELECTOR: .wm-intro-board Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   transform/scale moves, rotates or resizes the drawn element without changing its normal layout space;
+   width/height/max-width control this element size.
+ */
 .wm-intro-board { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; transform:scale(1.1); pointer-events:none; user-select:none; }
+/*
+   SELECTOR: .wm-intro-close Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   z-index controls which overlapping layer appears in front; width/height/max-width control this element
+   size; padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-intro-close { position:absolute; z-index:2; top:3.4%; right:3.1%; width:7.3%; aspect-ratio:1; border:0; padding:0; background:transparent; border-radius:50%; cursor:pointer; }
 .wm-intro-close img { width:100%; height:100%; object-fit:contain; pointer-events:none; }
+/*
+   SELECTOR: .wm-intro-header Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   flex arranges children along a row/column; align-items and justify-content align them, gap separates
+   them; width/height/max-width control this element size.
+ */
 .wm-intro-header { position:absolute; top:4.2%; left:5%; right:5%; height:28%; display:flex; align-items:center; }
+/*
+   SELECTOR: .wm-intro-bunny Find the matching className in the related JSX named in this file guide.
+   transform/scale moves, rotates or resizes the drawn element without changing its normal layout space;
+   width/height/max-width control this element size.
+ */
 .wm-intro-bunny { width:30%; height:100%; object-fit:contain; transform:scale(1.08); flex-shrink:0; pointer-events:none; }
 .wm-intro-heading { width:65%; margin-left:1%; text-align:center; }
+/*
+   SELECTOR: .wm-intro-grade Find the matching className in the related JSX named in this file guide.
+   font/font-size and line-height change text size and readable line spacing; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .wm-intro-grade { display:inline-block; padding:.5cqw 3.5cqw; border-radius:999px; background:#ffe2bb; color:#d74b00; font-size:2.65cqw; font-weight:900; line-height:1.2; }
+/*
+   SELECTOR: .wm-intro-heading h1 Find the matching className in the related JSX named in this file
+   guide. font/font-size and line-height change text size and readable line spacing; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .wm-intro-heading h1 { margin:.6cqw 0 .7cqw; font-size:5.4cqw; font-weight:900; letter-spacing:-.12cqw; line-height:1.05; text-shadow:0 1px white; }
+/*
+   SELECTOR: .wm-intro-subtitle Find the matching className in the related JSX named in this file guide.
+   font/font-size and line-height change text size and readable line spacing; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .wm-intro-subtitle { margin:0; font-size:3.15cqw; font-weight:900; line-height:1.2; }
+/*
+   SELECTOR: .wm-intro-helper Find the matching className in the related JSX named in this file guide.
+   font/font-size and line-height change text size and readable line spacing; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .wm-intro-helper { margin:.7cqw 0 0; font-size:2.2cqw; font-weight:800; line-height:1.2; color:#6a5443; }
+/*
+   SELECTOR: .wm-choice-cards Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   grid arranges children into defined rows/columns; grid-template values set their sizes; padding is
+   inside space, margin is outside space and gap separates children.
+ */
 .wm-choice-cards { position:absolute; top:33.5%; bottom:13.5%; left:6%; right:5.5%; display:grid; grid-template-columns:1fr 1fr; gap:2%; }
 .wm-choice-card { position:relative; border:1.5px solid #9ad779; border-radius:3.5cqw; background:linear-gradient(135deg,#f3fce7,#edf9e0); box-shadow:inset 0 0 0 2px #fffa; }
 .wm-choice-card--check { border-color:#ffaf67; background:linear-gradient(135deg,#fff3df,#fff0d9); }
+
+/* SECTION 26: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-choice-art Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   transform/scale moves, rotates or resizes the drawn element without changing its normal layout space;
+   width/height/max-width control this element size.
+ */
 .wm-choice-art { position:absolute; top:2%; left:15%; width:70%; height:43%; object-fit:contain; transform:scale(1.2); pointer-events:none; }
+
+/* SECTION 27: SCREENING WELCOME AND RULES
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-choice-card h2 Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   font/font-size and line-height change text size and readable line spacing; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .wm-choice-card h2 { position:absolute; top:45%; left:3%; right:3%; margin:0; text-align:center; font-size:4.1cqw; font-weight:900; letter-spacing:-.06cqw; line-height:1.2; }
+/*
+   SELECTOR: .wm-choice-card > p Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   font/font-size and line-height change text size and readable line spacing; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .wm-choice-card > p { position:absolute; top:59%; left:3%; right:3%; margin:0; text-align:center; font-size:2.8cqw; font-weight:700; line-height:1.2; }
+/*
+   SELECTOR: .wm-choice-card small Find the matching className in the related JSX named in this file
+   guide. position:absolute places this layer; left/top/right/bottom/inset move it within its containing
+   area; font/font-size and line-height change text size and readable line spacing.
+ */
 .wm-choice-card small { position:absolute; top:68%; left:3%; right:3%; text-align:center; color:#6c6657; font-size:2.15cqw; font-weight:800; line-height:1.2; }
+/*
+   SELECTOR: .wm-intro-action Find the matching className in the related JSX named in this file guide.
+   flex arranges children along a row/column; align-items and justify-content align them, gap separates
+   them; font/font-size and line-height change text size and readable line spacing; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .wm-intro-action { display:flex; align-items:center; justify-content:center; gap:1.5cqw; min-width:0; padding:0 3%; border:1px solid #fffa; border-radius:999px; background:linear-gradient(#ff7710,#d34a04); color:white; font-family:inherit; font-size:3.05cqw; font-weight:900; line-height:1.15; box-shadow:inset 0 2px 1px #fff4,0 3px 4px #65371c33; cursor:pointer; }
+/*
+   SELECTOR: .wm-choice-card .wm-intro-action Find the matching className in the related JSX named in
+   this file guide. position:absolute places this layer; left/top/right/bottom/inset move it within its
+   containing area; width/height/max-width control this element size.
+ */
 .wm-choice-card .wm-intro-action { position:absolute; bottom:5%; left:5%; width:90%; height:18%; }
 .wm-intro-action--green { background:linear-gradient(#28b34a,#008626); }
 .wm-intro-play { width:2.8cqw; height:3.2cqw; flex-shrink:0; }
+/*
+   SELECTOR: .wm-intro-action:hover Find the matching className in the related JSX named in this file
+   guide. :hover applies while the pointer is over the element.
+ */
 .wm-intro-action:hover { filter:brightness(1.07); }
 .wm-intro-action:active { transform:translateY(1px); }
+/*
+   SELECTOR: .wm-intro-back-link Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   flex arranges children along a row/column; align-items and justify-content align them, gap separates
+   them; font/font-size and line-height change text size and readable line spacing; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .wm-intro-back-link { position:absolute; bottom:6%; left:7%; display:flex; align-items:center; gap:1cqw; padding:0; border:0; background:transparent; font-family:inherit; color:#47210c; font-size:2.75cqw; font-weight:900; cursor:pointer; }
 .wm-intro-back-link svg { width:3cqw; height:3cqw; stroke:#e25900; stroke-width:3; }
+/*
+   SELECTOR: .wm-intro-panel button:focus-visible Find the matching className in the related JSX named in
+   this file guide. focus-visible provides a visible keyboard focus indicator.
+ */
 .wm-intro-panel button:focus-visible { outline:3px solid #66320a; outline-offset:3px; }
 .wm-intro-panel--rules .wm-intro-header { top:4.7%; height:26%; }
 .wm-intro-panel--rules .wm-intro-heading h1 { font-size:5.75cqw; margin-top:1.2cqw; }
 .wm-intro-panel--rules .wm-intro-subtitle { font-size:3cqw; }
+/*
+   SELECTOR: .wm-intro-listen Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   grid arranges children into defined rows/columns; grid-template values set their sizes;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .wm-intro-listen { position:absolute; top:27%; right:4.2%; width:3.5cqw; height:3.5cqw; display:grid; place-items:center; padding:.4cqw; border:1px solid #eed4a6; border-radius:50%; background:#fff1d7; color:#b9540a; cursor:pointer; }
 .wm-intro-listen svg { width:100%; height:100%; }
+/*
+   SELECTOR: .wm-rules-steps Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   grid arranges children into defined rows/columns; grid-template values set their sizes;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .wm-rules-steps { position:absolute; top:32%; left:13.5%; right:10%; height:19.5%; display:grid; grid-template-columns:repeat(3,1fr); gap:11%; margin:0; padding:0; list-style:none; }
 .wm-rules-steps li { position:relative; border-radius:50%; background:#fff2d8; }
+/*
+   SELECTOR: .wm-rules-steps img Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   transform/scale moves, rotates or resizes the drawn element without changing its normal layout space;
+   width/height/max-width control this element size.
+ */
 .wm-rules-steps img { position:absolute; top:8%; left:17%; width:70%; height:70%; object-fit:contain; transform:scale(1.15); }
 .wm-rules-steps li:nth-child(-n+2) img { transform:scale(1.4); }
+/*
+   SELECTOR: .wm-rules-step-number Find the matching className in the related JSX named in this file
+   guide. position:absolute places this layer; left/top/right/bottom/inset move it within its containing
+   area; grid arranges children into defined rows/columns; grid-template values set their sizes; z-index
+   controls which overlapping layer appears in front; font/font-size and line-height change text size and
+   readable line spacing; width/height/max-width control this element size.
+ */
 .wm-rules-step-number { position:absolute; top:4%; left:-3%; z-index:1; width:32%; aspect-ratio:1; display:grid; place-items:center; border:1px solid white; border-radius:50%; background:linear-gradient(#ff7c0b,#f14400); color:white; font-size:3.6cqw; font-weight:900; }
+/*
+   SELECTOR: .wm-rules-step-label Find the matching className in the related JSX named in this file
+   guide. position:absolute places this layer; left/top/right/bottom/inset move it within its containing
+   area; grid arranges children into defined rows/columns; grid-template values set their sizes;
+   font/font-size and line-height change text size and readable line spacing; width/height/max-width
+   control this element size; padding is inside space, margin is outside space and gap separates
+   children.
+ */
 .wm-rules-step-label { position:absolute; bottom:0; left:0; width:100%; min-height:27%; display:grid; place-items:center; padding:0 3%; border-radius:999px; background:#ffedce; color:#481b0b; font-size:2.95cqw; font-weight:900; line-height:1.2; text-align:center; }
+/*
+   SELECTOR: .wm-rules-chevron Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   width/height/max-width control this element size.
+ */
 .wm-rules-chevron { position:absolute; top:35%; right:-32%; width:4.5cqw; height:5cqw; color:#ffc390; stroke-width:4; }
+/*
+   SELECTOR: .wm-rules-hide-note Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   font/font-size and line-height change text size and readable line spacing; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .wm-rules-hide-note { position:absolute; top:53%; left:5%; right:5%; margin:0; text-align:center; font-size:2.85cqw; font-weight:900; line-height:1.2; }
+/*
+   SELECTOR: .wm-rules-activities Find the matching className in the related JSX named in this file
+   guide. position:absolute places this layer; left/top/right/bottom/inset move it within its containing
+   area; grid arranges children into defined rows/columns; grid-template values set their sizes.
+ */
 .wm-rules-activities { position:absolute; top:59.2%; bottom:13.3%; left:5.5%; right:5.5%; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-template-rows:repeat(2,minmax(0,1fr)); row-gap:6%; column-gap:2%; }
+/*
+   SELECTOR: .wm-rules-activity Find the matching className in the related JSX named in this file guide.
+   flex arranges children along a row/column; align-items and justify-content align them, gap separates
+   them; padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-rules-activity { display:flex; align-items:center; min-height:0; min-width:0; gap:3%; padding:2% 3%; border:1.5px solid #ffa563; border-radius:2.2cqw; background:#fff8eb; }
 .wm-rules-activity img { width:48%; height:100%; object-fit:contain; flex-shrink:0; }
+/*
+   SELECTOR: .wm-rules-activity p Find the matching className in the related JSX named in this file
+   guide. font/font-size and line-height change text size and readable line spacing; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .wm-rules-activity p { margin:0; font-size:2.35cqw; font-weight:900; line-height:1.22; }
 .wm-rules-activity--pictures { border-color:#89d56d; background:#f1fbe7; }
 .wm-rules-activity--instructions { border-color:#87bfff; background:#eaf4ff; }
@@ -268,22 +769,86 @@
 .wm-rules-activity--pictures img { transform:scale(1.25); }
 .wm-rules-activity--instructions img { transform:scale(1.55); }
 .wm-rules-activity--numbers p { font-size:2.2cqw; }
+/*
+   SELECTOR: .wm-rules-actions Find the matching className in the related JSX named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   grid arranges children into defined rows/columns; grid-template values set their sizes;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .wm-rules-actions { position:absolute; bottom:3.8%; left:5.5%; right:5.5%; height:8.5%; display:grid; grid-template-columns:1fr 1fr; gap:2%; }
 .wm-rules-actions .wm-intro-action { font-size:3.4cqw; }
 .wm-intro-action--back { background:linear-gradient(#fff9ec,#f6e9cd); border-color:#f6d6ab; color:#47210c; }
 .wm-intro-action--back svg { width:3.4cqw; height:3.4cqw; color:#ef7000; stroke-width:3; }
+/*
+   SELECTOR: .wm-intro-panel--si .wm-intro-heading h1 Find the matching className in the related JSX
+   named in this file guide. this matching language/state selector adjusts Sinhala presentation;
+   font/font-size and line-height change text size and readable line spacing.
+ */
 .wm-intro-panel--si .wm-intro-heading h1 { font-size:4.25cqw; letter-spacing:0; }
+/*
+   SELECTOR: .wm-intro-panel--si .wm-intro-subtitle Find the matching className in the related JSX named
+   in this file guide. this matching language/state selector adjusts Sinhala presentation; font/font-size
+   and line-height change text size and readable line spacing.
+ */
 .wm-intro-panel--si .wm-intro-subtitle { font-size:2.55cqw; }
+/*
+   SELECTOR: .wm-intro-panel--si .wm-intro-helper Find the matching className in the related JSX named in
+   this file guide. this matching language/state selector adjusts Sinhala presentation; font/font-size
+   and line-height change text size and readable line spacing.
+ */
 .wm-intro-panel--si .wm-intro-helper { font-size:1.85cqw; }
+/*
+   SELECTOR: .wm-intro-panel--si .wm-choice-card h2 Find the matching className in the related JSX named
+   in this file guide. this matching language/state selector adjusts Sinhala presentation; font/font-size
+   and line-height change text size and readable line spacing.
+ */
 .wm-intro-panel--si .wm-choice-card h2 { font-size:3.2cqw; }
+/*
+   SELECTOR: .wm-intro-panel--si .wm-choice-card > p Find the matching className in the related JSX named
+   in this file guide. this matching language/state selector adjusts Sinhala presentation; font/font-size
+   and line-height change text size and readable line spacing.
+ */
 .wm-intro-panel--si .wm-choice-card > p { font-size:2.35cqw; }
+/*
+   SELECTOR: .wm-intro-panel--si .wm-choice-card small Find the matching className in the related JSX
+   named in this file guide. this matching language/state selector adjusts Sinhala presentation;
+   font/font-size and line-height change text size and readable line spacing.
+ */
 .wm-intro-panel--si .wm-choice-card small { font-size:1.95cqw; }
+/*
+   SELECTOR: .wm-intro-panel--si .wm-intro-action Find the matching className in the related JSX named in
+   this file guide. this matching language/state selector adjusts Sinhala presentation; font/font-size
+   and line-height change text size and readable line spacing.
+ */
 .wm-intro-panel--si .wm-intro-action { font-size:2.6cqw; }
+/*
+   SELECTOR: .wm-intro-panel--si .wm-rules-step-label Find the matching className in the related JSX
+   named in this file guide. this matching language/state selector adjusts Sinhala presentation;
+   font/font-size and line-height change text size and readable line spacing.
+ */
 .wm-intro-panel--si .wm-rules-step-label { font-size:2cqw; }
+/*
+   SELECTOR: .wm-intro-panel--si .wm-rules-activity p Find the matching className in the related JSX
+   named in this file guide. this matching language/state selector adjusts Sinhala presentation;
+   font/font-size and line-height change text size and readable line spacing.
+ */
 .wm-intro-panel--si .wm-rules-activity p { font-size:1.95cqw; }
+/*
+   SELECTOR: .wm-intro-panel--si .wm-rules-hide-note Find the matching className in the related JSX named
+   in this file guide. this matching language/state selector adjusts Sinhala presentation; font/font-size
+   and line-height change text size and readable line spacing.
+ */
 .wm-intro-panel--si .wm-rules-hide-note { font-size:2.45cqw; }
+
+/* MEDIA QUERY: (max-width:520px). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media(max-width:520px) { .wm-intro-scene {padding:22px} .wm-intro-panel {width:100%} .wm-intro-panel--rules {width:100%} }
 .wm-intro-listen img { width:100%; height:100%; object-fit:contain; }
+/*
+   SELECTOR: .wm-intro-listen Find the matching className in the related JSX named in this file guide.
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .wm-intro-listen { width:48px; height:48px; padding:0; border:0; background:transparent; }
 /* Keep the same illustrated frame, but let text and touch controls flow at
    readable sizes instead of shrinking the desktop composition on phones. */
@@ -333,9 +898,17 @@
    solid stitched answer buttons, content centred in the vine board).
    Used by the real screening test and the demo, which share these screens.
    --------------------------------------------------------------------------- */
+
+/* SECTION 28: VINE BOARD AND ITS CONTENT
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
 .wm-screen.lx-screening .lx-board .lx-board-content { padding:62px 84px 70px; }
 
 /* Category pill: sits a little lower and further in, with the category's icon. */
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__category Find the matching className in the
+   related JSX named in this file guide. font/font-size and line-height change text size and readable
+   line spacing; padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__category {
   display:inline-flex; align-items:center; gap:8px; margin:0 0 2px 6px; padding:5px 18px 5px 7px;
   border:2px dashed #f1a3b9; border-radius:999px; background:#fff;
@@ -347,29 +920,57 @@
 .wm-screen.lx-screening .lx-board .wm-screen__question-title {
   color:#1d5c14; font:700 34px/1.25 'Fredoka','Noto Sans Sinhala',sans-serif; letter-spacing:-.01em;
 }
+/*
+   SELECTOR: .wm-screen.lx-screening:lang(si) .lx-board .wm-screen__question-title Find the matching
+   className in the related JSX named in this file guide. this matching language/state selector adjusts
+   Sinhala presentation; font/font-size and line-height change text size and readable line spacing.
+ */
 .wm-screen.lx-screening:lang(si) .lx-board .wm-screen__question-title { font-size:27px; line-height:1.45; }
+
+/* SECTION 29: LISTENING AND INSTRUCTION ANSWERS
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
 .wm-screen.lx-screening .lx-board .wm-screen__listen {
   background:#f9e4c6; color:#5b2d0e; font:700 19px/1.2 'Fredoka','Noto Sans Sinhala',sans-serif;
 }
 
 /* Balance: the question area and its hint sit together in the middle of the
    space below the header, instead of hugging the top of the board. */
+
+/* SECTION 30: VINE BOARD AND ITS CONTENT
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
 .wm-screen.lx-screening .lx-board .wm-screen__question-content { flex:0 1 auto; margin-top:auto; justify-content:center; gap:20px; }
 .wm-screen.lx-screening .lx-board .wm-screen__question-footer { margin:16px 0 auto; }
+
+/* SECTION 31: QUESTION CONTENT AND ACTIONS
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
 .wm-screen.lx-screening .wm-screen__question-footer p {
   color:#8a4a22; font:600 20px/1.4 'Fredoka','Noto Sans Sinhala',sans-serif;
 }
 
 /* What the child studies (pattern row, pictures, numbers): a dashed pink box. */
+
+/* SECTION 32: PICTURE STUDY AND RECALL
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
 .wm-screen.lx-screening .lx-board .wm-screen__pattern,
 .wm-screen.lx-screening .lx-board .wm-screen__memory-panel--pictures,
 .wm-screen.lx-screening .lx-board .wm-screen__number-sequence--study {
   border:2px dashed #f2a7bb; border-radius:22px; background:#fff5f7;
 }
+
+/* SECTION 33: NUMBER STUDY AND KEYPAD
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
 .wm-screen.lx-screening .lx-board .wm-screen__number-sequence--study { padding:16px 24px; }
 
 /* Answer buttons: solid pink / blue / yellow with a stitched inner edge and a
    soft bottom shadow - the same colours for every question type. */
+
+/* SECTION 34: VINE BOARD AND ITS CONTENT
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__option Find the matching className in the
+   related JSX named in this file guide. position:relative makes this element an anchor for absolutely
+   positioned children; font/font-size and line-height change text size and readable line spacing.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__option {
   position:relative; border:2px solid; border-radius:20px;
   font:700 28px/1.3 'Fredoka','Noto Sans Sinhala',sans-serif;
@@ -382,7 +983,20 @@
 .wm-screen.lx-screening .lx-board .wm-screen__option--1 { background:#7cbcff; border-color:#3d8ff0; color:#0b2a78; box-shadow:0 4px 0 #4b8fdc; }
 .wm-screen.lx-screening .lx-board .wm-screen__option--2 { background:#ffe066; border-color:#f0b92c; color:#5a2c00; box-shadow:0 4px 0 #d9a52a; }
 .wm-screen.lx-screening .lx-board .wm-screen__options--orders .wm-screen__option { border-style:solid; }
+
+/* SECTION 35: NUMBER STUDY AND KEYPAD
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
 .wm-screen.lx-screening .lx-board .wm-screen__options--orders .wm-screen__option--numbers { font-size:36px; letter-spacing:2px; }
+
+/* SECTION 36: VINE BOARD AND ITS CONTENT
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__option:hover:not(:disabled) Find the matching
+   className in the related JSX named in this file guide. transform/scale moves, rotates or resizes the
+   drawn element without changing its normal layout space; :hover applies while the pointer is over the
+   element; disabled/locked styling explains availability; actual click guards and unlock rules live in
+   JS/backend.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__option:hover:not(:disabled) { transform:translateY(-2px); filter:brightness(1.03); }
 .wm-screen.lx-screening .lx-board .wm-screen__option[aria-pressed=true] { outline:4px solid #2f6f2f; outline-offset:3px; }
 
@@ -391,16 +1005,30 @@
   grid-template-columns:repeat(var(--choice-count,3),minmax(0,1fr)); gap:22px;
 }
 .wm-screen.lx-screening .lx-board .wm-screen__options--actions .wm-screen__option { min-height:110px; }
+/*
+   SELECTOR: .wm-screen.lx-screening:lang(si) .lx-board .wm-screen__option Find the matching className in
+   the related JSX named in this file guide. this matching language/state selector adjusts Sinhala
+   presentation; font/font-size and line-height change text size and readable line spacing.
+ */
 .wm-screen.lx-screening:lang(si) .lx-board .wm-screen__option { font-size:24px; }
 /* Keep a clear gap under the header, and keep three answer rows inside the board. */
 .wm-screen.lx-screening .lx-board .wm-screen__question-header { margin-bottom:14px; }
 .wm-screen.lx-screening .lx-board .wm-screen__options--orders { gap:12px; }
+
+/* SECTION 37: NUMBER STUDY AND KEYPAD
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
 .wm-screen.lx-screening .lx-board .wm-screen__options--orders .wm-screen__option--numbers { min-height:72px; }
+
+/* SECTION 38: PICTURE STUDY AND RECALL
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
 .wm-screen.lx-screening .lx-board .wm-screen__options--orders .wm-screen__option--pictures { padding:6px 20px; }
 .wm-screen.lx-screening .lx-board .wm-screen__option--pictures .wm-screen__picture-figure {
   width:clamp(56px,calc(180px / var(--choice-count,2)),84px);
   height:clamp(56px,calc(180px / var(--choice-count,2)),84px);
 }
+
+/* SECTION 39: LISTENING AND INSTRUCTION ANSWERS
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
 .wm-screen.lx-screening .lx-board .wm-screen__instruction-steps p { font-family:'Fredoka','Noto Sans Sinhala',sans-serif; font-weight:600; }
 /* Four steps plus the audio-failure Continue button: use less space around them
    so Continue keeps a clear gap above the helper text. */
@@ -410,6 +1038,17 @@
 
 /* Number study: one large pink box with a stitched inner edge, cream number
    cards with big dark-green digits, and the hint inside the box. */
+
+/* SECTION 40: NUMBER STUDY AND KEYPAD
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board
+   .wm-screen__memory-panel--plain:has(.wm-screen__number-sequence--study) Find the matching className in
+   the related JSX named in this file guide. position:relative makes this element an anchor for
+   absolutely positioned children; flex arranges children along a row/column; align-items and
+   justify-content align them, gap separates them; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__memory-panel--plain:has(.wm-screen__number-sequence--study) {
   position:relative; display:flex; flex-direction:column; align-items:center;
   padding:36px 24px 22px; border:2px solid #f3b6c4; border-radius:28px; background:#fde9ed;
@@ -420,20 +1059,64 @@
 .wm-screen.lx-screening .lx-board .wm-screen__number-sequence--study {
   gap:44px; padding:0; border:0; background:none;
 }
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__number-sequence--study > span Find the
+   matching className in the related JSX named in this file guide. font/font-size and line-height change
+   text size and readable line spacing; width/height/max-width control this element size.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__number-sequence--study > span {
   width:150px; height:150px; border:2px solid #f1b3c1; border-radius:24px; background:#fdf4ec;
   color:#1f4a12; font:700 92px/1 'Fredoka',sans-serif; box-shadow:0 3px 0 #f4cad3;
 }
 .wm-screen.lx-screening .lx-board .wm-screen__number-sequence--study.wm-screen__number-sequence--4 { gap:28px; }
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board
+   .wm-screen__number-sequence--study.wm-screen__number-sequence--4 > span Find the matching className in
+   the related JSX named in this file guide. font/font-size and line-height change text size and readable
+   line spacing; width/height/max-width control this element size.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__number-sequence--study.wm-screen__number-sequence--4 > span { width:130px; height:140px; font-size:80px; }
+
+/* SECTION 41: VINE BOARD AND ITS CONTENT
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__panel-hint Find the matching className in the
+   related JSX named in this file guide. position:relative makes this element an anchor for absolutely
+   positioned children; font/font-size and line-height change text size and readable line spacing;
+   padding is inside space, margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__panel-hint {
   position:relative; margin:22px 0 0; color:#8a4a22; text-align:center;
   font:600 21px/1.4 'Fredoka','Noto Sans Sinhala',sans-serif;
 }
 
 /* Listen + optional English read-aloud (Sinhala screens), kept in the title row's right column. */
+
+/* SECTION 42: LISTENING AND INSTRUCTION ANSWERS
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__listen-group Find the matching className in
+   the related JSX named in this file guide. flex arranges children along a row/column; align-items and
+   justify-content align them, gap separates them; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__listen-group { grid-column:3; display:flex; align-items:center; justify-content:flex-end; gap:8px; min-width:0; }
 .wm-screen.lx-screening .lx-board .wm-screen__listen-group .wm-screen__listen { grid-column:auto; }
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__listen-group:has(.wm-screen__listen--english)
+   .wm-screen__listen:not(.wm-screen__listen--english) Find the matching className in the related JSX
+   named in this file guide. width/height/max-width control this element size; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__listen-group:has(.wm-screen__listen--english) .wm-screen__listen:not(.wm-screen__listen--english) { width:auto; padding:6px 12px 6px 6px; }
+/*
+   SELECTOR: .wm-screen.lx-screening .lx-board .wm-screen__listen--english Find the matching className in
+   the related JSX named in this file guide. font/font-size and line-height change text size and readable
+   line spacing; width/height/max-width control this element size; padding is inside space, margin is
+   outside space and gap separates children.
+ */
 .wm-screen.lx-screening .lx-board .wm-screen__listen--english { width:auto; min-width:58px; padding:6px 12px; background:#e3efff; color:#0b2a78; font:700 19px/1 'Fredoka',sans-serif; letter-spacing:.04em; }
+
+/* SECTION 43: VINE BOARD AND ITS CONTENT
+   ScreeningIntro.jsx and ScreeningQuestions.jsx import this. The wm-intro-* classes style dialogs; wm-screen__* classes style screening. */
 .wm-screen.lx-screening:lang(si) .lx-board .wm-screen__title-row { grid-template-columns:200px minmax(0,1fr) 200px; }

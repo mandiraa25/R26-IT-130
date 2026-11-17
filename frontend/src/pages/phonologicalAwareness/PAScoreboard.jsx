@@ -1,3 +1,4 @@
+// VIVA: OVERVIEW - PA attempt results: score, save/pass status and retry/continue navigation supplied by the controller.
 import React from 'react';
 import { ArrowRight, Leaf, LockKeyholeOpen, RotateCcw, Sun } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -28,6 +29,7 @@ export default function PAScoreboard({ levelNumber, categoryTitle, score, totalQ
             <WoodenMusicToggle muted={!soundEnabled} onToggle={onToggleSound} ariaLabel={soundEnabled ? 'Mute sound' : 'Enable sound'} />
           </div>
         </header>
+        {/* VIVA: Result board, mascot and attempt score. */}
         <main className="pa-scoreboard-board" aria-labelledby="pa-scoreboard-heading">
           <img className="pa-scoreboard-board-art" src={`${ART}/vine-scoreboard.png`} alt="" />
           <img className="pa-scoreboard-mascot" src={`${ART}/celebrating-parrot.png`} alt="" />
@@ -36,10 +38,12 @@ export default function PAScoreboard({ levelNumber, categoryTitle, score, totalQ
             <span>{congratulatory ? t('congratulations') : t('great_effort')}</span>
             <Leaf aria-hidden="true" />
           </h1>
+          {/* VIVA: Correct answers out of the attempt question count. */}
           <section className="pa-scoreboard-score" aria-label={`${t('your_score')}: ${score} / ${totalQuestions}`}>
             <span>{t('your_score')}</span>
             <strong>{score} / {totalQuestions}</strong>
           </section>
+          {/* VIVA: Saving and pass/practice feedback from the attempt result. */}
           <div className="pa-scoreboard-status-area" role="status" aria-live="polite">
             {isSubmitting ? (
               <p className="pa-scoreboard-status is-saving">{sinhala ? 'ප්‍රගතිය සුරකිමින්…' : 'Saving your progress...'}</p>
@@ -51,6 +55,7 @@ export default function PAScoreboard({ levelNumber, categoryTitle, score, totalQ
               </p>
             ) : null}
           </div>
+          {/* VIVA: Retry, continue after passing, or return to the difficulty map. */}
           <div className={`pa-scoreboard-actions${passed ? '' : ' is-returning'}`}>
             <button type="button" className="pa-scoreboard-retry" onClick={onRetry}><RotateCcw aria-hidden="true" />{t('retry')}</button>
             <button type="button" className={`pa-scoreboard-continue${passed ? '' : ' is-returning'}`} onClick={passed ? onNext : onBack}>

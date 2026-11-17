@@ -5,6 +5,7 @@ import ReportShell, { ReportActionLink, ReportBackLink, WoodenReportIcon } from 
 import { getReportModule } from "./reportModules";
 import useReportProfile from "./hooks/useReportProfile";
 
+// VIVA: REPORT CHOICE - :componentId selects metadata; assessment/practice links open existing detail reports.
 export default function ComponentReportSelect() {
   const { componentId } = useParams();
   const { i18n } = useTranslation("common");
@@ -19,6 +20,7 @@ export default function ComponentReportSelect() {
   return <ReportShell moduleId={module.id} profile={profile}>
     <ReportBackLink to="/reports">{si ? "සියලු වාර්තා" : "All reports"}</ReportBackLink>
     <header className="reports-module-heading"><img className="reports-mascot" src={module.mascot} alt="" /><div><h1>{title}</h1><p>{si ? "වාර්තා වර්ගයක් තෝරන්න." : "Choose a report type."}</p></div></header>
+    {/* VIVA: REPORT CHOICE BUTTONS - assessment and practice links are generated from types. */}
     <div className="reports-type-list">
       {types.map(type => <article key={type.id} className="reports-type-row">
         <WoodenReportIcon icon={type.icon} />

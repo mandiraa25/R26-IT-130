@@ -1,3 +1,4 @@
+// VIVA: 3D checkpoint landmark built from stone meshes and a crystal; active checkpoints glow and can animate.
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 

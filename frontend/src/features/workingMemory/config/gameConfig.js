@@ -1,4 +1,23 @@
 /*
+ * FILE PURPOSE
+ * Shared game settings, bilingual guidance, tutorial choices and result messages.
+ *
+ * HOW IT CONNECTS
+ * Used by ImprovementPage, improvement/data, ActivityScreen, NumberMemoryGame, HowToPlay, Feedback,
+ * ActivityResults and LevelCompletion.
+ * Direct source importers: ../improvement/ActivityScreen.jsx, ../improvement/data/index.js,
+ * ../improvement/games/InstructionsGame.jsx, ../improvement/games/NumberMemoryGame.jsx,
+ * ../improvement/games/PatternGame.jsx, ../improvement/games/PictureMemoryGame.jsx,
+ * ../improvement/ImprovementPage.jsx, ../shared/ActivityResults.jsx, ../shared/Feedback.jsx,
+ * ../shared/HowToPlay.jsx, ../shared/LevelCompletion.jsx.
+ *
+ * THINGS TO REMEMBER
+ * SUBCATEGORY_ORDER is pattern/words/instructions/numbers. LEVEL_DISPLAY_TIMES_MS controls Numbers;
+ * Pictures explicitly uses ten seconds. Game keys are saved in URLs/database. Text configuration does
+ * not change scoring or unlock rules.
+ */
+
+/*
  * Working Memory: game settings and on-screen text
  *
  * What is inside
@@ -33,6 +52,8 @@
 // ---------------------------------------------------------------------------
 
 export const LEVEL_DISPLAY_TIMES_MS = Object.freeze({
+  // VIVA: Numbers uses these level timings; Picture Memory explicitly uses ten
+  // seconds, and Instructions advances after listening rather than this timer.
   1: 12000,
   2: 10000,
   3: 8000,
@@ -74,6 +95,11 @@ export const HOW_TO_PLAY_VIDEOS = {
 // 2: { numbers: { en: "/videos/number-memory-level-2.mp4" } }
 export const HOW_TO_PLAY_LEVEL_VIDEOS = { 1: {}, 2: {}, 3: {}, 4: {} };
 
+/*
+ * FUNCTION: getHowToPlayVideo - choose a tutorial URL without changing game access.
+ * HowToPlay calls this with game, level, language and bank fallback URL.
+ * Priority: matching level override, matching game/language override, supplied fallback.
+ */
 export function getHowToPlayVideo(game, level, language, fallback = "") {
   const lang = language?.startsWith("si") ? "si" : "en";
   return HOW_TO_PLAY_LEVEL_VIDEOS[Number(level)]?.[game]?.[lang]

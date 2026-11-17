@@ -1,5 +1,24 @@
+/*
+ * FILE PURPOSE
+ * Style file: Pattern image-cell fitting and compound-token layout.
+ *
+ * HOW IT CONNECTS
+ * PatternArtwork.jsx imports this. The SVG and crop/image classes control visual sizing without
+ * changing tokens.
+ * Direct source importers: ../shared/artwork/PatternArtwork.jsx.
+ *
+ * THINGS TO REMEMBER
+ * Selectors match JSX className values. width/height control size; left/top/inset position absolute
+ * elements inside a positioned parent. padding is inside space; margin is outside space; gap separates
+ * flex/grid children. Later matching rules and more specific selectors can override earlier ones.
+ * These comments preserve every existing declaration.
+ */
+
 /* Each cell shows one original generated illustration without changing the
    question token, reordering composite symbols, or drawing adjacent cells. */
+
+/* SECTION 1: PATTERN QUESTION AND ARTWORK
+   PatternArtwork.jsx imports this. The SVG and crop/image classes control visual sizing without changing tokens. */
 .lx-pattern-artwork {
   display:inline-flex;
   align-items:center;
@@ -19,7 +38,17 @@
   width:100%;
   height:100%;
 }
+/*
+   SELECTOR: .lx-pattern-artwork__crop Find the matching className in the related JSX named in this file
+   guide. position:relative makes this element an anchor for absolutely positioned children;
+   width/height/max-width control this element size.
+ */
 .lx-pattern-artwork__crop { display:block; position:relative; overflow:hidden; width:100%; height:100%; }
+/*
+   SELECTOR: .lx-pattern-artwork__image Find the matching className in the related JSX named in this file
+   guide. position:absolute places this layer; left/top/right/bottom/inset move it within its containing
+   area; width/height/max-width control this element size.
+ */
 .lx-pattern-artwork__image { position:absolute; max-width:none; max-height:none; user-select:none; }
 .lx-pattern-artwork--compound { gap:4px; }
 .lx-pattern-artwork--compound .lx-pattern-artwork__cell {
@@ -28,6 +57,12 @@
   height:auto;
   aspect-ratio:1;
 }
+/*
+   SELECTOR: .lx-game .lx-pattern-question .lx-pattern-option > .lx-pattern-artwork Find the matching
+   className in the related JSX named in this file guide. position:absolute places this layer;
+   left/top/right/bottom/inset move it within its containing area; width/height/max-width control this
+   element size.
+ */
 .lx-game .lx-pattern-question .lx-pattern-option > .lx-pattern-artwork {
   position:absolute;
   inset:24px 28px 16px;

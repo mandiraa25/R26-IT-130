@@ -1,3 +1,4 @@
+// VIVA: OVERVIEW - Shared PA question-position tracker and sound toggle sized around surrounding header controls.
 import { useLayoutEffect, useRef } from "react";
 import { WoodenMusicToggle } from "../../components/common/WoodenNavControls";
 import "./PAQuizHeaderControls.css";
@@ -24,6 +25,7 @@ export default function PAQuizHeaderControls({ currentIdx, totalQuestions, sound
   return (
     <>
       {/* Absolute artwork preserves the existing header and quiz layout. */}
+      {/* VIVA: Visual question-position tracker; the number follows currentIdx. */}
       <div
         ref={trackerRef}
         className="pa-quiz-tracker"
@@ -36,6 +38,7 @@ export default function PAQuizHeaderControls({ currentIdx, totalQuestions, sound
         <span className="pa-quiz-tracker-number" aria-hidden="true">{currentIdx + 1}</span>
       </div>
 
+      {/* VIVA: Toggle the activity sound setting through the parent callback. */}
       <div className="flex items-center gap-2 z-10">
         <WoodenMusicToggle
           className="pa-quiz-sound"

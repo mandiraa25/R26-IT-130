@@ -9,6 +9,7 @@ export const MIN_AGE = 6;
 export const MAX_AGE = 9;
 export const GRADES = ["2", "3", "4"];
 
+// VIVA: Names support Unicode letters; the optional school field accepts English text/punctuation.
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/;
 const NAME_PATTERN = /^[\p{L}][\p{L}\p{M} .'-]*$/u;
 const SCHOOL_PATTERN = /^[A-Za-z0-9][A-Za-z0-9 .,'&()/-]*$/;
@@ -39,6 +40,7 @@ export const validateEmail = value => {
   return "";
 };
 
+// VIVA: Account creation/reset enforce strength; sign-in only requires a nonempty password.
 export const validatePassword = value => {
   if (!value) return "Password is required.";
   if (value.length < 8 || value.length > 64) return "Password must be 8 to 64 characters.";
@@ -54,6 +56,7 @@ export const validateSchool = value => {
   return "";
 };
 
+// VIVA: Keep only failed checks, producing the field -> message object consumed by forms.
 const collect = checks => Object.fromEntries(Object.entries(checks).filter(([, message]) => message));
 
 export const validateRegistrationForm = form => collect({

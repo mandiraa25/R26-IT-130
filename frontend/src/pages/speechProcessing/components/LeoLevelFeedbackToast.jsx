@@ -1,3 +1,4 @@
+// VIVA: Transient result display: child feedback, Leo's message and earned collectibles; retry-required results stay hidden here.
 function LeoLevelFeedbackToast({ feedback, theme }) {
   if (!feedback || feedback.retryRequired) return null;
 

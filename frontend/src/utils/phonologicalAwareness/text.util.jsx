@@ -1,3 +1,4 @@
+// VIVA: FILE CONTENTS - JSX text helpers for mirrored reading stimuli and their clean accessible labels.
 import React from "react";
 
 /**

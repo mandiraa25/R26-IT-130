@@ -1,3 +1,4 @@
+// VIVA: Individual level button: number/state, prompt or guide label, stars and retry/locked styling in two visual variants.
 import { Lock } from "lucide-react";
 import { useTranslation } from "react-i18next";
 

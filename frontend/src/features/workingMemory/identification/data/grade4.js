@@ -1,5 +1,27 @@
+/*
+ * FILE PURPOSE
+ * Authored English and Sinhala screening questions for Grade 4; this is question data, not a React
+ * screen.
+ *
+ * HOW IT CONNECTS
+ * identification/data/index.js exposes grade4Data through QUIZ_DATA. ScreeningPage selects the
+ * language and ScreeningQuestions renders it; answerChecking checks its expected answer.
+ * Direct source importers: index.js.
+ *
+ * THINGS TO REMEMBER
+ * Each language has 15 questions in authored order: 4 Pattern, 4 Picture Memory, 4 Instruction and 3
+ * Number Memory. id identifies a response; category/type choose the presentation/checker; options are
+ * selectable choices; correct stores the expected choice. words and sequence are the study material.
+ * Do not infer difficulty from another grade: each grade owns its own sequences, prompts and options.
+ */
+
 export const grade4Data = {
   "en": [
+    /*
+     * QUESTION: wm-g4-1 - Pattern
+     * The pattern stays visible; compare the tapped option with correct. There are 3 authored choices.
+     * ScreeningPage owns timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-1",
       category: "Pattern",
@@ -9,6 +31,11 @@ export const grade4Data = {
       options: ["🔵", "🔴", "🟢"],
       correct: "🔵",
     },
+    /*
+     * QUESTION: wm-g4-2 - Pattern
+     * The pattern stays visible; compare the tapped option with correct. There are 3 authored choices.
+     * ScreeningPage owns timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-2",
       category: "Pattern",
@@ -18,6 +45,11 @@ export const grade4Data = {
       options: ["18", "24", "32"],
       correct: "32",
     },
+    /*
+     * QUESTION: wm-g4-3 - Pattern
+     * The pattern stays visible; compare the tapped option with correct. There are 3 authored choices.
+     * ScreeningPage owns timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-3",
       category: "Pattern",
@@ -27,6 +59,11 @@ export const grade4Data = {
       options: ["H", "I", "J"],
       correct: "I",
     },
+    /*
+     * QUESTION: wm-g4-4 - Pattern
+     * The pattern stays visible; compare the tapped option with correct. There are 3 authored choices.
+     * ScreeningPage owns timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-4",
       category: "Pattern",
@@ -36,6 +73,11 @@ export const grade4Data = {
       options: ["10", "15", "20"],
       correct: "15",
     },
+    /*
+     * QUESTION: wm-g4-5 - Picture Memory
+     * Study 3 items before choosing the remembered order. There are 3 authored choices. ScreeningPage owns
+     * timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-5",
       category: "Picture Memory",
@@ -49,6 +91,11 @@ export const grade4Data = {
       ],
       correct: "Cat, Tree, Book"
     },
+    /*
+     * QUESTION: wm-g4-6 - Picture Memory
+     * Study 4 items before choosing the remembered order. There are 3 authored choices. ScreeningPage owns
+     * timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-6",
       category: "Picture Memory",
@@ -62,6 +109,11 @@ export const grade4Data = {
       ],
       correct: "Sun, Bird, River, Home"
     },
+    /*
+     * QUESTION: wm-g4-7 - Picture Memory
+     * Study 4 items before choosing the remembered order. There are 3 authored choices. ScreeningPage owns
+     * timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-7",
       category: "Picture Memory",
@@ -75,6 +127,11 @@ export const grade4Data = {
       ],
       correct: "Dog, Bottle, Cup, Bird"
     },
+    /*
+     * QUESTION: wm-g4-8 - Instruction
+     * Read/listen to text, then choose the expected action/order from options. There are 3 authored
+     * choices. ScreeningPage owns timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-8",
       category: "Instruction",
@@ -84,6 +141,11 @@ export const grade4Data = {
       options: ["Stand up", "Sit down", "Run away"],
       correct: "Run away",
     },
+    /*
+     * QUESTION: wm-g4-9 - Instruction
+     * Read/listen to text, then choose the expected action/order from options. There are 3 authored
+     * choices. ScreeningPage owns timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-9",
       category: "Instruction",
@@ -93,6 +155,11 @@ export const grade4Data = {
       options: ["Draw", "Read", "Write"],
       correct: "Draw",
     },
+    /*
+     * QUESTION: wm-g4-10 - Instruction
+     * Read/listen to text, then choose the expected action/order from options. There are 4 authored
+     * choices. ScreeningPage owns timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-10",
       category: "Instruction",
@@ -102,6 +169,11 @@ export const grade4Data = {
       options: ["Open pages", "Close", "Take book", "Read"],
       correct: "Open pages",
     },
+    /*
+     * QUESTION: wm-g4-11 - Instruction
+     * Read/listen to text, then choose the expected action/order from options. There are 3 authored
+     * choices. ScreeningPage owns timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-11",
       category: "Instruction",
@@ -111,6 +183,11 @@ export const grade4Data = {
       options: ["Sleep", "Eat food", "Brush teeth"],
       correct: "Sleep",
     },
+    /*
+     * QUESTION: wm-g4-12 - Number Memory
+     * Study 3 items before choosing the remembered order. There are 3 authored choices. ScreeningPage owns
+     * timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-12",
       category: "Number Memory",
@@ -120,6 +197,11 @@ export const grade4Data = {
       options: ["2, 9, 4", "9, 4, 2", "4, 9, 2"],
       correct: "4, 9, 2"
     },
+    /*
+     * QUESTION: wm-g4-13 - Number Memory
+     * Study 4 items before choosing the remembered order. There are 3 authored choices. ScreeningPage owns
+     * timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-13",
       category: "Number Memory",
@@ -129,6 +211,11 @@ export const grade4Data = {
       options: ["1, 8, 3, 6", "6, 3, 8, 1", "3, 6, 1, 8"],
       correct: "6, 3, 8, 1"
     },
+    /*
+     * QUESTION: wm-g4-14 - Number Memory
+     * Study 4 items before choosing the remembered order. There are 3 authored choices. ScreeningPage owns
+     * timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-14",
       category: "Number Memory",
@@ -138,6 +225,11 @@ export const grade4Data = {
       options: ["40, 30, 20, 10", "10, 30, 20, 40", "10, 20, 30, 40"],
       correct: "10, 20, 30, 40"
     },
+    /*
+     * QUESTION: wm-g4-15 - Number Memory
+     * Study 4 items before choosing the remembered order. There are 3 authored choices. ScreeningPage owns
+     * timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-15",
       category: "Number Memory",
@@ -149,6 +241,11 @@ export const grade4Data = {
     },
   ],
   "si": [
+    /*
+     * QUESTION: wm-g4-si-1 - Pattern
+     * The pattern stays visible; compare the tapped option with correct. There are 3 authored choices.
+     * ScreeningPage owns timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-si-1",
       category: "Pattern",
@@ -158,6 +255,11 @@ export const grade4Data = {
       options: ["🔵", "🔴", "🟢"],
       correct: "🔵",
     },
+    /*
+     * QUESTION: wm-g4-si-2 - Pattern
+     * The pattern stays visible; compare the tapped option with correct. There are 3 authored choices.
+     * ScreeningPage owns timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-si-2",
       category: "Pattern",
@@ -167,6 +269,11 @@ export const grade4Data = {
       options: ["18", "24", "32"],
       correct: "32",
     },
+    /*
+     * QUESTION: wm-g4-si-3 - Pattern
+     * The pattern stays visible; compare the tapped option with correct. There are 3 authored choices.
+     * ScreeningPage owns timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-si-3",
       category: "Pattern",
@@ -176,6 +283,11 @@ export const grade4Data = {
       options: ["H", "I", "J"],
       correct: "I",
     },
+    /*
+     * QUESTION: wm-g4-si-4 - Pattern
+     * The pattern stays visible; compare the tapped option with correct. There are 3 authored choices.
+     * ScreeningPage owns timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-si-4",
       category: "Pattern",
@@ -185,6 +297,11 @@ export const grade4Data = {
       options: ["10", "15", "20"],
       correct: "15",
     },
+    /*
+     * QUESTION: wm-g4-si-5 - Picture Memory
+     * Study 3 items before choosing the remembered order. There are 3 authored choices. ScreeningPage owns
+     * timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-si-5",
       category: "Picture Memory",
@@ -198,6 +315,11 @@ export const grade4Data = {
       ],
       correct: "පූසා, ගස, පොත"
     },
+    /*
+     * QUESTION: wm-g4-si-6 - Picture Memory
+     * Study 4 items before choosing the remembered order. There are 3 authored choices. ScreeningPage owns
+     * timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-si-6",
       category: "Picture Memory",
@@ -211,6 +333,11 @@ export const grade4Data = {
       ],
       correct: "ඉර, කුරුල්ලා, ගඟ, ගෙදර"
     },
+    /*
+     * QUESTION: wm-g4-si-7 - Picture Memory
+     * Study 4 items before choosing the remembered order. There are 3 authored choices. ScreeningPage owns
+     * timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-si-7",
       category: "Picture Memory",
@@ -224,6 +351,11 @@ export const grade4Data = {
       ],
       correct: "බල්ලා, බෝතලය, කෝප්පය, කුරුල්ලා"
     },
+    /*
+     * QUESTION: wm-g4-si-8 - Instruction
+     * Read/listen to text, then choose the expected action/order from options. There are 3 authored
+     * choices. ScreeningPage owns timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-si-8",
       category: "Instruction",
@@ -233,6 +365,11 @@ export const grade4Data = {
       options: ["වාඩිවන්න", "පැන යන්න", "හිටගන්න"],
       correct: "පැන යන්න",
     },
+    /*
+     * QUESTION: wm-g4-si-9 - Instruction
+     * Read/listen to text, then choose the expected action/order from options. There are 3 authored
+     * choices. ScreeningPage owns timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-si-9",
       category: "Instruction",
@@ -242,6 +379,11 @@ export const grade4Data = {
       options: ["කියවන්න", "අඳින්න", "ලියන්න"],
       correct: "අඳින්න",
     },
+    /*
+     * QUESTION: wm-g4-si-10 - Instruction
+     * Read/listen to text, then choose the expected action/order from options. There are 4 authored
+     * choices. ScreeningPage owns timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-si-10",
       category: "Instruction",
@@ -251,6 +393,11 @@ export const grade4Data = {
       options: ["කියවන්න", "වසා දමන්න", "පිටු අරින්න", "පොත ගන්න"],
       correct: "පිටු අරින්න",
     },
+    /*
+     * QUESTION: wm-g4-si-11 - Instruction
+     * Read/listen to text, then choose the expected action/order from options. There are 3 authored
+     * choices. ScreeningPage owns timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-si-11",
       category: "Instruction",
@@ -260,6 +407,11 @@ export const grade4Data = {
       options: ["දත් මදින්න", "කෑම කන්න", "නිදාගන්න"],
       correct: "නිදාගන්න",
     },
+    /*
+     * QUESTION: wm-g4-si-12 - Number Memory
+     * Study 3 items before choosing the remembered order. There are 3 authored choices. ScreeningPage owns
+     * timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-si-12",
       category: "Number Memory",
@@ -269,6 +421,11 @@ export const grade4Data = {
       options: ["4, 9, 2", "2, 9, 4", "9, 4, 2"],
       correct: "4, 9, 2"
     },
+    /*
+     * QUESTION: wm-g4-si-13 - Number Memory
+     * Study 4 items before choosing the remembered order. There are 3 authored choices. ScreeningPage owns
+     * timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-si-13",
       category: "Number Memory",
@@ -278,6 +435,11 @@ export const grade4Data = {
       options: ["1, 8, 3, 6", "6, 3, 8, 1", "3, 6, 1, 8"],
       correct: "6, 3, 8, 1"
     },
+    /*
+     * QUESTION: wm-g4-si-14 - Number Memory
+     * Study 4 items before choosing the remembered order. There are 3 authored choices. ScreeningPage owns
+     * timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-si-14",
       category: "Number Memory",
@@ -287,6 +449,11 @@ export const grade4Data = {
       options: ["40, 30, 20, 10", "10, 30, 20, 40", "10, 20, 30, 40"],
       correct: "10, 20, 30, 40"
     },
+    /*
+     * QUESTION: wm-g4-si-15 - Number Memory
+     * Study 4 items before choosing the remembered order. There are 3 authored choices. ScreeningPage owns
+     * timing; answerChecking owns validation.
+     */
     {
       id: "wm-g4-si-15",
       category: "Number Memory",

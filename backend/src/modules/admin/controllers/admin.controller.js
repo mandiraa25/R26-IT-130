@@ -1,3 +1,14 @@
+/*
+ * FILE PURPOSE
+ * Shared administrator request handlers, including retrieval of Working Memory screening reports.
+ * 
+ * HOW IT CONNECTS
+ * admin.routes.js calls getWMIdentifyResults. The handler queries WMIdentifyResult and populates student fields for WMIdentifyResults.jsx filters/details/exports.
+ * 
+ * THINGS TO REMEMBER
+ * The WM report reads existing screening records; it does not calculate new answers, call the ML service or unlock improvement games. Other handlers in this shared file serve unrelated admin features and remain unchanged.
+ */
+
 const School = require("../models/school.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -11,6 +22,7 @@ const { tokenizeWordToPhonemes } = require("../../speechProcessing/services/phon
 
 // Register Admin
 exports.registerAdmin = async (req, res) => {
+  // VIVA: Validate this public registration request, hash the password, then save an Admin.
   try {
     const { fullName, email, password, role } = req.body;
 
@@ -70,6 +82,7 @@ exports.loginAdmin = async (req, res) => {
     }
 
     const token = jwt.sign(
+      // VIVA: Middleware reads type for admin access and role for super-admin actions.
       { id: admin._id, role: admin.role, type: 'admin' },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
@@ -93,6 +106,7 @@ exports.loginAdmin = async (req, res) => {
 
 // Get All Students
 exports.getAllStudents = async (req, res) => {
+  // VIVA: Return all student profiles without passwords; this query has no school filter.
   try {
     const students = await Student.find().select("-password");
     res.status(200).json({ success: true, data: students });
@@ -104,6 +118,7 @@ exports.getAllStudents = async (req, res) => {
 
 // Update Student (Super Admin only)
 exports.superAdminUpdateStudent = async (req, res) => {
+  // VIVA: Route middleware checks the role before this handler updates the requested ID.
   try {
     const { id } = req.params;
     const updateData = req.body;
@@ -129,6 +144,7 @@ exports.superAdminUpdateStudent = async (req, res) => {
 
 // Delete Student (Super Admin only)
 exports.deleteStudent = async (req, res) => {
+  // VIVA: Delete the Student document only; this handler does not remove learning history.
   try {
     const { id } = req.params;
     const deletedStudent = await Student.findByIdAndDelete(id);
@@ -145,7 +161,14 @@ exports.deleteStudent = async (req, res) => {
 };
 
 // Get all Working Memory Identify Results
+/*
+ * FUNCTION: getWMIdentifyResults - read saved screening attempts for the administrator.
+ * WHEN: The protected admin Working Memory identification-report route calls it.
+ * HOW: Query stored tests, populate student name/email, order newest first and return JSON.
+ * RESULT: The frontend filters/displays/exports existing records; no score is recomputed.
+ */
 exports.getWMIdentifyResults = async (req, res) => {
+  // VIVA: Read saved metrics unchanged and join student names/emails for the admin report.
   try {
     const results = await WMIdentifyResult.find()
       .populate({
@@ -180,6 +203,7 @@ exports.getPAIdentifyResults = async (req, res) => {
 
 // Get all Speech Processing Identify Results
 exports.getSpeechIdentifyResults = async (req, res) => {
+  // VIVA: Build display summaries from stored sessions/attempts; fallback values appear below.
   try {
     const sessions = await SpeechSession.find({
       $or: [{ mode: "identification" }, { assessmentRole: "baseline" }],
@@ -468,6 +492,7 @@ exports.getAllSchools = async (req, res) => {
 
 // POST: Create a school
 exports.createSchool = async (req, res) => {
+  // VIVA: Recalculate cost on the server rather than trusting a price sent by the browser.
   try {
     const { name, location, studentCount, grades, plan } = req.body;
 
@@ -551,6 +576,7 @@ exports.registerAdminByAdmin = async (req, res) => {
 
 // POST: Super admin registers student
 exports.registerStudentByAdmin = async (req, res) => {
+  // VIVA: This registration flow derives age from grade and creates an individual student account.
   try {
     const { fullName, email, password, grade, gender, school } = req.body;
 
@@ -613,6 +639,7 @@ exports.updateAdminByAdmin = async (req, res) => {
 
 // POST: Password reset for any user (Admin or Student)
 exports.resetUserPassword = async (req, res) => {
+  // VIVA: Hash a supplied replacement password, looking for the ID in admins before students.
   try {
     const { userId, newPassword } = req.body;
 
@@ -648,6 +675,7 @@ exports.resetUserPassword = async (req, res) => {
 
 // POST: Deactivate / Reactivate User
 exports.deactivateReactivateUser = async (req, res) => {
+  // VIVA: Login checks isActive; this action changes that flag while retaining the account.
   try {
     const { userId, isActive } = req.body;
 

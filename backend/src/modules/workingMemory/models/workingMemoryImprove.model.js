@@ -1,7 +1,26 @@
+/*
+ * FILE PURPOSE
+ * Mongoose schemas for current student progress and the separate detailed attempt log.
+ *
+ * HOW IT CONNECTS
+ * The improvement controller reads/writes both models and report endpoints read them. Exports
+ * WorkingMemoryImproveProgress and WorkingMemoryImproveAttempt.
+ * Direct source importers: ../../common/controllers/student.controller.js,
+ * ../controllers/workingMemoryImprove.controller.js.
+ *
+ * THINGS TO REMEMBER
+ * Progress has one unique studentId across grades/languages; attempt records retain
+ * grade/language/level/game. totalCarrots/carrotsEarned remain compatibility fields for stars.
+ * Per-question time is milliseconds; attempt total time is seconds. videoWatched exists in the schema
+ * but the current WM flow does not update it.
+ */
+
 const mongoose = require("mongoose");
 
 // Track single document per student for current improvement level progress & unlocks
 const workingMemoryImproveProgressSchema = new mongoose.Schema(
+  // VIVA: studentId is unique, so progress is per student across attempts;
+  // grade and language belong to the attempt log rather than this progress key.
   {
     studentId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -64,6 +83,8 @@ const workingMemoryImproveProgressSchema = new mongoose.Schema(
 
 // Track every individual attempt for detailed history & unlimited re-attempts
 const workingMemoryImproveAttemptSchema = new mongoose.Schema(
+  // VIVA: Each replay adds an attempt document instead of overwriting history.
+  // totalTimeTaken is supplied in seconds; question timeTaken is milliseconds.
   {
     studentId: {
       type: mongoose.Schema.Types.ObjectId,

@@ -1,3 +1,4 @@
+// VIVA: React Three Fiber safari scene: camera, terrain, five activity landmarks, checkpoint shrines and procedural Leo with render fallback.
 import { Component, useMemo } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";

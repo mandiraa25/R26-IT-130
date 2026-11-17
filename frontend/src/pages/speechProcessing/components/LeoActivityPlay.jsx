@@ -1,3 +1,4 @@
+// VIVA: Training activity controller/view: start overlay, sound or sentence prompt, answer/recording controls, progress map and rewards.
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {

@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { stopAllAudio } from "../../utils/phonologicalAwareness/audio";
 
+// VIVA: FILE CONTENTS - floating Home control with hover artwork; stops audio and opens the dashboard.
 function HomeButton() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,7 +23,7 @@ function HomeButton() {
         {/* Animated Background Ring */}
         <div className="absolute inset-0 bg-indigo-400 rounded-3xl blur-md opacity-0 group-hover:opacity-40 transition-opacity duration-500 scale-110"></div>
         
-        {/* Main Button Body */}
+        {/* VIVA: HOME BUTTON BODY - the house icon and Home label are here. */}
         <div className="relative flex items-center gap-3 bg-white/90 backdrop-blur-md px-6 py-3 rounded-2xl shadow-[0_8px_0_rgba(0,0,0,0.1)] group-hover:shadow-[0_4px_0_rgba(0,0,0,0.1)] group-hover:translate-y-1 transition-all duration-300 border-2 border-indigo-100 group-hover:border-indigo-400 overflow-hidden">
           <div className="text-2xl group-hover:scale-125 transition-transform duration-500">🏠</div>
           <span className="font-black text-indigo-600 uppercase tracking-widest text-sm translate-x-1 group-hover:translate-x-0 transition-transform">

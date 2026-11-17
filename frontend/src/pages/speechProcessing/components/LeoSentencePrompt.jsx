@@ -1,3 +1,4 @@
+// VIVA: Sentence/paragraph prompt: optional segment progress and readable text chunks, falling back to targetText.
 import { useTranslation } from "react-i18next";
 
 function LeoSentencePrompt({ prompt }) {

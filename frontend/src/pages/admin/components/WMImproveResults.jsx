@@ -1,6 +1,23 @@
+/*
+ * FILE PURPOSE
+ * Administrator improvement-report placeholder screen.
+ *
+ * HOW IT CONNECTS
+ * Admin Dashboard selects this component, but it does not fetch Working Memory progress or attempt
+ * history.
+ * Direct source importers: ../Dashboard.jsx.
+ *
+ * THINGS TO REMEMBER
+ * The development message is static JSX with Tailwind classes. The real student improvement report is
+ * pages/common/reports/ImproveWorkingMemoryReport.jsx. Do not describe this placeholder as connected
+ * analytics.
+ */
+
+// VIVA: OVERVIEW - Admin Working Memory improvement placeholder; this page does not load attempt data.
 import React from "react";
 
 const WMImproveResults = () => {
+  // VIVA: This admin route is a placeholder; it does not fetch improvement attempts yet.
   return (
     <div className="space-y-10 pb-20 animate-fadeIn">
       <div className="space-y-2">

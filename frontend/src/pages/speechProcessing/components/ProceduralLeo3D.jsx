@@ -1,3 +1,4 @@
+// VIVA: Leo mascot assembled from 3D meshes; frame updates animate his body, head and waving arm when enabled.
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";

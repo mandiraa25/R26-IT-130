@@ -1,3 +1,4 @@
+// VIVA: Bilingual prompt card: English instruction, target word/sentence and Sinhala instruction with a microphone/book icon.
 function PromptCard({ prompt }) {
   const isSentence = prompt?.taskType === "sentence_read";
 

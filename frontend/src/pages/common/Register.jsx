@@ -1,3 +1,4 @@
+// VIVA: Local form state and validators run before the registration service sends account data.
 import { useState } from "react";
 import { registerStudent } from "../../services/auth/api";
 import { useNavigate, Link } from "react-router-dom";
@@ -6,13 +7,16 @@ import { MAX_AGE, MIN_AGE, validateRegistrationForm } from "../../utils/authVali
 
 const inputClass = (error) => `w-full rounded-xl border bg-white px-4 py-2.5 text-slate-800 shadow-sm outline-none transition focus:ring-4 ${error ? "border-red-400 focus:border-red-500 focus:ring-red-100" : "border-[#ddd6ca] focus:border-[#65a832] focus:ring-green-100"}`;
 
+// VIVA: Reused beneath inputs; the id connects each message to aria-describedby.
 function FieldError({ id, message }) {
   return message ? <p id={id} className="mt-1 text-xs font-semibold text-red-600">{message}</p> : null;
 }
 
+// VIVA: FILE CONTENTS - registration scene, student details/password form, field errors and sign-in link.
 function Register() {
   const navigate = useNavigate();
 
+  // VIVA: Controlled inputs read these values; errors and loading determine feedback and button state.
   const [form, setForm] = useState({
     fullName: "",
     age: "",
@@ -35,6 +39,7 @@ function Register() {
     }
   };
 
+  // VIVA: Validate every field before creating the account; the server repeats the validation.
   const handleSubmit = async (e) => {
     e.preventDefault();
     const found = validateRegistrationForm(form);
@@ -43,8 +48,10 @@ function Register() {
     if (Object.keys(found).length) return;
     setLoading(true);
     try {
+      // VIVA: Confirmation is a browser-only check; normalize the actual registration payload.
       const { confirmPassword: _confirm, ...details } = form;
       await registerStudent({ ...details, fullName: details.fullName.trim(), email: details.email.trim().toLowerCase(), age: Number(details.age) });
+      // VIVA: Registration returns a token, but this screen requires a separate sign-in afterward.
       alert("Registered successfully");
       navigate("/");
     } catch (err) {
@@ -56,17 +63,21 @@ function Register() {
     }
   };
 
+  // VIVA: Only reference an error element when that message is actually rendered.
   const describedBy = name => (errors[name] ? `${name}-error` : undefined);
 
+  // VIVA: Static artwork supplies the scene; the responsive panel contains the editable form.
   return (
     <div
       className="relative h-dvh overflow-hidden bg-center bg-no-repeat"
       style={{ backgroundImage: `url(${bgImage})`, backgroundSize: "cover" }}
     >
+      {/* VIVA: EXISTING-ACCOUNT LINK - returns to Sign In. */}
       <Link to="/" className="absolute right-4 top-4 z-20 rounded-2xl border border-emerald-100 bg-[#fffdf7] px-5 py-3 text-sm font-semibold text-slate-700 shadow-lg transition-transform hover:-translate-y-0.5 sm:right-7 sm:top-6">
         Already have an account? <span className="ml-1 font-black text-emerald-700">Sign In →</span>
       </Link>
 
+      {/* VIVA: REGISTRATION PANEL - the student fields and submit button are rendered inside this panel. */}
       <main className="relative z-10 flex h-full items-center justify-center overflow-y-auto px-4 py-14 sm:px-8 sm:py-10">
         <section className="w-full max-w-xl rounded-[1.75rem] border border-[#eee5d7] bg-[#fffdf8]/95 p-5 shadow-[0_22px_60px_rgba(46,82,30,0.2)] sm:translate-x-[2.5cm] sm:p-7">
           <header className="mb-4 text-center">
@@ -76,6 +87,7 @@ function Register() {
             <h2 className="mt-2 text-xl font-bold text-gray-800 sm:text-2xl">Create Account</h2>
           </header>
 
+          {/* VIVA: STUDENT DETAILS - name/age, grade, email and password fields update form state. */}
           <form onSubmit={handleSubmit} noValidate className="space-y-3">
             <div className="grid gap-3 sm:grid-cols-2">
               <div>
@@ -109,6 +121,7 @@ function Register() {
 
             <div className="grid gap-3 sm:grid-cols-2">
               <div>
+                {/* VIVA: PASSWORD AND CONFIRMATION - browser validation checks strength and equality. */}
                 <label htmlFor="password" className="mb-1 block text-sm font-bold text-slate-800">Password</label>
                 <input id="password" name="password" type="password" autoComplete="new-password" maxLength={64} placeholder="8+ letters & numbers" aria-invalid={Boolean(errors.password)} aria-describedby={describedBy("password")} className={inputClass(errors.password)} value={form.password} onChange={handleChange} />
                 <FieldError id="password-error" message={errors.password} />
@@ -120,6 +133,7 @@ function Register() {
               </div>
             </div>
 
+            {/* VIVA: REGISTRATION FEEDBACK - server errors appear above the Create Account button. */}
             {serverError && <p role="alert" className="rounded-xl bg-red-50 px-3 py-2 text-sm font-semibold text-red-700">{serverError}</p>}
 
             <button type="submit" disabled={loading} className={`mt-1 w-full rounded-full border-b-4 py-3 text-base font-black uppercase tracking-wide text-white shadow-lg transition-all hover:-translate-y-0.5 active:translate-y-1 ${loading ? "cursor-not-allowed border-green-700 bg-green-400" : "border-[#347912] bg-gradient-to-b from-[#72bd32] to-[#46950f] hover:brightness-105"}`}>

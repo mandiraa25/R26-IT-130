@@ -1,3 +1,4 @@
+// VIVA: OVERVIEW - Admin phonological screening results with historical-data display processing, filters and export.
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -118,6 +119,7 @@ const DetailModal = ({ result, onClose }) => {
   return (
     <div className="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex items-center justify-center sm:p-4 p-2">
       <div className="bg-white rounded-[2rem] md:rounded-[3.5rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.2)] w-full max-w-6xl max-h-[96vh] md:max-h-[92vh] flex flex-col overflow-hidden animate-zoomIn">
+        {/* VIVA: Record summary and detail-dialog header. */}
         {/* Top Header Section */}
         <div className="relative p-6 md:p-12 bg-emerald-600 text-white overflow-hidden shrink-0">
           <div className="absolute top-0 left-0 w-[700px] h-[700px] bg-white/10 rounded-full blur-[120px] -mr-48 -mt-48"></div>
@@ -171,6 +173,7 @@ const DetailModal = ({ result, onClose }) => {
           </button>
         </div>
 
+        {/* VIVA: Scrollable record details and saved measurements. */}
         {/* Content Area */}
         <div className="overflow-y-auto custom-scrollbar bg-slate-50 flex-1">
           <div className="p-6 md:p-12 space-y-12 md:space-y-16">
@@ -228,6 +231,7 @@ const DetailModal = ({ result, onClose }) => {
               </div>
             </section>
 
+            {/* VIVA: Per-question or per-attempt detail records. */}
             {/* Individual Item Analysis */}
             <section>
               <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-10">
@@ -527,6 +531,7 @@ const PAIdentifyResults = () => {
 
   return (
     <div className="space-y-16 pb-24">
+      {/* VIVA: Page title, search and available page actions. */}
       {/* Premium Header */}
       <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-12">
         <div className="space-y-6">
@@ -569,6 +574,7 @@ const PAIdentifyResults = () => {
         </div>
       </div>
 
+      {/* VIVA: Search and dropdown filters for the loaded records. */}
       {/* Enhanced Filter Command Center (Emerald Themed) */}
       <div className="bg-emerald-950 rounded-[4rem] p-2 relative overflow-hidden shadow-2xl shadow-emerald-900/20">
         <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-[100px] -mr-32 -mt-32"></div>

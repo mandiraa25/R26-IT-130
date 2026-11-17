@@ -1,3 +1,27 @@
+/*
+ * FILE PURPOSE
+ * Style file for the student home page and its Working Memory module card.
+ *
+ * HOW IT CONNECTS
+ * Dashboard.jsx imports this. This file styles all home modules; the Working Memory entry uses
+ * learning-card--wm.
+ * Direct source importers: Dashboard.jsx.
+ *
+ * THINGS TO REMEMBER
+ * student-home__video/backdrop create the scene; topbar positions controls; dashboard-cards arranges
+ * module buttons. Card images and live text are separate. This is the home screen, not the improvement
+ * level map.
+ */
+
+/* VIVA: HOME FOUNDATION - fonts, page spacing and fallback color; Dashboard.jsx supplies live content. */
+
+/* SECTION 1: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Dashboard.jsx imports this. This file styles all home modules; the Working Memory entry uses learning-card--wm. */
+/*
+   SELECTOR: .student-home Find the matching className in the component named in this file guide.
+   position:relative makes this element an anchor for absolutely positioned children; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .student-home {
   position: relative;
   isolation: isolate;
@@ -9,6 +33,12 @@
   background: #7cd8ee;
 }
 
+/* VIVA: BACKGROUND - video and overlay sit behind the cards; scenery is baked into the video. */
+/*
+   SELECTOR: .student-home__video, .student-home__backdrop Find the matching className in the component
+   named in this file guide. position:fixed places this layer; left/top/right/bottom/inset move it within
+   its containing area; width/height/max-width control this element size.
+ */
 .student-home__video,
 .student-home__backdrop {
   position: fixed;
@@ -21,6 +51,17 @@
 .student-home__video { z-index: -2; object-fit: cover; }
 .student-home__backdrop { z-index: -1; background: linear-gradient(#fff1, transparent 45%, #123e1612); }
 
+/* VIVA: HOME TOP BAR - greeting/profile sits opposite the utility controls. */
+
+/* SECTION 2: TOP NAVIGATION AND CONTROLS
+   Dashboard.jsx imports this. This file styles all home modules; the Working Memory entry uses learning-card--wm. */
+/*
+   SELECTOR: .student-home__topbar Find the matching className in the component named in this file guide.
+   position:relative makes this element an anchor for absolutely positioned children; flex arranges
+   children along a row/column; align-items and justify-content align them, gap separates them; z-index
+   controls which overlapping layer appears in front; width/height/max-width control this element size;
+   padding is inside space, margin is outside space and gap separates children.
+ */
 .student-home__topbar {
   position: relative;
   z-index: 2;
@@ -33,6 +74,13 @@
   margin: 0 auto;
 }
 
+/* VIVA: PROFILE GREETING - pill shape, avatar and student name at the top of the home page. */
+/*
+   SELECTOR: .student-greeting Find the matching className in the component named in this file guide.
+   flex arranges children along a row/column; align-items and justify-content align them, gap separates
+   them; width/height/max-width control this element size; padding is inside space, margin is outside
+   space and gap separates children.
+ */
 .student-greeting {
   display: flex;
   align-items: center;
@@ -49,6 +97,11 @@
   transition: transform 160ms;
 }
 
+/*
+   SELECTOR: .student-greeting__avatar Find the matching className in the component named in this file
+   guide. width/height/max-width control this element size; padding is inside space, margin is outside
+   space and gap separates children.
+ */
 .student-greeting__avatar {
   display: block;
   flex-shrink: 0;
@@ -65,12 +118,42 @@
 .student-greeting__avatar img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .student-greeting__avatar .student-greeting__mascot { object-fit: contain; transform: scale(1.15) translateY(7%); }
 .student-greeting__copy { display: block; min-width: 0; }
+/*
+   SELECTOR: .student-greeting__name Find the matching className in the component named in this file
+   guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; font/font-size and line-height change text size and readable line spacing; padding is
+   inside space, margin is outside space and gap separates children.
+ */
 .student-greeting__name { display: flex; align-items: center; gap: 6px; color: #125d12; font: 700 clamp(20px, 1.9vw, 32px)/1.15 'Fredoka', 'Noto Sans Sinhala', sans-serif; }
 .student-greeting__name svg { width: 22px; height: 22px; flex-shrink: 0; fill: #83b51a; stroke: #59870b; }
 .student-greeting__subtitle { display: block; margin-top: 6px; font-size: clamp(10px, .92vw, 15px); line-height: 1.5; }
+/* VIVA: HOME CONTROLS - align stars, music, language and the achievements action. */
+
+/* SECTION 3: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Dashboard.jsx imports this. This file styles all home modules; the Working Memory entry uses learning-card--wm. */
+/*
+   SELECTOR: .student-home__controls Find the matching className in the component named in this file
+   guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; padding is inside space, margin is outside space and gap separates children.
+ */
 .student-home__controls { --wooden-control-height: clamp(62px, 4.8vw, 82px); --wooden-music-height: calc(var(--wooden-control-height) * 1.1); display: flex; align-items: center; gap: clamp(8px, .9vw, 16px); }
+/*
+   SELECTOR: .student-home__utility-controls Find the matching className in the component named in this
+   file guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; padding is inside space, margin is outside space and gap separates children.
+ */
 .student-home__utility-controls { display: flex; align-items: center; gap: clamp(8px, .9vw, 16px); }
 
+
+/* SECTION 4: TOP NAVIGATION AND CONTROLS
+   Dashboard.jsx imports this. This file styles all home modules; the Working Memory entry uses learning-card--wm. */
+/*
+   SELECTOR: .student-home .dashboard-wood-control Find the matching className in the component named in
+   this file guide. the URL selects artwork; background-size or object-fit determines how it fits;
+   font/font-size and line-height change text size and readable line spacing; width/height/max-width
+   control this element size; padding is inside space, margin is outside space and gap separates
+   children.
+ */
 .student-home .dashboard-wood-control {
   display: inline-flex;
   align-items: center;
@@ -86,55 +169,236 @@
   filter: drop-shadow(0 3px 2px #23451a44);
 }
 
+
+/* SECTION 5: RESULTS, REWARDS AND COMPLETION
+   Dashboard.jsx imports this. This file styles all home modules; the Working Memory entry uses learning-card--wm. */
 .student-home .dashboard-achievements { padding-inline: clamp(21px, 1.8vw, 32px); cursor: pointer; }
 .dashboard-achievements svg { width: clamp(22px, 2.2vw, 38px); height: auto; fill: #ffc528; stroke: #d77a06; stroke-width: 1.7; }
 
+/* VIVA: WELCOME AREA - main content width, headings and decorative subtitle. */
+
+/* SECTION 6: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Dashboard.jsx imports this. This file styles all home modules; the Working Memory entry uses learning-card--wm. */
 .student-home__main { position: relative; }
+
+/* SECTION 7: SCREENING WELCOME AND RULES
+   Dashboard.jsx imports this. This file styles all home modules; the Working Memory entry uses learning-card--wm. */
 .student-home__intro { margin: clamp(25px, 4vh, 44px) auto 0; text-align: center; }
+
+/* SECTION 8: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Dashboard.jsx imports this. This file styles all home modules; the Working Memory entry uses learning-card--wm. */
+/*
+   SELECTOR: .student-home__title Find the matching className in the component named in this file guide.
+   font/font-size and line-height change text size and readable line spacing; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .student-home__title { margin: 0; color: #075b12; font: 700 clamp(34px, 4.2vw, 72px)/1.12 'Fredoka', 'Noto Sans Sinhala', sans-serif; letter-spacing: -.025em; -webkit-text-stroke: clamp(3px, .35vw, 6px) white; paint-order: stroke fill; filter: drop-shadow(0 3px 0 #3c80294d); }
 .student-home__title span { color: #ff6e12; }
+/*
+   SELECTOR: .student-home__subtitle Find the matching className in the component named in this file
+   guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; font/font-size and line-height change text size and readable line spacing; padding is
+   inside space, margin is outside space and gap separates children.
+ */
 .student-home__subtitle { display: flex; align-items: center; justify-content: center; gap: clamp(8px, 2vw, 32px); margin: 12px auto 0; padding: 0 8px; font-size: clamp(13px, 1.4vw, 24px); line-height: 1.5; }
+/*
+   SELECTOR: .student-home__subtitle svg Find the matching className in the component named in this file
+   guide. transform/scale moves, rotates or resizes the drawn element without changing its normal layout
+   space; width/height/max-width control this element size.
+ */
 .student-home__subtitle svg { width: clamp(20px, 2.4vw, 36px); height: auto; flex-shrink: 0; fill: #85b606; stroke: #619509; transform: rotate(-20deg); }
 .student-home__subtitle svg:last-child { transform: rotate(20deg); }
+/*
+   SELECTOR: .student-home__flourish Find the matching className in the component named in this file
+   guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .student-home__flourish { display: flex; align-items: center; justify-content: center; gap: 9px; height: 24px; margin-top: 5px; color: #ffb600; font-size: 36px; line-height: 1; text-shadow: 0 2px 0 #e18908; }
 .student-home__flourish span { width: 85px; height: 5px; border-top: 4px dotted #7cb218; }
 
 /* The side margins leave the video's tiger and giraffe faces uncovered. */
+/* VIVA: ANIMAL CARDS - the grid positions artwork; title/badge rules overlay live content. */
+
+/* SECTION 9: RESULTS, REWARDS AND COMPLETION
+   Dashboard.jsx imports this. This file styles all home modules; the Working Memory entry uses learning-card--wm. */
+/*
+   SELECTOR: .dashboard-cards Find the matching className in the component named in this file guide. grid
+   arranges children into defined rows/columns; grid-template values set their sizes;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .dashboard-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: stretch; gap: clamp(10px, 1vw, 20px); width: 73%; max-width: 1220px; margin: clamp(14px, 2vh, 22px) auto 0; padding-bottom: 32px; }
+
+/* SECTION 10: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Dashboard.jsx imports this. This file styles all home modules; the Working Memory entry uses learning-card--wm. */
+/*
+   SELECTOR: .learning-card Find the matching className in the component named in this file guide.
+   position:relative makes this element an anchor for absolutely positioned children;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .learning-card { position: relative; display: block; container-type: inline-size; width: 100%; padding: 0; border: 0; background: transparent; cursor: pointer; filter: drop-shadow(0 8px 6px #23491c38); transition: transform 180ms, filter 180ms; }
 .learning-card__image { display: block; width: 100%; height: auto; user-select: none; }
+/* VIVA: CARD NAMES ARE HERE - overlay live module labels below each animal illustration. */
+/*
+   SELECTOR: .learning-card__text Find the matching className in the component named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   flex arranges children along a row/column; align-items and justify-content align them, gap separates
+   them; padding is inside space, margin is outside space and gap separates children.
+ */
 .learning-card__text { position: absolute; inset: 67% 5% auto; display: flex; flex-direction: column; align-items: center; gap: 9px; text-align: center; pointer-events: none; }
+/*
+   SELECTOR: .learning-card__title Find the matching className in the component named in this file guide.
+   font/font-size and line-height change text size and readable line spacing; width/height/max-width
+   control this element size.
+ */
 .learning-card__title { display: block; width: 100%; color: #ef4c00; font: 700 8.5cqw/1.08 'Fredoka', 'Noto Sans Sinhala', sans-serif; letter-spacing: -.035em; text-wrap: balance; }
 .learning-card--rp .learning-card__title { color: #0052f5; }
 .learning-card--pa .learning-card__title { color: #17630b; font-size: 7.7cqw; }
 .learning-card--sp .learning-card__title { color: #7400be; }
+/*
+   SELECTOR: .learning-card__description Find the matching className in the component named in this file
+   guide. font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size.
+ */
 .learning-card__description { display: block; max-width: 82%; color: #191e1b; font-size: 5.6cqw; font-weight: 500; line-height: 1.35; text-wrap: balance; }
+/* VIVA: MODULE BADGES - center each small badge below its card image. */
+/*
+   SELECTOR: .learning-card__badge Find the matching className in the component named in this file guide.
+   position:absolute places this layer; left/top/right/bottom/inset move it within its containing area;
+   transform/scale moves, rotates or resizes the drawn element without changing its normal layout space;
+   width/height/max-width control this element size.
+ */
 .learning-card__badge { position: absolute; bottom: -8%; left: 50%; width: 36%; aspect-ratio: 1; object-fit: contain; transform: translateX(-50%); pointer-events: none; user-select: none; }
+/*
+   SELECTOR: .learning-card:hover Find the matching className in the component named in this file guide.
+   transform/scale moves, rotates or resizes the drawn element without changing its normal layout space;
+   :hover applies while the pointer is over the element.
+ */
 .learning-card:hover { transform: translateY(-6px); filter: drop-shadow(0 12px 8px #23491c45) brightness(1.03); }
 .learning-card:active { transform: translateY(-1px) scale(.99); }
+
+/* SECTION 11: TOP NAVIGATION AND CONTROLS
+   Dashboard.jsx imports this. This file styles all home modules; the Working Memory entry uses learning-card--wm. */
+/*
+   SELECTOR: .student-greeting:hover, .student-home__controls button:hover Find the matching className in
+   the component named in this file guide. transform/scale moves, rotates or resizes the drawn element
+   without changing its normal layout space; :hover applies while the pointer is over the element.
+ */
 .student-greeting:hover, .student-home__controls button:hover { transform: translateY(-2px); }
+
+/* SECTION 12: QUESTION CONTENT AND ACTIONS
+   Dashboard.jsx imports this. This file styles all home modules; the Working Memory entry uses learning-card--wm. */
+/*
+   SELECTOR: .student-home button:focus-visible, .student-home select:focus-visible Find the matching
+   className in the component named in this file guide. focus-visible provides a visible keyboard focus
+   indicator.
+ */
 .student-home button:focus-visible, .student-home select:focus-visible { outline: 3px solid white; outline-offset: 5px; box-shadow: 0 0 0 8px #2a711c; }
 .student-home__controls button { transition: transform 160ms; }
 
+/* VIVA: DEMO AREA - arrange the practice-demo heading and buttons below the module cards. */
+
+/* SECTION 13: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Dashboard.jsx imports this. This file styles all home modules; the Working Memory entry uses learning-card--wm. */
+/*
+   SELECTOR: .student-home__demo Find the matching className in the component named in this file guide.
+   flex arranges children along a row/column; align-items and justify-content align them, gap separates
+   them; padding is inside space, margin is outside space and gap separates children.
+ */
 .student-home__demo { display: flex; flex-direction: column; align-items: center; margin: 12px auto 0; }
+/*
+   SELECTOR: .student-home__demo h2 Find the matching className in the component named in this file
+   guide. font/font-size and line-height change text size and readable line spacing; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .student-home__demo h2 { margin: 0 0 8px; color: #fffef4; font-size: 11px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase; text-shadow: 0 1px 4px #173d0e, 0 1px 2px #173d0e; }
+
+/* SECTION 14: QUESTION CONTENT AND ACTIONS
+   Dashboard.jsx imports this. This file styles all home modules; the Working Memory entry uses learning-card--wm. */
+/*
+   SELECTOR: .student-home__demo-buttons Find the matching className in the component named in this file
+   guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; padding is inside space, margin is outside space and gap separates children.
+ */
 .student-home__demo-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+
+/* SECTION 15: RESULTS, REWARDS AND COMPLETION
+   Dashboard.jsx imports this. This file styles all home modules; the Working Memory entry uses learning-card--wm. */
+/*
+   SELECTOR: .dashboard-demo Find the matching className in the component named in this file guide. flex
+   arranges children along a row/column; align-items and justify-content align them, gap separates them;
+   padding is inside space, margin is outside space and gap separates children.
+ */
 .dashboard-demo { display: flex; align-items: center; gap: 12px; padding: 10px 22px; border: 2px solid #fffc; border-bottom: 4px solid #c8b5fa; border-radius: 18px; background: #f4effff5; color: #6943ce; box-shadow: 0 4px 7px #143c2026; cursor: pointer; text-align: left; transition: transform 160ms; }
 .dashboard-demo--pa { border-bottom-color: #f4b4db; background: #fff0f9f5; color: #c82486; }
+/*
+   SELECTOR: .dashboard-demo:hover Find the matching className in the component named in this file guide.
+   transform/scale moves, rotates or resizes the drawn element without changing its normal layout space;
+   :hover applies while the pointer is over the element.
+ */
 .dashboard-demo:hover { transform: translateY(-3px); }
 .dashboard-demo__icon { font-size: 26px; }
 .dashboard-demo__category { display: block; font-size: 9px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; opacity: .8; }
 .dashboard-demo__title { display: block; margin-top: 2px; font: 700 18px/1.1 'Fredoka', 'Noto Sans Sinhala', sans-serif; text-transform: uppercase; }
 
+/* VIVA: SINHALA HOME - adjust typography and label placement for longer translated text. */
+
+/* SECTION 16: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Dashboard.jsx imports this. This file styles all home modules; the Working Memory entry uses learning-card--wm. */
+/*
+   SELECTOR: .student-home--localized .student-home__title Find the matching className in the component
+   named in this file guide. this matching language/state selector adjusts Sinhala presentation;
+   font/font-size and line-height change text size and readable line spacing.
+ */
 .student-home--localized .student-home__title { font-size: clamp(28px, 3.5vw, 60px); line-height: 1.5; }
+/*
+   SELECTOR: .student-home--localized .learning-card__text Find the matching className in the component
+   named in this file guide. this matching language/state selector adjusts Sinhala presentation; padding
+   is inside space, margin is outside space and gap separates children.
+ */
 .student-home--localized .learning-card__text { top: 66%; gap: 4px; }
+/*
+   SELECTOR: .student-home--localized .learning-card__title Find the matching className in the component
+   named in this file guide. this matching language/state selector adjusts Sinhala presentation;
+   font/font-size and line-height change text size and readable line spacing.
+ */
 .student-home--localized .learning-card__title { font-size: 6cqw; letter-spacing: 0; line-height: 1.4; }
+/*
+   SELECTOR: .student-home--localized .learning-card__description Find the matching className in the
+   component named in this file guide. this matching language/state selector adjusts Sinhala
+   presentation; font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size.
+ */
 .student-home--localized .learning-card__description { max-width: 90%; font-size: 4.6cqw; line-height: 1.45; }
 .student-home--localized .learning-card__badge { bottom: -12%; }
+
+/* SECTION 17: RESULTS, REWARDS AND COMPLETION
+   Dashboard.jsx imports this. This file styles all home modules; the Working Memory entry uses learning-card--wm. */
 .student-home--localized .dashboard-cards { padding-bottom: 48px; }
+
+/* SECTION 18: TOP NAVIGATION AND CONTROLS
+   Dashboard.jsx imports this. This file styles all home modules; the Working Memory entry uses learning-card--wm. */
+/*
+   SELECTOR: .student-home--localized .student-greeting__name Find the matching className in the
+   component named in this file guide. this matching language/state selector adjusts Sinhala
+   presentation; font/font-size and line-height change text size and readable line spacing.
+ */
 .student-home--localized .student-greeting__name { font-size: clamp(16px, 1.6vw, 26px); line-height: 1.5; }
+
+/* SECTION 19: RESULTS, REWARDS AND COMPLETION
+   Dashboard.jsx imports this. This file styles all home modules; the Working Memory entry uses learning-card--wm. */
+/*
+   SELECTOR: .student-home--localized .dashboard-achievements Find the matching className in the
+   component named in this file guide. this matching language/state selector adjusts Sinhala
+   presentation; font/font-size and line-height change text size and readable line spacing.
+ */
 .student-home--localized .dashboard-achievements { font-size: clamp(13px, 1.1vw, 19px); }
 
+
+/* MEDIA QUERY: (min-width: 1100px) and (max-height: 800px). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media (min-width: 1100px) and (max-height: 800px) {
   .student-home { padding-top: 22px; }
   .student-home__intro { margin-top: 25px; }
@@ -144,6 +408,8 @@
   .student-home__demo { margin-top: 7px; }
 }
 
+
+/* MEDIA QUERY: (max-width: 1099px). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media (max-width: 1099px) {
   .student-home { padding: 20px 20px 26px; }
   .student-home__topbar { gap: 14px; }
@@ -162,6 +428,9 @@
 
 /* On portrait screens the full-width video becomes a scenic footer. Its
    original proportions and both animals remain visible below the controls. */
+/* VIVA: RESPONSIVE HOME - narrower aspect ratios stack the cards into two columns. */
+
+/* MEDIA QUERY: (max-aspect-ratio: 4/3). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media (max-aspect-ratio: 4/3) {
   .student-home { padding-bottom: calc(56.25vw + 24px); background: linear-gradient(#7cd6f3, #ccf3dc 85%); }
   .student-home__video { position: absolute; top: auto; bottom: 0; height: auto; aspect-ratio: 16/9; object-fit: contain; }
@@ -175,6 +444,8 @@
   .student-home__demo h2 { color: #225a19; text-shadow: none; }
 }
 
+
+/* MEDIA QUERY: (max-width: 600px). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media (max-width: 600px) {
   .student-home { padding-top: 18px; padding-inline: 12px; }
   .student-home__topbar { justify-content: center; gap: 16px; }
@@ -206,6 +477,8 @@
   .student-home--localized .dashboard-achievements { font-size: 10px; }
 }
 
+
+/* MEDIA QUERY: (max-width: 359px). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media (max-width: 359px) {
   .student-home__controls { --wooden-control-height: 40px; --wooden-music-height: 44px; max-width: 290px; margin-inline: auto; }
   .student-home .dashboard-achievements { flex-basis: 175px; }
@@ -215,6 +488,8 @@
   .learning-card__badge { bottom: -12%; }
 }
 
+
+/* MEDIA QUERY: (prefers-reduced-motion: reduce). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media (prefers-reduced-motion: reduce) {
   .student-home button { transition: none; }
   .learning-card:hover, .student-greeting:hover, .student-home__controls button:hover, .dashboard-demo:hover { transform: none; }
@@ -225,6 +500,8 @@
    My Achievements controls at 70% of their original size (desktop and tablet).
    Same wooden style and layout; phones keep their own compact sizes above.
    --------------------------------------------------------------------------- */
+
+/* MEDIA QUERY: (min-width: 1100px). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media (min-width: 1100px) {
   .student-home__topbar { gap: 17px; }
   .student-greeting { min-height: clamp(45px, 3.92vw, 64px); padding-right: 16px; }
@@ -240,6 +517,8 @@
   .student-home--localized .student-greeting__name { font-size: clamp(11px, 1.12vw, 18px); }
   .student-home--localized .dashboard-achievements { font-size: clamp(9px, .77vw, 13px); }
 }
+
+/* MEDIA QUERY: (min-width: 601px) and (max-width: 1099px). These rules apply only when this condition matches. Reduced-motion rules remove animation; size queries adapt the layout. */
 @media (min-width: 601px) and (max-width: 1099px) {
   .student-home__topbar { gap: 10px; }
   .student-home__controls { --wooden-control-height: 38px; --wooden-music-height: 42px; }
@@ -258,6 +537,17 @@
    Colours follow the screening-test answer buttons (solid pink / blue /
    yellow with a stitched inner edge and dark matching text).
    --------------------------------------------------------------------------- */
+/* VIVA: SAVED PROGRESS - current level, game count and percentage bar inside each card. */
+
+/* SECTION 20: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Dashboard.jsx imports this. This file styles all home modules; the Working Memory entry uses learning-card--wm. */
+/*
+   SELECTOR: .learning-card__progress Find the matching className in the component named in this file
+   guide. flex arranges children along a row/column; align-items and justify-content align them, gap
+   separates them; font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .learning-card__progress { display: flex; flex-direction: column; align-items: center; gap: 1.6cqw; width: 84%; color: #2b2116; font-size: 5.2cqw; font-weight: 600; line-height: 1.2; }
 .learning-card__progress strong { font: 700 6.4cqw/1.1 'Fredoka', 'Noto Sans Sinhala', sans-serif; color: #1f2a17; }
 .learning-card__progress i { display: block; width: 100%; height: 2.6cqw; overflow: hidden; border-radius: 99px; background: #00000017; }
@@ -265,10 +555,34 @@
 .learning-card--rp .learning-card__progress i b { background: linear-gradient(90deg, #4aa3ff, #0052f5); }
 .learning-card--pa .learning-card__progress i b { background: linear-gradient(90deg, #6fd14a, #17630b); }
 .learning-card--sp .learning-card__progress i b { background: linear-gradient(90deg, #b56cff, #7400be); }
+/*
+   SELECTOR: .learning-card__progress--soon Find the matching className in the component named in this
+   file guide. font/font-size and line-height change text size and readable line spacing;
+   width/height/max-width control this element size; padding is inside space, margin is outside space and
+   gap separates children.
+ */
 .learning-card__progress--soon { width: auto; padding: 1.2cqw 4cqw; border-radius: 99px; background: #0052f51a; color: #0b3a8f; font: 700 5.4cqw/1.2 'Fredoka', 'Noto Sans Sinhala', sans-serif; }
 
+/* VIVA: SCREENING FOCUS CHIPS - colored labels show the latest saved Working Memory weak areas. */
+/*
+   SELECTOR: .student-home__focus Find the matching className in the component named in this file guide.
+   flex arranges children along a row/column; align-items and justify-content align them, gap separates
+   them; width/height/max-width control this element size; padding is inside space, margin is outside
+   space and gap separates children.
+ */
 .student-home__focus { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; max-width: min(92vw, 980px); margin: 10px auto 0; padding: 0 8px; }
+/*
+   SELECTOR: .student-home__focus-label Find the matching className in the component named in this file
+   guide. font/font-size and line-height change text size and readable line spacing; padding is inside
+   space, margin is outside space and gap separates children.
+ */
 .student-home__focus-label { padding: 5px 12px; border-radius: 99px; background: #fffdf5e8; color: #1d5c14; font: 700 clamp(12px, 1vw, 17px)/1.2 'Fredoka', 'Noto Sans Sinhala', sans-serif; box-shadow: 0 2px 4px #173d0e30; }
+/*
+   SELECTOR: .student-home__focus-chip Find the matching className in the component named in this file
+   guide. position:relative makes this element an anchor for absolutely positioned children;
+   font/font-size and line-height change text size and readable line spacing; padding is inside space,
+   margin is outside space and gap separates children.
+ */
 .student-home__focus-chip { position: relative; padding: 5px 14px; border: 2px solid; border-radius: 99px; font: 700 clamp(12px, 1vw, 17px)/1.2 'Fredoka', 'Noto Sans Sinhala', sans-serif; }
 .student-home__focus-chip::after { content: ''; position: absolute; inset: 3px; border: 1.5px dashed #ffffff8c; border-radius: inherit; pointer-events: none; }
 .student-home__focus-chip--0 { background: #ffa9bf; border-color: #f07c9c; color: #7a1230; box-shadow: 0 3px 0 #e5809d; }
@@ -276,14 +590,36 @@
 .student-home__focus-chip--2 { background: #ffe066; border-color: #f0b92c; color: #5a2c00; box-shadow: 0 3px 0 #d9a52a; }
 .student-home__focus-chip--ok { background: #9be37a; border-color: #5fb23d; color: #1d4d0b; box-shadow: 0 3px 0 #5fa63f; }
 
+
+/* SECTION 21: RESULTS, REWARDS AND COMPLETION
+   Dashboard.jsx imports this. This file styles all home modules; the Working Memory entry uses learning-card--wm. */
 .dashboard-demo { position: relative; border: 2px solid; }
 .dashboard-demo::after { content: ''; position: absolute; inset: 4px; border: 1.5px dashed #ffffff8c; border-radius: 13px; pointer-events: none; }
 .dashboard-demo--wm { background: #ffa9bf; border-color: #f07c9c; color: #7a1230; box-shadow: 0 4px 0 #e5809d; }
 .dashboard-demo--pa { background: #7cbcff; border-color: #3d8ff0; color: #0b2a78; box-shadow: 0 4px 0 #4b8fdc; }
+
+/* SECTION 22: MAIN SCREEN, BACKGROUND AND SHARED LAYOUT
+   Dashboard.jsx imports this. This file styles all home modules; the Working Memory entry uses learning-card--wm. */
+/*
+   SELECTOR: .student-home--localized .learning-card__progress Find the matching className in the
+   component named in this file guide. this matching language/state selector adjusts Sinhala
+   presentation; font/font-size and line-height change text size and readable line spacing.
+ */
 .student-home--localized .learning-card__progress { font-size: 4.4cqw; }
+/*
+   SELECTOR: .student-home--localized .learning-card__progress strong Find the matching className in the
+   component named in this file guide. this matching language/state selector adjusts Sinhala
+   presentation; font/font-size and line-height change text size and readable line spacing.
+ */
 .student-home--localized .learning-card__progress strong { font-size: 5.4cqw; }
 /* Progress keeps the title's position; tighter rows keep the bar above the badge. */
 .learning-card__text:has(.learning-card__progress) { gap: 1.2cqw; }
+/*
+   SELECTOR: .learning-card__text:has(.learning-card__progress) .learning-card__progress Find the
+   matching className in the component named in this file guide. font/font-size and line-height change
+   text size and readable line spacing; padding is inside space, margin is outside space and gap
+   separates children.
+ */
 .learning-card__text:has(.learning-card__progress) .learning-card__progress { gap: .9cqw; font-size: 4.8cqw; }
 .learning-card__text:has(.learning-card__progress) .learning-card__progress strong { font-size: 5.8cqw; }
 .learning-card__text:has(.learning-card__progress) .learning-card__progress i { width: 70%; height: 2cqw; }

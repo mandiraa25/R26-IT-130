@@ -1,3 +1,4 @@
+// VIVA: Activity summary card: title, description, state, stars, duration and Start Activity/Play Again/Locked action.
 function LeoActivityCard({ activity, index, onSelect, disabled }) {
   const state = activity.state || "locked";
   const isReady = state === "current" || state === "recommended" || state === "available";

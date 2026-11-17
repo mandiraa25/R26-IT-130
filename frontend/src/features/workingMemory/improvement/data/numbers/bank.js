@@ -1,3 +1,18 @@
+/*
+ * FILE PURPOSE
+ * Authored Number Memory sequences and tutorial metadata across grades, languages and four levels.
+ *
+ * HOW IT CONNECTS
+ * getSubCategoryData selects NUMBER_BANKS. NumberMemoryGame displays showItems; evaluateDragAnswer
+ * compares recall slots with correct after converting values to strings.
+ * Direct source importers: ../index.js.
+ *
+ * THINGS TO REMEMBER
+ * showItems is what the child sees; correct is the required answer order. Some later questions set
+ * isBackward and already contain reversed answers. Sequence lengths vary by grade/level. Timings are
+ * configured separately in gameConfig.js.
+ */
+
 // Existing grade/language questions and metadata, grouped by game.
 export const NUMBER_BANKS = {
   "2": {

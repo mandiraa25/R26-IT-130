@@ -1,3 +1,4 @@
+// VIVA: OVERVIEW - Admin route container: chooses the management or results page inside the shared layout.
 import React, { useEffect } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import AdminLayout from "../../components/admin/AdminLayout";
@@ -14,6 +15,7 @@ import SpeechIdentifyResults from "./components/SpeechIdentifyResults";
 import SpeechImproveResults from "./components/SpeechImproveResults";
 
 const Dashboard = () => {
+  // VIVA: This component chooses the page inside the shared admin sidebar/header layout.
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,6 +27,7 @@ const Dashboard = () => {
 
   return (
     <AdminLayout>
+      {/* VIVA: Nested routes select the admin management or results page. */}
       <Routes>
         <Route path="students" element={<StudentProfiles />} />
         <Route path="users" element={<UserManagement />} />
